@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: Mep
-        psr4_prefix: Mep
+        namespace: App
+        psr4_prefix: App
         src_path: app
