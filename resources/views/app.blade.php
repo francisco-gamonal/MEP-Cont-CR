@@ -26,7 +26,7 @@
 					<span class="sr-only">Toggle Navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>86426274 2000
 				</button>
 				<a class="navbar-brand" href="#">Laravel</a>
 			</div>

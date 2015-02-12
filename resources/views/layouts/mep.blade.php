@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,6 +29,7 @@
 			<li><a href="#">Profile</a></li>
 			<li><a href="#">Messages</a></li>
 		</ul>
+		<div>@yield('menu')</div>
 	</div>
 	<div class="content-wrapper ">
 		@yield('message')

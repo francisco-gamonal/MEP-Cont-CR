@@ -1,5 +1,7 @@
-@extends('layouts/mep')
-
+@extends('layouts.mep')
 @section('menu')
-	<p>hola</p>
-@endsection
+
+Estamos haciendo pruebas para mostrar el diseño
+Prueba de trabajo para el menu
+
+@stop
