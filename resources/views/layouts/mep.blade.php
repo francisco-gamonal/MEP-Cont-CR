@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,14 +23,13 @@
 		<div class="logo paddingWrapper">
 			<figure><a href="{{ url('/') }}"><img class="center-block" src="{{ asset('img/mep-logo.png') }}"></a></figure>
 		</div>
-		@yield('menu')
+		
 		<ul class="nav">
 			<li><a href="#">Home</a></li>
 			<li><a href="#">Profile</a></li>
 			<li><a href="#">Messages</a></li>
 		</ul>
-		<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde ipsum dolorum eius voluptates, velit vero facilis. Esse aliquid tempora a nam voluptates nobis aspernatur, velit eligendi, aut, laborum at quod?</div>
-		
+		<div>@yield('menu') s</div>
 	</div>
 	<div class="content-wrapper ">
 		<div class="message border-bottom">

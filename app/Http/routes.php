@@ -15,7 +15,7 @@
 
 Route::get('/', function()
 {
-	return view('layouts.mep');
+	return view('layouts.base');
 });
 
 Route::get('home', 'HomeController@index');
