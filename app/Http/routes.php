@@ -11,7 +11,12 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+//Route::get('/', 'WelcomeController@index');
+
+Route::get('/', function()
+{
+	return view('layouts.mep');
+});
 
 Route::get('home', 'HomeController@index');
 
