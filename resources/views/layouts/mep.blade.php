@@ -35,7 +35,7 @@
 		<div class="message border-bottom">
 			Message
 		</div>
-		<div id="content" class="paddingWrapper">
+		<div id="content" class="paddingWrapper"> @yield('content')
 			<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque a repellat dolorem fuga, fugiat facere, voluptatem odio hic consequatur commodi qui repellendus, iusto, quae reprehenderit id eius! Magnam, ex, laborum.</div>
 			<div>Eveniet culpa quo eligendi. Non consequuntur in quod officia, dicta. Dicta veniam labore aliquam, odit et rem quos maiores, dolor maxime expedita, ratione corrupti. Eius sapiente neque, exercitationem tempora iure!</div>
 			<div>Reprehenderit, blanditiis laborum cupiditate illo eius fuga voluptates cumque labore numquam ducimus quaerat aliquid commodi debitis pariatur iste minima dicta, beatae natus repudiandae sequi earum dolore at dolorem. Cumque, necessitatibus!</div>
