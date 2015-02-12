@@ -1,12 +1,17 @@
+bg_nav = #003E59
+bg_content = #EAEAEA
+bg_message = #F3F3F4
+color_message = #777
+border_bottom = #C7CBD4
+
 body
     font-size 16px
     height 100%
     
 .content-wrapper
+    background bg_content
+    color bg_nav
     margin 0 0 0 220px
-    //min-height 700px
-    background #EAEAEA
-    color #003E59
 
 .logo a img
     width 50%
@@ -15,19 +20,29 @@ body
     padding 1em
 
 .nav-wrapper
-    position fixed
-    width 220px
-    background #003E59
-    color #EAEAEA
-    overflow auto
-    top 0px
+    background bg_nav
+    color bg_content
     height 100%
+    overflow auto
+    position fixed
+    top 0px
+    width 220px
 
 .message
-    background #8E8C93
-    line-height 2em
+    background bg_message
+    color color_message
+    font-size .9em
+    font-weight 400
+    line-height 1.25em
     padding .5em
-    color #F3F3F4
     
 .border-bottom
-    border-bottom 1px solid #6E5D5D
+    border-bottom 1px solid border_bottom
+
+.page
+    background none repeat scroll 0% 0% #FFF
+    border-bottom 1px solid #E7EAEC
+    color #757481
+    padding-bottom 0.5em
+    h2
+        margin 0
