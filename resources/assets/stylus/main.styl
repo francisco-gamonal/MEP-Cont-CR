@@ -1,12 +1,16 @@
-bg_nav = #003E59
 bg_content = #EAEAEA
 bg_message = #F3F3F4
-color_message = #777
+bg_nav = #003E59
 border_bottom = #C7CBD4
+color_message = #777
 
 body
     font-size 16px
     height 100%
+
+ul
+    margin 0
+    padding 0
     
 .content-wrapper
     background bg_content
@@ -33,16 +37,40 @@ body
     color color_message
     font-size .9em
     font-weight 400
-    line-height 1.25em
+    line-height 2em
     padding .5em
+    ul
+        li
+            a
+                font-size 1em !important
+    .col-md-4
+        padding-left 0.6em
+        span
+            color #3B728A
     
 .border-bottom
     border-bottom 1px solid border_bottom
 
 .page
-    background none repeat scroll 0% 0% #FFF
+    background none repeat scroll 0% 0% #F9F9F9
     border-bottom 1px solid #E7EAEC
     color #757481
+    padding-left 1em
     padding-bottom 0.5em
     h2
+        font-size 1.25em
         margin 0
+        padding 0.25em 0
+
+.list-inline-block
+    ul
+        li
+            display inline-block
+            a
+                color #757481
+                font-size 0.9em
+                text-decoration none
+                padding-right 1em    
+
+.row
+    margin 0
