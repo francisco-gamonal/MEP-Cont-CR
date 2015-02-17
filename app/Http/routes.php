@@ -20,11 +20,11 @@ Route::get('/', function()
 /* Test para hacer pruebas */
 Route::get('test','TestController@index');
 /* Lista de  Usuarios*/
-Route::get('lista-usuarios','UsersController@index');
+Route::get('users/lista-usuarios','UsersController@index');
 /* Crear Usuarios*/
-Route::get('crear-usuarios','UsersController@create');
+Route::get('users/crear-usuarios','UsersController@create');
 /* ediar Usuarios*/
-Route::get('editar-usuarios','UsersController@edit');
+Route::get('users/editar-usuarios','UsersController@edit');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
