@@ -17,7 +17,7 @@ class CreateChecksTable extends Migration {
         $table->string('concept');
         $table->decimal('amount', 20, 2);
         $table->decimal('retention', 20, 2);
-        $table->string('ckfactura');
+        $table->string('ckbill');
         $table->string('ckretention');
         $table->string('record');
         $table->date('date');
