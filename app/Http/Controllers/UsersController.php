@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
@@ -14,7 +14,8 @@ class UsersController extends Controller {
 	 */
 	public function index()
 	{
-		//
+            $json= User::all();
+            echo json_encode($json);
 	}
 
 	/**

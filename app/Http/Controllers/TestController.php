@@ -2,10 +2,13 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
+use Mep\School;
 use Mep\TypeUser;
+use Mep\User;
+use Mep\SchoolsHasUser;
 use Illuminate\Http\Request;
 
-class TypeUsersController extends Controller {
+class TestController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -14,7 +17,11 @@ class TypeUsersController extends Controller {
 	 */
 	public function index()
 	{
-		//
+                //$json =SchoolsHasUser::all();
+                $json = User::all();
+		 //$json = TypeUser::all();
+		//$json = School::all();
+                 var_dump($json);
 	}
 
 	/**

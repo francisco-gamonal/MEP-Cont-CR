@@ -1,10 +1,13 @@
-<?php namespace Mep;
+<?php
+
+namespace Mep;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Schools extends Model {
+class School extends Model {
 
-	    use SoftDeletingTrait;
+    use SoftDeletes;
 
     // Add your validation rules here
     public static $rules = [
@@ -21,7 +24,5 @@ class Schools extends Model {
     ];
     // Don't forget to fill this array
     protected $fillable = ['name', 'charter', 'circuit', 'code', 'ffinancing', 'president', 'secretary', 'account', 'title_1', 'title_2'];
-
-   
 
 }

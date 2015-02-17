@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Checks;
 use Illuminate\Http\Request;
 
 class ChecksController extends Controller {

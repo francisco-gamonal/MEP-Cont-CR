@@ -1,7 +1,8 @@
-<?php
+<?php namespace Mep;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mep\User;
 
 class TypeUser extends Model {
 
@@ -23,4 +24,8 @@ class TypeUser extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
+    public function users(){
+        
+        return $this->belongsToMany('Users');
+    }
 }

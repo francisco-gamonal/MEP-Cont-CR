@@ -1,10 +1,12 @@
-<?php namespace Mep;
+<?php
+
+namespace Mep;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SchoolsHasUsers extends Model {
+class SchoolsHasUser extends Model {
 
-	    use SoftDeletingTrait;
+  
 
     // Add your validation rules here
     public static $rules = [
@@ -23,6 +25,5 @@ class SchoolsHasUsers extends Model {
 
         return $this->HasMany('Schools', 'id', 'schools_id');
     }
-
 
 }

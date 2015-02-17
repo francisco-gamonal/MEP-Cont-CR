@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\BalanceBudgets;
 use Illuminate\Http\Request;
 
 class BalanceBudgetsController extends Controller {

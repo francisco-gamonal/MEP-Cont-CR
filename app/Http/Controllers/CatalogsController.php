@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Catalogs;
 use Illuminate\Http\Request;
 
 class CatalogsController extends Controller {

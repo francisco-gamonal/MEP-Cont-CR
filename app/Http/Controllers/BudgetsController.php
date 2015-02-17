@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Budgets;
 use Illuminate\Http\Request;
 
 class BudgetsController extends Controller {

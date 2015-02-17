@@ -17,9 +17,14 @@ Route::get('/', function()
 {
 	return view('layouts.content');
 });
-
-Route::get('home', 'HomeController@index');
-
+/* Test para hacer pruebas */
+Route::get('test','TestController@index');
+/* Lista de  Usuarios*/
+Route::get('lista-usuarios','UsersController@index');
+/* Crear Usuarios*/
+Route::get('crear-usuarios','UsersController@create');
+/* ediar Usuarios*/
+Route::get('editar-usuarios','UsersController@edit');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

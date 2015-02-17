@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Banks;
 use Illuminate\Http\Request;
 
 class BancksController extends Controller {

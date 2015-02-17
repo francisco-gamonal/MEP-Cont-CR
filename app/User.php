@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Mep\SchoolsHasUser;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -43,5 +44,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $this->HasMany('Suppliers', 'id', 'suppliers_id');
     }
-
+    public function schools()
+    {
+        return $this->belongsToMany('School', 'schools_has_users','users_id','schools_id');
+    }
 }

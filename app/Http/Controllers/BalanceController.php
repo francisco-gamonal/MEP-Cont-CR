@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Balance;
 use Illuminate\Http\Request;
 
 class BalanceController extends Controller {

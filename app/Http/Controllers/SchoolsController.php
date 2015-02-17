@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\School;
 use Illuminate\Http\Request;
 
 class SchoolsController extends Controller {
