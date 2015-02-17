@@ -1,7 +1,10 @@
 bg_content = #EAEAEA
 bg_message = #F3F3F4
 bg_nav = #003E59
-border_bottom = #C7CBD4
+bg_nav_hover = #094661
+bg_logo = #103A4C
+color_border_bottom = #C7CBD4
+color_border_nav = #00A0E3
 color_message = #777
 
 body
@@ -11,26 +14,33 @@ body
 ul
     margin 0
     padding 0
+
+.border-bottom
+    border-bottom 1px solid color_border_bottom
     
 .content-wrapper
     background bg_content
     color bg_nav
     margin 0 0 0 220px
+    
+.glyphicon
+    margin-right .5em
+
+.list-inline-block
+    ul
+        li
+            display inline-block
+            a
+                color #757481
+                font-size 0.9em
+                text-decoration none
+                padding-right 1em
+
+.logo
+    background-color bg_logo
 
 .logo a img
     width 50%
-
-.paddingWrapper
-    padding 1em
-
-.nav-wrapper
-    background bg_nav
-    color bg_content
-    height 100%
-    overflow auto
-    position fixed
-    top 0px
-    width 220px
 
 .message
     background bg_message
@@ -47,9 +57,48 @@ ul
         padding-left 0.6em
         span
             color #3B728A
-    
-.border-bottom
-    border-bottom 1px solid border_bottom
+
+.menu
+    .nav
+        li
+            a
+                color color_border_bottom
+                font-size .85em
+            a:hover
+                background-color bg_nav_hover
+                color white
+            a:focus
+                background-color bg_nav_hover
+                color white
+        li.active
+            border-left 4px solid color_border_nav
+            background bg_nav_hover
+            a
+                padding-left 0.8em
+        .submenu
+            .nav
+                display none
+                li
+                    a
+                        padding 0.4em 0 .4em 2.5em
+                li:last-child
+                    margin-bottom .5em
+    .icon-menu
+        font-size .75em
+        margin-right 0
+        top .45em
+                    
+.nav-wrapper
+    background bg_nav
+    color bg_content
+    height 100%
+    overflow auto
+    position fixed
+    top 0px
+    width 220px
+
+.paddingWrapper
+    padding 1em
 
 .page
     background none repeat scroll 0% 0% #F9F9F9
@@ -61,16 +110,6 @@ ul
         font-size 1.25em
         margin 0
         padding 0.25em 0
-
-.list-inline-block
-    ul
-        li
-            display inline-block
-            a
-                color #757481
-                font-size 0.9em
-                text-decoration none
-                padding-right 1em    
 
 .row
     margin 0

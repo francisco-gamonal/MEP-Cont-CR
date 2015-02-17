@@ -21,11 +21,45 @@
 		<div class="logo paddingWrapper">
 			<figure><a href="{{ url('/') }}"><img class="center-block" src="{{ asset('img/mep-logo.png') }}"></a></figure>
 		</div>
-		<ul class="nav">
-			<li><a href="#">Home</a></li>
-			<li><a href="#">Profile</a></li>
-			<li><a href="#">Messages</a></li>
-		</ul>
+		<div class="menu">
+			<ul class="nav">
+				<li class="active">
+					<a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span>Home</a>
+				</li>
+				<li class="submenu">
+					<a href="#">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>Profile</span>
+						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav">
+						<li><a href="#">Developer</a></li>
+						<li><a href="#">DBA</a></li>
+						<li><a href="#">Servidores</a></li>
+						<li><a href="#">Servidores</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#"><span class="glyphicon glyphicon-home"></span>Messages</a>
+				</li>
+				<li class="submenu">
+					<a href="#">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>Profile</span>
+						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav">
+						<li><a href="#">Developer</a></li>
+						<li><a href="#">DBA</a></li>
+						<li><a href="#">Servidores</a></li>
+						<li><a href="#">Servidores</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#"><span class="glyphicon glyphicon-home"></span>Messages</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class="content-wrapper">
 		@yield('message')
