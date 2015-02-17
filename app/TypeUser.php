@@ -1,11 +1,21 @@
-<?php namespace Mep;
+<?php
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TypeUsers extends Model {
+class TypeUser extends Model {
 
-    use SoftDeletingTrait;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'type_users';
 
+    use SoftDeletes;
+
+    public $timestamps = true;
+    
     // Add your validation rules here
     public static $rules = [
         'name' => 'required',
@@ -13,5 +23,4 @@ class TypeUsers extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
-   
 }

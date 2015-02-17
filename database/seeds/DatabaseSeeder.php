@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +14,11 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		// $this->call('UserTableSeeder');
+//		$this->call('TypeUserTableSeeder');
+//                $this->call('SchoolsTableSeeder');
+//                $this->call('SuppliersTableSeeder');
+//                $this->call('UsersTableSeeder');
+                $this->call('SchoolsHasUsersTableSeeder');
 	}
 
 }

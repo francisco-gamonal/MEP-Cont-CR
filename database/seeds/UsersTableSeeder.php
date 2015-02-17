@@ -1,0 +1,37 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+use Illuminate\Database\Seeder;
+/**
+ * Description of UsersTableSeeder
+ *
+ * @author Anwar Sarmiento
+ */
+class UsersTableSeeder  extends Seeder{
+    //put your code here
+     public function run() {
+         \DB::table('users')->insert([
+            'id' => 1,
+            'name' => 'Francisco',
+            'last' => 'Gamonal',
+            'email' => 'hfgamonalb@gmail.com',
+            'password' => \Hash::make('F4cc0unt'),
+            'type_users_id' => 1,
+            'suppliers_id' => NULL
+         ]);
+        \DB::table('users')->insert([
+            'id' => 2,
+            'name' => 'Anwar',
+            'last' => 'Sarmiento',
+            'email' => 'anwarsarmiento@gmail.com',
+            'password' => \Hash::make('F4cc0unt'),
+            'type_users_id' => 1,
+            'suppliers_id' => NULL
+         ]);
+        
+    }
+}
