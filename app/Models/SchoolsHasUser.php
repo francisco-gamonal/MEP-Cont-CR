@@ -24,4 +24,5 @@ class SchoolsHasUser extends Model {
         return $this->HasMany('Schools', 'id', 'schools_id');
     }
 
+    
 }
