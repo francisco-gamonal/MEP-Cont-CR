@@ -1,8 +1,8 @@
-<?php namespace Mep;
+<?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Roles extends Model {
+class Menu extends Model {
 
     use SoftDeletingTrait;
 

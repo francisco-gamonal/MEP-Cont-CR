@@ -19,6 +19,10 @@ Route::get('/', function()
 });
 /* Test para hacer pruebas */
 Route::get('test','TestController@index');
+
+
+
+
 /* Lista de  Usuarios*/
 Route::get('users/lista-usuarios','UsersController@index');
 /* Crear Usuarios*/

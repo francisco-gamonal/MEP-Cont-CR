@@ -1,4 +1,6 @@
-<?php namespace Mep;
+<?php
+
+namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,11 +19,9 @@ class Spreadsheets extends Model {
     // Don't forget to fill this array
     protected $fillable = ['number', 'year', 'date', 'status', 'budgets_id'];
 
-
     public function budgets() {
 
         return $this->HasMany('Budgets', 'id', 'budgets_id');
     }
-
 
 }

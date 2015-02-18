@@ -1,0 +1,11 @@
+registrar-menu // get // regresar todas las tareas
+registrar-menu // post // setear la tabla menu y la tabla task_has_menu
+ver-menu // get // regresa todo los menu incluyendo sus tareas grabadas
+eliminar-menu // delete // elimina de acuerdo al id
+[11:03:32 p.m.] H. Francisco Gamonal Bravo: Reglas de rutas
+[11:03:42 p.m.] H. Francisco Gamonal Bravo: español los get
+[11:03:48 p.m.] H. Francisco Gamonal Bravo: ingles los post o delete
+[11:03:49 p.m.] H. Francisco Gamonal Bravo: registrar-menu // get // regresar todas las tareas
+save-menu // post // setear la tabla menu y la tabla task_has_menu
+ver-menu // get // regresa todo los menu incluyendo sus tareas grabadas
+delete-menu // delete // elimina de acuerdo al id

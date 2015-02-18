@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep;
+namespace Mep\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;

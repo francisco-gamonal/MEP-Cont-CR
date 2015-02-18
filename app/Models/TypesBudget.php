@@ -1,19 +1,17 @@
-<?php namespace Mep;
+<?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Banks extends Model {
+class TypesBudgets extends Model {
 
-    use SoftDeletingTrait;
+ use SoftDeletingTrait;
 
     // Add your validation rules here
     public static $rules = [
-        'date' => 'required',
         'name' => 'required',
     ];
     // Don't forget to fill this array
-    protected $fillable = ['date', 'name'];
+    protected $fillable = ['name'];
 
- 
 
 }
