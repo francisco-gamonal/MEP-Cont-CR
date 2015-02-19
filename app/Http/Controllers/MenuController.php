@@ -36,16 +36,16 @@ class MenuController extends Controller {
      */
     public function create() {
         $tasks = Task::all();
-        return view('menu/create', json_encode($tasks));
+        return view('menu/create')->with('tasks', $tasks);
     }
 
-<<<<<<< HEAD
+
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store() {
+  /*  public function store() {
         $json = Input::get('data');
         $data = json_decode($json);
         $Menu = new Menu;
@@ -72,17 +72,6 @@ class MenuController extends Controller {
             return Redirect::back()->withErrors($Menu->errors)->withInput();
         endif;
     }
-=======
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-                $tasks = Task::all();
-                return view('menu/create')->with('tasks', $tasks);
-	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -95,7 +84,7 @@ class MenuController extends Controller {
 		$inputs = Input::all();
 		return $inputs;
 	}
->>>>>>> e15cb503c5db48e48da33469afa4a16c9da358fb
+
 
     /**
      * Display the specified resource.
