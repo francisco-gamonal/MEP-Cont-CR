@@ -2,13 +2,10 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Models\School;
-use Mep\Models\TypeUser;
-use Mep\Models\User;
-use Mep\Models\SchoolsHasUser;
+use Mep\Models\Menu;
 use Illuminate\Http\Request;
 
-class TestController extends Controller {
+class MenuController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,11 +14,8 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{
-                //$json =SchoolsHasUser::all();
-                $json = User::all();
-		 //$json = TypeUser::all();
-		//$json = School::all();
-              echo  json_encode($json);
+                $json = Menu::all();
+		return view('menu/index',  json_encode($json));
 	}
 
 	/**
@@ -31,7 +25,7 @@ class TestController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return view('menu/create');
 	}
 
 	/**
@@ -63,7 +57,8 @@ class TestController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$json = Menu::find($id);
+		return view('menu/edit',  json_encode($json));
 	}
 
 	/**

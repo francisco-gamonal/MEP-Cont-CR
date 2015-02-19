@@ -20,9 +20,18 @@ Route::get('/', function()
 /* Test para hacer pruebas */
 Route::get('test','TestController@index');
 
-
-
-
+/**
+ *  Rutas de Menu
+ */
+Route::get('menu/ver-menu','MenuController@index');
+Route::get('menu/registrar-menu','MenuController@create');
+Route::post('menu/save-menu','MenuController@store');
+Route::get('menu/{id}/editar-menu','MenuController@edit');
+Route::delete('menu/delete-menu/{id}','MenuController@destroy');
+Route::put('menu/update-menu/{id}','MenuController@update');
+/**
+ * Fin Rutas Menu
+*/
 /* Lista de  Usuarios*/
 Route::get('users/lista-usuarios','UsersController@index');
 /* Crear Usuarios*/
