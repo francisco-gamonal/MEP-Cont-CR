@@ -27,5 +27,7 @@ $(function(){
 		element.addClass('active');
 		element.find('.nav').show('slide');
 	}
+
+	$("[name='my-checkbox']").bootstrapSwitch({size:'mini'});
 	
 });

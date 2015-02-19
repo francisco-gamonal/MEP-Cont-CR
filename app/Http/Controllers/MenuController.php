@@ -3,8 +3,8 @@
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
+use Mep\Models\Task;
 use Illuminate\Http\Request;
-use \Mep\Models\Tasks;
 class MenuController extends Controller {
 
 	
@@ -35,8 +35,8 @@ class MenuController extends Controller {
 	 */
 	public function create()
 	{
-                $json = Tasks::all();
-		return view('menu/create',  json_encode($json));
+                $json = Task::all();
+                return view('menu/create', compact($json) );
 	}
 
 	/**
