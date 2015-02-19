@@ -12,14 +12,16 @@ class Task extends Model {
     // Add your validation rules here
     public static $rules = [
         'name' => 'required',
-        'roles_id' => 'required',
-    ];
+     ];
     // Don't forget to fill this array
-    protected $fillable = ['name', 'roles_id'];
+    protected $fillable = ['name'];
 
     public function roles() {
 
-        return $this->HasMany('Roles', 'id', 'roles_id');
+        return $this->belongsToMany('Menus');
     }
-
+    public function LastId()
+    {
+        return Task::all()->last();
+    }
 }

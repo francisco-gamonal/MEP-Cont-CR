@@ -46,7 +46,7 @@ Route::put('usuarios/update-usuarios/{id}','MenuController@update');
  * Fin Rutas Menu
 */
 /* Lista de  Usuarios*/
-Route::get('usuarios/lista-usuarios','UsersController@index');
+Route::get('tarea/lista-tareas','TasksController@index');
 /* Crear Usuarios*/
 Route::get('usuarios/crear-usuarios','UsersController@create');
 /* ediar Usuarios*/

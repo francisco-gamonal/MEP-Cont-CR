@@ -12,14 +12,41 @@ class Menu extends Model {
     // Add your validation rules here
     public static $rules = [
         'name' => 'required',
-        'type_users_id' => 'required',
+        'url' => 'required',
     ];
     // Don't forget to fill this array
-    protected $fillable = ['name', 'type_users_id'];
+    protected $fillable = ['name', 'url'];
 
-    public function typeUsers() {
+    public function TasksMenus() {
 
-        return $this->HasMany('TypeUsers', 'id', 'type_users_id');
+        return $this->belongsToMany('tasks_has_menus');
+    }
+    public function UsersMenus() {
+
+        return $this->belongsToMany('users_has_menus');
+    }
+    public function LastId()
+    {
+        return Menu::all()->last();
     }
 
+    public function isValid($data)
+    {  
+        $rules = ['name'=> 'required|unique:menus'];
+       
+        if ($this->exists)
+        {
+            $rules['name'] .= ',name,' . $this->id;
+        }
+       
+         $validator = Validator::make($data, $rules);
+        if ($validator->passes())
+        {
+            return true;
+        }
+        
+        $this->errors = $validator->errors();
+        
+        return false;
+    }
 }
