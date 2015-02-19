@@ -32,15 +32,16 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 /**
  * Fin Rutas Menu
 */
+
 /**
  *  Rutas de Menu
  */
-Route::get('menu/ver-menu','MenuController@index');
-Route::get('menu/registrar-menu','MenuController@create');
-Route::post('menu/save-menu','MenuController@store');
-Route::get('menu/{id}/editar-menu','MenuController@edit');
-Route::delete('menu/delete-menu/{id}','MenuController@destroy');
-Route::put('menu/update-menu/{id}','MenuController@update');
+Route::get('usuarios/ver-usuarios','MenuController@index');
+Route::get('usuarios/registrar-usuarios','MenuController@create');
+Route::post('usuarios/save-usuarios','MenuController@store');
+Route::get('usuarios/{id}/editar-usuarios','MenuController@edit');
+Route::delete('usuarios/delete-usuarios/{id}','MenuController@destroy');
+Route::put('usuarios/update-usuarios/{id}','MenuController@update');
 /**
  * Fin Rutas Menu
 */
@@ -49,7 +50,7 @@ Route::get('usuarios/lista-usuarios','UsersController@index');
 /* Crear Usuarios*/
 Route::get('usuarios/crear-usuarios','UsersController@create');
 /* ediar Usuarios*/
-Route::get('usuarios/editar-usuarios','UsersController@edit');
+Route::get('usuarios/{id}/editar-usuarios','UsersController@edit');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
