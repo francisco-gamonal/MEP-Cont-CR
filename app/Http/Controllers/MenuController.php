@@ -24,8 +24,8 @@ class MenuController extends Controller {
 	 */
 	public function index()
 	{
-                $json = Menu::all();
-		return view('menu/index',  json_encode($json));
+                $lista = Menu::all();
+		return view('menu/index', json_encode($lista));
 	}
 
 	/**
@@ -35,8 +35,8 @@ class MenuController extends Controller {
 	 */
 	public function create()
 	{
-                $json = Task::all();
-                return view('menu/create', compact($json) );
+                $tasks = Task::all();
+                return view('menu/create', json_encode($tasks) );
 	}
 
 	/**

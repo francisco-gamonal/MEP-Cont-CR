@@ -1,10 +1,13 @@
-<?php namespace Mep\Models;
+<?php
+
+namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model {
 
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
     // Add your validation rules here
     public static $rules = [
@@ -18,6 +21,5 @@ class Menu extends Model {
 
         return $this->HasMany('TypeUsers', 'id', 'type_users_id');
     }
-
 
 }
