@@ -4,10 +4,20 @@ use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
 use Illuminate\Http\Request;
-
+use \Mep\Models\Tasks;
 class MenuController extends Controller {
 
-	/**
+	
+        /**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		//$this->middleware('auth');
+	}
+        /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -25,7 +35,8 @@ class MenuController extends Controller {
 	 */
 	public function create()
 	{
-		return view('menu/create');
+                $json = Tasks::all();
+		return view('menu/create',  json_encode($json));
 	}
 
 	/**
