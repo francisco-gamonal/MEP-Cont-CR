@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
 	<title>MEP</title>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -25,7 +26,10 @@
 		<div class="menu">
 			<ul class="nav">
 				<li class="active">
-					<a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span>Home</a>
+					<a href="{{ url('/') }}">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>Home</span>
+					</a>
 				</li>
 				<li class="submenu">
 					<a href="#">
@@ -41,7 +45,10 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-home"></span>Messages</a>
+					<a href="#">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>Messages</span>
+					</a>
 				</li>
 				<li class="submenu">
 					<a href="#">
@@ -57,7 +64,10 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#"><span class="glyphicon glyphicon-home"></span>Messages</a>
+					<a href="#">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>Messages</span>
+					</a>
 				</li>
 			</ul>
 		</div>
@@ -72,6 +82,8 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="{{ asset('js/plugin/jquery.matchHeight-min.js') }}"></script>
 	<script src="{{ asset('js/plugin/bootstrap-switch.min.js') }}"></script>
+	<script src="{{ asset('js/plugin/jquery.blockUI.min.js') }}"></script>
+	<script src="{{ asset('js/plugin/bootbox.min.js') }}"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

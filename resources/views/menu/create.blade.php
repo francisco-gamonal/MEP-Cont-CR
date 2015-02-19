@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Menú</a></li>
-				<li class="active"><a>Crear Menú</a></li>
+				<li class="active-page"><a>Crear Menú</a></li>
 			</ul>
 		</div>
 	</aside>
