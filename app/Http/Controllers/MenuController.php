@@ -5,6 +5,7 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
 use Mep\Models\Task;
 use Illuminate\Http\Request;
+use Input;
 class MenuController extends Controller {
 
 	
@@ -47,7 +48,7 @@ class MenuController extends Controller {
 	public function store()
 	{
 		//
-		$inputs = Input::all();
+		$inputs = Input::get('data');
 		return $inputs;
 	}
 

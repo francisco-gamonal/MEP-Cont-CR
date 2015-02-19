@@ -1,4 +1,10 @@
 $(function(){
+	
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
 
 	var data = {};
 
@@ -15,22 +21,20 @@ $(function(){
 	}
 
 	var ajaxForm = function (url, type, data){
-		console.log(url,type,data);
-		var server = "http://localhost/MEP-Cont-CR/public/";
+		var server = 'http://localhost/MEP-Cont-CR/public/';
 		var path = server + url;
-		console.log(path);
 		return $.ajax({
-				url: path,
-			    type: type,
-			    data: {data: data},
-			    datatype: 'json',
-			    beforeSend: function(){
-		    		console.log('Antes de ir');
-			    },
-			    error:function(){
-			    	console.log('No se pueden grabar los datos.');
-			    }
-			});
+					url: path,
+				    type: type,
+				    data: {data: JSON.stringify(data)},
+				    datatype: 'json',
+				    beforeSend: function(){
+			    		console.log('Antes de ir');
+				    },
+				    error:function(){
+				    	console.log('No se pueden grabar los datos.');
+				    }
+				});
 	};
 
 	$('[class*="-wrapper"]').matchHeight();
@@ -52,7 +56,8 @@ $(function(){
 
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 
-	$(document).on("click", "#save", function(e){
+	$(document).off('click', '#save');
+	$(document).on('click', '#save', function(e){
 		e.preventDefault();
 		var url;
 		var stateTasks = [];
@@ -61,12 +66,12 @@ $(function(){
 		var urlMenu;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
-		$(".task_menu").each(function(index){
+		$('.task_menu').each(function(index){
 			stateTasks[index] = $(this).bootstrapSwitch('state');
 			idTasks[index] = $(this).data('id');
 		});
-		data.nameMenu = $("#nameMenu").val();
-		data.urlMenu = $("#urlMenu").val();
+		data.nameMenu = $('#nameMenu').val();
+		data.urlMenu = $('#urlMenu').val();
 		data.idTasks = idTasks;
 		data.stateTasks = stateTasks;
 		ajaxForm(url,'post',data)
@@ -74,7 +79,4 @@ $(function(){
 			console.log("Ok");
 		})
 	});
-
-	
-	
 });

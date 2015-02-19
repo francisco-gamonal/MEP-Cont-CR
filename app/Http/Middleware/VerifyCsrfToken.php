@@ -14,6 +14,12 @@ class VerifyCsrfToken extends BaseVerifier {
 	 */
 	public function handle($request, Closure $next)
 	{
+		if($request->ajax())
+		{
+		    \Input::merge([
+		        '_token' => $request->header('X-CSRF-Token')
+		    ]);
+		}
 		return parent::handle($request, $next);
 	}
 
