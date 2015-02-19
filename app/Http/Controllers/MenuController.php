@@ -36,7 +36,7 @@ class MenuController extends Controller {
 	public function create()
 	{
                 $tasks = Task::all();
-                return view('menu/create', json_encode($tasks) );
+                return view('menu/create')->with('tasks', $tasks);
 	}
 
 	/**
@@ -47,6 +47,8 @@ class MenuController extends Controller {
 	public function store()
 	{
 		//
+		$inputs = Input::all();
+		return $inputs;
 	}
 
 	/**
