@@ -27,7 +27,7 @@ class TaskHasMenu extends Model {
         $rules = ['menus_id' => 'required',
             'tasks_id' => 'required'];
 
-        $validator = Validator::make($data, $rules);
+        $validator = \Validator::make($data, $rules);
         if ($validator->passes()) {
             return true;
         }

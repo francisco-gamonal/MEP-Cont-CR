@@ -39,7 +39,7 @@ class Menu extends Model {
             $rules['name'] .= ',name,' . $this->id;
         }
        
-         $validator = Validator::make($data, $rules);
+         $validator = \Validator::make($data, $rules);
         if ($validator->passes())
         {
             return true;

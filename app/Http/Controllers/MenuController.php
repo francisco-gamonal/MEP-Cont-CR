@@ -5,9 +5,12 @@ namespace Mep\Http\Controllers;
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
+use Mep\Models\TaskHasMenu;
 use Mep\Models\Task;
 use Illuminate\Http\Request;
 use Input;
+use Illuminate\Validation;
+use Illuminate\Support\Facades\Response;
 
 class MenuController extends Controller {
 
@@ -27,7 +30,7 @@ class MenuController extends Controller {
      */
     public function index() {
         $lista = Menu::all();
-        return view('menu/index', json_encode($lista));
+        return view('menu.index')->compact($lista);
     }
 
     /**
@@ -38,7 +41,7 @@ class MenuController extends Controller {
      */
     public function create() {
         $tasks = Task::all();
-        return view('menu/create')->with('tasks', $tasks);
+        return view('menu.create')->with('tasks', $tasks);
     }
 
 
@@ -47,39 +50,47 @@ class MenuController extends Controller {
      * Store a newly created resource in storage.
      *
      * @return Response
+     * 
      */
     public function store() {
          $json = Input::get('data');
-        // $menus = json_decode($json);
+         $menus = json_decode($json);
+         /* Creamos un array para cambiar nombres de parametros*/
+         $ValidationData = array('name'=>$menus->nameMenu,'url'=>$menus->urlMenu);
         
-         $Menu = new Menu();
-         $Menu->name = Str::upper($menus->name);
-         $Menu->url = ($menus->url);
-            $Menu->save();
-          //  return 1;
-       /*   $Menu = new Menu;
+         /*Declaramos las clases a utilizar */
+         $Menu = new Menu;
         $Relacion = new TaskHasMenu;
-        
-        if ($Menu->isValid((array) $menus)):
-            $Menu->name = Str::upper($menus->name);
+        /* Validamos los datos para guardar tabla menu*/
+        if ($Menu->isValid((array) $ValidationData)):
+            $Menu->name = ($ValidationData['name']);
+            $Menu->url = ($ValidationData['url']);
             $Menu->save();
-            return 1;
+            /* Traemos el id del ultimo registro guardado*/
+            $ultimoInsert = Menu::all()->last();
+            /* Vamos Insertar a la tabla de relación*/
+            for ($i=1;$i<count($menus->stateTasks);$i++):
+                if($menus->stateTasks==TRUE):
+                    return $menus->idTasks;
+                endif;
+//                $Relacion->name = ($ValidationData['name']);
+//            $Relacion->url = ($ValidationData['url']);
+//            $Relacion->save();
+            endfor;
+           return Response::json([
+                        'success' => TRUE,
+                        'message' => 'Los datos se guardaron con exito!!!'
+            ]);
+            
         endif;
-        
-        if ($Relacion->isValid((array) $data)):
-            $Relacion->name = Str::upper($data->name);
-            $Relacion->save();
-            return 1;
-        endif;
+       
 
-        if (Request::ajax()):
+        
             return Response::json([
                         'success' => false,
                         'errors' => $Menu->errors
             ]);
-        else:
-            return Redirect::back()->withErrors($Menu->errors)->withInput();
-        endif;*/
+        
     }
 
 
