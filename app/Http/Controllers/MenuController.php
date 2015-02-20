@@ -31,7 +31,6 @@ class MenuController extends Controller {
     }
 
     /**
-<<<<<<< HEAD
      * Show the form for creating a new resource.
      *
      * @return Response
@@ -42,24 +41,12 @@ class MenuController extends Controller {
     }
 
 
-=======
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-                $tasks = Task::all();
-                return view('menu/create')->with('tasks', $tasks);
-	}
-
->>>>>>> a924ee4756cbcf3ef86e00a58155a70b98e6f4a2
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-  /*  public function store() {
+    public function store() {
         $json = Input::get('data');
         $data = json_decode($json);
         $Menu = new Menu;
@@ -86,22 +73,6 @@ class MenuController extends Controller {
             return Redirect::back()->withErrors($Menu->errors)->withInput();
         endif;
     }
-<<<<<<< HEAD
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-		$inputs = Input::all();
-		return $inputs;
-	}
-
-=======
->>>>>>> a924ee4756cbcf3ef86e00a58155a70b98e6f4a2
 
     /**
      * Display the specified resource.
