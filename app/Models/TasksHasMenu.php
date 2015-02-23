@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @author Anwar Sarmiento
  */
-class TaskHasMenu extends Model {
+class TasksHasMenu extends Model {
 
     use SoftDeletes;
 
