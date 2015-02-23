@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @author Anwar Sarmiento
  */
-class TaskHasMenu extends Model {
+class TasksHasMenu extends Model {
 
     use SoftDeletes;
 
@@ -27,7 +27,7 @@ class TaskHasMenu extends Model {
         $rules = ['menus_id' => 'required',
             'tasks_id' => 'required'];
 
-        $validator = Validator::make($data, $rules);
+        $validator = \Validator::make($data, $rules);
         if ($validator->passes()) {
             return true;
         }

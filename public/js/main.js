@@ -52,9 +52,19 @@ $(function(){
 		data.stateTasks = stateTasks;
 		ajaxForm(url,'post',data)
 		.done( function (data) {
-			console.log("Ok");
+			messageAjax(data);
 		})
 	});
+
+	var messageAjax = function(data) {
+		$.unblockUI();
+		if(data.success){
+			bootbox.alert('<p class="success-ajax">'+data.message+'</p>');
+		}
+		else{
+			bootbox.alert('<p class="error-ajax">'+data.errors+'</p>');
+		}
+	};
 
 	//Functions Menu
 	var addActive = function (element) {
