@@ -70,10 +70,9 @@ class MenuController extends Controller {
             for ($i = 0; $i <= count($menus); $i++): //echo json_encode($menus); die;
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
                 if ($menus->stateTasks[$i] == true):
-                    $Relacion = new MenuTask;
-                    $Relacion->task_id = $menus->idTasks[$i];
-                    $Relacion->menu_id = $ultimoInsert['id'];
-                    $Relacion->save();
+                    $Relacion = Menu::find($ultimoInsert['id']);
+                    $task =  Task::find($menus->idTasks[$i]);
+                    $Relacion->Tasks()->save($task);
                 endif;
             endfor;
             /* Enviamos el mensaje de guardado correctamente */

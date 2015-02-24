@@ -18,8 +18,8 @@ class Menu extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name', 'url'];
 
-    public function MenusTasks() {
-        return $this->belongsToMany('Mep\Models\Task','Mep\Models\MenuTask','menu_id','task_id');
+    public function Tasks() {
+        return $this->belongsToMany('Mep\Models\Task');
     }
     
 //    public function TasksMenus() {
