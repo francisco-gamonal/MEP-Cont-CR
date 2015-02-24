@@ -23,7 +23,7 @@ Route::get('test','TestController@index');
 /**
  *  Rutas de Menu
  */
-Route::get('menu/ver-menu','MenuController@index');
+Route::get('menu','MenuController@index');
 Route::get('menu/registrar-menu','MenuController@create');
 Route::post('menu/save-menu','MenuController@store');
 Route::get('menu/{id}/editar-menu','MenuController@edit');

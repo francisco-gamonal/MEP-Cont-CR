@@ -1,60 +1,27 @@
 $(function(){
-	//setup Ajax
-	$.ajaxSetup({
-	    headers: {
-	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-	    }
-	});
-
-	var data = {};
-	var server = 'http://localhost/MEP-Cont-CR/public/';
-
-	//Equals height
-	$('[class*="-wrapper"]').matchHeight();
-
-	//Event menu expand
-	$('.submenu').on('click', function(e){
-		e.preventDefault();
-		var element = $(this);
-		var exp = false;
-		if($(this).hasClass('active')){
-			exp = true;
+	//Functions
+	var dataTable = function(selector, list){
+		var options = {
+			"order": [
+                [0, "desc"]
+            ],
+            "bLengthChange": true,
+            'iDisplayLength': 7,
+            "oLanguage": {
+            	"sLengthMenu": "_MENU_ registros por página",
+                "sSearch": "Buscar: ",
+                "sZeroRecords": "No hay " + list,
+                "sInfoEmpty": " ",
+                "sInfo": 'Mostrando _END_ de _TOTAL_',
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente"
+                }
+            }
 		};
-		removeActive();
-		if(!$(this).hasClass('active')){
-			if(!exp){
-				addActive(element);
-			}
-		}
-	});
 
-	//Switch Checkbox
-	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
-
-	//Save Menu
-	$(document).off('click', '#save');
-	$(document).on('click', '#save', function(e){
-		e.preventDefault();
-		var url;
-		var stateTasks = [];
-		var idTasks = [];
-		var nameMenu;
-		var urlMenu;
-		url = $(this).data('url');
-		url = url + '/save-' + url;
-		$('.task_menu').each(function(index){
-			stateTasks[index] = $(this).bootstrapSwitch('state');
-			idTasks[index] = $(this).data('id');
-		});
-		data.nameMenu = $('#nameMenu').val();
-		data.urlMenu = $('#urlMenu').val();
-		data.idTasks = idTasks;
-		data.stateTasks = stateTasks;
-		ajaxForm(url,'post',data)
-		.done( function (data) {
-			messageAjax(data);
-		})
-	});
+		$(selector).DataTable(options);
+	};
 
 	var messageAjax = function(data) {
 		$.unblockUI();
@@ -127,5 +94,64 @@ $(function(){
 				    	//responseUI('No se pueden grabar los datos.', 'red');
 				    }
 				});
-	};
+	};	
+
+	//setup Ajax
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
+
+	var data = {};
+	var server = 'http://localhost/MEP-Cont-CR/public/';
+
+	//Equals height
+	$('[class*="-wrapper"]').matchHeight();
+
+	//Event menu expand
+	$('.submenu').on('click', function(e){
+		e.preventDefault();
+		var element = $(this);
+		var exp = false;
+		if($(this).hasClass('active')){
+			exp = true;
+		};
+		removeActive();
+		if(!$(this).hasClass('active')){
+			if(!exp){
+				addActive(element);
+			}
+		}
+	});
+
+	//Switch Checkbox
+	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
+
+	//Save Menu
+	$(document).off('click', '#save');
+	$(document).on('click', '#save', function(e){
+		e.preventDefault();
+		var url;
+		var stateTasks = [];
+		var idTasks = [];
+		var nameMenu;
+		var urlMenu;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		$('.task_menu').each(function(index){
+			stateTasks[index] = $(this).bootstrapSwitch('state');
+			idTasks[index] = $(this).data('id');
+		});
+		data.nameMenu = $('#nameMenu').val();
+		data.urlMenu = $('#urlMenu').val();
+		data.idTasks = idTasks;
+		data.stateTasks = stateTasks;
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	dataTable('#table_id', 'menu');
 });

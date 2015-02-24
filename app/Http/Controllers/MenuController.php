@@ -30,7 +30,7 @@ class MenuController extends Controller {
      */
     public function index() {
         $lista = Menu::all();
-        return view('menu.index')->compact($lista);
+        return view('menu.index', compact($lista));
     }
 
     /**
