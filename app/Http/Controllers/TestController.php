@@ -20,13 +20,13 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-                 $json = Menu::find(1);
+                 $json = new Menu();
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
- echo dd($json->MenusTasks()); die;
-                 //echo $json->toJson();die;
+// echo dd($json->MenusTasks()); die;
+                 echo json_encode($json->TasksMenus());die;
                 foreach ($json->TasksMenus() AS $test):
                       echo $test.'\n';
                 endforeach;

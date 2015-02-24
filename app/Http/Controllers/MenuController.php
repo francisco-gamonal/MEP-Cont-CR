@@ -65,13 +65,12 @@ class MenuController extends Controller {
             /* Traemos el id del ultimo registro guardado */
             $ultimoInsert = Menu::all()->last();
              /* corremos las variables boleanas para Insertar a la tabla de relación */
-            for ($i = 0; $i <= count($menus); $i++):
+            for ($i = 0; $i <= count($menus); $i++): //echo json_encode($menus); die;
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                
                 if ($menus->stateTasks[$i] == true):
                     $Relacion = new MenuTask;
                     $Relacion->task_id = $menus->idTasks[$i];
-                    $Relacion->menu_id = ($ultimoInsert['id']);
+                    $Relacion->menu_id = $ultimoInsert['id'];
                     $Relacion->save();
                 endif;
             endfor;
