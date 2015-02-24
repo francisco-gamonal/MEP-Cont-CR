@@ -16,9 +16,13 @@ class Task extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
-    public function roles() {
+   // public function TasksMenus() {
 
-        return $this->belongsToMany('Menus');
+       // return $this->belongsToMany('menus','tasks_has_menus','menus_id','tasks_id');
+    //}
+    public function UsersMenus() {
+        
+        return $this->belongsToMany('users','users_has_menus','tasks_id','users_id');
     }
     public function LastId()
     {

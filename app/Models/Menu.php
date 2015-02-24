@@ -5,6 +5,7 @@ namespace Mep\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Menu extends Model {
 
     use SoftDeletes;
@@ -17,14 +18,21 @@ class Menu extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name', 'url'];
 
-    public function TasksMenus() {
-
-        return $this->belongsToMany('tasks_has_menus');
+    public function MenusTasks() {
+        return $this->belongsToMany('Mep\Models\Task','Mep\Models\MenuTask','menu_id','task_id');
     }
+    
+//    public function TasksMenus() {
+//
+//        return $this->hasMany('Mep\Models\Task','task_id','id');
+//    }
+    
     public function UsersMenus() {
-
-        return $this->belongsToMany('users_has_menus');
+        
+        return $this->belongsToMany('users','users_has_menus','menus_id','users_id');
     }
+    
+    public function asd(){return 1;}
     public function LastId()
     {
         return Menu::all()->last();

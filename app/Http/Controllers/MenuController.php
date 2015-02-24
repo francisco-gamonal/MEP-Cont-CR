@@ -5,7 +5,7 @@ namespace Mep\Http\Controllers;
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
-use Mep\Models\TasksHasMenu;
+use Mep\Models\MenuTask;
 use Mep\Models\Task;
 use Illuminate\Http\Request;
 use Input;
@@ -56,7 +56,7 @@ class MenuController extends Controller {
         $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
         /* Declaramos las clases a utilizar */
         $Menu = new Menu;
-        $Relacion = new TasksHasMenu;
+        
         /* Validamos los datos para guardar tabla menu */
         if ($Menu->isValid((array) $ValidationData)):
             $Menu->name = ($ValidationData['name']);
@@ -64,13 +64,14 @@ class MenuController extends Controller {
             $Menu->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoInsert = Menu::all()->last();
-            $taksMenus = $menus;
-            /* corremos las variables boleanas para Insertar a la tabla de relación */
-            for ($i = 0; $i <= count($taksMenus); $i++):
+             /* corremos las variables boleanas para Insertar a la tabla de relación */
+            for ($i = 0; $i <= count($menus); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                if ($taksMenus->stateTasks[$i] == true):
-                    $Relacion->tasks_id = $taksMenus->idTasks[$i];
-                    $Relacion->menus_id = ($ultimoInsert['id']);
+                
+                if ($menus->stateTasks[$i] == true):
+                    $Relacion = new MenuTask;
+                    $Relacion->task_id = $menus->idTasks[$i];
+                    $Relacion->menu_id = ($ultimoInsert['id']);
                     $Relacion->save();
                 endif;
             endfor;
