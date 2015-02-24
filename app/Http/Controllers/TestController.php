@@ -7,6 +7,9 @@ use Mep\Models\TypeUser;
 use Mep\Models\User;
 use Mep\Models\SchoolsHasUser;
 use Illuminate\Http\Request;
+use Mep\Models\Menu;
+use Mep\Models\Task;
+use Mep\Models\TasksHasMenu;
 
 class TestController extends Controller {
 
@@ -16,12 +19,18 @@ class TestController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{
+	{   
+                 $json = new Menu();
                 //$json =SchoolsHasUser::all();
-                $json = User::all();
+                //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
-              echo  json_encode($json);
+// echo dd($json->MenusTasks()); die;
+                 echo json_encode($json->TasksMenus());die;
+                foreach ($json->TasksMenus() AS $test):
+                      echo $test.'\n';
+                endforeach;
+              
 	}
 
 	/**

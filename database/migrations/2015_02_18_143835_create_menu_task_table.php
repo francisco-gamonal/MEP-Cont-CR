@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksHasMenuTable extends Migration {
+class CreateMenuTaskTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,11 @@ class CreateTasksHasMenuTable extends Migration {
 	 */
 	public function up()
 	{
-	Schema::create('tasks_has_menu', function(Blueprint $table) {
-        $table->integer('tasks_id')->unsigned()->index();
-        $table->foreign('tasks_id')->references('id')->on('tasks')->onDelete('no action');
+	Schema::create('menu_task', function(Blueprint $table) {
+        $table->integer('task_id')->unsigned()->index();
+        $table->foreign('task_id')->references('id')->on('tasks')->onDelete('no action');
         $table->integer('menu_id')->unsigned()->index();
-        $table->foreign('menu_id')->references('id')->on('menu')->onDelete('no action');
+        $table->foreign('menu_id')->references('id')->on('menus')->onDelete('no action');
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();
@@ -30,7 +30,7 @@ class CreateTasksHasMenuTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tasks_has_menu');
+		Schema::drop('menu_task');
 	}
 
 }
