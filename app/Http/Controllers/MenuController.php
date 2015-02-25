@@ -69,7 +69,7 @@ class MenuController extends Controller {
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
                 if (($stateTasks[$i]) == true):
-                    $Relacion = self::find($ultimoInsert['id']);
+                    $Relacion = Menu::find($ultimoInsert['id']);
                     $Relacion->Tasks()->attach($menus->idTasks[$i]);
                 endif;
             endfor;
