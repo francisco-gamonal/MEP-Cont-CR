@@ -4,7 +4,7 @@ namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\Response;
 
 class Menu extends Model {
 
@@ -21,40 +21,36 @@ class Menu extends Model {
     public function Tasks() {
         return $this->belongsToMany('Mep\Models\Task');
     }
-    
-//    public function TasksMenus() {
-//
-//        return $this->hasMany('Mep\Models\Task','task_id','id');
-//    }
-    
-    public function UsersMenus() {
-        
-        return $this->belongsToMany('users','users_has_menus','menus_id','users_id');
+
+    public function Users() {
+
+        return $this->belongsToMany('Mep\Models\User');
     }
-    
-    public function asd(){return 1;}
-    public function LastId()
-    {
+
+    public function LastId() {
         return Menu::all()->last();
     }
 
-    public function isValid($data)
-    {  
-        $rules = ['name'=> 'required|unique:menus'];
+    public static function insertData($datos, $arreglo) {
+
        
-        if ($this->exists)
-        {
+    }
+
+    public function isValid($data) {
+        $rules = ['name' => 'required|unique:menus'];
+
+        if ($this->exists) {
             $rules['name'] .= ',name,' . $this->id;
         }
-       
-         $validator = \Validator::make($data, $rules);
-        if ($validator->passes())
-        {
+
+        $validator = \Validator::make($data, $rules);
+        if ($validator->passes()) {
             return true;
         }
-        
+
         $this->errors = $validator->errors();
-        
+
         return false;
     }
+
 }

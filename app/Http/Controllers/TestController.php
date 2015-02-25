@@ -20,18 +20,17 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-                 $json =  Menu::find(15);
+                 $json =  Menu::find(1);
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
-// echo dd($json->MenusTasks()); die;
-                 echo json_encode($json);die;
-                foreach ($json->TasksMenus() AS $test):
-                      echo $test.'\n';
-                endforeach;
-              
-	}
+            echo json_encode($json->Tasks); die;
+//         dd($json->Tasks()); die;
+//                foreach ($json->TasksMenus() AS $test):
+//                      echo $test.'\n';
+//                endforeach;
+        }
 
 	/**
 	 * Show the form for creating a new resource.

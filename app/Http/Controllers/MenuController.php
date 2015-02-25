@@ -5,7 +5,6 @@ namespace Mep\Http\Controllers;
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
-use Mep\Models\MenuTask;
 use Mep\Models\Task;
 use Illuminate\Http\Request;
 use Input;
@@ -30,8 +29,8 @@ class MenuController extends Controller {
      */
     public function index() {
         $lista = Menu::all();
-
-        return view('menu.index', compact($lista));
+        $tasks = Task::all();
+        return view('menu.index', compact($lista,$tasks));
 
     }
 
@@ -56,35 +55,34 @@ class MenuController extends Controller {
         $menus = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
-        /* Declaramos las clases a utilizar */
-        $Menu = new Menu;
-        
+               /* Declaramos las clases a utilizar */
+        $menu = new Menu;
         /* Validamos los datos para guardar tabla menu */
-        if ($Menu->isValid((array) $ValidationData)):
-            $Menu->name = ($ValidationData['name']);
-            $Menu->url = ($ValidationData['url']);
-            $Menu->save();
+        if ($menu->isValid((array) $ValidationData)):
+            $menu->name = ($ValidationData['name']);
+            $menu->url = ($ValidationData['url']);
+            $menu->save();
             /* Traemos el id del ultimo registro guardado */
-            $ultimoInsert = Menu::all()->last();
-             /* corremos las variables boleanas para Insertar a la tabla de relación */
-            for ($i = 0; $i <= count($menus); $i++): //echo json_encode($menus); die;
+            $ultimoInsert = $menu->LastId();
+            $stateTasks = $menus->stateTasks;
+            /* corremos las variables boleanas para Insertar a la tabla de relación */
+            for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                if ($menus->stateTasks[$i] == true):
-                    $Relacion = Menu::find($ultimoInsert['id']);
-                    $task =  Task::find($menus->idTasks[$i]);
-                    $Relacion->Tasks()->save($task);
+                if (($stateTasks[$i]) == true):
+                    $Relacion = self::find($ultimoInsert['id']);
+                    $Relacion->Tasks()->attach($menus->idTasks[$i]);
                 endif;
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
-            return Response::json([
+            Response::json([
                         'success' => TRUE,
                         'message' => 'Los datos se guardaron con exito!!!'
             ]);
         endif;
-        /* Enviamos el mensaje de error */
+       /* Enviamos el mensaje de error */
         return Response::json([
                     'success' => false,
-                    'errors' => $Menu->errors
+                    'errors' => $menus->errors
         ]);
     }
 
@@ -106,7 +104,7 @@ class MenuController extends Controller {
      */
     public function edit($id) {
         $json = Menu::find($id);
-        return view('menu/edit', json_encode($json));
+        return view('menu.edit', compact($json));
     }
 
     /**
