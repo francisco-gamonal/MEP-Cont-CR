@@ -6,7 +6,7 @@ $(function(){
                 [0, "desc"]
             ],
             "bLengthChange": true,
-            'iDisplayLength': 7,
+            //'iDisplayLength': 7,
             "oLanguage": {
             	"sLengthMenu": "_MENU_ registros por página",
                 "sSearch": "Buscar: ",
@@ -29,7 +29,14 @@ $(function(){
 			bootbox.alert('<p class="success-ajax">'+data.message+'</p>');
 		}
 		else{
-			bootbox.alert('<p class="error-ajax">'+data.errors+'</p>');
+			var errors = data.errors;
+			var error = "";
+			for (var element in errors){
+				if(errors.hasOwnProperty(element)){
+					error += errors[element] + '<br>';
+				}
+			}
+			bootbox.alert('<p class="error-ajax">'+error+'</p>');
 		}
 	};
 
