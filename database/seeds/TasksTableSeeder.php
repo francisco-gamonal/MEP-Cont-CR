@@ -28,7 +28,7 @@ class TasksTableSeeder extends Seeder {
          ]);
         \DB::table('tasks')->insert([
             'id' => 4,
-            'name' => 'Actualizar'
+            'name' => 'Eliminar'
          ]);
         \DB::table('tasks')->insert([
             'id' => 5,

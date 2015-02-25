@@ -13,15 +13,13 @@ class CreateMenuUserTable extends Migration {
 	public function up()
 	{
 	Schema::create('menu_user', function(Blueprint $table) {
-        $table->integer('tasks_id')->unsigned()->index();
-        $table->foreign('tasks_id')->references('id')->on('tasks')->onDelete('no action');
-        $table->integer('menus_id')->unsigned()->index();
-        $table->foreign('menus_id')->references('id')->on('menus')->onDelete('no action');
-        $table->integer('users_id')->unsigned()->index();
-        $table->foreign('users_id')->references('id')->on('users')->onDelete('no action');
+        $table->integer('task_id')->unsigned()->index();
+        $table->foreign('task_id')->references('id')->on('tasks')->onDelete('no action');
+        $table->integer('menu_id')->unsigned()->index();
+        $table->foreign('menu_id')->references('id')->on('menus')->onDelete('no action');
+        $table->integer('user_id')->unsigned()->index();
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
         $table->engine = 'InnoDB';
-        $table->timestamps();
-        $table->softDeletes();
         });
 	}
 

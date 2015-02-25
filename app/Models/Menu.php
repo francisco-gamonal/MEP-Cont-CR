@@ -3,19 +3,11 @@
 namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Response;
 
 class Menu extends Model {
 
-    use SoftDeletes;
-
-    // Add your validation rules here
-    public static $rules = [
-        'name' => 'required',
-        'url' => 'required',
-    ];
-    // Don't forget to fill this array
+     // Don't forget to fill this array
     protected $fillable = ['name', 'url'];
 
     public function Tasks() {
@@ -32,15 +24,16 @@ class Menu extends Model {
     }
 
     public static function insertData($datos, $arreglo) {
-
-       
+        
     }
 
     public function isValid($data) {
-        $rules = ['name' => 'required|unique:menus'];
+        $rules = ['name' => 'required|unique:menus',
+            'url' => 'required|unique:menus'];
 
         if ($this->exists) {
             $rules['name'] .= ',name,' . $this->id;
+            $rules['url'] .= ',url,' . $this->id;
         }
 
         $validator = \Validator::make($data, $rules);

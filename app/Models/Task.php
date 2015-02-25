@@ -16,13 +16,13 @@ class Task extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
-   // public function TasksMenus() {
+    public function Menus() {
 
-       // return $this->belongsToMany('menus','tasks_has_menus','menus_id','tasks_id');
-    //}
-    public function UsersMenus() {
+        return $this->belongsToMany('Mep\Models\Menu');
+    }
+    public function Users() {
         
-        return $this->belongsToMany('users','users_has_menus','tasks_id','users_id');
+        return $this->belongsToMany('Mep\Models\User');
     }
     public function LastId()
     {

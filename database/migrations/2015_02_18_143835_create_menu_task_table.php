@@ -18,8 +18,6 @@ class CreateMenuTaskTable extends Migration {
         $table->integer('menu_id')->unsigned()->index();
         $table->foreign('menu_id')->references('id')->on('menus')->onDelete('no action');
         $table->engine = 'InnoDB';
-        $table->timestamps();
-        $table->softDeletes();
         });
 	}
 
