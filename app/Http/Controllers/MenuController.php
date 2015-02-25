@@ -82,7 +82,7 @@ class MenuController extends Controller {
        /* Enviamos el mensaje de error */
         return Response::json([
                     'success' => false,
-                    'errors' => $menus->errors
+                    'errors' => $menu->errors
         ]);
     }
 
