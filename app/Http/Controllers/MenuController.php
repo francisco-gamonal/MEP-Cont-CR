@@ -74,7 +74,7 @@ class MenuController extends Controller {
                 endif;
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
-            Response::json([
+            return     Response::json([
                         'success' => TRUE,
                         'message' => 'Los datos se guardaron con exito!!!'
             ]);
