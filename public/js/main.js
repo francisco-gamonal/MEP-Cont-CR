@@ -3,12 +3,13 @@ $(function(){
 	var dataTable = function(selector, list){
 		var options = {
 			"order": [
-                [0, "desc"]
+                [0, "asc"]
             ],
             "bLengthChange": true,
             //'iDisplayLength': 7,
             "oLanguage": {
             	"sLengthMenu": "_MENU_ registros por página",
+            	"sInfoFiltered": " - filtrada de _MAX_ registros",
                 "sSearch": "Buscar: ",
                 "sZeroRecords": "No hay " + list,
                 "sInfoEmpty": " ",

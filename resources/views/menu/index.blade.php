@@ -45,49 +45,29 @@
 						<table id="table_id" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
-	                                <th class="text-center">Código</th>
+	                                <th>Código</th>
 	                                <th>Nombre</th>
-	                                <th>Dirección</th>
-	                                <th>Teléfono</th>
-	                                <th class="text-center">Estado</th>
-	                                <th class="text-center">Editar</th>
-	                                <th class="text-center">Desactivar</th>
-	                                <th class="text-center">Activar</th>
+	                                <th>Url</th>
+	                                @foreach($tasks as $task)
+										<th>{{$task->name}}</th>
+	                                @endforeach
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                            <tr>
-	                                <td class="text-center iglesia_number">1</td>
-	                                <td class="iglesia_name">Iglesia Quepos</td>
-	                                <td class="iglesia_address"></td>
-	                                <td class="text-center iglesia_phone">2777-4435</td>
-	                                <td class="text-center iglesia_state">Activo</td>
-	                                <td class="text-center">
-	                                    <a class="btn btn-info" href="#" id="editIglesia"><span class="glyphicon glyphicon-pencil"></span></a>
-	                                </td>
-	                                <td class="text-center">
-	                                	<a id="btnDisabledIglesia" class="btn btn-danger" href="#" data-resource="iglesias"><span class="glyphicon glyphicon-trash"></span></a>
-	                                </td>
-	                                <td class="text-center">
-	                                	-
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td class="text-center iglesia_number">2</td>
-	                                <td class="iglesia_name">Iglesia El Santísimo</td>
-	                                <td class="iglesia_address">Piura</td>
-	                                <td class="text-center iglesia_phone">073551234</td>
-	                                <td class="text-center iglesia_state">Inactivo</td>
-	                                <td class="text-center">
-	                                    <a class="btn btn-info" href="#" id="editIglesia"><span class="glyphicon glyphicon-pencil"></span></a>
-	                                </td>
-	                                <td class="text-center">
-	                                    -
-	                                </td>
-	                                <td class="text-center">
-	                                    <a id="btnEnabledIglesia" class="btn btn-success" href="#" data-resource="iglesias"><span class="glyphicon glyphicon-ok"></span></a>
-	                                </td>
-	                            </tr>
+	                        	@foreach($menus as $menu)
+		                            <tr>
+		                                <td class="text-center iglesia_number">{{$menu->id}}</td>
+		                                <td class="iglesia_name">{{$menu->name}}</td>
+		                                <td class="iglesia_url">{{$menu->url}}</td>
+			                            @foreach($menu->Tasks as $taskMenu)
+		                                	@if($taskMenu->pivot->status == 0)
+		                                		<td class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+		                                	@else
+		                                		<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+		                                	@endif
+		                                @endforeach
+		                            </tr>
+	                            @endforeach
 	                        </tbody>
 	                    </table>
 					</div>
