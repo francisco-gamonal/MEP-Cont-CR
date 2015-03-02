@@ -11,9 +11,9 @@ class Menu extends Model {
     protected $fillable = ['name', 'url'];
 
     public function Tasks() {
-        return $this->belongsToMany('Mep\Models\Task');
+        return $this->belongsToMany('Mep\Models\Task')->withPivot('status');
     }
-
+    /* */
     public function Users() {
 
         return $this->belongsToMany('Mep\Models\User');
@@ -21,10 +21,6 @@ class Menu extends Model {
 
     public function LastId() {
         return Menu::all()->last();
-    }
-
-    public static function insertData($datos, $arreglo) {
-        
     }
 
     public function isValid($data) {

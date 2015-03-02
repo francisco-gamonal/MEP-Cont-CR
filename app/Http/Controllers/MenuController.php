@@ -68,10 +68,10 @@ class MenuController extends Controller {
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                if (($stateTasks[$i]) == true):
+                
                     $Relacion = Menu::find($ultimoInsert['id']);
-                    $Relacion->Tasks()->attach($menus->idTasks[$i]);
-                endif;
+                    $Relacion->Tasks()->attach($menus->idTasks[$i],array('status'=>$stateTasks[$i]));
+            
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
             return     Response::json([
