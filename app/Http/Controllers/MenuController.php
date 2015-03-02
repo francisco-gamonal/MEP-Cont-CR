@@ -28,7 +28,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function index() {
-        $menus = Menu::all();
+        $menus = Menu::withTrashed()->all();
         $tasks = Task::all();
         return view('menu.index', compact('menus','tasks'));
 
@@ -103,7 +103,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $menu = Menu::find($id);
+        $menu = Menu::withTrashed()->find($id);
         return view('menu.edit', compact('menu'));
     }
 
@@ -114,7 +114,9 @@ class MenuController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+         $json = Menu::withTrashed()->find($id);
+         return  $menus = json_decode($json);
+        
     }
 
     /**

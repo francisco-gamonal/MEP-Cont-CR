@@ -4,9 +4,11 @@ namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model {
 
+      use SoftDeletes;
      // Don't forget to fill this array
     protected $fillable = ['name', 'url'];
 
