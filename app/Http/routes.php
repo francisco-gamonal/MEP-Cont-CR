@@ -26,7 +26,7 @@ Route::get('test','TestController@index');
 Route::get('menu/ver-menu','MenuController@index');
 Route::get('menu/registrar-menu','MenuController@create');
 Route::post('menu/save-menu','MenuController@store');
-Route::get('menu/{id}/editar-menu','MenuController@edit');
+Route::get('menu/editar-menu/{id}', ['as' => 'editar-menu', 'uses' =>'MenuController@edit']);
 Route::delete('menu/delete-menu/{id}','MenuController@destroy');
 Route::put('menu/update-menu/{id}','MenuController@update');
 /**

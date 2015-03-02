@@ -103,8 +103,8 @@ class MenuController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $json = Menu::find($id);
-        return view('menu.edit', compact($json));
+        $menu = Menu::find($id);
+        return view('menu.edit', compact('menu'));
     }
 
     /**

@@ -51,6 +51,7 @@
 	                                @foreach($tasks as $task)
 										<th>{{$task->name}}</th>
 	                                @endforeach
+	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
@@ -61,11 +62,15 @@
 		                                <td class="iglesia_url">{{$menu->url}}</td>
 			                            @foreach($menu->Tasks as $taskMenu)
 		                                	@if($taskMenu->pivot->status == 0)
-		                                		<td class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+		                                		<td class="text-center">-</td>
 		                                	@else
 		                                		<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
 		                                	@endif
 		                                @endforeach
+		                                <td class="text-center edit-row">
+		                                	<a href="#"><i class="fa fa-trash-o"></i></a>
+											<a href="{{route('editar-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+		                                </td>
 		                            </tr>
 	                            @endforeach
 	                        </tbody>
