@@ -167,24 +167,26 @@ class MenuController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy() {
         /*Capturamos los datos enviados por ajax*/
         $json = Input::get('data');
         $menus = json_decode($json);
         /* les damos eliminacion pasavida */
        $data = Menu::destroy($menus->idMenu);
-       /* comprobamos si hay algun error  los enviamos de regreso*/
-        if ($data):
-            return Response::json([
-                        'success' => false,
-                        'errors' => $data->errors
-            ]);
-        endif;
-        /* si todo sale bien enviamos el mensaje de exito*/
+       if ($data):
+          /* si todo sale bien enviamos el mensaje de exito*/
         return Response::json([
                     'success' => TRUE,
                     'message' => 'Se desactivo con exito!!!'
-        ]);
+        ]);  
+        endif;
+        /* si hay algun error  los enviamos de regreso*/
+       
+         return Response::json([
+                        'success' => false,
+                        'errors' => $data->errors
+            ]);
+        
     }
 
     /**
@@ -193,25 +195,27 @@ class MenuController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function active($id) {
+    public function active() {
         /*Capturamos los datos enviados por ajax*/
         $json = Input::get('data');
         $menus = json_decode($json);
          /* les quitamos la eliminacion pasavida */
        $data = Menu::onlyTrashed()->find($menus->idMenu);
-       /* comprobamos si hay algun error  los enviamos de regreso*/
-        if ($data):
+       if ($data):
             $data->restore();
-            return Response::json([
-                        'success' => false,
-                        'errors' => $data->errors
-            ]);
-        endif;
-        /* si todo sale bien enviamos el mensaje de exito*/
+     /* si todo sale bien enviamos el mensaje de exito*/
         return Response::json([
                     'success' => TRUE,
                     'message' => 'Se Activo con exito!!!'
         ]);
+        endif;
+         /* si hay algun error  los enviamos de regreso*/
+       
+                 return Response::json([
+                        'success' => false,
+                        'errors' => $data->errors
+            ]);
+      
     }
 
 }
