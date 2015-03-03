@@ -92,7 +92,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function show($id) {
-        //
+        //dd($id);
     }
 
     /**
@@ -161,14 +161,37 @@ class MenuController extends Controller {
         
     }
 
-    /**
-     * Remove the specified resource from storage.
+     /**
+     * Remove the specified typeuser from storage.
      *
      * @param  int  $id
      * @return Response
      */
     public function destroy($id) {
-        //
+       dd($id);
+        $data = Menu::destroy($id);
+        if ($data):
+            return 1;
+        endif;
+
+        return json_encode(array('message' => 'Ya esta Inactivo'));
+    }
+
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active($id) {
+dd($id);
+        $data = Menu::onlyTrashed()->find($id);
+        if ($data):
+            $data->restore();
+            return 1;
+        endif;
+
+        return json_encode(array('message' => 'Ya esta activa'));
     }
 
 }
