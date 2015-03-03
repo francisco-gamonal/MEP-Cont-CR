@@ -30,7 +30,7 @@ class MenuController extends Controller {
     public function index() {
         $menus = Menu::withTrashed()->get();
         $tasks = Task::all();
-        return view('menu.index', compact('menus','tasks'));
+        return view('menu.index', compact('menus', 'tasks'));
     }
 
     /**
@@ -50,11 +50,12 @@ class MenuController extends Controller {
      * 
      */
     public function store() {
+        /*Capturamos los datos enviados por ajax*/
         $json = Input::get('data');
         $menus = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
-               /* Declaramos las clases a utilizar */
+        /* Declaramos las clases a utilizar */
         $menu = new Menu;
         /* Validamos los datos para guardar tabla menu */
         if ($menu->isValid((array) $ValidationData)):
@@ -67,18 +68,18 @@ class MenuController extends Controller {
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                
-                    $Relacion = Menu::find($ultimoInsert['id']);
-                    $Relacion->Tasks()->attach($menus->idTasks[$i],array('status'=>$stateTasks[$i]));
-            
+
+                $Relacion = Menu::find($ultimoInsert['id']);
+                $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
+
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
-            return     Response::json([
+            return Response::json([
                         'success' => TRUE,
                         'message' => 'Los datos se guardaron con exito!!!'
             ]);
         endif;
-       /* Enviamos el mensaje de error */
+        /* Enviamos el mensaje de error */
         return Response::json([
                     'success' => false,
                     'errors' => $menu->errors
@@ -92,7 +93,6 @@ class MenuController extends Controller {
      * @return Response
      */
     public function show($id) {
-        //dd($id);
     }
 
     /**
@@ -113,11 +113,12 @@ class MenuController extends Controller {
      * @return Response
      */
     public function update($id) {
-          $json = Input::get('data');
+        /*Capturamos los datos enviados por ajax*/
+        $json = Input::get('data');
         $menus = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
-               /* Declaramos las clases a utilizar */
+        /* Declaramos las clases a utilizar */
         $menu = Menu::withTrashed()->find($menus->idMenu);
         $menu->Tasks()->detach();
         /* Validamos los datos para guardar tabla menu */
@@ -130,51 +131,60 @@ class MenuController extends Controller {
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                
-                    $Relacion = Menu::withTrashed()->find($menus->idMenu);
-                    $Relacion->Tasks()->attach($menus->idTasks[$i],array('status'=>$stateTasks[$i]));
-                    
-            
+
+                $Relacion = Menu::withTrashed()->find($menus->idMenu);
+                $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
+
+
             endfor;
-          // 
-            if(($menus->statusMenu)==false): 
-                
+            // 
+            if (($menus->statusMenu) == false):
+
                 Menu::destroy($menus->idMenu);
-            /* Enviamos el mensaje de guardado correctamente */
-            return     Response::json([
-                        'success' => TRUE,
-                        'message' => 'Los datos se Actualizaron con exito!!!'
-            ]);
+                /* Enviamos el mensaje de guardado correctamente */
+                return Response::json([
+                            'success' => TRUE,
+                            'message' => 'Los datos se Actualizaron con exito!!!'
+                ]);
             endif;
             $menu->restore();
             /* Enviamos el mensaje de guardado correctamente */
-            return     Response::json([
+            return Response::json([
                         'success' => TRUE,
                         'message' => 'Los datos se Actualizaron con exito!!!'
             ]);
         endif;
-       /* Enviamos el mensaje de error */
+        /* Enviamos el mensaje de error */
         return Response::json([
                     'success' => false,
                     'errors' => $menu->errors
         ]);
-        
     }
 
-     /**
+    /**
      * Remove the specified typeuser from storage.
      *
      * @param  int  $id
      * @return Response
      */
     public function destroy($id) {
-       dd($id);
-        $data = Menu::destroy($id);
+        /*Capturamos los datos enviados por ajax*/
+        $json = Input::get('data');
+        $menus = json_decode($json);
+        /* les damos eliminacion pasavida */
+       $data = Menu::destroy($menus->idMenu);
+       /* comprobamos si hay algun error  los enviamos de regreso*/
         if ($data):
-            return 1;
+            return Response::json([
+                        'success' => false,
+                        'errors' => $data->errors
+            ]);
         endif;
-
-        return json_encode(array('message' => 'Ya esta Inactivo'));
+        /* si todo sale bien enviamos el mensaje de exito*/
+        return Response::json([
+                    'success' => TRUE,
+                    'message' => 'Se desactivo con exito!!!'
+        ]);
     }
 
     /**
@@ -184,14 +194,24 @@ class MenuController extends Controller {
      * @return Response
      */
     public function active($id) {
-dd($id);
-        $data = Menu::onlyTrashed()->find($id);
+        /*Capturamos los datos enviados por ajax*/
+        $json = Input::get('data');
+        $menus = json_decode($json);
+         /* les quitamos la eliminacion pasavida */
+       $data = Menu::onlyTrashed()->find($menus->idMenu);
+       /* comprobamos si hay algun error  los enviamos de regreso*/
         if ($data):
             $data->restore();
-            return 1;
+            return Response::json([
+                        'success' => false,
+                        'errors' => $data->errors
+            ]);
         endif;
-
-        return json_encode(array('message' => 'Ya esta activa'));
+        /* si todo sale bien enviamos el mensaje de exito*/
+        return Response::json([
+                    'success' => TRUE,
+                    'message' => 'Se Activo con exito!!!'
+        ]);
     }
 
 }
