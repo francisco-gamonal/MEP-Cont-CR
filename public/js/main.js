@@ -20,7 +20,6 @@ $(function(){
                 }
             }
 		};
-
 		$(selector).DataTable(options);
 	};
 
@@ -135,6 +134,7 @@ $(function(){
 
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
+	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
 
 	//Save Menu
 	$(document).off('click', '#save');
@@ -156,6 +156,36 @@ $(function(){
 		data.idTasks = idTasks;
 		data.stateTasks = stateTasks;
 		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	//Update Menu
+	$(document).off('click', '#update');
+	$(document).on('click', '#update', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu;
+		var statusMenu;
+		var stateTasks = [];
+		var idTasks = [];
+		var nameMenu;
+		url = $(this).data('url');
+		idMenu = $('#idMenu').val();
+		statusMenu = $('#status_menu').bootstrapSwitch('state');
+		url = url + '/update-' + url + '/' + idMenu;
+		$('.task_menu').each(function(index){
+			stateTasks[index] = $(this).bootstrapSwitch('state');
+			idTasks[index] = $(this).data('id');
+		});
+		data.idMenu = idMenu;
+		data.statusMenu = statusMenu;
+		data.nameMenu = $('#nameMenu').val();
+		data.urlMenu = $('#urlMenu').val();
+		data.idTasks = idTasks;
+		data.stateTasks = stateTasks;
+		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);
 		})

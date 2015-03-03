@@ -51,6 +51,7 @@
 	                                @foreach($tasks as $task)
 										<th>{{$task->name}}</th>
 	                                @endforeach
+	                                <th>Estado</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
@@ -67,6 +68,13 @@
 		                                		<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
 		                                	@endif
 		                                @endforeach
+		                                <td class="text-center">
+		                                	@if($menu->deleted_at)
+												Inactivo
+		                                	@else
+												Activo
+		                                	@endif
+		                                </td>
 		                                <td class="text-center edit-row">
 		                                	<a href="#"><i class="fa fa-trash-o"></i></a>
 											<a href="{{route('editar-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>

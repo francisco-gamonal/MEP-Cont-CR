@@ -39,6 +39,27 @@
 		<section class="row">
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
+					<label for="idMenu">Código del Menú</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+				      	<input id="idMenu" class="form-control" type="text" value="{{$menu->id}}" disabled>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="statusMenu">Estado del Menú</label>
+					<div class="row">
+						@if($menu->deleted_at)
+				      		<input id="status_menu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
+				      	@else
+							<input id="status_menu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+				      	@endif
+			      	</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
 					<label for="nameMenu">Nombre del Menú</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
@@ -72,7 +93,7 @@
 				</div>
 			</div>
 			<div class="row text-center">
-				<a href="#" id="save" data-url="menu" class="btn btn-success">Actualizar Menú</a>
+				<a href="#" id="update" data-url="menu" class="btn btn-success">Actualizar Menú</a>
 			</div>
 		</section>
 	</div>

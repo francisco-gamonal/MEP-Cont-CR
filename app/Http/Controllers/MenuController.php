@@ -28,7 +28,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function index() {
-        $menus = Menu::withTrashed()->all();
+        $menus = Menu::withTrashed()->get();
         $tasks = Task::all();
         return view('menu.index', compact('menus','tasks'));
 
