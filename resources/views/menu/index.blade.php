@@ -76,8 +76,16 @@
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-		                                	<a href="#"><i class="fa fa-trash-o"></i></a>
-											<a href="{{route('editar-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+	                                		@if($menu->deleted_at)
+	                                			<a href="{{route('active-menu', $menu->id)}}">
+	                                				<span class="glyphicon glyphicon-ok"></span>
+                                				</a>
+	                                		@else
+	                                			<a href="{{route('delete-menu', $menu->id)}}">
+													<i class="fa fa-trash-o"></i>
+												</a>
+	                                		@endif
+											<a href="{{route('edit-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

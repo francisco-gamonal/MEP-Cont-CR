@@ -27,8 +27,9 @@ Route::get('menu','MenuController@index');
 Route::get('menu/ver-menu','MenuController@index');
 Route::get('menu/registrar-menu','MenuController@create');
 Route::post('menu/save-menu','MenuController@store');
-Route::get('menu/editar-menu/{id}', ['as' => 'editar-menu', 'uses' =>'MenuController@edit']);
-Route::delete('menu/delete-menu/{id}','MenuController@destroy');
+Route::get('menu/editar-menu/{id}', ['as' => 'edit-menu', 'uses' =>'MenuController@edit']);
+Route::delete('menu/delete-menu/{id}',['as' => 'delete-menu', 'uses' => 'MenuController@destroy']);
+Route::patch('menu/active-menu/{id}',['as' => 'active-menu', 'uses' => 'MenuController@active']);
 Route::put('menu/update-menu/{id}','MenuController@update');
 /**
  * Fin Rutas Menu
