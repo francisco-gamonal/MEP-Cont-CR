@@ -77,11 +77,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($menu->deleted_at)
-	                                			<a href="{{route('active-menu', $menu->id)}}">
+	                                			<a id="active" data-url="menu" href="#">
 	                                				<span class="glyphicon glyphicon-ok"></span>
                                 				</a>
 	                                		@else
-	                                			<a href="{{route('delete-menu', $menu->id)}}">
+	                                			<a id="delete" data-url="menu" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

@@ -31,7 +31,6 @@ class MenuController extends Controller {
         $menus = Menu::withTrashed()->get();
         $tasks = Task::all();
         return view('menu.index', compact('menus','tasks'));
-
     }
 
     /**

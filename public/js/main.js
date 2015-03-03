@@ -86,14 +86,21 @@ $(function(){
 
 	//Function Ajax
 	var ajaxForm = function (url, type, data){
+		var message;
 		var path = server + url;
+		if(type == 'post'){
+			message = 'Registrando';
+		}else{
+			message = 'Actualizando';
+		}
+		//console.log(path,type,data);return;
 		return $.ajax({
 					url: path,
 				    type: type,
 				    data: {data: JSON.stringify(data)},
 				    datatype: 'json',
 				    beforeSend: function(){
-			    		loadingUI('Registrando');
+			    		loadingUI(message);
 				    },
 				    error:function(){
 				    	$.unblockUI();
@@ -189,6 +196,34 @@ $(function(){
 		.done( function (data) {
 			messageAjax(data);
 		})
+	});
+
+	$(document).off('click', '#active');
+	$(document).on('click', '#active', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		url = $(this).data('url');
+		url = url + '/active-' + url + '/' + idMenu;
+		data.idMenu = idMenu;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	$(document).off('click', '#delete');
+	$(document).on('click', '#delete', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		url = $(this).data('url');
+		url = url + '/delete-' + url + '/' + idMenu;
+		data.idMenu = idMenu;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
 	});
 
 	dataTable('#table_id', 'menu');
