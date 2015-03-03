@@ -114,8 +114,51 @@ class MenuController extends Controller {
      * @return Response
      */
     public function update($id) {
-         $json = Menu::withTrashed()->find($id);
-         return  $menus = json_decode($json);
+          $json = Input::get('data');
+        $menus = json_decode($json);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
+               /* Declaramos las clases a utilizar */
+        $menu = Menu::withTrashed()->find($menus->idMenu);
+        $menu->Tasks()->detach();
+        /* Validamos los datos para guardar tabla menu */
+        if ($menu->isValid((array) $ValidationData)):
+            $menu->name = ($ValidationData['name']);
+            $menu->url = ($ValidationData['url']);
+            $menu->save();
+            /* Traemos el id del ultimo registro guardado */
+            $stateTasks = $menus->stateTasks;
+            /* corremos las variables boleanas para Insertar a la tabla de relación */
+            for ($i = 0; $i < count($stateTasks); $i++):
+                /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                
+                    $Relacion = Menu::withTrashed()->find($menus->idMenu);
+                    $Relacion->Tasks()->attach($menus->idTasks[$i],array('status'=>$stateTasks[$i]));
+                    
+            
+            endfor;
+          // 
+            if(($menus->statusMenu)==false): 
+                
+                Menu::destroy($menus->idMenu);
+            /* Enviamos el mensaje de guardado correctamente */
+            return     Response::json([
+                        'success' => TRUE,
+                        'message' => 'Los datos se Actualizaron con exito!!!'
+            ]);
+            endif;
+            $menu->restore();
+            /* Enviamos el mensaje de guardado correctamente */
+            return     Response::json([
+                        'success' => TRUE,
+                        'message' => 'Los datos se Actualizaron con exito!!!'
+            ]);
+        endif;
+       /* Enviamos el mensaje de error */
+        return Response::json([
+                    'success' => false,
+                    'errors' => $menu->errors
+        ]);
         
     }
 
