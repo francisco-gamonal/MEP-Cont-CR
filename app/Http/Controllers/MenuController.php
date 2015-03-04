@@ -50,7 +50,7 @@ class MenuController extends Controller {
      * 
      */
     public function store() {
-        /*Capturamos los datos enviados por ajax*/
+        /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $menus = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
@@ -68,22 +68,14 @@ class MenuController extends Controller {
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-
                 $Relacion = Menu::find($ultimoInsert['id']);
                 $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
-
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
-            return Response::json([
-                        'success' => TRUE,
-                        'message' => 'Los datos se guardaron con exito!!!'
-            ]);
+            return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return Response::json([
-                    'success' => false,
-                    'errors' => $menu->errors
-        ]);
+        return $this->errores($menu->errors);
     }
 
     /**
@@ -93,6 +85,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function show($id) {
+        
     }
 
     /**
@@ -113,7 +106,7 @@ class MenuController extends Controller {
      * @return Response
      */
     public function update($id) {
-        /*Capturamos los datos enviados por ajax*/
+        /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $menus = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
@@ -131,34 +124,22 @@ class MenuController extends Controller {
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-
                 $Relacion = Menu::withTrashed()->find($menus->idMenu);
                 $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
-
-
             endfor;
-            // 
+            /* Comprobamos si el usuario esta cambiando el estado del menu en editar */
             if (($menus->statusMenu) == false):
-
                 Menu::destroy($menus->idMenu);
                 /* Enviamos el mensaje de guardado correctamente */
-                return Response::json([
-                            'success' => TRUE,
-                            'message' => 'Los datos se Actualizaron con exito!!!'
-                ]);
+                return $this->exito('Los datos se Actualizaron con exito!!!');
             endif;
+            /* Activamos el menu segun la peticion del usuario */
             $menu->restore();
             /* Enviamos el mensaje de guardado correctamente */
-            return Response::json([
-                        'success' => TRUE,
-                        'message' => 'Los datos se Actualizaron con exito!!!'
-            ]);
+            return $this->exito('Los datos se Actualizaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return Response::json([
-                    'success' => false,
-                    'errors' => $menu->errors
-        ]);
+        return $this->errores($menu->errors);
     }
 
     /**
@@ -168,25 +149,17 @@ class MenuController extends Controller {
      * @return Response
      */
     public function destroy() {
-        /*Capturamos los datos enviados por ajax*/
+        /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $menus = json_decode($json);
         /* les damos eliminacion pasavida */
-       $data = Menu::destroy($menus->idMenu);
-       if ($data):
-          /* si todo sale bien enviamos el mensaje de exito*/
-        return Response::json([
-                    'success' => TRUE,
-                    'message' => 'Se desactivo con exito!!!'
-        ]);  
+        $data = Menu::destroy($menus->idMenu);
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
         endif;
-        /* si hay algun error  los enviamos de regreso*/
-       
-         return Response::json([
-                        'success' => false,
-                        'errors' => $data->errors
-            ]);
-        
+        /* si hay algun error  los enviamos de regreso */
+       return $this->errores($data->errors);
     }
 
     /**
@@ -196,26 +169,18 @@ class MenuController extends Controller {
      * @return Response
      */
     public function active() {
-        /*Capturamos los datos enviados por ajax*/
+        /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $menus = json_decode($json);
-         /* les quitamos la eliminacion pasavida */
-       $data = Menu::onlyTrashed()->find($menus->idMenu);
-       if ($data):
+        /* les quitamos la eliminacion pasavida */
+        $data = Menu::onlyTrashed()->find($menus->idMenu);
+        if ($data):
             $data->restore();
-     /* si todo sale bien enviamos el mensaje de exito*/
-        return Response::json([
-                    'success' => TRUE,
-                    'message' => 'Se Activo con exito!!!'
-        ]);
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
         endif;
-         /* si hay algun error  los enviamos de regreso*/
-       
-                 return Response::json([
-                        'success' => false,
-                        'errors' => $data->errors
-            ]);
-      
+        /* si hay algun error  los enviamos de regreso */
+       return $this->errores($data->errors);
     }
 
 }

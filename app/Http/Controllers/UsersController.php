@@ -14,8 +14,10 @@ class UsersController extends Controller {
 	 */
 	public function index()
 	{
+           
             $json= User::all();
             echo json_encode($json);
+            
 	}
 
 	/**
