@@ -38,12 +38,14 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 /**
  *  Rutas de Menu
  */
-Route::get('usuarios/ver-usuarios','MenuController@index');
-Route::get('usuarios/registrar-usuarios','MenuController@create');
-Route::post('usuarios/save-usuarios','MenuController@store');
-Route::get('usuarios/{id}/editar-usuarios','MenuController@edit');
-Route::delete('usuarios/delete-usuarios/{id}','MenuController@destroy');
-Route::put('usuarios/update-usuarios/{id}','MenuController@update');
+Route::get('usuarios','UsersController@index');
+Route::get('usuarios/ver-usuarios',['as'=>'ver-usuarios','uses'=>'UsersController@index']);
+Route::get('usuarios/registrar-usuarios','UsersController@create');
+Route::post('usuarios/save-usuarios','UsersController@store');
+Route::get('usuarios/{id}/editar-usuarios',['as'=>'ver-usuarios','uses'=>'UsersController@edit']);
+Route::delete('usuarios/delete-usuarios/{id}',['as'=>'delete-usuarios','uses'=>'UsersController@destroy']);
+Route::patch('usuarios/active-usuarios/{id}',['as' => 'active-usuarios', 'uses' => 'UsersController@active']);
+Route::put('usuarios/update-usuarios/{id}','UsersController@update');
 /**
  * Fin Rutas Menu
 */

@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\User;
+use Mep\Models\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
