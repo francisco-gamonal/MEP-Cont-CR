@@ -27,8 +27,8 @@
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Menú</a></li>
-				<li class="active-page"><a>Ver Menú</a></li>
+				<li><a>Usuarios</a></li>
+				<li class="active-page"><a>Ver Usuarios</a></li>
 			</ul>
 		</div>
 	</aside>

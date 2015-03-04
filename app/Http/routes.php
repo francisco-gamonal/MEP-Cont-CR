@@ -24,7 +24,7 @@ Route::get('test','TestController@index');
  *  Rutas de Menu
  */
 Route::get('menu','MenuController@index');
-Route::get('menu/ver-menu','MenuController@index');
+Route::get('menu/ver-menu',['as'=> 'ver-menu', 'uses' => 'MenuController@index']);
 Route::get('menu/registrar-menu','MenuController@create');
 Route::post('menu/save-menu','MenuController@store');
 Route::get('menu/editar-menu/{id}', ['as' => 'edit-menu', 'uses' =>'MenuController@edit']);

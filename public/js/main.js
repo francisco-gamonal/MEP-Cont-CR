@@ -209,6 +209,7 @@ $(function(){
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);
+			location.reload();
 		});
 	});
 
@@ -223,6 +224,7 @@ $(function(){
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);
+			location.reload();
 		});
 	});
 
