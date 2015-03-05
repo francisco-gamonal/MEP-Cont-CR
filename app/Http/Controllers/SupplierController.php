@@ -56,7 +56,7 @@ class SupplierController extends Controller {
             $suppliers->name = strtoupper($ValidationData['name']);
             $suppliers->email = strtoupper($ValidationData['email']);
             $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'], true)));
+            $suppliers->token = Crypt::encrypt($ValidationData['charter']);
             $suppliers->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSupplier = $suppliers->LastId();
@@ -120,7 +120,7 @@ class SupplierController extends Controller {
             $suppliers->name = strtoupper($ValidationData['name']);
             $suppliers->email = strtoupper($ValidationData['email']);
             $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'], true)));
+            $suppliers->token = $supplier->tokenSupplier;
             $suppliers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($supplier->statusSupplier == true):
