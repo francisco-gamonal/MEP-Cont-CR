@@ -106,7 +106,7 @@ class TypeUsersController extends Controller {
         $json = Input::get('data');
         $TypeUser = json_decode($json);
         /* les damos eliminacion pasavida */
-        $data = TypeUser::destroy($TypeUser->idMenu);
+        $data = TypeUser::destroy($TypeUser->idTypeUser);
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -126,7 +126,7 @@ class TypeUsersController extends Controller {
         $json = Input::get('data');
         $TypeUser = json_decode($json);
         /* les quitamos la eliminacion pasavida */
-        $data = Menu::onlyTrashed()->find($TypeUser->idMenu);
+        $data = TypeUser::onlyTrashed()->find($TypeUser->idTypeUser);
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
