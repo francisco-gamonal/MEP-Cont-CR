@@ -39,9 +39,9 @@
 		<section class="row">
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="charterSupplier">Charter del Proveedor</label>
+					<label for="charterSupplier">Cédula del Proveedor</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 				      	<input id="charterSupplier" class="form-control" type="text">
 					</div>
 				</div>
