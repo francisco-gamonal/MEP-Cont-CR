@@ -30,7 +30,7 @@ class MenuController extends Controller {
     public function index() {
         $menus = Menu::withTrashed()->get();
         $tasks = Task::all();
-        return view('menu.index', compact('menus', 'tasks'));
+        return view('menus.index', compact('menus', 'tasks'));
     }
 
     /**
@@ -40,7 +40,7 @@ class MenuController extends Controller {
      */
     public function create() {
         $tasks = Task::all();
-        return view('menu.create')->with('tasks', $tasks);
+        return view('menus.create')->with('tasks', $tasks);
     }
 
     /**
@@ -96,7 +96,7 @@ class MenuController extends Controller {
      */
     public function edit($id) {
         $menu = Menu::withTrashed()->find($id);
-        return view('menu.edit', compact('menu'));
+        return view('menus.edit', compact('menu'));
     }
 
     /**

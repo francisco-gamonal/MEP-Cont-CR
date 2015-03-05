@@ -39,7 +39,7 @@
 		<section class="row">
 			<div class="table-data">
 				<div class="table-header">
-					<h5><strong>Lista de Menú</strong></h5>
+					<h5><strong>Lista de Usuarios</strong></h5>
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">

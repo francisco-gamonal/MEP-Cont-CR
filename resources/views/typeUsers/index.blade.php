@@ -23,12 +23,12 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Menú</h2>
+		<h2>Tipos de Usuarios</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Menú</a></li>
-				<li class="active-page"><a>Ver Menú</a></li>
+				<li><a>Tipos de Usuarios</a></li>
+				<li class="active-page"><a>Ver Tipos de Usuarios</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -39,54 +39,42 @@
 		<section class="row">
 			<div class="table-data">
 				<div class="table-header">
-					<h5><strong>Lista de Menú</strong></h5>
+					<h5><strong>Lista de Tipos de Usuarios</strong></h5>
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">
-						<table id="table_menu" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+						<table id="table_type_user" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
 	                                <th>Código</th>
 	                                <th>Nombre</th>
-	                                <th>Url</th>
-	                                @foreach($tasks as $task)
-										<th>{{$task->name}}</th>
-	                                @endforeach
 	                                <th>Estado</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($menus as $menu)
+	                        	@foreach($typeUsers as $typeUser)
 		                            <tr>
-		                                <td class="text-center iglesia_number">{{$menu->id}}</td>
-		                                <td class="iglesia_name">{{$menu->name}}</td>
-		                                <td class="iglesia_url">{{$menu->url}}</td>
-			                            @foreach($menu->Tasks as $taskMenu)
-		                                	@if($taskMenu->pivot->status == 0)
-		                                		<td class="text-center">-</td>
-		                                	@else
-		                                		<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
-		                                	@endif
-		                                @endforeach
+		                                <td class="text-center type_user_number">{{$typeUser->id}}</td>
+		                                <td class="text-center type_user_name">{{mb_convert_case($typeUser->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
-		                                	@if($menu->deleted_at)
+		                                	@if($typeUser->deleted_at)
 												Inactivo
 		                                	@else
 												Activo
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-	                                		@if($menu->deleted_at)
-	                                			<a id="active" data-url="menu" href="#">
+	                                		@if($typeUser->deleted_at)
+	                                			<a id="activeTypeUser" data-url="tipos-de-usuarios" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="delete" data-url="menu" href="#">
+	                                			<a id="deleteTypeUser" data-url="tipos-de-usuarios" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('edit-tipo-de-usuario', $typeUser->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

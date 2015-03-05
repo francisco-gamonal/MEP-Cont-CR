@@ -36,16 +36,32 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 */
 
 /**
- * Menu Tipo de Usuarios
+ * Tipo de Usuarios
  */
-//Route::get('tipo-de-usuarios','TypeUsersController@index');
-Route::get('tipo-de-usuario/ver-tipo-de-usuario',['as'=>'ver-tipo-de-usuario','uses'=>'TypeUsersController@index']);
-Route::get('tipo-de-usuario/registrar-tipo-de-usuario','TypeUsersController@create');
-Route::post('tipo-de-usuario/save-tipo-de-usuario','TypeUsersController@store');
-Route::get('tipo-de-usuario/editar-tipo-de-usuario/{id}',['as'=>'edit-tipo-de-usuario','uses'=>'TypeUsersController@edit']);
-Route::delete('tipo-de-usuario/delete-tipo-de-usuario/{id}',['as'=>'delete-tipo-de-usuario','uses'=>'TypeUsersController@destroy']);
-Route::patch('tipo-de-usuario/active-tipo-de-usuario/{id}',['as' => 'active-tipo-de-usuario', 'uses' => 'TypeUsersController@active']);
-Route::put('tipo-de-usuario/update-tipo-de-usuario/{id}','TypeUsersController@update');
+//Route::get('tipo-de-usuario','TypeUsersController@index');
+Route::get('tipos-de-usuarios/ver-tipos-de-usuarios',['as'=>'ver-tipos-de-usuarios','uses'=>'TypeUsersController@index']);
+Route::get('tipos-de-usuarios/registrar-tipo-de-usuario','TypeUsersController@create');
+Route::post('tipos-de-usuarios/save-tipos-de-usuarios','TypeUsersController@store');
+Route::get('tipos-de-usuarios/editar-tipo-de-usuario/{id}',['as'=>'edit-tipo-de-usuario','uses'=>'TypeUsersController@edit']);
+Route::delete('tipos-de-usuarios/delete-tipos-de-usuarios/{id}',['as'=>'delete-tipo-de-usuario','uses'=>'TypeUsersController@destroy']);
+Route::patch('tipos-de-usuarios/active-tipos-de-usuarios/{id}',['as' => 'active-tipo-de-usuario', 'uses' => 'TypeUsersController@active']);
+Route::put('tipos-de-usuarios/update-tipos-de-usuarios/{id}','TypeUsersController@update');
+/**
+ * 
+ */
+
+
+/**
+ * Proveedores
+ */
+//Route::get('tipo-de-usuarios','SupplierController@index');
+Route::get('proveedores/ver-proveedores',['as'=>'ver-proveedores','uses'=>'SupplierController@index']);
+Route::get('proveedores/registrar-proveedor','SupplierController@create');
+Route::post('proveedores/save-proveedor','SupplierController@store');
+Route::get('proveedores/editar-proveedor/{token}',['as'=>'edit-proveedor','uses'=>'SupplierController@edit']);
+Route::delete('proveedores/delete-proveedor/{token}',['as'=>'delete-proveedor','uses'=>'SupplierController@destroy']);
+Route::patch('proveedores/active-proveedor/{token}',['as' => 'active-proveedor', 'uses' => 'SupplierController@active']);
+Route::put('proveedores/update-proveedor/{token}','SupplierController@update');
 /**
  * 
  */

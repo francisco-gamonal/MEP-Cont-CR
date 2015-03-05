@@ -20,7 +20,7 @@ class TypeUsersController extends Controller {
      */
     public function index() {
         $typeUsers = TypeUser::withTrashed()->get();
-        return view('typeUser.index', compact('typeUsers'));
+        return view('typeUsers.index', compact('typeUsers'));
     }
 
 
@@ -30,7 +30,7 @@ class TypeUsersController extends Controller {
      * @return Response
      */
     public function create() {
-        return view('typeUser.create');
+        return view('typeUsers.create');
     }
 
     /**
@@ -43,7 +43,7 @@ class TypeUsersController extends Controller {
         $json = Input::get('data');
         $typeUser = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('name' => $typeUser->name_type_user);
+        $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
         $typeUsers = new TypeUser;
         /* Validamos los datos para guardar tabla menu */
@@ -53,7 +53,7 @@ class TypeUsersController extends Controller {
             /* Traemos el id del tipo de usuario que se acaba de */
             $newType = $typeUsers->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($typeUser->state_type_user == true):
+            if ($typeUser->statusTypeUser == true):
                 TypeUser::withTrashed()->find($newType->id)->restore();
             else:
                 TypeUser::destroy($newType->id);
@@ -82,8 +82,8 @@ class TypeUsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $TypeUser = TypeUser::withTrashed()->find($id);
-        return view('typeUser.edit', compact('TypeUser'));
+        $typeUser = TypeUser::withTrashed()->find($id);
+        return view('typeUsers.edit', compact('typeUser'));
     }
 
     /**
@@ -97,18 +97,18 @@ class TypeUsersController extends Controller {
         $json = Input::get('data');
         $typeUser = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('name' => $typeUser->name_type_user);
+        $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
-        $typeUsers =  TypeUser::withTrashed()->find($typeUser->id_type_user);
+        $typeUsers =  TypeUser::withTrashed()->find($typeUser->idTypeUser);
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
             $typeUsers->name = strtoupper($ValidationData['name']);
             $typeUsers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($typeUser->status_type_user == true):
-                TypeUser::withTrashed()->find($typeUser->id_type_user)->restore();
+            if ($typeUser->statusTypeUser == true):
+                TypeUser::withTrashed()->find($typeUser->idTypeUser)->restore();
             else:
-                TypeUser::destroy($typeUser->id_type_user);
+                TypeUser::destroy($typeUser->idTypeUser);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');

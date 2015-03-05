@@ -23,12 +23,12 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Tipo de Usuario</h2>
+		<h2>Menú</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Tipo de Usuario</a></li>
-				<li class="active-page"><a>Ver Tipo de Usuario</a></li>
+				<li><a>Menú</a></li>
+				<li class="active-page"><a>Ver Menú</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -43,38 +43,50 @@
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">
-						<table id="table_type_user" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+						<table id="table_menu" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
 	                                <th>Código</th>
 	                                <th>Nombre</th>
+	                                <th>Url</th>
+	                                @foreach($tasks as $task)
+										<th>{{$task->name}}</th>
+	                                @endforeach
 	                                <th>Estado</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($typeUsers as $type_user)
+	                        	@foreach($menus as $menu)
 		                            <tr>
-		                                <td class="text-center type_user_number">{{$type_user->id}}</td>
-		                                <td class="text-center type_user_name">{{$type_user->name}}</td>
+		                                <td class="text-center iglesia_number">{{$menu->id}}</td>
+		                                <td class="iglesia_name">{{strtolower($menu->name)}}</td>
+		                                <td class="iglesia_url">{{strtolower($menu->url)}}</td>
+			                            @foreach($menu->Tasks as $taskMenu)
+		                                	@if($taskMenu->pivot->status == 0)
+		                                		<td class="text-center">-</td>
+		                                	@else
+		                                		<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+		                                	@endif
+		                                @endforeach
 		                                <td class="text-center">
-		                                	@if($type_user->deleted_at)
+		                                	@if($menu->deleted_at)
 												Inactivo
 		                                	@else
 												Activo
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-	                                		@if($type_user->deleted_at)
-	                                			<a id="active_type_user" data-url="tipo-de-usuario" href="#">
+	                                		@if($menu->deleted_at)
+	                                			<a id="activeMenu" data-url="menu" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="delete_type_user" data-url="tipo-de-usuario" href="#">
+	                                			<a id="deleteMenu" data-url="menu" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-tipo-de-usuario', $type_user->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('edit-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

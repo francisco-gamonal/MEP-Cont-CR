@@ -23,11 +23,11 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Tipo de Usuario</h2>
+		<h2>Tipos de Usuarios</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Tipo de Usuario</a></li>
+				<li><a>Tipos de Usuarios</a></li>
 				<li class="active-page"><a>Editar Tipo de Usuario</a></li>
 			</ul>
 		</div>
@@ -39,38 +39,38 @@
 		<section class="row">
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="id_type_user">Código del Tipo de Usuario</label>
+					<label for="idTypeUser">Código del Tipo de Usuario</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-key"></i></span>
-				      	<input id="id_type_user" class="form-control" type="text" value="{{$TypeUser->id}}" disabled>
+				      	<input id="idTypeUser" class="form-control" type="text" value="{{$typeUser->id}}" disabled>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="name_type_user">Nombre del Tipo de Usuario</label>
+					<label for="nameTypeUser">Nombre del Tipo de Usuario</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
-				      	<input id="name_type_user" class="form-control" type="text" value="{{$TypeUser->name}}">
+				      	<input id="nameTypeUser" class="form-control" type="text" value="{{mb_convert_case($typeUser->name, MB_CASE_TITLE, 'utf-8')}}">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="statusMenu">Estado del Menú</label>
+					<label for="statusTypeUser">Estado del Menú</label>
 					<div class="row">
-						@if($TypeUser->deleted_at)
-				      		<input id="status_type_user" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
+						@if($typeUser->deleted_at)
+				      		<input id="statusTypeUser" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
 				      	@else
-							<input id="status_type_user" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+							<input id="statusTypeUser" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
 				      	@endif
 			      	</div>
 				</div>
 			</div>
 		</section>
 		<div class="row text-center">
-			<a href="{{route('ver-tipo-de-usuario')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="update_type_user" data-url="tipo-de-usuario" class="btn btn-success">Actualizar Menú</a>
+			<a href="{{route('ver-tipos-de-usuarios')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+			<a href="#" id="updateTypeUser" data-url="tipos-de-usuarios" class="btn btn-success">Actualizar Menú</a>
 		</div>
 	</div>
 @stop

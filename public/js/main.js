@@ -146,14 +146,12 @@ $(function(){
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
 
 	//Save Menu
-	$(document).off('click', '#save');
-	$(document).on('click', '#save', function(e){
+	$(document).off('click', '#saveMenu');
+	$(document).on('click', '#saveMenu', function(e){
 		e.preventDefault();
 		var url;
 		var stateTasks = [];
 		var idTasks = [];
-		var nameMenu;
-		var urlMenu;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
 		$('.task_menu').each(function(index){
@@ -171,18 +169,17 @@ $(function(){
 	});
 
 	//Update Menu
-	$(document).off('click', '#update');
-	$(document).on('click', '#update', function(e){
+	$(document).off('click', '#updateMenu');
+	$(document).on('click', '#updateMenu', function(e){
 		e.preventDefault();
 		var url;
 		var idMenu;
 		var statusMenu;
 		var stateTasks = [];
 		var idTasks = [];
-		var nameMenu;
 		url = $(this).data('url');
 		idMenu = $('#idMenu').val();
-		statusMenu = $('#status_menu').bootstrapSwitch('state');
+		statusMenu = $('#statusMenu').bootstrapSwitch('state');
 		url = url + '/update-' + url + '/' + idMenu;
 		$('.task_menu').each(function(index){
 			stateTasks[index] = $(this).bootstrapSwitch('state');
@@ -201,8 +198,8 @@ $(function(){
 	});
 
 	//Active Menu
-	$(document).off('click', '#active');
-	$(document).on('click', '#active', function(e){
+	$(document).off('click', '#activeMenu');
+	$(document).on('click', '#activeMenu', function(e){
 		e.preventDefault();
 		var url;
 		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
@@ -217,8 +214,8 @@ $(function(){
 	});
 
 	//Delete Menu
-	$(document).off('click', '#delete');
-	$(document).on('click', '#delete', function(e){
+	$(document).off('click', '#deleteMenu');
+	$(document).on('click', '#deleteMenu', function(e){
 		e.preventDefault();
 		var url;
 		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
@@ -232,15 +229,15 @@ $(function(){
 	});
 
 	//Save Type User
-	$(document).off('click', '#save_type_user');
-	$(document).on('click', '#save_type_user', function(e){
+	$(document).off('click', '#saveTypeUser');
+	$(document).on('click', '#saveTypeUser', function(e){
 		e.preventDefault();
-		var name_type_user;
-		var state_type_user;
+		var nameTypeUser;
+		var statusTypeUser;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
-		data.name_type_user = $('#name_type_user').val();
-		data.state_type_user = $('#status_type_user').bootstrapSwitch('state');
+		data.nameTypeUser = $('#nameTypeUser').val();
+		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
@@ -248,19 +245,17 @@ $(function(){
 	});
 
 	//Update Type User
-	$(document).off('click', '#update_type_user');
-	$(document).on('click', '#update_type_user', function(e){
+	$(document).off('click', '#updateTypeUser');
+	$(document).on('click', '#updateTypeUser', function(e){
 		e.preventDefault();
 		var url;
-		var id_type_user;
-		var name_type_user;
-		var status_type_user;
-		id_type_user = $('#id_type_user').val();
+		var idTypeUser;
+		idTypeUser = $('#idTypeUser').val();
 		url = $(this).data('url');
-		url = url + '/update-' + url + '/' + id_type_user;
-		data.id_type_user = $('#id_type_user').val();
-		data.name_type_user = $('#name_type_user').val();
-		data.status_type_user = $('#status_type_user').bootstrapSwitch('state');;
+		url = url + '/update-' + url + '/' + idTypeUser;
+		data.idTypeUser = idTypeUser;
+		data.nameTypeUser = $('#nameTypeUser').val();
+		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);
@@ -268,8 +263,8 @@ $(function(){
 	});
 
 	//Active Type User
-	$(document).off('click', '#active_type_user');
-	$(document).on('click', '#active_type_user', function(e){
+	$(document).off('click', '#activeTypeUser');
+	$(document).on('click', '#activeTypeUser', function(e){
 		e.preventDefault();
 		var url;
 		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
@@ -283,8 +278,8 @@ $(function(){
 	});
 
 	//Delete Type User
-	$(document).off('click', '#delete_type_user');
-	$(document).on('click', '#delete_type_user', function(e){
+	$(document).off('click', '#deleteTypeUser');
+	$(document).on('click', '#deleteTypeUser', function(e){
 		e.preventDefault();
 		var url;
 		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
