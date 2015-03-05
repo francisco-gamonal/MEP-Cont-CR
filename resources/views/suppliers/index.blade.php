@@ -57,7 +57,7 @@
 	                        <tbody>
 	                        	@foreach($suppliers as $supplier)
 		                            <tr>
-		                            	<input id="tokenSupplier" type="hidden" data-token="{{$supplier->token}}">
+		                            	<input id="tokenSupplier" type="hidden" value="{{$supplier->token}}">
 		                                <td class="text-center">{{mb_convert_case($supplier->charter, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">{{mb_convert_case($supplier->name, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">{{$supplier->phone}}</td>

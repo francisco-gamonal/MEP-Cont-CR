@@ -347,6 +347,37 @@ $(function(){
 		});
 	});
 
+	//Active Supplier
+	$(document).off('click', '#activeSupplier');
+	$(document).on('click', '#activeSupplier', function(e){
+		e.preventDefault();
+		var url;
+		var tokenSupplier  = $(this).parent().parent().find('#tokenSupplier').val();
+		url                = $(this).data('url');
+		url                = url + '/active-' + url + '/' + tokenSupplier;
+		data.tokenSupplier = tokenSupplier;
+		console.log(data, url);return;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Type User
+	$(document).off('click', '#deleteSupplier');
+	$(document).on('click', '#deleteSupplier', function(e){
+		e.preventDefault();
+		var url;
+		var tokenSupplier  = $(this).parent().parent().find('#tokenSupplier').val();
+		url                = $(this).data('url');
+		url                = url + '/delete-' + url + '/' + tokenSupplier;
+		data.tokenSupplier = tokenSupplier;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 
 	/**
 	 * End Supplier
