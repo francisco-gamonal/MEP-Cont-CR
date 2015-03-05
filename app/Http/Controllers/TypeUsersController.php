@@ -2,8 +2,11 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\TypeUser;
+use Mep\Models\TypeUser;
 use Illuminate\Http\Request;
+use Input;
+use Illuminate\Validation;
+use Illuminate\Support\Facades\Response;
 
 class TypeUsersController extends Controller {
 
@@ -14,8 +17,8 @@ class TypeUsersController extends Controller {
 	 */
 	public function index()
 	{
-		//
-		return view('typeUser.index');
+		$typeUser = TypeUser::withTrashed()->get();
+		return view('typeUser.index',  compact('typeUser'));
 	}
 
 	/**
@@ -35,7 +38,31 @@ class TypeUsersController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		/* Capturamos los datos enviados por ajax */
+        $json = Input::get('data');
+        $typeUser = json_decode($json);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('name' => $typeUser->name_type_user);
+        
+        /* Declaramos las clases a utilizar */
+        $typeUsers = new TypeUser;
+        /* Validamos los datos para guardar tabla menu */
+        if ($typeUsers->isValid((array) $ValidationData)):
+            $typeUsers->name = ($ValidationData['name']);
+            $typeUsers->save();
+            $newType = $typeUsers->LastId();
+           
+             /**/
+        if ($typeUser->state_type_user == true):
+            TypeUser::withTrashed()->find($newType->id)->restore();
+        else:
+            TypeUser::destroy($newType->id);
+        endif;
+           /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($typeUsers->errors);
 	}
 
 	/**
