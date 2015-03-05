@@ -15,6 +15,7 @@ class TypeUsersController extends Controller {
 	public function index()
 	{
 		//
+		return view('typeUser.create');
 	}
 
 	/**

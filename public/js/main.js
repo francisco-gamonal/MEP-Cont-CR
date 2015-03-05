@@ -198,6 +198,7 @@ $(function(){
 		})
 	});
 
+	//Active Menu
 	$(document).off('click', '#active');
 	$(document).on('click', '#active', function(e){
 		e.preventDefault();
@@ -213,6 +214,7 @@ $(function(){
 		});
 	});
 
+	//Delete Menu
 	$(document).off('click', '#delete');
 	$(document).on('click', '#delete', function(e){
 		e.preventDefault();
@@ -226,6 +228,22 @@ $(function(){
 			messageAjax(data);
 			location.reload();
 		});
+	});
+
+	//Save Menu
+	$(document).off('click', '#save_type_user');
+	$(document).on('click', '#save_type_user', function(e){
+		e.preventDefault();
+		var name_type_user;
+		var state_type_user;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.name_type_user = $('#name_type_user').val();
+		data.state_type_user = $('#status_type_user').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
 	});
 
 	dataTable('#table_id', 'menu');
