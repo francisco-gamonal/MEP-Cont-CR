@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="idMenu">Código del Menú</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+						<span class="input-group-addon"><i class="fa fa-key"></i></span>
 				      	<input id="idMenu" class="form-control" type="text" value="{{$menu->id}}" disabled>
 					</div>
 				</div>

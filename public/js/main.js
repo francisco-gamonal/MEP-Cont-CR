@@ -246,5 +246,6 @@ $(function(){
 		})
 	});
 
-	dataTable('#table_id', 'menu');
+	dataTable('#table_menu', 'menús');
+	dataTable('#table_type_user', 'tipo de usuarios');
 });
