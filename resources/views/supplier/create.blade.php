@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Proveedores</a></li>
-				<li class="active-page"><a>Crer Proveedor</a></li>
+				<li class="active-page"><a>Crear Proveedor</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -39,44 +39,51 @@
 		<section class="row">
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="name_supplier">Nombre del Proveedor</label>
+					<label for="charterSupplier">Charter del Proveedor</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-user"></i></span>
-				      	<input id="name_supplier" class="form-control" type="text">
+				      	<input id="charterSupplier" class="form-control" type="text">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="phone_supplier">Teléfono del Proveedor</label>
+					<label for="nameSupplier">Nombre del Proveedor</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-user"></i></span>
-				      	<input id="phone_supplier" class="form-control" type="text">
+				      	<input id="nameSupplier" class="form-control" type="text">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="phone_supplier">Teléfono del Proveedor</label>
+					<label for="phoneSupplier">Teléfono del Proveedor</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
-				      	<input id="phone_supplier" class="form-control" type="text">
+						<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+				      	<input id="phoneSupplier" class="form-control" type="phone">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="email_supplier">Teléfono del Proveedor</label>
+					<label for="emailSupplier">Email del Proveedor</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
-				      	<input id="email_supplier" class="form-control" type="text">
+						<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+				      	<input id="emailSupplier" class="form-control" type="email">
 					</div>
 				</div>
 			</div>
-			
-			<div class="row text-center">
-				<a href="#" id="save_type_user" data-url="tipo-de-usuario" class="btn btn-success">Grabar Tipo de Usuario</a>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="statusSupplier">Estado del Proveedor</label>
+					<div class="row">
+			      		<input id="statusSupplier" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+			      	</div>
+				</div>
 			</div>
 		</section>
+		<div class="row text-center">
+			<a href="#" id="saveSupplier" data-url="proveedores" class="btn btn-success">Grabar Proveedor</a>
+		</div>
 	</div>
 @stop

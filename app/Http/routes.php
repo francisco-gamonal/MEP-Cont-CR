@@ -57,7 +57,7 @@ Route::put('tipos-de-usuarios/update-tipos-de-usuarios/{id}','TypeUsersControlle
 //Route::get('tipo-de-usuarios','SupplierController@index');
 Route::get('proveedores/ver-proveedores',['as'=>'ver-proveedores','uses'=>'SupplierController@index']);
 Route::get('proveedores/registrar-proveedor','SupplierController@create');
-Route::post('proveedores/save-proveedor','SupplierController@store');
+Route::post('proveedores/save-proveedores','SupplierController@store');
 Route::get('proveedores/editar-proveedor/{token}',['as'=>'edit-proveedor','uses'=>'SupplierController@edit']);
 Route::delete('proveedores/delete-proveedor/{token}',['as'=>'delete-proveedor','uses'=>'SupplierController@destroy']);
 Route::patch('proveedores/active-proveedor/{token}',['as' => 'active-proveedor', 'uses' => 'SupplierController@active']);

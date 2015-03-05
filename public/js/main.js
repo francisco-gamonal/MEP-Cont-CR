@@ -145,6 +145,11 @@ $(function(){
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
 
+
+	/**
+	 * Menu
+	 */
+	
 	//Save Menu
 	$(document).off('click', '#saveMenu');
 	$(document).on('click', '#saveMenu', function(e){
@@ -228,12 +233,17 @@ $(function(){
 		});
 	});
 
+	/**
+	 * End Menu
+	 */
+
+	/**
+	 * Type User
+	 */
 	//Save Type User
 	$(document).off('click', '#saveTypeUser');
 	$(document).on('click', '#saveTypeUser', function(e){
 		e.preventDefault();
-		var nameTypeUser;
-		var statusTypeUser;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
 		data.nameTypeUser = $('#nameTypeUser').val();
@@ -291,6 +301,35 @@ $(function(){
 			messageAjax(data);
 		});
 	});
+
+	/**
+	 * End Type User
+	 */
+
+	/**
+	 * Supplier
+	 */
+	//Save Supplier
+	$(document).off('click', '#saveSupplier');
+	$(document).on('click', '#saveSupplier', function(e){
+		e.preventDefault();
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.charterSupplier = $('#charterSupplier').val();
+		data.nameSupplier    = $('#nameSupplier').val();
+		data.phoneSupplier   = $('#phoneSupplier').val();
+		data.emailSupplier   = $('#emailSupplier').val();
+		data.statusSupplier  = $('#statusSupplier').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+
+	/**
+	 * End Supplier
+	 */
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipo de usuarios');
