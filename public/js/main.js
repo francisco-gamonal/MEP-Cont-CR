@@ -161,11 +161,11 @@ $(function(){
 		url = url + '/save-' + url;
 		$('.task_menu').each(function(index){
 			stateTasks[index] = $(this).bootstrapSwitch('state');
-			idTasks[index] = $(this).data('id');
+			idTasks[index]    = $(this).data('id');
 		});
-		data.nameMenu = $('#nameMenu').val();
-		data.urlMenu = $('#urlMenu').val();
-		data.idTasks = idTasks;
+		data.nameMenu   = $('#nameMenu').val();
+		data.urlMenu    = $('#urlMenu').val();
+		data.idTasks    = idTasks;
 		data.stateTasks = stateTasks;
 		ajaxForm(url,'post',data)
 		.done( function (data) {
@@ -182,19 +182,19 @@ $(function(){
 		var statusMenu;
 		var stateTasks = [];
 		var idTasks = [];
-		url = $(this).data('url');
-		idMenu = $('#idMenu').val();
+		url        = $(this).data('url');
+		idMenu     = $('#idMenu').val();
 		statusMenu = $('#statusMenu').bootstrapSwitch('state');
-		url = url + '/update-' + url + '/' + idMenu;
+		url        = url + '/update-' + url + '/' + idMenu;
 		$('.task_menu').each(function(index){
 			stateTasks[index] = $(this).bootstrapSwitch('state');
-			idTasks[index] = $(this).data('id');
+			idTasks[index]    = $(this).data('id');
 		});
-		data.idMenu = idMenu;
+		data.idMenu     = idMenu;
 		data.statusMenu = statusMenu;
-		data.nameMenu = $('#nameMenu').val();
-		data.urlMenu = $('#urlMenu').val();
-		data.idTasks = idTasks;
+		data.nameMenu   = $('#nameMenu').val();
+		data.urlMenu    = $('#urlMenu').val();
+		data.idTasks    = idTasks;
 		data.stateTasks = stateTasks;
 		ajaxForm(url,'put',data)
 		.done( function (data) {
@@ -207,9 +207,9 @@ $(function(){
 	$(document).on('click', '#activeMenu', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
-		url = $(this).data('url');
-		url = url + '/active-' + url + '/' + idMenu;
+		var idMenu  = $(this).parent().parent().find('.iglesia_number').text();
+		url         = $(this).data('url');
+		url         = url + '/active-' + url + '/' + idMenu;
 		data.idMenu = idMenu;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -223,9 +223,9 @@ $(function(){
 	$(document).on('click', '#deleteMenu', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
-		url = $(this).data('url');
-		url = url + '/delete-' + url + '/' + idMenu;
+		var idMenu  = $(this).parent().parent().find('.iglesia_number').text();
+		url         = $(this).data('url');
+		url         = url + '/delete-' + url + '/' + idMenu;
 		data.idMenu = idMenu;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
@@ -246,7 +246,7 @@ $(function(){
 		e.preventDefault();
 		url = $(this).data('url');
 		url = url + '/save-' + url;
-		data.nameTypeUser = $('#nameTypeUser').val();
+		data.nameTypeUser   = $('#nameTypeUser').val();
 		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
@@ -263,8 +263,8 @@ $(function(){
 		idTypeUser = $('#idTypeUser').val();
 		url = $(this).data('url');
 		url = url + '/update-' + url + '/' + idTypeUser;
-		data.idTypeUser = idTypeUser;
-		data.nameTypeUser = $('#nameTypeUser').val();
+		data.idTypeUser     = idTypeUser;
+		data.nameTypeUser   = $('#nameTypeUser').val();
 		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
@@ -278,8 +278,8 @@ $(function(){
 		e.preventDefault();
 		var url;
 		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
-		url = $(this).data('url');
-		url = url + '/active-' + url + '/' + id_type_user;
+		url              = $(this).data('url');
+		url              = url + '/active-' + url + '/' + id_type_user;
 		data.idTypeUser = id_type_user;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -293,9 +293,9 @@ $(function(){
 		e.preventDefault();
 		var url;
 		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
-		url = $(this).data('url');
-		url = url + '/delete-' + url + '/' + id_type_user;
-		data.idTypeUser = id_type_user;
+		url              = $(this).data('url');
+		url              = url + '/delete-' + url + '/' + id_type_user;
+		data.idTypeUser  = id_type_user;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);
@@ -326,6 +326,27 @@ $(function(){
 		})
 	});
 
+	//Update Supplier
+	$(document).off('click', '#updateSupplier');
+	$(document).on('click', '#updateSupplier', function(e){
+		e.preventDefault();
+		var url;
+		var tokenSupplier;
+		tokenSupplier = $('#tokenSupplier').val();
+		url           = $(this).data('url');
+		url           = url + '/update-' + url + '/' + tokenSupplier;
+		data.tokenSupplier = tokenSupplier;
+		data.charterSupplier = $('#charterSupplier').val();
+		data.nameSupplier    = $('#nameSupplier').val();
+		data.phoneSupplier   = $('#phoneSupplier').val();
+		data.emailSupplier   = $('#emailSupplier').val();
+		data.statusSupplier  = $('#statusSupplier').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 
 	/**
 	 * End Supplier
@@ -333,4 +354,5 @@ $(function(){
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipo de usuarios');
+	dataTable('#table_supplier', 'tipo de usuarios');
 });

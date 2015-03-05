@@ -90,7 +90,7 @@ class SupplierController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $suppliers = Suppliers::withTrashed()->where('token','=',$token);
+        $suppliers = Suppliers::withTrashed()->where('token','=',$token)->get();
         return view('suppliers.edit', compact('suppliers'));
     }
 
