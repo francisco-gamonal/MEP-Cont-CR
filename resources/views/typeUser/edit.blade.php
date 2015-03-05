@@ -42,7 +42,7 @@
 					<label for="id_type_user">Código del Tipo de Usuario</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-key"></i></span>
-				      	<input id="id_type_user" class="form-control" type="text" value="{{$type_user->id}}" disabled>
+				      	<input id="id_type_user" class="form-control" type="text" value="{{$TypeUser->id}}" disabled>
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 					<label for="name_type_user">Nombre del Tipo de Usuario</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
-				      	<input id="name_type_user" class="form-control" type="text" value="{{$type_user->name}}">
+				      	<input id="name_type_user" class="form-control" type="text" value="{{$TypeUser->name}}">
 					</div>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="statusMenu">Estado del Menú</label>
 					<div class="row">
-						@if($type_user->deleted_at)
+						@if($TypeUser->deleted_at)
 				      		<input id="status_type_user" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
 				      	@else
 							<input id="status_type_user" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
@@ -67,10 +67,10 @@
 			      	</div>
 				</div>
 			</div>
-			<div class="row text-center">
-				<a href="{{route('ver-menu')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-				<a href="#" id="update" data-url="menu" class="btn btn-success">Actualizar Menú</a>
-			</div>
 		</section>
+		<div class="row text-center">
+			<a href="{{route('ver-tipo-de-usuario')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+			<a href="#" id="update_type_user" data-url="tipo-de-usuario" class="btn btn-success">Actualizar Menú</a>
+		</div>
 	</div>
 @stop

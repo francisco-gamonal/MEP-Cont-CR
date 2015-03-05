@@ -26,7 +26,9 @@ $(function(){
 	var messageAjax = function(data) {
 		$.unblockUI();
 		if(data.success){
-			bootbox.alert('<p class="success-ajax">'+data.message+'</p>');
+			bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
+				location.reload();
+			});;
 		}
 		else{
 			var errors = data.errors;
@@ -165,7 +167,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Update Menu
@@ -195,7 +197,7 @@ $(function(){
 		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Menu
@@ -226,7 +228,6 @@ $(function(){
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);
-			location.reload();
 		});
 	});
 
@@ -246,38 +247,55 @@ $(function(){
 		})
 	});
 
-	//Active Menu
-	$(document).off('click', '#active');
-	$(document).on('click', '#active', function(e){
+	//Update Type User
+	$(document).off('click', '#update_type_user');
+	$(document).on('click', '#update_type_user', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		var id_type_user;
+		var name_type_user;
+		var status_type_user;
+		id_type_user = $('#id_type_user').val();
 		url = $(this).data('url');
-		url = url + '/active-' + url + '/' + idMenu;
-		data.idMenu = idMenu;
+		url = url + '/update-' + url + '/' + id_type_user;
+		data.id_type_user = $('#id_type_user').val();
+		data.name_type_user = $('#name_type_user').val();
+		data.status_type_user = $('#status_type_user').bootstrapSwitch('state');;
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Active Type User
+	$(document).off('click', '#active_type_user');
+	$(document).on('click', '#active_type_user', function(e){
+		e.preventDefault();
+		var url;
+		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
+		url = $(this).data('url');
+		url = url + '/active-' + url + '/' + id_type_user;
+		data.idTypeUser = id_type_user;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);
-			location.reload();
 		});
 	});
 
-	//Delete Menu
-	$(document).off('click', '#delete');
-	$(document).on('click', '#delete', function(e){
+	//Delete Type User
+	$(document).off('click', '#delete_type_user');
+	$(document).on('click', '#delete_type_user', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
 		url = $(this).data('url');
-		url = url + '/delete-' + url + '/' + idMenu;
-		data.idMenu = idMenu;
+		url = url + '/delete-' + url + '/' + id_type_user;
+		data.idTypeUser = id_type_user;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);
-			location.reload();
 		});
 	});
-
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipo de usuarios');
