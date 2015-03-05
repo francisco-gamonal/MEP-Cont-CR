@@ -93,7 +93,28 @@ class TypeUsersController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+         /* Capturamos los datos enviados por ajax */
+        $json = Input::get('data');
+        $typeUser = json_decode($json);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('name' => $typeUser->name_type_user);
+        /* Declaramos las clases a utilizar */
+        $typeUsers =  TypeUser::withTrashed()->find($typeUser->id_type_user);
+        /* Validamos los datos para guardar tabla menu */
+        if ($typeUsers->isValid((array) $ValidationData)):
+            $typeUsers->name = ($ValidationData['name']);
+            $typeUsers->save();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($typeUser->status_type_user == true):
+                TypeUser::withTrashed()->find($typeUser->id_type_user)->restore();
+            else:
+                TypeUser::destroy($typeUser->id_type_user);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($typeUsers->errors);
     }
 
     /**
