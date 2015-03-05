@@ -12,28 +12,17 @@ use Illuminate\Support\Facades\Response;
 
 class TypeUsersController extends Controller {
 
-<<<<<<< HEAD
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
     public function index() {
-        $typeUser = TypeUser::withTrashed()->get();
-        return view('typeUser.index', compact('typeUser'));
+        $typeUsers = TypeUser::withTrashed()->get();
+        return view('typeUser.index', compact('typeUsers'));
     }
-=======
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$typeUsers = TypeUser::withTrashed()->get();
-		return view('typeUser.index',  compact('typeUsers'));
-	}
->>>>>>> origin/master
+
 
     /**
      * Show the form for creating a new resource.
@@ -112,8 +101,39 @@ class TypeUsersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
-        //
+     public function destroy() {
+        /* Capturamos los datos enviados por ajax */
+        $json = Input::get('data');
+        $TypeUser = json_decode($json);
+        /* les damos eliminacion pasavida */
+        $data = TypeUser::destroy($TypeUser->idMenu);
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+       return $this->errores($data->errors);
+    }
+
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active() {
+        /* Capturamos los datos enviados por ajax */
+        $json = Input::get('data');
+        $TypeUser = json_decode($json);
+        /* les quitamos la eliminacion pasavida */
+        $data = Menu::onlyTrashed()->find($TypeUser->idMenu);
+        if ($data):
+            $data->restore();
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+       return $this->errores($data->errors);
     }
 
 }
