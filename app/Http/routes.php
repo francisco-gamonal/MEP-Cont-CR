@@ -38,7 +38,7 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 /**
  * Tipo de Usuarios
  */
-//Route::get('tipo-de-usuario','TypeUsersController@index');
+Route::get('tipos-de-usuarios','TypeUsersController@index');
 Route::get('tipos-de-usuarios/ver-tipos-de-usuarios',['as'=>'ver-tipos-de-usuarios','uses'=>'TypeUsersController@index']);
 Route::get('tipos-de-usuarios/registrar-tipo-de-usuario','TypeUsersController@create');
 Route::post('tipos-de-usuarios/save-tipos-de-usuarios','TypeUsersController@store');
