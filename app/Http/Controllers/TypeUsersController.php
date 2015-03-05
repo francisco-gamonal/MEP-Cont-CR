@@ -82,7 +82,8 @@ class TypeUsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        //
+        $TypeUsers = TypeUser::withTrashed()->find($id);
+        return view('typeUser.edit', compact('TypeUsers'));
     }
 
     /**
