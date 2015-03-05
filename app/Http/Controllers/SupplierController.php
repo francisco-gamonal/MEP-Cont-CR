@@ -5,7 +5,7 @@ namespace Mep\Http\Controllers;
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Mep\Models\Suppliers;
+use Mep\Models\Supplier;
 use Input;
 use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
@@ -19,8 +19,8 @@ class SupplierController extends Controller {
      * @return Response
      */
     public function index() {
-       $suppliers = Suppliers::all();
-       return view('suppliers.index',  compact('suppliers'));
+        $suppliers = Supplier::withTrashed()->get();
+        return view('suppliers.index', compact('suppliers'));
     }
 
     /**
@@ -46,25 +46,25 @@ class SupplierController extends Controller {
         $ValidationData = array('charter' => $supplier->charterSupplier,
             'name' => $supplier->nameSupplier,
             'phone' => $supplier->phoneSupplier,
-            'token' => Crypt::encrypt($supplier->charterSupplier),  
+            'token' => Crypt::encrypt($supplier->charterSupplier),
             'email' => $supplier->emailSupplier);
         /* Declaramos las clases a utilizar */
-        $suppliers = new Suppliers;
+        $suppliers = new Supplier;
         /* Validamos los datos para guardar tabla menu */
         if ($suppliers->isValid((array) $ValidationData)):
             $suppliers->charter = strtoupper($ValidationData['charter']);
             $suppliers->name = strtoupper($ValidationData['name']);
             $suppliers->email = strtoupper($ValidationData['email']);
             $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'],true)));
+            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'], true)));
             $suppliers->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSupplier = $suppliers->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($supplier->statusSupplier == true):
-                Suppliers::withTrashed()->find($ultimoIdSupplier->id)->restore();
+                Supplier::withTrashed()->find($ultimoIdSupplier->id)->restore();
             else:
-                Suppliers::destroy($ultimoIdSupplier->id);
+                Supplier::destroy($ultimoIdSupplier->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -90,7 +90,7 @@ class SupplierController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $suppliers = Suppliers::withTrashed()->where('token','=',$token)->get();
+        $suppliers = Supplier::withTrashed()->where('token', '=', $token)->get();
         return view('suppliers.edit', compact('suppliers'));
     }
 
@@ -101,30 +101,32 @@ class SupplierController extends Controller {
      * @return Response
      */
     public function update($id) {
-         /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $supplier = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('charter' => $supplier->charterSupplier,
-            'name' => $supplier->nameSupplier,
-            'phone' => $supplier->phoneSupplier,
-            'token' => Crypt::encrypt($supplier->charterSupplier),  
-            'email' => $supplier->emailSupplier);
+            'name' => ($supplier->nameSupplier),
+            'phone' => ($supplier->phoneSupplier),
+            'token' => $supplier->tokenSupplier,
+            'email' => ($supplier->emailSupplier));
         /* Declaramos las clases a utilizar */
-        $suppliers = Suppliers::withTrashed()->where('token','=',Crypt::encrypt($supplier->charterSupplier));;
+       
+        $suppliers = Supplier::withTrashed()->where('token', '=', $supplier->tokenSupplier)->get();
+        $suppliers = Supplier::withTrashed()->find($suppliers[0]->id);
         /* Validamos los datos para guardar tabla menu */
         if ($suppliers->isValid((array) $ValidationData)):
             $suppliers->charter = strtoupper($ValidationData['charter']);
             $suppliers->name = strtoupper($ValidationData['name']);
             $suppliers->email = strtoupper($ValidationData['email']);
             $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'],true)));
+            $suppliers->token = sha1(md5(uniqid($ValidationData['charter'], true)));
             $suppliers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($supplier->statusSupplier == true):
-                Suppliers::withTrashed()->find($suppliers->id)->restore();
+                Supplier::withTrashed()->find($suppliers->id)->restore();
             else:
-                Suppliers::destroy($suppliers->id);
+                Supplier::destroy($suppliers->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -142,15 +144,15 @@ class SupplierController extends Controller {
     public function destroy() {
         /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
-        $TypeUser = json_decode($json);
+        $suppliers = json_decode($json);
         /* les damos eliminacion pasavida */
-        $data = Suppliers::destroy('token','=',$TypeUser->tokenTypeUser);
+        $data = Supplier::where('token', '=', $suppliers->tokenSupplier)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
     /**
@@ -162,16 +164,16 @@ class SupplierController extends Controller {
     public function active() {
         /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
-        $TypeUser = json_decode($json);
+        return $suppliers = json_decode($json);
         /* les quitamos la eliminacion pasavida */
-        $data = Suppliers::onlyTrashed()->where('token','=',$TypeUser->tokenTypeUser);
+        $data = Supplier::onlyTrashed()->where('token', '=', $suppliers->tokenSupplier);
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
 }

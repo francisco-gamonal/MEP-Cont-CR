@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Suppliers extends Model {
+class Supplier extends Model {
 
 	use SoftDeletes;
 
@@ -12,9 +12,19 @@ class Suppliers extends Model {
     protected $fillable = ['charter', 'name', 'phone', 'email','token'];
 
     public function LastId() {
-        return Menu::all()->last();
+        return Supplier::all()->last();
     }
-
+    public static function Token($token) {
+        $suppliers = Supplier::where('token', '=', $token)->get();
+        if($suppliers):
+            foreach ($suppliers AS $supplier):
+                return $supplier;
+            endforeach;
+        endif;
+        
+        return false;
+        
+    }
     public function isValid($data) {
         $rules = ['charter' => 'required|unique:suppliers',
         'name' => 'required',
