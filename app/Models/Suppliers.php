@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Suppliers extends Model {
 
-	  use SoftDeletes;
-
+	use SoftDeletes;
 
     // Don't forget to fill this array
     protected $fillable = ['charter', 'name', 'phone', 'email','token'];
@@ -21,7 +20,7 @@ class Suppliers extends Model {
         'name' => 'required',
         'phone' => 'required',
         'email' => 'required',
-            'token' => 'required|unique:suppliers'];
+        'token' => 'required|unique:suppliers'];
 
         if ($this->exists) {
             $rules['charter'] .= ',charter,' . $this->id;

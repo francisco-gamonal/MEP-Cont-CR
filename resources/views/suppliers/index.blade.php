@@ -23,7 +23,7 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Proveedores/h2>
+		<h2>Proveedores</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
@@ -58,7 +58,7 @@
 	                        	@foreach($suppliers as $supplier)
 		                            <tr>
 		                            	<input id="tokenSupplier" type="hidden" data-token="{{$supplier->token}}">
-		                                <td class="text-center">{{mb_convert_case($supplier->charter, MB_CASE_TITLE, 'utf-8'}}</td>
+		                                <td class="text-center">{{mb_convert_case($supplier->charter, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">{{mb_convert_case($supplier->name, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">{{$supplier->phone}}</td>
 		                                <td class="text-center">{{strtolower($supplier->email)}}</td>
@@ -79,7 +79,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-proveedor', $typeUser->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('edit-proveedor', $supplier->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

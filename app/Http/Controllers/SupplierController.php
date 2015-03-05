@@ -9,6 +9,8 @@ use Mep\Models\Suppliers;
 use Input;
 use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
+use Crypt;
+
 class SupplierController extends Controller {
 
     /**
@@ -44,7 +46,7 @@ class SupplierController extends Controller {
         $ValidationData = array('charter' => $supplier->charterSupplier,
             'name' => $supplier->nameSupplier,
             'phone' => $supplier->phoneSupplier,
-            'token' => sha1(md5(uniqid($supplier->charterSupplier,true))),
+            'token' => Crypt::encrypt($supplier->charterSupplier),  
             'email' => $supplier->emailSupplier);
         /* Declaramos las clases a utilizar */
         $suppliers = new Suppliers;
@@ -87,8 +89,8 @@ class SupplierController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id) {
-        $suppliers = Suppliers::withTrashed()->where('token','=',$id);
+    public function edit($token) {
+        $suppliers = Suppliers::withTrashed()->where('token','=',$token);
         return view('suppliers.edit', compact('suppliers'));
     }
 
