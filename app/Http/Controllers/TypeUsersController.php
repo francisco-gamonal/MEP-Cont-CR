@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Response;
 
 class TypeUsersController extends Controller {
 
+<<<<<<< HEAD
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +22,18 @@ class TypeUsersController extends Controller {
         $typeUser = TypeUser::withTrashed()->get();
         return view('typeUser.index', compact('typeUser'));
     }
+=======
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$typeUsers = TypeUser::withTrashed()->get();
+		return view('typeUser.index',  compact('typeUsers'));
+	}
+>>>>>>> origin/master
 
     /**
      * Show the form for creating a new resource.

@@ -43,7 +43,7 @@
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">
-						<table id="table_id" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+						<table id="table_type_user" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
 	                                <th>Código</th>
@@ -53,10 +53,10 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($type_users as $type_user)
+	                        	@foreach($typeUsers as $type_user)
 		                            <tr>
 		                                <td class="text-center type_user_number">{{$type_user->id}}</td>
-		                                <td class="type_user_name">{{$type_user->name}}</td>
+		                                <td class="text-center type_user_name">{{$type_user->name}}</td>
 		                                <td class="text-center">
 		                                	@if($type_user->deleted_at)
 												Inactivo
@@ -65,12 +65,12 @@
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-	                                		@if($menu->deleted_at)
-	                                			<a id="active" data-url="tipo-de-usuario" href="#">
+	                                		@if($type_user->deleted_at)
+	                                			<a id="active_type_user" data-url="tipo-de-usuario" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="delete" data-url="tipo-de-usuario" href="#">
+	                                			<a id="delete_type_user" data-url="tipo-de-usuario" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

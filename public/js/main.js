@@ -246,5 +246,39 @@ $(function(){
 		})
 	});
 
-	dataTable('#table_id', 'menu');
+	//Active Menu
+	$(document).off('click', '#active');
+	$(document).on('click', '#active', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		url = $(this).data('url');
+		url = url + '/active-' + url + '/' + idMenu;
+		data.idMenu = idMenu;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+			location.reload();
+		});
+	});
+
+	//Delete Menu
+	$(document).off('click', '#delete');
+	$(document).on('click', '#delete', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu = $(this).parent().parent().find('.iglesia_number').text();
+		url = $(this).data('url');
+		url = url + '/delete-' + url + '/' + idMenu;
+		data.idMenu = idMenu;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+			location.reload();
+		});
+	});
+
+
+	dataTable('#table_menu', 'menús');
+	dataTable('#table_type_user', 'tipo de usuarios');
 });
