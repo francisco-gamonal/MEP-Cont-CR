@@ -59,8 +59,8 @@ class MenuController extends Controller {
         $menu = new Menu;
         /* Validamos los datos para guardar tabla menu */
         if ($menu->isValid((array) $ValidationData)):
-            $menu->name = ($ValidationData['name']);
-            $menu->url = ($ValidationData['url']);
+            $menu->name = strtoupper($ValidationData['name']);
+            $menu->url = strtoupper($ValidationData['url']);
             $menu->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoInsert = $menu->LastId();
@@ -116,8 +116,8 @@ class MenuController extends Controller {
         $menu->Tasks()->detach();
         /* Validamos los datos para guardar tabla menu */
         if ($menu->isValid((array) $ValidationData)):
-            $menu->name = ($ValidationData['name']);
-            $menu->url = ($ValidationData['url']);
+            $menu->name = strtoupper($ValidationData['name']);
+            $menu->url = strtoupper($ValidationData['url']);
             $menu->save();
             /* Traemos el id del ultimo registro guardado */
             $stateTasks = $menus->stateTasks;

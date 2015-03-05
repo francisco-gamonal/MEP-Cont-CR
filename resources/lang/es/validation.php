@@ -102,6 +102,8 @@ return [
 	|
 	*/
 
-	'attributes' => [],
+	'attributes' => [
+            'name'=>'Nombre'
+        ],
 
 ];

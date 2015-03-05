@@ -18,10 +18,7 @@ class TypeUser extends Model {
 
     public $timestamps = true;
     
-    // Add your validation rules here
-    public static $rules = [
-        'name' => 'required',
-    ];
+
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
@@ -34,7 +31,7 @@ class TypeUser extends Model {
     }
 
     public function isValid($data) {
-        $rules = ['name' => 'required|unique:menus'];
+        $rules = ['name' => 'required|unique:type_users'];
 
         if ($this->exists) {
             $rules['name'] .= ',name,' . $this->id;

@@ -48,7 +48,7 @@ class TypeUsersController extends Controller {
         $typeUsers = new TypeUser;
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
-            $typeUsers->name = ($ValidationData['name']);
+            $typeUsers->name = strtoupper($ValidationData['name']);
             $typeUsers->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $newType = $typeUsers->LastId();
@@ -102,7 +102,7 @@ class TypeUsersController extends Controller {
         $typeUsers =  TypeUser::withTrashed()->find($typeUser->id_type_user);
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
-            $typeUsers->name = ($ValidationData['name']);
+            $typeUsers->name = strtoupper($ValidationData['name']);
             $typeUsers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($typeUser->status_type_user == true):
