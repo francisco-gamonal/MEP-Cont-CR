@@ -17,8 +17,8 @@ class TypeUsersController extends Controller {
 	 */
 	public function index()
 	{
-		$typeUser = TypeUser::withTrashed()->get();
-		return view('typeUser.index',  compact('typeUser'));
+		$typeUsers = TypeUser::withTrashed()->get();
+		return view('typeUser.index',  compact('typeUsers'));
 	}
 
 	/**

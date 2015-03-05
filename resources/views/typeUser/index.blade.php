@@ -53,7 +53,7 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($type_users as $type_user)
+	                        	@foreach($typeUsers as $type_user)
 		                            <tr>
 		                                <td class="text-center type_user_number">{{$type_user->id}}</td>
 		                                <td class="text-center type_user_name">{{$type_user->name}}</td>
@@ -65,12 +65,12 @@
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-	                                		@if($type_users->deleted_at)
-	                                			<a id="active" data-url="tipo-de-usuario" href="#">
+	                                		@if($type_user->deleted_at)
+	                                			<a id="active_type_user" data-url="tipo-de-usuario" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="delete" data-url="tipo-de-usuario" href="#">
+	                                			<a id="delete_type_user" data-url="tipo-de-usuario" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
