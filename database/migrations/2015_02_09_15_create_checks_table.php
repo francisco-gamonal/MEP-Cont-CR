@@ -30,6 +30,7 @@ class CreateChecksTable extends Migration {
         $table->foreign('spreadsheets_id')->references('id')->on('spreadsheets')->onDelete('no action');
         $table->integer('suppliers_id')->unsigned()->index();
         $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('no action');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

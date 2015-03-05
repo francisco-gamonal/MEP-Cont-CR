@@ -16,7 +16,8 @@ class CreateVouchersTable extends Migration {
             $table->string('imagen');
             $table->integer('suppliers_id')->unsigned()->index();
             $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('no action');
-            $table->engine = 'InnoDB';
+            $table->string('token')->unique();
+        $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();
         });

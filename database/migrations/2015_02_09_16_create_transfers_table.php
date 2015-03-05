@@ -22,6 +22,7 @@ class CreateTransfersTable extends Migration {
         $table->foreign('balance_budgets_id')->references('id')->on('balance_budgets')->onDelete('no action');
         $table->integer('spreadsheets_id')->unsigned()->index();
         $table->foreign('spreadsheets_id')->references('id')->on('spreadsheets')->onDelete('no action');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

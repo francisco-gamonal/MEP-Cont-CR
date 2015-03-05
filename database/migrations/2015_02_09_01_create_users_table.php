@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
             $table->foreign('type_users_id')->references('id')->on('type_users')->onDelete('no action');
             $table->integer('suppliers_id')->unsigned()->nullable()->index();
             $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('no action');
+            $table->string('token')->unique();
             $table->rememberToken();
             $table->engine = 'InnoDB';
             $table->timestamps();

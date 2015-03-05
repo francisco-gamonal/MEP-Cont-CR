@@ -14,6 +14,7 @@ class CreateTypesBudgetsTable extends Migration {
         Schema::create('types_budgets', function(Blueprint $table) {
         $table->increments('id');
         $table->string('name');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

@@ -15,6 +15,7 @@ class CreateBanksTable extends Migration {
         $table->increments('id');
         $table->date('date');
         $table->string('name');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

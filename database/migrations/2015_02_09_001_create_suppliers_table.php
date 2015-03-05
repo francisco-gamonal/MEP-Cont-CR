@@ -17,6 +17,7 @@ class CreateSuppliersTable extends Migration {
         $table->string('name');
         $table->string('phone');
         $table->string('email')->unique();
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

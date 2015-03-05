@@ -22,6 +22,7 @@ class CreateBudgetsTable extends Migration {
         $table->integer('status');
         $table->integer('schools_id')->unsigned()->index();
         $table->foreign('schools_id')->references('id')->on('schools')->onDelete('no action');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

@@ -17,6 +17,7 @@ class CreateSupportsTable extends Migration {
         $table->mediumText('message');
         $table->integer('users_id')->unsigned()->index();
         $table->foreign('users_id')->references('id')->on('users')->onDelete('no action');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

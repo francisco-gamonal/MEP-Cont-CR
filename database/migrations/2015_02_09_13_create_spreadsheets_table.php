@@ -19,7 +19,8 @@ class CreateSpreadsheetsTable extends Migration {
             $table->integer('status');
             $table->integer('budgets_id')->unsigned()->index();
             $table->foreign('budgets_id')->references('id')->on('budgets')->onDelete('no action');
-            $table->engine = 'InnoDB';
+            $table->string('token')->unique();
+        $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();
         });

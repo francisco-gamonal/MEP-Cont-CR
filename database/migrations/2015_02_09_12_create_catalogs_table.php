@@ -26,6 +26,7 @@ class CreateCatalogsTable extends Migration {
         $table->enum('type', ['ingresos', 'egresos']);
         $table->integer('groups_id')->unsigned()->index();
         $table->foreign('groups_id')->references('id')->on('groups')->onDelete('no action');
+        $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();
