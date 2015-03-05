@@ -356,7 +356,6 @@ $(function(){
 		url                = $(this).data('url');
 		url                = url + '/active-' + url + '/' + tokenSupplier;
 		data.tokenSupplier = tokenSupplier;
-		console.log(data, url);return;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);
@@ -385,5 +384,5 @@ $(function(){
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipo de usuarios');
-	dataTable('#table_supplier', 'tipo de usuarios');
+	dataTable('#table_supplier', 'proveedores');
 });

@@ -164,7 +164,7 @@ class SupplierController extends Controller {
     public function active() {
         /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
-        return $suppliers = json_decode($json);
+        $suppliers = json_decode($json);
         /* les quitamos la eliminacion pasavida */
         $data = Supplier::onlyTrashed()->where('token', '=', $suppliers->tokenSupplier);
         if ($data):
