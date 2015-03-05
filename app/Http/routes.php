@@ -42,7 +42,7 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 Route::get('tipo-de-usuario/ver-tipo-de-usuario',['as'=>'ver-tipo-de-usuario','uses'=>'TypeUsersController@index']);
 Route::get('tipo-de-usuario/registrar-tipo-de-usuario','TypeUsersController@create');
 Route::post('tipo-de-usuario/save-tipo-de-usuario','TypeUsersController@store');
-Route::get('tipo-de-usuario/editar-tipo-de-usuario/{id}',['as'=>'ver-tipo-de-usuario','uses'=>'TypeUsersController@edit']);
+Route::get('tipo-de-usuario/editar-tipo-de-usuario/{id}',['as'=>'edit-tipo-de-usuario','uses'=>'TypeUsersController@edit']);
 Route::delete('tipo-de-usuario/delete-tipo-de-usuario/{id}',['as'=>'delete-tipo-de-usuario','uses'=>'TypeUsersController@destroy']);
 Route::patch('tipo-de-usuario/active-tipo-de-usuario/{id}',['as' => 'active-tipo-de-usuario', 'uses' => 'TypeUsersController@active']);
 Route::put('tipo-de-usuario/update-tipo-de-usuario/{id}','TypeUsersController@update');

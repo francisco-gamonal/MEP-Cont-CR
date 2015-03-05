@@ -230,7 +230,7 @@ $(function(){
 		});
 	});
 
-	//Save Menu
+	//Save Type User
 	$(document).off('click', '#save_type_user');
 	$(document).on('click', '#save_type_user', function(e){
 		e.preventDefault();
