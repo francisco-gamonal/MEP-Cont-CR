@@ -88,7 +88,8 @@ class SupplierController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        //
+        $suppliers = Suppliers::withTrashed()->where('token','=',$id);
+        return view('suppliers.edit', compact('suppliers'));
     }
 
     /**
