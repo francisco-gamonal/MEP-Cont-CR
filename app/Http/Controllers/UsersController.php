@@ -17,10 +17,10 @@ class UsersController extends Controller {
 	public function index()
 	{
            
-            $users= User::all();
-            $suppliers= Supplier::all();
-            $typeUsers= TypeUser::all();
-            echo View('users.index',  compact('users','typeUsers','suppliers'));
+            $users= User::withTrashed()->get();
+            $suppliers= Supplier::withTrashed()->get();
+            $typeUsers= TypeUser::withTrashed()->get();
+            return View('users.index',  compact('users','typeUsers','suppliers'));
             
 	}
 
