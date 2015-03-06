@@ -22,10 +22,8 @@ class UsersController extends Controller {
      */
     public function index() {
 
-        $users = User::withTrashed()->get();
-        $suppliers = Supplier::withTrashed()->orderBy('name', 'ASC')->get();
-        $typeUsers = TypeUser::withTrashed()->orderBy('name', 'ASC')->get();
-        return View('users.index', compact('users', 'typeUsers', 'suppliers'));
+        $users = User::withTrashed()->orderBy('name', 'ASC')->get();
+        return View('users.index', compact('users'));
     }
 
     /**
@@ -48,13 +46,15 @@ class UsersController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $json = Input::get('data');
         $users = json_decode($json);
+        $supplier = Supplier::Token($users->tokenSupplier);
+        return json_encode($users->tokenSupplier); die;
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($users);
+        $Validation = $this->createArray($users,$supplier);
         /* Declaramos las clases a utilizar */
-        $user = new Supplier;
+        $user = new User;
         /* Validamos los datos para guardar tabla menu */
         if ($user->isValid((array) $Validation)):
-            $user->name = strtoupper($Validation['charter']);
+            $user->name = strtoupper($Validation['last']);
             $user->last = strtoupper($Validation['name']);
             $user->email = strtoupper($Validation['email']);
             $user->password = Crypt::encrypt($Validation['password']);
@@ -118,15 +118,15 @@ class UsersController extends Controller {
         //
     }
 
-    private function createArray($supplier) {
-        $suppliers = array('name' => $supplier->nameUser,
-            'last' => $supplier->lastNameUser,
-            'email' => $supplier->emailUser,
-            'password' => $supplier->passwordUser,
-            'type_users_id' => $supplier->typeUser,
-            'suppliers_id' => $supplier->supplier,
-            'token' => Crypt::encrypt($supplier->emailUser));
-        return $suppliers;
+    private function createArray($user,$supplier) {
+        $users = array('name' => $user->nameUser,
+            'last' => $user->lastNameUser,
+            'email' => $user->emailUser,
+            'password' => $user->passwordUser,
+            'type_users_id' => $user->idTypeUser,
+            'suppliers_id' => $supplier['id'],
+            'token' => Crypt::encrypt($user->emailUser));
+        return $users;
     }
 
     private function cargarValoresDB($Datos) {

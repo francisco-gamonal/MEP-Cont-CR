@@ -31,7 +31,7 @@ class User extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'type_users_id', 'suppliers_id'];
+    protected $fillable = ['name', 'email', 'password', 'type_users_id', 'suppliers_id','token'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -70,14 +70,16 @@ class User extends Model {
     }
 
     public function isValid($data) {
-        $rules = ['charter' => 'required|unique:suppliers',
+        $rules = ['email' => 'required|unique:users',
             'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'token' => 'required|unique:suppliers'];
+            'last' => 'required',
+            'password' => 'required',
+            'type_users_id' => 'required',
+            'suppliers_id' => 'required',
+            'token' => 'required|unique:users'];
 
         if ($this->exists) {
-            $rules['charter'] .= ',charter,' . $this->id;
+            $rules['email'] .= ',email,' . $this->id;
             $rules['token'] .= ',token,' . $this->id;
         }
 
