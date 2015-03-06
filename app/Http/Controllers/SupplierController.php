@@ -105,6 +105,8 @@ class SupplierController extends Controller {
         $json = Input::get('data');
         $supplier = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
+        $data = $this->CreacionArray($json,"Supplier");
+        return $data ; die;
         $ValidationData = array('charter' => $supplier->charterSupplier,
             'name' => ($supplier->nameSupplier),
             'phone' => ($supplier->phoneSupplier),

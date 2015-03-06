@@ -3,6 +3,8 @@
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\User;
+use Mep\Models\Supplier;
+use Mep\Models\TypeUser;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
@@ -15,8 +17,10 @@ class UsersController extends Controller {
 	public function index()
 	{
            
-            $json= User::all();
-            echo json_encode($json);
+            $users= User::all();
+            $suppliers= Supplier::all();
+            $typeUsers= TypeUser::all();
+            echo View('users.index',  compact('users','typeUsers','suppliers'));
             
 	}
 
