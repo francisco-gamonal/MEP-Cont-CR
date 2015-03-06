@@ -51,7 +51,7 @@ class SupplierController extends Controller {
             $suppliers->name = strtoupper($ValidationData['name']);
             $suppliers->email = strtoupper($ValidationData['email']);
             $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = Crypt::encrypt($ValidationData['charter']);
+            $suppliers->token = ($ValidationData['charter']);
             $suppliers->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSupplier = $suppliers->LastId();
@@ -168,10 +168,18 @@ class SupplierController extends Controller {
      * @return type
      */
     private function createArray($supplier) {
+        if(in_array('tokenSupplier', (array)$supplier)):
+            $suppliers = array('charter' => $supplier->charterSupplier,
+            'name' => ($supplier->nameSupplier),
+            'phone' => ($supplier->phoneSupplier),
+            'token' => Crypt::encrypt($supplier->charterSupplier),
+            'email' => ($supplier->emailSupplier));
+        return $suppliers;
+        endif;
         $suppliers = array('charter' => $supplier->charterSupplier,
             'name' => ($supplier->nameSupplier),
             'phone' => ($supplier->phoneSupplier),
-            'token' => $supplier->tokenSupplier,
+            'token'=>$supplier->tokenSupplier,
             'email' => ($supplier->emailSupplier));
         return $suppliers;
     }
