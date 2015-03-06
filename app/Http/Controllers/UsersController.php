@@ -23,8 +23,8 @@ class UsersController extends Controller {
     public function index() {
 
         $users = User::withTrashed()->get();
-        $suppliers = Supplier::withTrashed()->orderBy('name','ASC')->get();
-        $typeUsers = TypeUser::withTrashed()->orderBy('name','ASC')->get();
+        $suppliers = Supplier::withTrashed()->orderBy('name', 'ASC')->get();
+        $typeUsers = TypeUser::withTrashed()->orderBy('name', 'ASC')->get();
         return View('users.index', compact('users', 'typeUsers', 'suppliers'));
     }
 
@@ -34,8 +34,8 @@ class UsersController extends Controller {
      * @return Response
      */
     public function create() {
-        $suppliers = Supplier::withTrashed()->get();
-        $typeUsers = TypeUser::withTrashed()->get();
+        $suppliers = Supplier::withTrashed()->orderBy('name', 'ASC')->get();
+        $typeUsers = TypeUser::withTrashed()->orderBy('name', 'ASC')->get();
         return View('users.create', compact('typeUsers', 'suppliers'));
     }
 
@@ -50,10 +50,21 @@ class UsersController extends Controller {
         $users = json_decode($json);
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->createArray($users);
-        $user = $this->cargarValoresDB($Validation);
+        /* Declaramos las clases a utilizar */
+        $user = new Supplier;
+        /* Validamos los datos para guardar tabla menu */
+        if ($user->isValid((array) $Validation)):
+            $user->name = strtoupper($Validation['charter']);
+            $user->last = strtoupper($Validation['name']);
+            $user->email = strtoupper($Validation['email']);
+            $user->password = Crypt::encrypt($Validation['password']);
+            $user->type_users_id = ($Validation['type_users_id']);
+            $user->suppliers_id = ($Validation['suppliers_id']);
+            $user->token = ($Validation['token']);
+            $user->save();
+            
         /* Traemos el id del ultimo registro guardado */
-       $userLast =new User;
-        $ultimoIdUser = $userLast->LastId();
+        $ultimoIdUser = $user->LastId();
         /* Comprobamos si viene activado o no para guardarlo de esa manera */
         if ($users->statusUser == true):
             Supplier::withTrashed()->find($ultimoIdUser->id)->restore();
@@ -62,7 +73,7 @@ class UsersController extends Controller {
         endif;
         /* Enviamos el mensaje de guardado correctamente */
         return $this->exito('Los datos se guardaron con exito!!!');
-
+        endif;
         /* Enviamos el mensaje de error */
         return $this->errores($user->errors);
     }

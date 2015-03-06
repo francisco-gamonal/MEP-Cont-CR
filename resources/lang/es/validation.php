@@ -103,7 +103,10 @@ return [
 	*/
 
 	'attributes' => [
-            'name'=>'Nombre'
+            'name'=>'Nombre',
+            'charter'=>'Cedula',
+            'email'=>'Correo Electronico',
+            'phone'=>'Telefono'
         ],
 
 ];
