@@ -391,13 +391,13 @@ $(function(){
 		e.preventDefault();
 		url = $(this).data('url');
 		url = url + '/save-' + url;
-		data.nameUser     = $('#nameUser').val();
-		data.lastNameUser = $('#lastNameUser').val();
-		data.emailUser    = $('#emailUser').val();
-		data.passwordUser = $('#passwordUser').val();
-		data.typeUser     = $('#typeUser').val();
-		data.supplier     = $('#supplier').val();
-		data.statusUser   = $('#statusUser').bootstrapSwitch('state');
+		data.nameUser      = $('#nameUser').val();
+		data.lastNameUser  = $('#lastNameUser').val();
+		data.emailUser     = $('#emailUser').val();
+		data.passwordUser  = $('#passwordUser').val();
+		data.idTypeUser    = $('#typeUser').val();
+		data.tokenSupplier = $('#supplier').val();
+		data.statusUser    = $('#statusUser').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);

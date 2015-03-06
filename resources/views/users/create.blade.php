@@ -89,7 +89,7 @@
 					<select id="supplier" class="form-control">
 						<option value="0">Seleccione</option>
 				      	@foreach($suppliers as $supplier)
-							<option value="{{$supplier->id}}">{{mb_convert_case($supplier->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							<option value="{{$supplier->token}}">{{mb_convert_case($supplier->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@endforeach
 					</select>
 				</div>
