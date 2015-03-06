@@ -377,9 +377,35 @@ $(function(){
 		});
 	});
 
-
 	/**
 	 * End Supplier
+	 */
+	
+	/**
+	 * User
+	 */
+	
+	//Save User
+	$(document).off('click', '#saveUser');
+	$(document).on('click', '#saveUser', function(e){
+		e.preventDefault();
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.nameUser     = $('#nameUser').val();
+		data.lastNameUser = $('#lastNameUser').val();
+		data.emailUser    = $('#emailUser').val();
+		data.passwordUser = $('#passwordUser').val();
+		data.typeUser     = $('#typeUser').val();
+		data.supplier     = $('#supplier').val();
+		data.statusUser   = $('#statusUser').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+	
+	/**
+	 * End User
 	 */
 
 	dataTable('#table_menu', 'menús');

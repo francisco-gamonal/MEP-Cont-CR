@@ -67,11 +67,11 @@ Route::put('proveedores/update-proveedores/{token}','SupplierController@update')
  */
 
 /**
- *  Rutas de Menu
+ *  Rutas de usuarios
  */
 Route::get('usuarios','UsersController@index');
 Route::get('usuarios/ver-usuarios',['as'=>'ver-usuarios','uses'=>'UsersController@index']);
-Route::get('usuarios/registrar-usuarios','UsersController@create');
+Route::get('usuarios/registrar-usuario','UsersController@create');
 Route::post('usuarios/save-usuarios','UsersController@store');
 Route::get('usuarios/{id}/editar-usuarios',['as'=>'ver-usuarios','uses'=>'UsersController@edit']);
 Route::delete('usuarios/delete-usuarios/{id}',['as'=>'delete-usuarios','uses'=>'UsersController@destroy']);
