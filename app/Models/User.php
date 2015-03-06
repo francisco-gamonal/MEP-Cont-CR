@@ -75,7 +75,6 @@ class User extends Model {
             'last' => 'required',
             'password' => 'required',
             'type_users_id' => 'required',
-            'suppliers_id' => 'required',
             'token' => 'required|unique:users'];
 
         if ($this->exists) {

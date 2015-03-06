@@ -15,7 +15,7 @@ class Supplier extends Model {
         return Supplier::all()->last();
     }
     public static function Token($token) {
-        $suppliers = Supplier::where('token', '=', $token)->get();
+        $suppliers = Supplier::withTrashed()->where('token', '=', $token)->get();
         if($suppliers):
             foreach ($suppliers AS $supplier):
                 return $supplier;

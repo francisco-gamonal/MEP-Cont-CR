@@ -12,6 +12,7 @@ use Input;
 use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
 use Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller {
 
@@ -32,8 +33,8 @@ class UsersController extends Controller {
      * @return Response
      */
     public function create() {
-        $suppliers = Supplier::withTrashed()->orderBy('name', 'ASC')->get();
-        $typeUsers = TypeUser::withTrashed()->orderBy('name', 'ASC')->get();
+        $suppliers = Supplier::orderBy('name', 'ASC')->get();
+        $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         return View('users.create', compact('typeUsers', 'suppliers'));
     }
 
@@ -47,7 +48,7 @@ class UsersController extends Controller {
         $json = Input::get('data');
         $users = json_decode($json);
         $supplier = Supplier::Token($users->tokenSupplier);
-        return json_encode($users->tokenSupplier); die;
+       
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->createArray($users,$supplier);
         /* Declaramos las clases a utilizar */
@@ -57,7 +58,7 @@ class UsersController extends Controller {
             $user->name = strtoupper($Validation['last']);
             $user->last = strtoupper($Validation['name']);
             $user->email = strtoupper($Validation['email']);
-            $user->password = Crypt::encrypt($Validation['password']);
+            $user->password = ($Validation['password']);
             $user->type_users_id = ($Validation['type_users_id']);
             $user->suppliers_id = ($Validation['suppliers_id']);
             $user->token = ($Validation['token']);
@@ -67,9 +68,9 @@ class UsersController extends Controller {
         $ultimoIdUser = $user->LastId();
         /* Comprobamos si viene activado o no para guardarlo de esa manera */
         if ($users->statusUser == true):
-            Supplier::withTrashed()->find($ultimoIdUser->id)->restore();
+            User::withTrashed()->find($ultimoIdUser->id)->restore();
         else:
-            Supplier::destroy($ultimoIdUser->id);
+            User::destroy($ultimoIdUser->id);
         endif;
         /* Enviamos el mensaje de guardado correctamente */
         return $this->exito('Los datos se guardaron con exito!!!');
@@ -122,7 +123,7 @@ class UsersController extends Controller {
         $users = array('name' => $user->nameUser,
             'last' => $user->lastNameUser,
             'email' => $user->emailUser,
-            'password' => $user->passwordUser,
+            'password' => Hash::make($user->passwordUser),
             'type_users_id' => $user->idTypeUser,
             'suppliers_id' => $supplier['id'],
             'token' => Crypt::encrypt($user->emailUser));
