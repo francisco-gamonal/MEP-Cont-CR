@@ -2,17 +2,22 @@
 
 namespace Mep\Models;
 
-use Illuminate\Auth\Authenticatable;
+//use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+//use Illuminate\Auth\Passwords\CanResetPassword;
+//use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+//use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+//implements AuthenticatableContract, CanResetPasswordContract
 use Mep\SchoolsHasUser;
+use Mep\Models\Supplier;
+use Mep\Models\TypeUser;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Model {
 
-    use Authenticatable,
-        CanResetPassword;
+//    use Authenticatable,
+//        CanResetPassword;
+    use SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -44,8 +49,46 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $this->HasMany('Suppliers', 'id', 'suppliers_id');
     }
-    public function schools()
-    {
-        return $this->belongsToMany('School', 'schools_has_users','users_id','schools_id');
+
+    public function schools() {
+        return $this->belongsToMany('School', 'schools_has_users', 'users_id', 'schools_id');
     }
+
+    public function LastId() {
+        return User::all()->last();
+    }
+
+    public static function Token($token) {
+        $suppliers = User::where('token', '=', $token)->get();
+        if ($suppliers):
+            foreach ($suppliers AS $supplier):
+                return $supplier;
+            endforeach;
+        endif;
+
+        return false;
+    }
+
+    public function isValid($data) {
+        $rules = ['charter' => 'required|unique:suppliers',
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'token' => 'required|unique:suppliers'];
+
+        if ($this->exists) {
+            $rules['charter'] .= ',charter,' . $this->id;
+            $rules['token'] .= ',token,' . $this->id;
+        }
+
+        $validator = \Validator::make($data, $rules);
+        if ($validator->passes()) {
+            return true;
+        }
+
+        $this->errors = $validator->errors();
+
+        return false;
+    }
+
 }

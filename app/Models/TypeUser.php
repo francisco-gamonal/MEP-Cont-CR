@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Mep\User;
+use Mep\models\User;
 
 class TypeUser extends Model {
 
