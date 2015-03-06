@@ -45,12 +45,11 @@ class UsersController extends Controller {
      */
     public function store() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $users = json_decode($json);
+        $users = $this->convertionObjeto();
+        /*obtenemos dos datos del supplier mediante token recuperamos el id*/
         $supplier = Supplier::Token($users->tokenSupplier);
-       
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($users,$supplier);
+        $Validation = $this->createArray($users, $supplier);
         /* Declaramos las clases a utilizar */
         $user = new User;
         /* Validamos los datos para guardar tabla menu */
@@ -58,22 +57,22 @@ class UsersController extends Controller {
             $user->name = strtoupper($Validation['last']);
             $user->last = strtoupper($Validation['name']);
             $user->email = strtoupper($Validation['email']);
-            $user->password = ($Validation['password']);
+            $user->password = Hash::make($Validation['password']);
             $user->type_users_id = ($Validation['type_users_id']);
             $user->suppliers_id = ($Validation['suppliers_id']);
             $user->token = ($Validation['token']);
             $user->save();
-            
-        /* Traemos el id del ultimo registro guardado */
-        $ultimoIdUser = $user->LastId();
-        /* Comprobamos si viene activado o no para guardarlo de esa manera */
-        if ($users->statusUser == true):
-            User::withTrashed()->find($ultimoIdUser->id)->restore();
-        else:
-            User::destroy($ultimoIdUser->id);
-        endif;
-        /* Enviamos el mensaje de guardado correctamente */
-        return $this->exito('Los datos se guardaron con exito!!!');
+
+           /* Traemos el id del ultimo registro guardado */
+            $ultimoIdUser = $user->LastId();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($users->statusUser == true):
+                User::withTrashed()->find($ultimoIdUser->id)->restore();
+            else:
+                User::destroy($ultimoIdUser->id);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
         return $this->errores($user->errors);
@@ -96,7 +95,10 @@ class UsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        //
+        $users = User::Token($id);
+        $suppliers = Supplier::orderBy('name', 'ASC')->get();
+        $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
+        return view('suppliers.edit', compact('users', 'typeUsers', 'suppliers'));
     }
 
     /**
@@ -106,7 +108,35 @@ class UsersController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+        /* Capturamos los datos enviados por ajax */
+        $users = $this->convertionObjeto();
+        /*obtenemos dos datos del supplier mediante token recuperamos el id*/
+        $supplier = Supplier::Token($users->tokenSupplier);
+        /* Creamos un array para cambiar nombres de parametros */
+        $Validation = $this->createArray($users, $supplier);
+        /* Declaramos las clases a utilizar */
+        $user = new User;
+        /* Validamos los datos para guardar tabla menu */
+        if ($user->isValid((array) $Validation)):
+            $user->name = strtoupper($Validation['last']);
+            $user->last = strtoupper($Validation['name']);
+            $user->email = strtoupper($Validation['email']);
+            $user->password = Hash::make($Validation['password']);
+            $user->type_users_id = ($Validation['type_users_id']);
+            $user->suppliers_id = ($Validation['suppliers_id']);
+            $user->token = ($Validation['token']);
+            $user->save();
+             /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($users->statusUser == true):
+                User::token($users->tokenUser)->restore();
+            else:
+                User::token($users->tokenUser)->delete();
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($user->errors);
     }
 
     /**
@@ -115,20 +145,56 @@ class UsersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
-        //
+    public function destroy() {
+        /* Capturamos los datos enviados por ajax */
+        $users=$this->convertionObjeto();
+        /* les damos eliminacion pasavida */
+        $data = User::token($users->tokenUser)->delete();
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
     }
 
-    private function createArray($user,$supplier) {
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active() {
+        /* Capturamos los datos enviados por ajax */
+        $users = $this->convertionObjeto();
+        /* les quitamos la eliminacion pasavida */
+        $data = User::token($users->tokenUser)->restore();
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
+    }
+
+    /**
+     * Creamos el array para la validacion con los
+     * nombre de los campos
+     * @param type $user
+     * @param type $supplier
+     * @return type
+     */
+    private function createArray($user, $supplier) {
         $users = array('name' => $user->nameUser,
             'last' => $user->lastNameUser,
             'email' => $user->emailUser,
-            'password' => Hash::make($user->passwordUser),
+            'password' => ($user->passwordUser),
             'type_users_id' => $user->idTypeUser,
             'suppliers_id' => $supplier['id'],
             'token' => Crypt::encrypt($user->emailUser));
         return $users;
     }
+
 
     private function cargarValoresDB($Datos) {
         /* Declaramos las clases a utilizar */

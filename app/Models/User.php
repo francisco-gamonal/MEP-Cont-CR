@@ -31,7 +31,7 @@ class User extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'type_users_id', 'suppliers_id','token'];
+    protected $fillable = ['name', 'email', 'password', 'type_users_id', 'suppliers_id', 'token'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -59,10 +59,10 @@ class User extends Model {
     }
 
     public static function Token($token) {
-        $suppliers = User::where('token', '=', $token)->get();
-        if ($suppliers):
-            foreach ($suppliers AS $supplier):
-                return $supplier;
+        $user = User::withTrashed()->where('token', '=', $token)->get();
+        if ($user):
+            foreach ($user AS $users):
+                return $users;
             endforeach;
         endif;
 
@@ -73,7 +73,7 @@ class User extends Model {
         $rules = ['email' => 'required|unique:users',
             'name' => 'required',
             'last' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:8|alpha_dash',
             'type_users_id' => 'required',
             'token' => 'required|unique:users'];
 

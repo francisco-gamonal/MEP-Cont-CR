@@ -29,6 +29,15 @@ abstract class Controller extends BaseController {
                     'errors' => $data
         ]);
     }
+    /**
+     * 
+     * @return type
+     */
+    public function convertionObjeto(){
+         $datos = Input::get('data');
+        $DatosController = json_decode($datos);
+        return $DatosController;
+    }
     
 //    public function CreacionArray($data,$delimiter){
 //      //  $array=implode($data);

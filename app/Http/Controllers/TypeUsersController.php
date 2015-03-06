@@ -40,8 +40,7 @@ class TypeUsersController extends Controller {
      */
     public function store() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $typeUser = json_decode($json);
+        $typeUser = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
@@ -94,8 +93,7 @@ class TypeUsersController extends Controller {
      */
     public function update($id) {
          /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $typeUser = json_decode($json);
+        $typeUser = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
@@ -125,8 +123,7 @@ class TypeUsersController extends Controller {
      */
      public function destroy() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $TypeUser = json_decode($json);
+        $TypeUser = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
         $data = TypeUser::destroy($TypeUser->idTypeUser);
         if ($data):
@@ -145,8 +142,7 @@ class TypeUsersController extends Controller {
      */
     public function active() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $TypeUser = json_decode($json);
+        $TypeUser = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
         $data = TypeUser::onlyTrashed()->find($TypeUser->idTypeUser);
         if ($data):

@@ -40,14 +40,9 @@ class SupplierController extends Controller {
      */
     public function store() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $supplier = json_decode($json);
+        $supplier = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('charter' => $supplier->charterSupplier,
-            'name' => $supplier->nameSupplier,
-            'phone' => $supplier->phoneSupplier,
-            'token' => Crypt::encrypt($supplier->charterSupplier),
-            'email' => $supplier->emailSupplier);
+        $ValidationData = createArray($supplier);
         /* Declaramos las clases a utilizar */
         $suppliers = new Supplier;
         /* Validamos los datos para guardar tabla menu */
@@ -102,20 +97,12 @@ class SupplierController extends Controller {
      */
     public function update($id) {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $supplier = json_decode($json);
+        $supplier = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $data = $this->CreacionArray($json,"Supplier");
-        return $data ; die;
-        $ValidationData = array('charter' => $supplier->charterSupplier,
-            'name' => ($supplier->nameSupplier),
-            'phone' => ($supplier->phoneSupplier),
-            'token' => $supplier->tokenSupplier,
-            'email' => ($supplier->emailSupplier));
+        $ValidationData = $this->createArray($supplier);
         /* Declaramos las clases a utilizar */
        
-        $suppliers = Supplier::withTrashed()->where('token', '=', $supplier->tokenSupplier)->get();
-        $suppliers = Supplier::withTrashed()->find($suppliers[0]->id);
+        $suppliers = Supplier::Token($supplier->tokenSupplier);
         /* Validamos los datos para guardar tabla menu */
         if ($suppliers->isValid((array) $ValidationData)):
             $suppliers->charter = strtoupper($ValidationData['charter']);
@@ -126,9 +113,9 @@ class SupplierController extends Controller {
             $suppliers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($supplier->statusSupplier == true):
-                Supplier::withTrashed()->find($suppliers->id)->restore();
+                Supplier::token($supplier->tokenSupplier)->restore();
             else:
-                Supplier::destroy($suppliers->id);
+                Supplier::token($supplier->tokenSupplier)->delete();
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -145,10 +132,9 @@ class SupplierController extends Controller {
      */
     public function destroy() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $suppliers = json_decode($json);
+        $suppliers = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
-        $data = Supplier::where('token', '=', $suppliers->tokenSupplier)->delete();
+        $data = Supplier::token($suppliers->tokenSupplier)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -165,17 +151,28 @@ class SupplierController extends Controller {
      */
     public function active() {
         /* Capturamos los datos enviados por ajax */
-        $json = Input::get('data');
-        $suppliers = json_decode($json);
+        $suppliers = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = Supplier::onlyTrashed()->where('token', '=', $suppliers->tokenSupplier);
+        $data = Supplier::token($suppliers->tokenSupplier)->restore();
         if ($data):
-            $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
-
+       
+    /**
+     * 
+     * @param type $supplier
+     * @return type
+     */
+    private function createArray($supplier) {
+        $suppliers = array('charter' => $supplier->charterSupplier,
+            'name' => ($supplier->nameSupplier),
+            'phone' => ($supplier->phoneSupplier),
+            'token' => $supplier->tokenSupplier,
+            'email' => ($supplier->emailSupplier));
+        return $suppliers;
+    }
 }

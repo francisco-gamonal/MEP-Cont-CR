@@ -106,7 +106,8 @@ return [
             'name'=>'Nombre',
             'charter'=>'Cedula',
             'email'=>'Correo Electronico',
-            'phone'=>'Telefono'
+            'phone'=>'Telefono',
+            'password'=>'Contraseña'
         ],
 
 ];
