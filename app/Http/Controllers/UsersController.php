@@ -185,12 +185,22 @@ class UsersController extends Controller {
      * @return type
      */
     private function createArray($user, $supplier) {
-        $users = array('name' => $user->nameUser,
+        if ($supplier['id']):
+            $users = array('name' => $user->nameUser,
             'last' => $user->lastNameUser,
             'email' => $user->emailUser,
             'password' => ($user->passwordUser),
             'type_users_id' => $user->idTypeUser,
             'suppliers_id' => $supplier['id'],
+            'token' => Crypt::encrypt($user->emailUser));
+        return $users;
+        endif;
+        $users = array('name' => $user->nameUser,
+            'last' => $user->lastNameUser,
+            'email' => $user->emailUser,
+            'password' => ($user->passwordUser),
+            'type_users_id' => $user->idTypeUser,
+            'suppliers_id' => null,
             'token' => Crypt::encrypt($user->emailUser));
         return $users;
     }

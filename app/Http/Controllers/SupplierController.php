@@ -42,7 +42,7 @@ class SupplierController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $supplier = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = createArray($supplier);
+        $ValidationData = $this->createArray($supplier);
         /* Declaramos las clases a utilizar */
         $suppliers = new Supplier;
         /* Validamos los datos para guardar tabla menu */
