@@ -78,6 +78,21 @@ Route::delete('usuarios/delete-usuarios/{id}',['as'=>'delete-usuario','uses'=>'U
 Route::patch('usuarios/active-usuarios/{id}',['as' => 'active-usuario', 'uses' => 'UsersController@active']);
 Route::put('usuarios/update-usuarios/{id}','UsersController@update');
 /**
+ * 
+ */
+
+/**
+ *  Rutas de usuarios
+ */
+Route::get('institucion','UsersController@index');
+Route::get('institucion/ver-institucion',['as'=>'ver-institucion','uses'=>'SchoolsController@index']);
+Route::get('institucion/registrar-institucion','SchoolsController@create');
+Route::post('institucion/save-institucion','SchoolsController@store');
+Route::get('institucion/editar-institucion/{id}',['as'=>'edit-Schools','uses'=>'SchoolsController@edit']);
+Route::delete('institucion/delete-institucion/{id}',['as'=>'delete-Schools','uses'=>'SchoolsController@destroy']);
+Route::patch('institucion/active-institucion/{id}',['as' => 'active-Schools', 'uses' => 'SchoolsController@active']);
+Route::put('institucion/update-institucion/{id}','SchoolsController@update');
+/**
  * Fin Rutas Menu
 */
 /* Lista de  Usuarios*/
