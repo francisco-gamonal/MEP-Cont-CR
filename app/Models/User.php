@@ -41,8 +41,7 @@ class User extends Model {
     protected $hidden = ['password', 'remember_token'];
 
     public function typeUsers() {
-
-        return $this->hasOne('Mep\Models\TypeUser', 'id', 'type_users_id');
+        return $this->belongsTo('Mep\Models\TypeUser');
     }
 
     public function suppliers() {
