@@ -1,3 +1,9 @@
+var server = "";
+var pathname = document.location.pathname;
+var pathnameArray= pathname.split("/public/");
+
+server =  pathnameArray.length > 0 ? pathnameArray[0]+"/public/" : "";
+
 //Functions
 var dataTable = function(selector, list){
 	var options = {
@@ -120,7 +126,7 @@ $(function(){
 	});
 
 	var data = {};
-	var server = 'http://localhost/MEP-Cont-CR/public/';
+	
 
 	//Equals height
 	$('[class*="-wrapper"]').matchHeight();

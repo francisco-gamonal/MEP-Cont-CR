@@ -42,12 +42,12 @@ class User extends Model {
 
     public function typeUsers() {
 
-        return $this->HasMany('TypeUsers', 'id', 'type_users_id');
+        return $this->hasOne('Mep\Models\TypeUser', 'id', 'type_users_id');
     }
 
     public function suppliers() {
 
-        return $this->HasMany('Suppliers', 'id', 'suppliers_id');
+        return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
     }
 
     public function schools() {

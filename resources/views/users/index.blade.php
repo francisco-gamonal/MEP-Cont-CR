@@ -60,15 +60,15 @@
 	                        	@foreach($users as $user)
 		                            <tr>
 		                            	<td class="text-center user_number">{{$user->id}}</td>
-		                                <td class="text-center user_name">{{$user->name}}</td>
-		                                <td class="text-center user_last">{{$user->last}}</td>
-		                                <td class="text-center user_email">{{$user->email}}</td>
+		                                <td class="text-center user_name">{{mb_convert_case($user->name, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center user_last">{{mb_convert_case($user->last, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center user_email">{{strtolower($user->email)}}</td>
 		                                <td class="text-center user_type_user">
-		                                	<span>{{$user->typeUsers->name}}</span>
+		                                	<span>{{mb_convert_case($user->typeUsers->name, MB_CASE_TITLE, 'utf-8')}}</span>
 	                                	</td>
 		                                <td class="text-center user_supplier">
-		                                	@if(isset($user->suppliers))
-		                                		<span>{{$user->suppliers->name}}</span>
+		                                	@if(isset($user->suppliers->name))
+		                                		<span>{{mb_convert_case($user->suppliers->name, MB_CASE_TITLE, 'utf-8')}}</span>
 		                                	@else
 												<span>-</span>
 		                                	@endif

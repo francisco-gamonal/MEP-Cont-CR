@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Mep\Models\Menu;
 use Mep\Models\Task;
 use Mep\Models\TasksHasMenu;
+use Mep\Models\Supplier;
 
 class TestController extends Controller {
 
@@ -20,12 +21,13 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-                 $json =  User::find(2);
+                 $json =  User::find(7);
+                 //$json =  Supplier::all();
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
-            echo json_encode($json->typeUsers); die;
+            echo json_encode($json->suppliers); die;
 //         dd($json->Tasks()); die;
 //                foreach ($json->TasksMenus() AS $test):
 //                      echo $test.'\n';
