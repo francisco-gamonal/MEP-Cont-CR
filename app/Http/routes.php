@@ -36,7 +36,7 @@ Route::put('menu/update-menu/{id}','MenuController@update');
 */
 
 /**
- * Tipo de Usuarios
+ * Rutas de Tipos de Usuarios
  */
 Route::get('tipos-de-usuarios','TypeUsersController@index');
 Route::get('tipos-de-usuarios/ver-tipos-de-usuarios',['as'=>'ver-tipos-de-usuarios','uses'=>'TypeUsersController@index']);
@@ -47,12 +47,12 @@ Route::delete('tipos-de-usuarios/delete-tipos-de-usuarios/{id}',['as'=>'delete-t
 Route::patch('tipos-de-usuarios/active-tipos-de-usuarios/{id}',['as' => 'active-tipo-de-usuario', 'uses' => 'TypeUsersController@active']);
 Route::put('tipos-de-usuarios/update-tipos-de-usuarios/{id}','TypeUsersController@update');
 /**
- * 
+ * Fin Rutas de Tipos de Usuarios
  */
 
 
 /**
- * Proveedores
+ * Rutas de Proveedores
  */
 //Route::get('tipo-de-usuarios','SupplierController@index');
 Route::get('proveedores/ver-proveedores',['as'=>'ver-proveedores','uses'=>'SupplierController@index']);
@@ -63,7 +63,7 @@ Route::delete('proveedores/delete-proveedores/{token}',['as'=>'delete-proveedor'
 Route::patch('proveedores/active-proveedores/{token}',['as' => 'active-proveedor', 'uses' => 'SupplierController@active']);
 Route::put('proveedores/update-proveedores/{token}','SupplierController@update');
 /**
- * 
+ * Fin Rutas de Proveedores
  */
 
 /**
@@ -78,11 +78,11 @@ Route::delete('usuarios/delete-usuarios/{id}',['as'=>'delete-usuario','uses'=>'U
 Route::patch('usuarios/active-usuarios/{id}',['as' => 'active-usuario', 'uses' => 'UsersController@active']);
 Route::put('usuarios/update-usuarios/{id}','UsersController@update');
 /**
- * 
+ * Fin Rutas de Usuarios
  */
 
 /**
- *  Rutas de usuarios
+ *  Rutas de Instituciones
  */
 Route::get('institucion','UsersController@index');
 Route::get('institucion/ver-institucion',['as'=>'ver-institucion','uses'=>'SchoolsController@index']);
@@ -93,8 +93,10 @@ Route::delete('institucion/delete-institucion/{id}',['as'=>'delete-Schools','use
 Route::patch('institucion/active-institucion/{id}',['as' => 'active-Schools', 'uses' => 'SchoolsController@active']);
 Route::put('institucion/update-institucion/{id}','SchoolsController@update');
 /**
- * Fin Rutas Menu
+ * Fin Rutas de Instituciones
 */
+
+
 /* Lista de  Usuarios*/
 Route::get('tarea/lista-tareas','TasksController@index');
 /* Crear Usuarios*/

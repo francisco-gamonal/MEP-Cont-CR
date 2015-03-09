@@ -412,6 +412,37 @@ $(function(){
 	/**
 	 * End User
 	 */
+	
+	/**
+	 * User
+	 */
+	
+	//Save School
+	$(document).off('click', '#saveSchool');
+	$(document).on('click', '#saveSchool', function(e){
+		e.preventDefault();
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.nameSchool       = $('#nameSchool').val();
+		data.charterSchool    = $('#charterSchool').val();
+		data.circuitSchool    = $('#circuitSchool').val();
+		data.codeSchool       = $('#codeSchool').val();
+		data.ffinancingSchool = $('#ffinancingSchool').val();
+		data.presidentSchool  = $('#presidentSchool').val();
+		data.secretarySchool  = $('#secretarySchool').val();
+		data.accountSchool    = $('#accountSchool').val();
+		data.titleOneSchool   = $('#titleOneSchool').val();
+		data.titleTwoSchool   = $('#accountSchool').val();
+		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+	
+	/**
+	 * End User
+	 */
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');

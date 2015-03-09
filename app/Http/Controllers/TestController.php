@@ -21,7 +21,7 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-                 $json =  User::find(7);
+                 $json =  User::find(7);asd;
                  //$json =  Supplier::all();
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
