@@ -7,6 +7,7 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\User;
 use Mep\Models\Supplier;
 use Mep\Models\TypeUser;
+use Mep\Models\School;
 use Illuminate\Http\Request;
 use Input;
 use Illuminate\Validation;
@@ -35,7 +36,8 @@ class UsersController extends Controller {
     public function create() {
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
-        return View('users.create', compact('typeUsers', 'suppliers'));
+        $schools = School::orderBy('name', 'ASC')->get();
+        return View('users.create', compact('typeUsers', 'suppliers','schools'));
     }
 
     /**
@@ -46,6 +48,7 @@ class UsersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
+        
         /*obtenemos dos datos del supplier mediante token recuperamos el id*/
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
@@ -65,6 +68,8 @@ class UsersController extends Controller {
 
            /* Traemos el id del ultimo registro guardado */
             $ultimoIdUser = $user->LastId();
+            //
+            $ultimoIdUser->Tasks()->attach($users->idTypeUser);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($users->statusUser == true):
                 User::withTrashed()->find($ultimoIdUser->id)->restore();

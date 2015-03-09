@@ -42,7 +42,7 @@ class User extends Model {
 
     public function typeUsers() {
 
-        return $this->HasMany('TypeUsers', 'id', 'type_users_id');
+        return $this->belongsTo('Mep\Models\TypeUser');
     }
 
     public function suppliers() {

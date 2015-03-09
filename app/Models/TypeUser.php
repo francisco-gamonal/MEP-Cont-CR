@@ -24,7 +24,7 @@ class TypeUser extends Model {
 
     public function users(){
         
-        return $this->belongsToMany('Users');
+        return $this->belongsTo('User');
     }
     public function LastId() {
         return TypeUser::all()->last();
