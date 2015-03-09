@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="nameSchool">Nombre de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-university"></i></span>
 				      	<input id="nameSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="form-mep">
 					<label for="charterSchool">Cédula de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 				      	<input id="charterSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="circuitSchool">Circuito de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+						<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 				      	<input id="circuitSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -77,7 +77,7 @@
 				<div class="form-mep">
 					<label for="ffinancingSchool">Financiamiento de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-usd"></i></span>
 				      	<input id="ffinancingSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -86,7 +86,7 @@
 				<div class="form-mep">
 					<label for="presidentSchool">Presidente de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
 				      	<input id="presidentSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 				<div class="form-mep">
 					<label for="secretarySchool">Secretaria de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-female"></i></span>
 				      	<input id="secretarySchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -104,7 +104,7 @@
 				<div class="form-mep">
 					<label for="accountSchool">Cuenta de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
 				      	<input id="accountSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -113,7 +113,7 @@
 				<div class="form-mep">
 					<label for="titleOneSchool">Título Uno de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-inbox"></i></span>
 				      	<input id="titleOneSchool" class="form-control" type="text">
 					</div>
 				</div>
@@ -122,7 +122,7 @@
 				<div class="form-mep">
 					<label for="titleTwoSchool">Título Dos de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<span class="input-group-addon"><i class="fa fa-inbox"></i></span>
 				      	<input id="titleTwoSchool" class="form-control" type="text">
 					</div>
 				</div>
