@@ -64,9 +64,9 @@
 		                                <td class="text-center">{{strtolower($supplier->email)}}</td>
 		                                <td class="text-center">
 		                                	@if($supplier->deleted_at)
-												Inactivo
+												<span>Inactivo</span>
 		                                	@else
-												Activo
+												<span>Activo</span>
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">

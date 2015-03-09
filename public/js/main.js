@@ -1,117 +1,117 @@
-$(function(){
-	//Functions
-	var dataTable = function(selector, list){
-		var options = {
-			"order": [
-                [0, "asc"]
-            ],
-            "bLengthChange": true,
-            //'iDisplayLength': 7,
-            "oLanguage": {
-            	"sLengthMenu": "_MENU_ registros por página",
-            	"sInfoFiltered": " - filtrada de _MAX_ registros",
-                "sSearch": "Buscar: ",
-                "sZeroRecords": "No hay " + list,
-                "sInfoEmpty": " ",
-                "sInfo": 'Mostrando _END_ de _TOTAL_',
-                "oPaginate": {
-                    "sPrevious": "Anterior",
-                    "sNext": "Siguiente"
-                }
+//Functions
+var dataTable = function(selector, list){
+	var options = {
+		"order": [
+            [0, "asc"]
+        ],
+        "bLengthChange": true,
+        //'iDisplayLength': 7,
+        "oLanguage": {
+        	"sLengthMenu": "_MENU_ registros por página",
+        	"sInfoFiltered": " - filtrada de _MAX_ registros",
+            "sSearch": "Buscar: ",
+            "sZeroRecords": "No hay " + list,
+            "sInfoEmpty": " ",
+            "sInfo": 'Mostrando _END_ de _TOTAL_',
+            "oPaginate": {
+                "sPrevious": "Anterior",
+                "sNext": "Siguiente"
             }
-		};
-		$(selector).DataTable(options);
+        }
 	};
+	$(selector).DataTable(options);
+};
 
-	var messageAjax = function(data) {
-		$.unblockUI();
-		if(data.success){
-			bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
-				location.reload();
-			});;
-		}
-		else{
-			var errors = data.errors;
-			var error = "";
-			for (var element in errors){
-				if(errors.hasOwnProperty(element)){
-					error += errors[element] + '<br>';
-				}
-			}
-			bootbox.alert('<p class="error-ajax">'+error+'</p>');
-		}
-	};
-
-	//Functions Menu
-	var addActive = function (element) {
-		element.find('.icon-menu').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
-		element.addClass('active');
-		element.find('.nav').show('slide');
+var messageAjax = function(data) {
+	$.unblockUI();
+	if(data.success){
+		bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
+			location.reload();
+		});;
 	}
-
-	var removeActive = function (element) {
-		$('.active').find('.icon-menu').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
-		$('.active').find('.nav').hide('slide');
-		$('.active').removeClass('active');
-	};
-	//End functions Menu
-
-	//Function Overlay
-	var loadingUI = function (message){
-	    $.blockUI({ css: {
-	        border: 'none',
-	        padding: '15px',
-	        backgroundColor: '#000',
-	        '-webkit-border-radius': '10px',
-	        '-moz-border-radius': '10px',
-	        opacity: 0.5,
-	        color: '#fff'
-	    }, message: '<h2><img style="margin-right: 30px" src="' + server + 'img/spiffygif.gif" >' + message + '</h2>'});
-	};
-
-	var responseUI = function (message,color){
-	    $.unblockUI();
-	    $.blockUI({ css: {
-	        border: 'none',
-	        padding: '15px',
-	        backgroundColor: color,
-	        '-webkit-border-radius': '10px',
-	        '-moz-border-radius': '10px',
-	        opacity: 0.5,
-	        color: '#fff'
-	    }, message: '<h2>' + message + '</h2>'});
-	    setTimeout(function(){
-	        $.unblockUI();
-	    },750);
-	};
-	//End functions overlay
-
-	//Function Ajax
-	var ajaxForm = function (url, type, data){
-		var message;
-		var path = server + url;
-		if(type == 'post'){
-			message = 'Registrando';
-		}else{
-			message = 'Actualizando';
+	else{
+		var errors = data.errors;
+		var error = "";
+		for (var element in errors){
+			if(errors.hasOwnProperty(element)){
+				error += errors[element] + '<br>';
+			}
 		}
-		//console.log(path,type,data);return;
-		return $.ajax({
-					url: path,
-				    type: type,
-				    data: {data: JSON.stringify(data)},
-				    datatype: 'json',
-				    beforeSend: function(){
-			    		loadingUI(message);
-				    },
-				    error:function(){
-				    	$.unblockUI();
-				    	bootbox.alert("<p class='red'>No se pueden grabar los datos.</p>")
-				    	//responseUI('No se pueden grabar los datos.', 'red');
-				    }
-				});
-	};	
+		bootbox.alert('<p class="error-ajax">'+error+'</p>');
+	}
+};
 
+//Functions Menu
+var addActive = function (element) {
+	element.find('.icon-menu').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+	element.addClass('active');
+	element.find('.nav').show('slide');
+}
+
+var removeActive = function (element) {
+	$('.active').find('.icon-menu').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+	$('.active').find('.nav').hide('slide');
+	$('.active').removeClass('active');
+};
+//End functions Menu
+
+//Function Overlay
+var loadingUI = function (message){
+    $.blockUI({ css: {
+        border: 'none',
+        padding: '15px',
+        backgroundColor: '#000',
+        '-webkit-border-radius': '10px',
+        '-moz-border-radius': '10px',
+        opacity: 0.5,
+        color: '#fff'
+    }, message: '<h2><img style="margin-right: 30px" src="' + server + 'img/spiffygif.gif" >' + message + '</h2>'});
+};
+
+var responseUI = function (message,color){
+    $.unblockUI();
+    $.blockUI({ css: {
+        border: 'none',
+        padding: '15px',
+        backgroundColor: color,
+        '-webkit-border-radius': '10px',
+        '-moz-border-radius': '10px',
+        opacity: 0.5,
+        color: '#fff'
+    }, message: '<h2>' + message + '</h2>'});
+    setTimeout(function(){
+        $.unblockUI();
+    },750);
+};
+//End functions overlay
+
+//Function Ajax
+var ajaxForm = function (url, type, data){
+	var message;
+	var path = server + url;
+	if(type == 'post'){
+		message = 'Registrando';
+	}else{
+		message = 'Actualizando';
+	}
+	//console.log(path,type,data);return;
+	return $.ajax({
+				url: path,
+			    type: type,
+			    data: {data: JSON.stringify(data)},
+			    datatype: 'json',
+			    beforeSend: function(){
+		    		loadingUI(message);
+			    },
+			    error:function(){
+			    	$.unblockUI();
+			    	bootbox.alert("<p class='red'>No se pueden grabar los datos.</p>")
+			    	//responseUI('No se pueden grabar los datos.', 'red');
+			    }
+			});
+};
+
+$(function(){
 	//setup Ajax
 	$.ajaxSetup({
 	    headers: {
@@ -144,7 +144,6 @@ $(function(){
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
-
 
 	/**
 	 * Menu
@@ -409,6 +408,6 @@ $(function(){
 	 */
 
 	dataTable('#table_menu', 'menús');
-	dataTable('#table_type_user', 'tipo de usuarios');
+	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
 });

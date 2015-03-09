@@ -20,12 +20,12 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-                 $json =  Menu::find(1);
+                 $json =  User::find(2);
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
-            echo json_encode($json->Tasks); die;
+            echo json_encode($json->typeUsers); die;
 //         dd($json->Tasks()); die;
 //                foreach ($json->TasksMenus() AS $test):
 //                      echo $test.'\n';

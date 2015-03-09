@@ -59,9 +59,9 @@
 	                        <tbody>
 	                        	@foreach($menus as $menu)
 		                            <tr>
-		                                <td class="text-center iglesia_number">{{$menu->id}}</td>
-		                                <td class="iglesia_name">{{strtolower($menu->name)}}</td>
-		                                <td class="iglesia_url">{{strtolower($menu->url)}}</td>
+		                                <td class="text-center menu_number">{{$menu->id}}</td>
+		                                <td class="menu_name">{{strtolower($menu->name)}}</td>
+		                                <td class="menu_url">{{strtolower($menu->url)}}</td>
 			                            @foreach($menu->Tasks as $taskMenu)
 		                                	@if($taskMenu->pivot->status == 0)
 		                                		<td class="text-center">-</td>
@@ -71,9 +71,9 @@
 		                                @endforeach
 		                                <td class="text-center">
 		                                	@if($menu->deleted_at)
-												Inactivo
+												<span>Inactivo</span>
 		                                	@else
-												Activo
+												<span>Activo</span>
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">

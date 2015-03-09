@@ -59,9 +59,9 @@
 		                                <td class="text-center type_user_name">{{mb_convert_case($typeUser->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($typeUser->deleted_at)
-												Inactivo
+												<span>Inactivo</span>
 		                                	@else
-												Activo
+												<span>Activo</span>
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
