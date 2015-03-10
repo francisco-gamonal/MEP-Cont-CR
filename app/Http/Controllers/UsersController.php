@@ -8,6 +8,7 @@ use Mep\Models\User;
 use Mep\Models\Supplier;
 use Mep\Models\TypeUser;
 use Mep\Models\School;
+use Mep\Models\Menu;
 use Illuminate\Http\Request;
 use Input;
 use Illuminate\Validation;
@@ -37,7 +38,8 @@ class UsersController extends Controller {
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         $schools = School::orderBy('name', 'ASC')->get();
-        return View('users.create', compact('typeUsers', 'suppliers','schools'));
+        $menus = Menu::orderBy('name', 'ASC')->get();
+        return View('users.create', compact('typeUsers', 'suppliers','schools','menus'));
     }
 
     /**
