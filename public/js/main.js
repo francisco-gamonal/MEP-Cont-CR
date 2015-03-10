@@ -447,4 +447,6 @@ $(function(){
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
+	dataTable('#table_school', 'instituciones');
+	dataTable('#table_user', 'usuarios');
 });

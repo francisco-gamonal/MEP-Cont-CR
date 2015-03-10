@@ -43,7 +43,7 @@
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">
-						<table id="table_type_user" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+						<table id="table_user" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
 	                            	<th>Código</th>
