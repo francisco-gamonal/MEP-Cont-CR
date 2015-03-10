@@ -40,14 +40,14 @@ abstract class Controller extends BaseController {
         return $DatosController;
     }
     
-//    public function CreacionArray($data,$delimiter){
+    public function CreacionArray($data,$delimiter){
 //      //  $array=implode($data);
 //     $dato=  explode($delimiter,  $data);
 //      $datos=  implode( $dato);
 //            return explode(',',  $datos);
 //     //   endfor;
 //      // $array= explode('S',$data);
-//        
-//    }
+        
+    }
 
 }

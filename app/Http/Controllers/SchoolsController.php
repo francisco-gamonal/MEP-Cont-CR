@@ -30,7 +30,7 @@ class SchoolsController extends Controller {
      * @return Response
      */
     public function create() {
-         return View('schools.create');
+        return View('schools.create');
     }
 
     /**
@@ -39,38 +39,39 @@ class SchoolsController extends Controller {
      * @return Response
      */
     public function store() {
-         /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
-        /*obtenemos dos datos del supplier mediante token recuperamos el id*/
-        $school = Supplier::Token($schools->tokenSchools);
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools, $school);
+        $Validation = $this->createArray($schools, "Schools");
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
         if ($saveSchools->isValid((array) $Validation)):
-            $saveSchools->name = strtoupper($Validation['last']);
-            $saveSchools->last = strtoupper($Validation['name']);
-            $saveSchools->email = strtoupper($Validation['email']);
-            $saveSchools->password = Hash::make($Validation['password']);
-            $saveSchools->type_users_id = ($Validation['type_users_id']);
-            $saveSchools->suppliers_id = ($Validation['suppliers_id']);
+            $saveSchools->name = strtoupper($Validation['name']);
+            $saveSchools->charter = strtoupper($Validation['charter']);
+            $saveSchools->circuit = ($Validation['circuit']);
+            $saveSchools->code = ($Validation['code']);
+            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
+            $saveSchools->president = strtoupper($Validation['president']);
+            $saveSchools->secretary = strtoupper($Validation['secretary']);
+            $saveSchools->account = strtoupper($Validation['account']);
+            $saveSchools->title_1 = strtoupper($Validation['title_1']);
+            $saveSchools->title_2 = ($Validation['title_2']);
             $saveSchools->token = ($Validation['token']);
             $saveSchools->save();
-
-           /* Traemos el id del ultimo registro guardado */
-            $ultimoIdUser = $saveSchools->LastId();
+            /* Traemos el id del ultimo registro guardado */
+            $ultimoIdSchools = $saveSchools->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($users->statusUser == true):
-                School::withTrashed()->find($ultimoIdUser->id)->restore();
+            if ($schools->statusSchool == true):
+                School::withTrashed()->find($ultimoIdSchools->id)->restore();
             else:
-                School::destroy($ultimoIdUser->id);
+                School::destroy($ultimoIdSchools->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($user->errors);
+        return $this->errores($saveSchools->errors);
     }
 
     /**
@@ -104,6 +105,28 @@ class SchoolsController extends Controller {
     }
 
     /**
+     * Creamos el array para la validacion con los
+     * nombre de los campos
+     * @param type $user
+     * @param type $supplier
+     * @return type
+     */
+    private function createArray($schools) {
+        $school = array('name' => $schools->nameSchool,
+            'charter' => $schools->charterSchool,
+            'circuit' => $schools->circuitSchool,
+            'code' => ($schools->codeSchool),
+            'ffinancing' => $schools->ffinancingSchool,
+            'president' => $schools->presidentSchool,
+            'secretary' => $schools->secretarySchool,
+            'account' => $schools->accountSchool,
+            'title_1' => $schools->titleOneSchool,
+            'title_2' => ($schools->titleTwoSchool),
+            'token' => Crypt::encrypt($schools->charterSchool));
+        return $school;
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -111,7 +134,7 @@ class SchoolsController extends Controller {
      */
     public function destroy() {
         /* Capturamos los datos enviados por ajax */
-        $schools=$this->convertionObjeto();
+        $schools = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
         $data = School::token($schools->tokenUser)->delete();
         if ($data):

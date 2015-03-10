@@ -42,6 +42,7 @@ class School extends Model {
             'secretary'  => 'required',
             'account'    => 'required',
             'title_1'    => 'required',
+            'title_2'    => 'required',
             'title_2'    => 'required'];
 
         if ($this->exists) {
