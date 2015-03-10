@@ -466,6 +466,37 @@ $(function(){
 			messageAjax(data);
 		});
 	});
+
+	//Active School
+	$(document).off('click', '#activeSchool');
+	$(document).on('click', '#activeSchool', function(e){
+		e.preventDefault();
+		var url;
+		var idSchool  = $(this).parent().parent().find('.school_number').text();
+		url           = $(this).data('url');
+		url           = url + '/active-' + url + '/' + idSchool;
+		data.idSchool = idSchool;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete School
+	$(document).off('click', '#deleteSchool');
+	$(document).on('click', '#deleteSchool', function(e){
+		e.preventDefault();
+		var url;
+		var idSchool  = $(this).parent().parent().find('.school_number').text();
+		url           = $(this).data('url');
+		url           = url + '/delete-' + url + '/' + idSchool;
+		data.idSchool = idSchool;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 	
 	/**
 	 * End School
