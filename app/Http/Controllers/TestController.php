@@ -21,13 +21,16 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
+
                  //$json =  User::all();
+//                 $json =  User::all();
                  //$json =  Supplier::all();
                 //$json =SchoolsHasUser::all();
                 //$json = User::all();
 		 //$json = TypeUser::all();
 		//$json = School::all();
             //echo json_encode($json); die;
+  //          echo json_encode($json); die;
 //         dd($json->Tasks()); die;
 //                foreach ($json->TasksMenus() AS $test):
 //                      echo $test.'\n';

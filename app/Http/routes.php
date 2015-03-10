@@ -84,7 +84,7 @@ Route::put('usuarios/update-usuarios/{id}','UsersController@update');
 /**
  *  Rutas de Instituciones
  */
-Route::get('institucion','UsersController@index');
+Route::get('institucion','SchoolsController@index');
 Route::get('institucion/ver-institucion',['as'=>'ver-institucion','uses'=>'SchoolsController@index']);
 Route::get('institucion/registrar-institucion','SchoolsController@create');
 Route::post('institucion/save-institucion','SchoolsController@store');
