@@ -62,7 +62,40 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	
+	                        	@foreach($schools as $school)
+		                            <tr>
+		                            	<td class="text-center school_number">{{$school->id}}</td>
+		                                <td class="text-center school_name">{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_charter">{{mb_convert_case($school->charter, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_circuit">{{mb_convert_case($school->circuit, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_code">{{$school->code}}</td>
+		                                <td class="text-center school_ffinancing">{{mb_convert_case($school->ffinancing, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_president">{{mb_convert_case($school->president, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_secretary">{{mb_convert_case($school->secretary, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_account">{{$school->account}}</td>
+		                                <td class="text-center school_TitleOne">{{mb_convert_case($school->title_1, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center school_TitleTwo">{{mb_convert_case($school->title_2, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center">
+		                                	@if($school->deleted_at)
+												<span>Inactivo</span>
+		                                	@else
+												<span>Activo</span>
+		                                	@endif
+		                                </td>
+		                                <td class="text-center edit-row">
+	                                		@if($school->deleted_at)
+	                                			<a id="activeTypeUser" data-url="usuarios" href="#">
+	                                				<i class="fa fa-check-square-o"></i>
+                                				</a>
+	                                		@else
+	                                			<a id="deleteTypeUser" data-url="usuarios" href="#">
+													<i class="fa fa-trash-o"></i>
+												</a>
+	                                		@endif
+											<a href="{{route('edit-school', $school->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+		                                </td>
+		                            </tr>
+	                            @endforeach
 	                        </tbody>
 	                    </table>
 					</div>

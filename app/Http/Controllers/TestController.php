@@ -36,7 +36,10 @@ class TestController extends Controller {
 //                      echo $test.'\n';
 //                endforeach;
 //                .das
-	
+	$stack = array("orange", "banana");
+	array_push($stack, "apple", "raspberry");
+	print_r($stack);
+	die;
     $miarray = (object) ['nameSchool' => 'one', 'lastSchool' => 'two'];
 
     foreach ($miarray as $key => $value) {

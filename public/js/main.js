@@ -432,16 +432,43 @@ $(function(){
 		data.secretarySchool  = $('#secretarySchool').val();
 		data.accountSchool    = $('#accountSchool').val();
 		data.titleOneSchool   = $('#titleOneSchool').val();
-		data.titleTwoSchool   = $('#accountSchool').val();
+		data.titleTwoSchool   = $('#titleTwoSchool').val();
 		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
 		})
 	});
+
+	//Update School
+	$(document).off('click', '#updateSchool');
+	$(document).on('click', '#updateSchool', function(e){
+		e.preventDefault();
+		var url;
+		var idSchool;
+		idSchool = $('#idSchool').val();
+		url = $(this).data('url');
+		url = url + '/update-' + url + '/' + idSchool;
+		data.idSchool     = idSchool;
+		data.nameSchool       = $('#nameSchool').val();
+		data.charterSchool    = $('#charterSchool').val();
+		data.circuitSchool    = $('#circuitSchool').val();
+		data.codeSchool       = $('#codeSchool').val();
+		data.ffinancingSchool = $('#ffinancingSchool').val();
+		data.presidentSchool  = $('#presidentSchool').val();
+		data.secretarySchool  = $('#secretarySchool').val();
+		data.accountSchool    = $('#accountSchool').val();
+		data.titleOneSchool   = $('#titleOneSchool').val();
+		data.titleTwoSchool   = $('#titleTwoSchool').val();
+		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 	
 	/**
-	 * End User
+	 * End School
 	 */
 
 	dataTable('#table_menu', 'menús');
