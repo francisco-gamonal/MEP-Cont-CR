@@ -42,7 +42,8 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools, "Schools");
+        $Validation = $this->createArray($schools);
+       
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
@@ -107,7 +108,7 @@ class SchoolsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->createArray($schools, "Schools");
         /* Declaramos las clases a utilizar */
-        $saveSchools = new School;
+        $saveSchools = School::withTrashed()->find($schools->idSchool);
         /* Validamos los datos para guardar tabla menu */
         if ($saveSchools->isValid((array) $Validation)):
             $saveSchools->name = strtoupper($Validation['name']);
@@ -122,13 +123,11 @@ class SchoolsController extends Controller {
             $saveSchools->title_2 = ($Validation['title_2']);
             $saveSchools->token = ($Validation['token']);
             $saveSchools->save();
-            /* Traemos el id del ultimo registro guardado */
-            $ultimoIdSchools = $saveSchools->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($schools->statusSchool == true):
-                School::withTrashed()->find($ultimoIdSchools->id)->restore();
+                School::withTrashed()->find($schools->idSchool)->restore();
             else:
-                School::destroy($ultimoIdSchools->id);
+                School::destroy($schools->idSchool);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -154,8 +153,7 @@ class SchoolsController extends Controller {
             'secretary' => $schools->secretarySchool,
             'account' => $schools->accountSchool,
             'title_1' => $schools->titleOneSchool,
-            'title_2' => ($schools->titleTwoSchool),
-            'token' => Crypt::encrypt($schools->charterSchool));
+            'title_2' => ($schools->titleTwoSchool));
         return $school;
     }
 
@@ -169,8 +167,9 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
-        $data = School::find($id)->delete();
+        $data = School::find($id);
         if ($data):
+            $data->delete();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -188,7 +187,7 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = School::find($id)->restore();
+        $data = School::withTrashed()->find($id)->restore();
         
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */

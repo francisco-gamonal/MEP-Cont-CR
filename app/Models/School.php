@@ -34,7 +34,7 @@ class School extends Model {
     public function isValid($data) {
         $rules = [
             'name'       => 'required',
-            'charter'    => 'required',
+            'charter'    => 'required|unique:schools',
             'circuit'    => 'required',
             'code'       => 'required',
             'ffinancing' => 'required',

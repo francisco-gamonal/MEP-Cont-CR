@@ -47,9 +47,9 @@ abstract class Controller extends BaseController {
             $newKey = explode($delimiter, $key);
 //            $prueba[] = array($newKey[0]=>$value);
 //            $pruebas = array_push($ver, $prueba);
-            return $value;
-            
-        endforeach;
+            array_push($ver, $newKey[0]);
+         endforeach;
+            return $ver;
     }
 
 }
