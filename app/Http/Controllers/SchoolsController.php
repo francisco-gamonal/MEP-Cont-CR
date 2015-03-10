@@ -102,7 +102,39 @@ class SchoolsController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+        /* Capturamos los datos enviados por ajax */
+        $schools = $this->convertionObjeto();
+        /* Creamos un array para cambiar nombres de parametros */
+        $Validation = $this->createArray($schools, "Schools");
+        /* Declaramos las clases a utilizar */
+        $saveSchools = new School;
+        /* Validamos los datos para guardar tabla menu */
+        if ($saveSchools->isValid((array) $Validation)):
+            $saveSchools->name = strtoupper($Validation['name']);
+            $saveSchools->charter = strtoupper($Validation['charter']);
+            $saveSchools->circuit = ($Validation['circuit']);
+            $saveSchools->code = ($Validation['code']);
+            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
+            $saveSchools->president = strtoupper($Validation['president']);
+            $saveSchools->secretary = strtoupper($Validation['secretary']);
+            $saveSchools->account = strtoupper($Validation['account']);
+            $saveSchools->title_1 = strtoupper($Validation['title_1']);
+            $saveSchools->title_2 = ($Validation['title_2']);
+            $saveSchools->token = ($Validation['token']);
+            $saveSchools->save();
+            /* Traemos el id del ultimo registro guardado */
+            $ultimoIdSchools = $saveSchools->LastId();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($schools->statusSchool == true):
+                School::withTrashed()->find($ultimoIdSchools->id)->restore();
+            else:
+                School::destroy($ultimoIdSchools->id);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($saveSchools->errors);
     }
 
     /**
@@ -133,11 +165,11 @@ class SchoolsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy() {
+    public function destroy($id) {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
-        $data = School::token($schools->tokenUser)->delete();
+        $data = School::find($id)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -152,11 +184,12 @@ class SchoolsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function active() {
+    public function active($id) {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = School::token($schools->tokenUser)->restore();
+        $data = School::find($id)->restore();
+        
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');

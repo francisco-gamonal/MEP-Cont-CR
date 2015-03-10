@@ -12,7 +12,7 @@ abstract class Controller extends BaseController {
 
     use DispatchesCommands,
         ValidatesRequests;
-    
+
     /* Con estos methodos enviamos los mensajes de exito en cualquier controlador */
 
     public function exito($data) {
@@ -30,24 +30,26 @@ abstract class Controller extends BaseController {
                     'errors' => $data
         ]);
     }
+
     /**
      * 
      * @return type
      */
-    public function convertionObjeto(){
-         $datos = Input::get('data');
+    public function convertionObjeto() {
+        $datos = Input::get('data');
         $DatosController = json_decode($datos);
         return $DatosController;
     }
-    
-    public function CreacionArray($data,$delimiter){
-//      //  $array=implode($data);
-//     $dato=  explode($delimiter,  $data);
-//      $datos=  implode( $dato);
-//            return explode(',',  $datos);
-//     //   endfor;
-//      // $array= explode('S',$data);
-        
+
+    public function CreacionArray($data, $delimiter) {
+        $ver = array();
+        foreach ($data AS $key => $value):
+            $newKey = explode($delimiter, $key);
+//            $prueba[] = array($newKey[0]=>$value);
+//            $pruebas = array_push($ver, $prueba);
+            return $value;
+            
+        endforeach;
     }
 
 }

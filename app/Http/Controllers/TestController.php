@@ -43,8 +43,9 @@ class TestController extends Controller {
     $miarray = (object) ['nameSchool' => 'one', 'lastSchool' => 'two'];
 
     foreach ($miarray as $key => $value) {
+        
     	$newKey = explode('School', $key);
-    	echo $newKey[0].'</br>';
+    	echo $value.'</br>';
     }
     die;
     echo json_encode($miarray);
