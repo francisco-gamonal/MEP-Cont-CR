@@ -91,7 +91,8 @@ class SchoolsController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        return View('schools.edit');
+        $schools = School::withTrashed()->find($id);
+        return View('schools.edit', compact('schools'));
     }
 
     /**
