@@ -42,28 +42,28 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools);
-       
+        $Validation = $this->CreacionArray($schools,"School");
+        
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
-        if ($saveSchools->isValid((array) $Validation)):
-            $saveSchools->name = strtoupper($Validation['name']);
-            $saveSchools->charter = strtoupper($Validation['charter']);
-            $saveSchools->circuit = ($Validation['circuit']);
-            $saveSchools->code = ($Validation['code']);
-            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
-            $saveSchools->president = strtoupper($Validation['president']);
-            $saveSchools->secretary = strtoupper($Validation['secretary']);
-            $saveSchools->account = strtoupper($Validation['account']);
-            $saveSchools->title_1 = strtoupper($Validation['title_1']);
-            $saveSchools->title_2 = ($Validation['title_2']);
-            $saveSchools->token = ($Validation['token']);
+        if ($saveSchools->isValid(  $Validation[0])): 
+            echo json_encode($Validation[0]); 
+            $saveSchools->name = strtoupper($Validation[0]->name);
+//            $saveSchools->charter = strtoupper($Validation['charter']);
+//            $saveSchools->circuit = ($Validation['circuit']);
+//            $saveSchools->code = ($Validation['code']);
+//            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
+//            $saveSchools->president = strtoupper($Validation['president']);
+//            $saveSchools->secretary = strtoupper($Validation['secretary']);
+//            $saveSchools->account = strtoupper($Validation['account']);
+//            $saveSchools->title_1 = strtoupper($Validation['title_1']);
+//            $saveSchools->title_2 = ($Validation['title_2']);
             $saveSchools->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSchools = $saveSchools->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($schools->statusSchool == true):
+            if ($schools['status'] == true):
                 School::withTrashed()->find($ultimoIdSchools->id)->restore();
             else:
                 School::destroy($ultimoIdSchools->id);

@@ -42,14 +42,14 @@ abstract class Controller extends BaseController {
     }
 
     public function CreacionArray($data, $delimiter) {
-        $ver = array();
+        $newArreglo = array();
         foreach ($data AS $key => $value):
             $newKey = explode($delimiter, $key);
-//            $prueba[] = array($newKey[0]=>$value);
-//            $pruebas = array_push($ver, $prueba);
-            array_push($ver, $newKey[0]);
-         endforeach;
-            return $ver;
+            array_push($newArreglo, array($newKey[0] => $value));
+
+        endforeach;
+
+        return ($newArreglo);
     }
 
 }

@@ -36,19 +36,14 @@ class TestController extends Controller {
 //                      echo $test.'\n';
 //                endforeach;
 //                .das
-	$stack = array("orange", "banana");
-	array_push($stack, "apple", "raspberry");
-	print_r($stack);
-	die;
-    $miarray = (object) ['nameSchool' => 'one', 'lastSchool' => 'two'];
+//	$stack = array("orange", "banana");
+//	array_push($stack, "apple", "raspberry");
+//	print_r($stack);
+//	die;
+    $miarray = (object) ['nameSchool' => 'oneSchool', 'lastSchool' => 'twoSchool', 'codeSchool' => 'treeSchool'];
 
-    foreach ($miarray as $key => $value) {
-        
-    	$newKey = explode('School', $key);
-    	echo $value.'</br>';
-    }
-    die;
-    echo json_encode($miarray);
+   $mi= $this->CreacionArray($miarray, "School");
+    echo json_encode($mi[0]);
 
     }
 
