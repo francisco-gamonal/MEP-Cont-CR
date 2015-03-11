@@ -96,6 +96,15 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
+					<label for="schools">Instituciones</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-university"></i></span>
+				      	<input id="schools" class="form-control" type="text">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
 					<label for="statusUser">Estado del Usuario</label>
 					<div class="row">
 			      		<input id="statusUser" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>

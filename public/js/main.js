@@ -390,31 +390,53 @@ $(function(){
 	 * User
 	 */
 	
+	if(pathnameArray[1] == 'usuarios/registrar-usuario'){
+		var schools = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			prefetch: '../json/schools.json'
+	    });
+	    schools.initialize();
+
+	    var elt = $('#schools');
+	    elt.tagsinput({
+			itemValue: 'value',
+			itemText: 'text',
+			typeaheadjs: {
+			name: 'schools',
+			displayKey: 'text',
+				source: schools.ttAdapter()
+			}
+	    });
+	}
+	
 	//Save User
 	$(document).off('click', '#saveUser');
 	$(document).on('click', '#saveUser', function(e){
 		e.preventDefault();
 		url = $(this).data('url');
 		url = url + '/save-' + url;
+		var schools    = $("#schools").val();
+		var arrSchools = schools.split(',');
 		data.nameUser      = $('#nameUser').val();
 		data.lastNameUser  = $('#lastNameUser').val();
 		data.emailUser     = $('#emailUser').val();
 		data.passwordUser  = $('#passwordUser').val();
 		data.idTypeUser    = $('#typeUser').val();
 		data.tokenSupplier = $('#supplier').val();
+		data.schoolsUser   = arrSchools;
 		data.statusUser    = $('#statusUser').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
 		})
 	});
-	
 	/**
 	 * End User
 	 */
 	
 	/**
-	 * User
+	 * School
 	 */
 	
 	//Save School
@@ -496,7 +518,6 @@ $(function(){
 			messageAjax(data);
 		});
 	});
-
 	
 	/**
 	 * End School
