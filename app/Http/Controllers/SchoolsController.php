@@ -42,7 +42,7 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->CreacionArray($schools,"School");
+        $Validation = $this->createArray($schools,"School");
         
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
@@ -50,15 +50,15 @@ class SchoolsController extends Controller {
         if ($saveSchools->isValid(  $Validation[0])): 
             echo json_encode($Validation[0]); 
             $saveSchools->name = strtoupper($Validation[0]->name);
-//            $saveSchools->charter = strtoupper($Validation['charter']);
-//            $saveSchools->circuit = ($Validation['circuit']);
-//            $saveSchools->code = ($Validation['code']);
-//            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
-//            $saveSchools->president = strtoupper($Validation['president']);
-//            $saveSchools->secretary = strtoupper($Validation['secretary']);
-//            $saveSchools->account = strtoupper($Validation['account']);
-//            $saveSchools->title_1 = strtoupper($Validation['title_1']);
-//            $saveSchools->title_2 = ($Validation['title_2']);
+               $saveSchools->charter = strtoupper($Validation['charter']);
+            $saveSchools->circuit = ($Validation['circuit']);
+            $saveSchools->code = ($Validation['code']);
+            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
+            $saveSchools->president = strtoupper($Validation['president']);
+            $saveSchools->secretary = strtoupper($Validation['secretary']);
+            $saveSchools->account = strtoupper($Validation['account']);
+            $saveSchools->title_1 = strtoupper($Validation['title_1']);
+            $saveSchools->title_2 = ($Validation['title_2']);
             $saveSchools->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSchools = $saveSchools->LastId();
@@ -121,7 +121,6 @@ class SchoolsController extends Controller {
             $saveSchools->account = strtoupper($Validation['account']);
             $saveSchools->title_1 = strtoupper($Validation['title_1']);
             $saveSchools->title_2 = ($Validation['title_2']);
-            $saveSchools->token = ($Validation['token']);
             $saveSchools->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($schools->statusSchool == true):
@@ -144,6 +143,7 @@ class SchoolsController extends Controller {
      * @return type
      */
     private function createArray($schools) {
+
         $school = array('name' => $schools->nameSchool,
             'charter' => $schools->charterSchool,
             'circuit' => $schools->circuitSchool,
