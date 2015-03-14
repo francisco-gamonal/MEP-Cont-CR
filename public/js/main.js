@@ -127,7 +127,6 @@ $(function(){
 
 	var data = {};
 	
-
 	//Equals height
 	$('[class*="-wrapper"]').matchHeight();
 
@@ -403,9 +402,9 @@ $(function(){
 			itemValue: 'value',
 			itemText: 'text',
 			typeaheadjs: {
-			name: 'schools',
-			displayKey: 'text',
-				source: schools.ttAdapter()
+				name: 'schools',
+				displayKey: 'text',
+					source: schools.ttAdapter()
 			}
 	    });
 	}
@@ -431,6 +430,38 @@ $(function(){
 			messageAjax(data);
 		})
 	});
+
+	//Active User
+	$(document).off('click', '#activeUser');
+	$(document).on('click', '#activeUser', function(e){
+		e.preventDefault();
+		var url;
+		var idUser  = $(this).parent().parent().find('.user_number').text();
+		url         = $(this).data('url');
+		url         = url + '/active-' + url + '/' + idUser;
+		data.idUser = idUser;
+		console.log(data, url);return;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete User
+	$(document).off('click', '#deleteUser');
+	$(document).on('click', '#deleteUser', function(e){
+		e.preventDefault();
+		var url;
+		var idUser  = $(this).parent().parent().find('.user_number').text();
+		url         = $(this).data('url');
+		url         = url + '/delete-' + url + '/' + idUser;
+		data.idUser = idUser;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 	/**
 	 * End User
 	 */
