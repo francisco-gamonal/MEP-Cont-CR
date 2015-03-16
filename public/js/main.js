@@ -390,6 +390,7 @@ $(function(){
 	 */
 	
 	if(pathnameArray[1] == 'usuarios/registrar-usuario'){
+		localStorage.clear();
 		var schools = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
