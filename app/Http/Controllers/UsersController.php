@@ -103,10 +103,10 @@ class UsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $users = User::Token($id);
+        $user = User::find($id);
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
-        return view('suppliers.edit', compact('users', 'typeUsers', 'suppliers'));
+        return view('users.edit', compact('user', 'typeUsers', 'suppliers'));
     }
 
     /**

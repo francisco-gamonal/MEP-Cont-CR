@@ -82,11 +82,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($user->deleted_at)
-	                                			<a id="activeTypeUser" data-url="usuarios" href="#">
+	                                			<a id="activeUser" data-url="usuarios" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteTypeUser" data-url="usuarios" href="#">
+	                                			<a id="deleteUser" data-url="usuarios" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
