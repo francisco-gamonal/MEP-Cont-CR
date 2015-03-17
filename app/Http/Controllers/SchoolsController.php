@@ -68,6 +68,8 @@ class SchoolsController extends Controller {
             else:
                 School::destroy($ultimoIdSchools->id);
             endif;
+              /*Con este methodo creamos el archivo Json */
+            $schools->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -128,6 +130,8 @@ class SchoolsController extends Controller {
             else:
                 School::destroy($schools->idSchool);
             endif;
+              /*Con este methodo creamos el archivo Json */
+            $schools->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -197,4 +201,18 @@ class SchoolsController extends Controller {
         return $this->errores($data->errors);
     }
 
+    
+    public function fileJsonUpdate() {
+        /*Buscamos todos los datos de school y traemos solo el id y el name*/
+        $school = School::select('id', 'name')->get();
+        foreach ($school AS $schools):
+            $dataJson[] = $schools;
+        endforeach;
+
+
+        $fh = fopen("json/schools.json", 'w')
+                or die("Error al abrir fichero de salida");
+        fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
+        fclose($fh);
+    }
 }

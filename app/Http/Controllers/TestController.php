@@ -21,6 +21,20 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
+            
+$schools = new UsersController;
+$schools->fileJsonUpdate();
+
+//$school = School::select('id','name')->get();
+//foreach ($school AS $schools): 
+//    $dataJson[]=$schools;
+//endforeach;
+//
+// 
+//$fh = fopen("json/schools.json", 'w')
+//      or die("Error al abrir fichero de salida");
+//fwrite($fh, json_encode($dataJson,JSON_UNESCAPED_UNICODE));
+//fclose($fh);
 
                  //$json =  User::all();
 //                 $json =  User::all();
@@ -40,10 +54,10 @@ class TestController extends Controller {
 //	array_push($stack, "apple", "raspberry");
 //	print_r($stack);
 //	die;
-    $miarray = (object) ['nameSchool' => 'oneSchool', 'lastSchool' => 'twoSchool', 'codeSchool' => 'treeSchool'];
-
-   $mi= $this->CreacionArray($miarray, "School");
-    echo json_encode($mi[0]);
+//    $miarray = (object) ['nameSchool' => 'oneSchool', 'lastSchool' => 'twoSchool', 'codeSchool' => 'treeSchool'];
+//
+//   $mi= $this->CreacionArray($miarray, "School");
+//    echo json_encode($mi[0]);
 
     }
 

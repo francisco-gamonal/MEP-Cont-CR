@@ -39,7 +39,7 @@ class UsersController extends Controller {
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         $schools = School::orderBy('name', 'ASC')->get();
         $menus = Menu::orderBy('name', 'ASC')->get();
-        return View('users.create', compact('typeUsers', 'suppliers','schools','menus'));
+        return View('users.create', compact('typeUsers', 'suppliers', 'schools', 'menus'));
     }
 
     /**
@@ -50,8 +50,8 @@ class UsersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
-        
-        /*obtenemos dos datos del supplier mediante token recuperamos el id*/
+
+        /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->createArray($users, $supplier);
@@ -68,7 +68,7 @@ class UsersController extends Controller {
             $user->token = ($Validation['token']);
             $user->save();
 
-           /* Traemos el id del ultimo registro guardado */
+            /* Traemos el id del ultimo registro guardado */
             $ultimoIdUser = $user->LastId();
             //
             $ultimoIdUser->Tasks()->attach($users->idTypeUser);
@@ -78,6 +78,7 @@ class UsersController extends Controller {
             else:
                 User::destroy($ultimoIdUser->id);
             endif;
+          
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -117,7 +118,7 @@ class UsersController extends Controller {
     public function update($id) {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
-        /*obtenemos dos datos del supplier mediante token recuperamos el id*/
+        /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->createArray($users, $supplier);
@@ -133,7 +134,7 @@ class UsersController extends Controller {
             $user->suppliers_id = ($Validation['suppliers_id']);
             $user->token = ($Validation['token']);
             $user->save();
-             /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($users->statusUser == true):
                 User::token($users->tokenUser)->restore();
             else:
@@ -154,7 +155,7 @@ class UsersController extends Controller {
      */
     public function destroy() {
         /* Capturamos los datos enviados por ajax */
-        $users=$this->convertionObjeto();
+        $users = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
         $data = User::token($users->tokenUser)->delete();
         if ($data):
@@ -194,13 +195,13 @@ class UsersController extends Controller {
     private function createArray($user, $supplier) {
         if ($supplier['id']):
             $users = array('name' => $user->nameUser,
-            'last' => $user->lastNameUser,
-            'email' => $user->emailUser,
-            'password' => ($user->passwordUser),
-            'type_users_id' => $user->idTypeUser,
-            'suppliers_id' => $supplier['id'],
-            'token' => Crypt::encrypt($user->emailUser));
-        return $users;
+                'last' => $user->lastNameUser,
+                'email' => $user->emailUser,
+                'password' => ($user->passwordUser),
+                'type_users_id' => $user->idTypeUser,
+                'suppliers_id' => $supplier['id'],
+                'token' => Crypt::encrypt($user->emailUser));
+            return $users;
         endif;
         $users = array('name' => $user->nameUser,
             'last' => $user->lastNameUser,
@@ -211,7 +212,6 @@ class UsersController extends Controller {
             'token' => Crypt::encrypt($user->emailUser));
         return $users;
     }
-
 
     private function cargarValoresDB($Datos) {
         /* Declaramos las clases a utilizar */
@@ -231,5 +231,6 @@ class UsersController extends Controller {
 
         return $suppliers->errors;
     }
+
 
 }
