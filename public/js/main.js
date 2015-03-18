@@ -441,7 +441,6 @@ $(function(){
 		url         = $(this).data('url');
 		url         = url + '/active-' + url + '/' + idUser;
 		data.idUser = idUser;
-		console.log(data, url);return;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);

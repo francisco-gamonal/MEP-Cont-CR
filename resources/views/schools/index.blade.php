@@ -51,12 +51,9 @@
 	                                <th>Cédula</th>
 	                                <th>Circuito</th>
 	                                <th>Código</th>
-	                                <th>Financiamiento</th>
 	                                <th>Presidente</th>
 	                                <th>Secretaria</th>
 	                                <th>Cuenta</th>
-	                                <th>Título 1</th>
-	                                <th>Título 2</th>
 	                                <th>Estado</th>
 	                                <th>Edición</th>
 	                            </tr>
@@ -69,12 +66,9 @@
 		                                <td class="text-center school_charter">{{mb_convert_case($school->charter, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center school_circuit">{{mb_convert_case($school->circuit, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center school_code">{{$school->code}}</td>
-		                                <td class="text-center school_ffinancing">{{mb_convert_case($school->ffinancing, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center school_president">{{mb_convert_case($school->president, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center school_secretary">{{mb_convert_case($school->secretary, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center school_account">{{$school->account}}</td>
-		                                <td class="text-center school_TitleOne">{{mb_convert_case($school->title_1, MB_CASE_TITLE, 'utf-8')}}</td>
-		                                <td class="text-center school_TitleTwo">{{mb_convert_case($school->title_2, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($school->deleted_at)
 												<span>Inactivo</span>
