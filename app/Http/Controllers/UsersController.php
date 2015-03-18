@@ -70,8 +70,13 @@ class UsersController extends Controller {
 
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdUser = $user->LastId();
-            //
-            $ultimoIdUser->Tasks()->attach($users->idTypeUser);
+            $schoolsUser = $users->schoolsUser;
+             for ($i = 0; $i < count($schoolsUser); $i++):
+                /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                $Relacion = user::find($ultimoIdUser['id']);
+                $Relacion->schools()->attach($users->schoolsUser[$i]);
+            endfor;
+           
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($users->statusUser == true):
                 User::withTrashed()->find($ultimoIdUser->id)->restore();
@@ -106,7 +111,9 @@ class UsersController extends Controller {
         $user = User::find($id);
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
-        return view('users.edit', compact('user', 'typeUsers', 'suppliers'));
+        $schools = School::orderBy('name', 'ASC')->get();
+        $menus = Menu::orderBy('name', 'ASC')->get();
+        return view('users.edit', compact('user','typeUsers', 'suppliers', 'schools', 'menus'));
     }
 
     /**
@@ -157,7 +164,7 @@ class UsersController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
-        $data = User::token($users->tokenUser)->delete();
+        $data = User::find($users->idUser)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -176,7 +183,7 @@ class UsersController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = User::token($users->tokenUser)->restore();
+        $data = User::find($users->idUser)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');

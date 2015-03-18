@@ -50,7 +50,7 @@ class User extends Model {
     }
 
     public function schools() {
-        return $this->belongsToMany('School', 'schools_has_users', 'users_id', 'schools_id');
+        return $this->belongsToMany('Mep\Models\School');
     }
 
     public function LastId() {
