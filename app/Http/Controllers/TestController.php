@@ -21,9 +21,13 @@ class TestController extends Controller {
 	 */
 	public function index()
 	{   
-            
-$schools = new UsersController;
-$schools->fileJsonUpdate();
+	$user =  User::all();
+	foreach ($user as  $value) {
+			echo $value->nameComplete();
+	}
+	
+//$schools = new UsersController;//
+//$schools->fileJsonUpdate();
 
 //$school = School::select('id','name')->get();
 //foreach ($school AS $schools): 

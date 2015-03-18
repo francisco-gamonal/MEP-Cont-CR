@@ -53,10 +53,13 @@ class User extends Model {
         return $this->belongsToMany('Mep\Models\School');
     }
 
+    public function nameComplete() {
+
+        return $this->name.' '.$this->last;
+    }
     public function LastId() {
         return User::all()->last();
     }
-
     public static function Token($token) {
         $user = User::withTrashed()->where('token', '=', $token)->get();
         if ($user):

@@ -59,8 +59,8 @@ class UsersController extends Controller {
         $user = new User;
         /* Validamos los datos para guardar tabla menu */
         if ($user->isValid((array) $Validation)):
-            $user->name = strtoupper($Validation['last']);
-            $user->last = strtoupper($Validation['name']);
+            $user->name = strtoupper($Validation['name']);
+            $user->last = strtoupper($Validation['last']);
             $user->email = strtoupper($Validation['email']);
             $user->password = Hash::make($Validation['password']);
             $user->type_users_id = ($Validation['type_users_id']);
@@ -108,7 +108,7 @@ class UsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $user = User::find($id);
+        $user = User::withTrashed()->find($id);
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         $schools = School::orderBy('name', 'ASC')->get();
@@ -133,8 +133,8 @@ class UsersController extends Controller {
         $user = new User;
         /* Validamos los datos para guardar tabla menu */
         if ($user->isValid((array) $Validation)):
-            $user->name = strtoupper($Validation['last']);
-            $user->last = strtoupper($Validation['name']);
+            $user->name = strtoupper($Validation['name']);
+            $user->last = strtoupper($Validation['last']);
             $user->email = strtoupper($Validation['email']);
             $user->password = Hash::make($Validation['password']);
             $user->type_users_id = ($Validation['type_users_id']);
@@ -183,7 +183,7 @@ class UsersController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = User::find($users->idUser)->restore();
+        $data = User::withTrashed()->find($users->idUser)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
