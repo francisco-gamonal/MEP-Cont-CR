@@ -209,7 +209,7 @@ class SchoolsController extends Controller {
     
     public function fileJsonUpdate() {
         /*Buscamos todos los datos de school y traemos solo el id y el name*/
-        $school = School::withTrashed()->select('id', 'name')->get();
+        $school = School::select('id', 'name')->get();
         foreach ($school AS $schools):
             $dataJson[] = array('value'=>$schools->id,'text'=>$schools->name);
         endforeach;
