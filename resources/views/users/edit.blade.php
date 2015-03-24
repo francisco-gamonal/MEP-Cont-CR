@@ -36,7 +36,16 @@
 
 @section('content')
 	<div class="paddingWrapper">
-		<section class="row">
+		<section class="row form-user">
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="nameUser">Código del Usuario</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-key"></i></span>
+				      	<input id="idUser" class="form-control" type="text" value="{{$user->id}}" disabled>
+					</div>
+				</div>
+			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
 					<label for="nameUser">Nombres del Usuario</label>
@@ -61,15 +70,6 @@
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
 				      	<input id="emailUser" class="form-control" type="email" value="{{strtolower($user->email)}}">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="passwordUser">Password del Usuario</label>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-				      	<input id="passwordUser" class="form-control" type="password" value="{{$user->password}}">
 					</div>
 				</div>
 			</div>
@@ -108,6 +108,7 @@
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-university"></i></span>
 				      	<input id="schools" class="form-control" type="text">
+				      	<input id="hdnSchools" type="hidden" data-id="{{$user->idSchools($user->schools)}}" data-name="{{$user->nameSchools($user->schools)}}">
 					</div>
 				</div>
 			</div>
