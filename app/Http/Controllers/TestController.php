@@ -26,9 +26,9 @@ class TestController extends Controller {
             
             $user =  User::find(1)->schools;
   echo json_encode($user); die;
-	$user =  User::find(15);
+	$user =  User::all();
 	foreach ($user as  $value) {
-			echo json_encode($value);
+			echo json_encode($value->schools);
 	}
 	
 //$schools = new UsersController;//

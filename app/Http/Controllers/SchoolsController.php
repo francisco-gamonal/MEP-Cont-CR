@@ -42,14 +42,14 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools,"School");
+        $Validation = $this->createArray($schools);
         
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
-        if ($saveSchools->isValid(  $Validation[0])): 
-            echo json_encode($Validation[0]); 
-            $saveSchools->name = strtoupper($Validation[0]->name);
+        if ($saveSchools->isValid(  $Validation)): 
+           // echo json_encode($Validation[0]); 
+            $saveSchools->name = strtoupper($Validation['name']);
                $saveSchools->charter = strtoupper($Validation['charter']);
             $saveSchools->circuit = ($Validation['circuit']);
             $saveSchools->code = ($Validation['code']);
