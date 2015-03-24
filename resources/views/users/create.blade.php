@@ -36,7 +36,7 @@
 
 @section('content')
 	<div class="paddingWrapper">
-		<section class="row">
+		<section class="row form-user">
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
 					<label for="nameUser">Nombres del Usuario</label>

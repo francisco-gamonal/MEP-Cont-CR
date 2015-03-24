@@ -129,6 +129,7 @@ $(function(){
 	
 	//Equals height
 	$('[class*="-wrapper"]').matchHeight();
+	$('.form-user .col-sm-6').matchHeight();
 
 	//Event menu expand
 	$('.submenu').on('click', function(e){
@@ -388,13 +389,21 @@ $(function(){
 	/**
 	 * User
 	 */
-	
-	if(pathnameArray[1] == 'usuarios/registrar-usuario'){
+
+	var urlUser = pathnameArray[1].split('/');
+	if(urlUser[1] === 'registrar-usuario' || urlUser[1] === 'editar-usuario'){
 		localStorage.clear();
+
+		if(urlUser[1] === 'registrar-usuario'){
+			var prefetch = '../json/schools.json';
+		}else{
+			var prefetch = '../../json/schools.json';
+		}
+		
 		var schools = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			prefetch: '../json/schools.json'
+			prefetch: prefetch
 	    });
 	    schools.initialize();
 
@@ -405,11 +414,25 @@ $(function(){
 			typeaheadjs: {
 				name: 'schools',
 				displayKey: 'text',
-					source: schools.ttAdapter()
+				source: schools.ttAdapter()
 			}
 	    });
+
+	    if(urlUser[1] === 'editar-usuario'){
+			if($("#hdnSchools").attr('data-id').length === 1){
+				var value = $("#hdnSchools").attr('data-id');
+				var text  = $("#hdnSchools").attr('data-name');
+		    	elt.tagsinput('add', {"value": value, "text": ''+ text})
+			}else if($("#hdnSchools").attr('data-id').length > 1){
+				var value = $("#hdnSchools").attr('data-id').split(',');
+				var text  = $("#hdnSchools").attr('data-name').split(',');
+				for(var i = 0; i<value.length; i++){
+		    		elt.tagsinput('add', {"value": value[i], "text": '' + text[i]})
+		    	}
+			}
+	    }
 	}
-	
+
 	//Save User
 	$(document).off('click', '#saveUser');
 	$(document).on('click', '#saveUser', function(e){
@@ -430,6 +453,32 @@ $(function(){
 		.done( function (data) {
 			messageAjax(data);
 		})
+	});
+
+	//Update User
+	$(document).off('click', '#updateUser');
+	$(document).on('click', '#updateUser', function(e){
+		e.preventDefault();
+		var url;
+		var idUser;
+		idUser = $('#idUser').val();
+		url    = $(this).data('url');
+		url    = url + '/update-' + url + '/' + idUser;
+		data.idUser        = idUser;
+		var schools        = $("#schools").val();
+		var arrSchools     = schools.split(',');
+		data.nameUser      = $('#nameUser').val();
+		data.lastNameUser  = $('#lastNameUser').val();
+		data.emailUser     = $('#emailUser').val();
+		data.passwordUser  = null;
+		data.idTypeUser    = $('#typeUser').val();
+		data.tokenSupplier = $('#supplier').val();
+		data.schoolsUser   = arrSchools;
+		data.statusUser    = $('#statusUser').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
 	});
 
 	//Active User

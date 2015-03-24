@@ -51,7 +51,7 @@
 					<label for="charterSchool">Cédula de la Institución</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				      	<input id="charterSchool" class="form-control" type="text">
+				      	<input id="charterSchool" class="form-control" type="number">
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 					<label for="circuitSchool">Circuito de la Institución</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-				      	<input id="circuitSchool" class="form-control" type="text">
+				      	<input id="circuitSchool" class="form-control" type="number">
 					</div>
 				</div>
 			</div>

@@ -20,6 +20,7 @@ class School extends Model {
         return School::all()->last();
     }
 
+    
     public static function Token($token) {
         $user = School::withTrashed()->where('token', '=', $token)->get();
         if ($user):

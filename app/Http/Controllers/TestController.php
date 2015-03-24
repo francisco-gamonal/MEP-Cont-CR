@@ -5,7 +5,6 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\School;
 use Mep\Models\TypeUser;
 use Mep\Models\User;
-use Mep\Models\SchoolsHasUser;
 use Illuminate\Http\Request;
 use Mep\Models\Menu;
 use Mep\Models\Task;
@@ -22,6 +21,7 @@ class TestController extends Controller {
     
     
 	public function index()
+<<<<<<< HEAD
 	{ 
             
 //            $user =  User::find(3)->schools;
@@ -44,29 +44,13 @@ class TestController extends Controller {
 //      or die("Error al abrir fichero de salida");
 //fwrite($fh, json_encode($dataJson,JSON_UNESCAPED_UNICODE));
 //fclose($fh);
+=======
+	{ 	
+		$user = User::find(1);
+>>>>>>> origin/master
 
-                 //$json =  User::all();
-//                 $json =  User::all();
-                 //$json =  Supplier::all();
-                //$json =SchoolsHasUser::all();
-                //$json = User::all();
-		 //$json = TypeUser::all();
-		//$json = School::all();
-            //echo json_encode($json); die;
-  //          echo json_encode($json); die;
-//         dd($json->Tasks()); die;
-//                foreach ($json->TasksMenus() AS $test):
-//                      echo $test.'\n';
-//                endforeach;
-//                .das
-//	$stack = array("orange", "banana");
-//	array_push($stack, "apple", "raspberry");
-//	print_r($stack);
-//	die;
-//    $miarray = (object) ['nameSchool' => 'oneSchool', 'lastSchool' => 'twoSchool', 'codeSchool' => 'treeSchool'];
-//
-//   $mi= $this->CreacionArray($miarray, "School");
-//    echo json_encode($mi[0]);
+		echo $user->nameSchools($user->schools);
+		
 
     }
 

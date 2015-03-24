@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="idSchool">Id de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-university"></i></span>
+						<span class="input-group-addon"><i class="fa fa fa-key"></i></span>
 				      	<input id="idSchool" class="form-control" type="text" value="{{$school->id}}">
 					</div>
 				</div>

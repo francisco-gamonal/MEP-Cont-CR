@@ -175,6 +175,8 @@ class SchoolsController extends Controller {
         $data = School::find($id);
         if ($data):
             $data->delete();
+               /*Con este methodo creamos el archivo Json */
+           $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -195,6 +197,8 @@ class SchoolsController extends Controller {
         $data = School::withTrashed()->find($id)->restore();
         
         if ($data):
+               /*Con este methodo creamos el archivo Json */
+            $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
@@ -205,12 +209,12 @@ class SchoolsController extends Controller {
     
     public function fileJsonUpdate() {
         /*Buscamos todos los datos de school y traemos solo el id y el name*/
-        $school = School::withTrashed()->select('id', 'name')->get();
+        $school = School::select('id', 'name')->get();
+        $dataJson = '';
         foreach ($school AS $schools):
             $dataJson[] = array('value'=>$schools->id,'text'=>$schools->name);
         endforeach;
-
-
+     
         $fh = fopen("json/schools.json", 'w')
                 or die("Error al abrir fichero de salida");
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
