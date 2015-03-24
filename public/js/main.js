@@ -470,6 +470,7 @@ $(function(){
 		data.nameUser      = $('#nameUser').val();
 		data.lastNameUser  = $('#lastNameUser').val();
 		data.emailUser     = $('#emailUser').val();
+		data.passwordUser  = null;
 		data.idTypeUser    = $('#typeUser').val();
 		data.tokenSupplier = $('#supplier').val();
 		data.schoolsUser   = arrSchools;
