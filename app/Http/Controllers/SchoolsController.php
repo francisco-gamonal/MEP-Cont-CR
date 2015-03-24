@@ -210,20 +210,14 @@ class SchoolsController extends Controller {
     public function fileJsonUpdate() {
         /*Buscamos todos los datos de school y traemos solo el id y el name*/
         $school = School::select('id', 'name')->get();
-$dataJson = '';
+        $dataJson = '';
         foreach ($school AS $schools):
             $dataJson[] = array('value'=>$schools->id,'text'=>$schools->name);
         endforeach;
-
      
-
-      if(is_object($dataJson)):
         $fh = fopen("json/schools.json", 'w')
                 or die("Error al abrir fichero de salida");
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
         fclose($fh);
-        endif;
-      
-
     }
 }
