@@ -123,22 +123,38 @@ class UsersController extends Controller {
      * @return Response
      */
     public function update($id) {
+         $user = User::withTrashed()->findOrFail($id);
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation =  array('id' => $users->idUser,'name' => $users->nameUser,
+        $Validation =  array('id' => $users->idUser,
+            'name' => $users->nameUser,
                 'last' => $users->lastNameUser,
                 'email' => $users->emailUser,
                 'password' => $users->passwordUser,
                 'type_users_id' => $users->idTypeUser,
-                'token_remember'=>'',
                 'suppliers_id' => $supplier['id']);
         /* Declaramos las clases a utilizar */
-        $user = new User($Validation);
-         $user->save();
+         $user = new User;
         
+        /* Validamos los datos para guardar tabla menu */
+        if ($user->isValid((array) $Validation)):
+           
+
+            $user->save($Validation);
+           $schoolsUser = $users->schoolsUser;
+             for ($i = 0; $i < count($schoolsUser); $i++):
+                /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                $Relacion = user::find($id);
+                $Relacion->schools()->attach($users->schoolsUser[$i]);
+            endfor;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($user->errors);
     }
 
     /**
