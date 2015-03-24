@@ -22,12 +22,10 @@ class TestController extends Controller {
     
 	public function index()
 	{ 	
-		$user =  User::where('id',2)->get();
-			
-		foreach ($user->schools as $key => $school) {
-			echo $key;
-			/*echo $school->name.' - ';*/
-		}
+		$user = User::find(1);
+
+		echo $user->nameSchools($user->schools);
+		
 
     }
 

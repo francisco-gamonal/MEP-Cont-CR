@@ -56,6 +56,35 @@ class User extends Model {
 
         return $this->name.' '.$this->last;
     }
+
+    public  function idSchools($schools) {
+        if ($schools):
+            $id ='';
+            foreach ($schools AS $school):
+                $id .=$school->id.',';
+            
+            endforeach;
+            $id = substr($id,0,-1);
+            return $id;
+        endif;
+
+        return false;
+    }
+
+    public  function nameSchools($schools) {
+        if ($schools):
+            $name ='';
+            foreach ($schools AS $school):
+                $name .=$school->name.',';
+            
+            endforeach;
+            $name = substr($name,0,-1);
+            return $name;
+        endif;
+
+        return false;
+    }
+
     public function LastId() {
         return User::all()->last();
     }
