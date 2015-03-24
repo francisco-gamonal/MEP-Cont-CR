@@ -19,9 +19,10 @@ class UsersTableSeeder  extends Seeder{
             'name' => 'Francisco',
             'last' => 'Gamonal',
             'email' => 'hfgamonalb@gmail.com',
-            'password' => \Hash::make('F4cc0unt'),
+            'password' => \Hash::make('123456'),
             'type_users_id' => 1,
-            'suppliers_id' => NULL
+            'suppliers_id' => NULL,
+            'token' => 'dds42rwsfw32ddsaf2r3qcd1b56'
          ]);
         \DB::table('users')->insert([
             'id' => 2,

@@ -13,7 +13,7 @@ class School extends Model {
     protected $fillable = ['name', 'charter', 'circuit', 'code', 'ffinancing', 'president', 'secretary', 'account', 'title_1', 'title_2'];
 
     public function users() {
-        return $this->belongsToMany('User', 'schools_has_users', 'schools_id', 'users_id');
+        return $this->belongsToMany('Mep\Models\User');
     }
 
     public function LastId() {

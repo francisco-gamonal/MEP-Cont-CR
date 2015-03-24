@@ -12,10 +12,10 @@ class CreateSchoolUserTable extends Migration {
      */
     public function up() {
         Schema::create('school_user', function(Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
             $table->integer('school_id')->unsigned()->index();
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('no action');
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
             $table->engine = 'InnoDB';
         });
     }
@@ -26,7 +26,7 @@ class CreateSchoolUserTable extends Migration {
      * @return void
      */
     public function down() {
-         Schema::drop('schools_has_users');
+         Schema::drop('school_user');
     }
 
 }

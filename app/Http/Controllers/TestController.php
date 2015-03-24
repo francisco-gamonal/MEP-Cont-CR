@@ -19,11 +19,16 @@ class TestController extends Controller {
 	 *
 	 * @return Response
 	 */
+    
+    
 	public function index()
-	{   
-	$user =  User::all();
+	{ 
+            
+            $user =  User::find(1)->schools;
+  echo json_encode($user); die;
+	$user =  User::find(15);
 	foreach ($user as  $value) {
-			echo $value->nameComplete();
+			echo json_encode($value);
 	}
 	
 //$schools = new UsersController;//

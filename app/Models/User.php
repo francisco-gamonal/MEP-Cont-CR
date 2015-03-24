@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 //use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 //implements AuthenticatableContract, CanResetPasswordContract
-use Mep\SchoolsHasUser;
 use Mep\Models\Supplier;
 use Mep\Models\TypeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
