@@ -24,13 +24,13 @@ class TestController extends Controller {
 	public function index()
 	{ 
             
-            $user =  User::find(1)->schools;
-  echo json_encode($user); die;
-	$user =  User::all();
-	foreach ($user as  $value) {
-			echo json_encode($value->schools);
-	}
+//            $user =  User::find(3)->schools;
+//  echo json_encode($user); 
 	
+	$user = School::find(1)->users;
+	foreach ($user as  $value) {
+			echo json_encode($value);
+	}
 //$schools = new UsersController;//
 //$schools->fileJsonUpdate();
 
