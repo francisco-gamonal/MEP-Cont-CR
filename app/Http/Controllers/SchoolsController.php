@@ -175,6 +175,8 @@ class SchoolsController extends Controller {
         $data = School::find($id);
         if ($data):
             $data->delete();
+               /*Con este methodo creamos el archivo Json */
+            $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -195,6 +197,8 @@ class SchoolsController extends Controller {
         $data = School::withTrashed()->find($id)->restore();
         
         if ($data):
+               /*Con este methodo creamos el archivo Json */
+            $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
