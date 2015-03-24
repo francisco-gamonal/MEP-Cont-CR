@@ -47,7 +47,7 @@ class SchoolsController extends Controller {
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
-        if ($saveSchools->isValid(  $Validation)): 
+        if ($saveSchools->isValid($Validation)): 
            // echo json_encode($Validation[0]); 
             $saveSchools->name = strtoupper($Validation['name']);
                $saveSchools->charter = strtoupper($Validation['charter']);
@@ -59,11 +59,12 @@ class SchoolsController extends Controller {
             $saveSchools->account = strtoupper($Validation['account']);
             $saveSchools->title_1 = strtoupper($Validation['title_1']);
             $saveSchools->title_2 = ($Validation['title_2']);
+            $saveSchools->token = Crypt::encrypt($Validation['charter']);
             $saveSchools->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSchools = $saveSchools->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($schools['status'] == true):
+            if ($schools->statusSchool == true):
                 School::withTrashed()->find($ultimoIdSchools->id)->restore();
             else:
                 School::destroy($ultimoIdSchools->id);
