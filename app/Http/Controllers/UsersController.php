@@ -108,7 +108,7 @@ class UsersController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $user = User::withTrashed()->find($id);
+        $user = User::withTrashed()->findOrFail($id);
         $suppliers = Supplier::orderBy('name', 'ASC')->get();
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         $schools = School::orderBy('name', 'ASC')->get();
@@ -128,30 +128,17 @@ class UsersController extends Controller {
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($users, $supplier);
+        $Validation =  array('id' => $users->idUser,'name' => $users->nameUser,
+                'last' => $users->lastNameUser,
+                'email' => $users->emailUser,
+                'password' => $users->passwordUser,
+                'type_users_id' => $users->idTypeUser,
+                'token_remember'=>'',
+                'suppliers_id' => $supplier['id']);
         /* Declaramos las clases a utilizar */
-        $user = new User;
-        /* Validamos los datos para guardar tabla menu */
-        if ($user->isValid((array) $Validation)):
-            $user->name = strtoupper($Validation['name']);
-            $user->last = strtoupper($Validation['last']);
-            $user->email = strtoupper($Validation['email']);
-            $user->password = Hash::make($Validation['password']);
-            $user->type_users_id = ($Validation['type_users_id']);
-            $user->suppliers_id = ($Validation['suppliers_id']);
-            $user->token = ($Validation['token']);
-            $user->save();
-            /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($users->statusUser == true):
-                User::token($users->tokenUser)->restore();
-            else:
-                User::token($users->tokenUser)->delete();
-            endif;
-            /* Enviamos el mensaje de guardado correctamente */
-            return $this->exito('Los datos se guardaron con exito!!!');
-        endif;
-        /* Enviamos el mensaje de error */
-        return $this->errores($user->errors);
+        $user = new User($Validation);
+         $user->save();
+        
     }
 
     /**
@@ -200,6 +187,9 @@ class UsersController extends Controller {
      * @return type
      */
     private function createArray($user, $supplier) {
+
+       
+
         if ($supplier['id']):
             $users = array('name' => $user->nameUser,
                 'last' => $user->lastNameUser,
@@ -210,6 +200,7 @@ class UsersController extends Controller {
                 'token' => Crypt::encrypt($user->emailUser));
             return $users;
         endif;
+
         $users = array('name' => $user->nameUser,
             'last' => $user->lastNameUser,
             'email' => $user->emailUser,

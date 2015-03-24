@@ -38,24 +38,29 @@ class User extends Model {
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
     /* Relacion con la tabla Tipo de usuarios*/
     public function typeUsers() {
         return $this->belongsTo('Mep\Models\TypeUser');
     }
+
     /* Relacion con la tabla Supplier */
     public function suppliers() {
 
         return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
     }
+
     /* Relacion con la tabla schools */ 
     public function schools() {
         return $this->belongsToMany('Mep\Models\School');
     }
+
     /* Generar el nombre completo del usuario */
     public function nameComplete() {
 
         return $this->name.' '.$this->last;
     }
+
     /* creacion de string del id de schools */
     public  function idSchools($schools) {
         if ($schools):
@@ -70,6 +75,7 @@ class User extends Model {
 
         return false;
     }
+
     /* creacion de string del name de schools */
     public  function nameSchools($schools) {
         if ($schools):
@@ -84,10 +90,12 @@ class User extends Model {
 
         return false;
     }
+
     /* obtencion del id del ultimo usuario agregado */
     public function LastId() {
         return User::all()->last();
     }
+
     /* Busqueda de usuario por medio del token */
     public static function Token($token) {
         $user = User::withTrashed()->where('token', '=', $token)->get();
@@ -105,16 +113,16 @@ class User extends Model {
             'name' => 'required',
             'last' => 'required',
             'password' => 'required|min:8|alpha_dash',
-            'type_users_id' => 'required',
-            'token' => 'required|unique:users'];
+            'type_users_id' => 'required'];
 
         if ($this->exists) {
             $rules['email'] .= ',email,' . $this->id;
-            $rules['token'] .= ',token,' . $this->id;
+            $rules['password'] .= ',password,' . $this->id;
         }
 
         $validator = \Validator::make($data, $rules);
-        if ($validator->passes()) {
+        if ($validator->fails()) {
+
             return true;
         }
 
@@ -123,4 +131,10 @@ class User extends Model {
         return false;
     }
 
+    public function  setPasswordAttribute($value){
+
+        if(!empty($value)):
+            $this->attributes['password']= \Hash::make($value);
+            endif;
+    }
 }
