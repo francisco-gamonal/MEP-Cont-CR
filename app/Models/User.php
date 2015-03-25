@@ -30,7 +30,7 @@ class User extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'type_users_id', 'suppliers_id', 'token'];
+    protected $fillable = ['name','last','email', 'password', 'type_users_id', 'suppliers_id', 'token'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -118,8 +118,8 @@ class User extends Model {
         if ($this->exists) {
             $rules['email'] .= ',email,' . $this->id;
             $rules['password'] .= ',password,' . $this->id;
-        }
-
+       }
+  
         $validator = \Validator::make($data, $rules);
         if ($validator->fails()) {
 

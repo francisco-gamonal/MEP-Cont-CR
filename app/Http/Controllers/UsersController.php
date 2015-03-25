@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Response;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
 
+
 class UsersController extends Controller {
 
     /**
@@ -123,7 +124,7 @@ class UsersController extends Controller {
      * @return Response
      */
     public function update($id) {
-         $user = User::withTrashed()->findOrFail($id);
+        
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
@@ -136,18 +137,19 @@ class UsersController extends Controller {
                 'password' => $users->passwordUser,
                 'type_users_id' => $users->idTypeUser,
                 'suppliers_id' => $supplier['id']);
-        /* Declaramos las clases a utilizar */
-         $user = new User;
-        
+
+       $user = User::withTrashed()->findOrFail($id);
         /* Validamos los datos para guardar tabla menu */
         if ($user->isValid((array) $Validation)):
-           
+         
+            $user->update($Validation);
 
-            $user->save($Validation);
            $schoolsUser = $users->schoolsUser;
+              $Relacion = user::find($id);
+                $Relacion->schools()->detach();
              for ($i = 0; $i < count($schoolsUser); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                $Relacion = user::find($id);
+             
                 $Relacion->schools()->attach($users->schoolsUser[$i]);
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
