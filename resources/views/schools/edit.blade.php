@@ -45,6 +45,8 @@
 				      	<input id="idSchool" class="form-control" type="text" value="{{$school->id}}">
 					</div>
 				</div>
+			</div>
+			<div>
 				<div class="form-mep">
 					<label for="nameSchool">Nombre de la Institución</label>
 					<div class="input-group">

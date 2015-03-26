@@ -96,6 +96,17 @@ Route::put('institucion/update-institucion/{id}','SchoolsController@update');
  * Fin Rutas de Instituciones
 */
 
+/**
+ *  Rutas de Privilegios
+ */
+Route::get('roles','User@index');
+Route::get('roles/ver-roles',['as'=>'ver-roles','uses'=>'UsersController@indexRole']);
+Route::get('roles/editar-role/{id}',['as'=>'edit-role','uses'=>'UsersController@editRole']);
+Route::put('roles/update-roles','UsersController@updateRole');
+/**
+ * Fin Rutas de Instituciones
+*/
+
 
 /* Lista de  Usuarios*/
 Route::get('tarea/lista-tareas','TasksController@index');

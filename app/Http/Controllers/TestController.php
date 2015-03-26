@@ -21,37 +21,11 @@ class TestController extends Controller {
     
     
 	public function index()
-<<<<<<< HEAD
-	{ 
-            
-//            $user =  User::find(3)->schools;
-//  echo json_encode($user); 
-	
-	$user = School::find(1)->users;
-	foreach ($user as  $value) {
-			echo json_encode($value);
-	}
-//$schools = new UsersController;//
-//$schools->fileJsonUpdate();
-
-//$school = School::select('id','name')->get();
-//foreach ($school AS $schools): 
-//    $dataJson[]=$schools;
-//endforeach;
-//
-// 
-//$fh = fopen("json/schools.json", 'w')
-//      or die("Error al abrir fichero de salida");
-//fwrite($fh, json_encode($dataJson,JSON_UNESCAPED_UNICODE));
-//fclose($fh);
-=======
-	{ 	
-		$user = User::find(1);
->>>>>>> origin/master
-
-		echo $user->nameSchools($user->schools);
-		
-
+	{
+		$menu = Menu::find(4);
+		foreach($menu->Tasks as $taskMenu){
+			echo $taskMenu->name.' '.$taskMenu->id;
+		}
     }
 
 	/**

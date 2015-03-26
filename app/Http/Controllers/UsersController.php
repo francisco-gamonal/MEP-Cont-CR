@@ -30,6 +30,11 @@ class UsersController extends Controller {
         return View('users.index', compact('users'));
     }
 
+    public function indexRole() {
+        $users = User::orderBy('name', 'ASC')->get();
+        return View('roles.index', compact('users'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -115,6 +120,12 @@ class UsersController extends Controller {
         $schools = School::orderBy('name', 'ASC')->get();
         $menus = Menu::orderBy('name', 'ASC')->get();
         return view('users.edit', compact('user','typeUsers', 'suppliers', 'schools', 'menus'));
+    }
+
+    public function editRole($id) {
+        $user = User::find($id);
+        $menus = Menu::orderBy('name', 'ASC')->get();
+        return view('roles.edit', compact('user', 'menus'));
     }
 
     /**

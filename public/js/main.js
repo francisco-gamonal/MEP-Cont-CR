@@ -127,9 +127,13 @@ $(function(){
 
 	var data = {};
 	
+	//Height content-wrapper
+	//$(".content-wrapper").height($(document).height());
+	
 	//Equals height
-	$('[class*="-wrapper"]').matchHeight();
 	$('.form-user .col-sm-6').matchHeight();
+	$('.form-role .col-sm-6').matchHeight();
+	$('.form-role .col-sm-6 fieldset').matchHeight();
 
 	//Event menu expand
 	$('.submenu').on('click', function(e){
@@ -150,6 +154,7 @@ $(function(){
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
+	$("[name='role-checkbox']").bootstrapSwitch({size:'small'});
 
 	/**
 	 * Menu
@@ -608,4 +613,5 @@ $(function(){
 	dataTable('#table_supplier', 'proveedores');
 	dataTable('#table_school', 'instituciones');
 	dataTable('#table_user', 'usuarios');
+	dataTable('#table_role', 'usuarios');
 });
