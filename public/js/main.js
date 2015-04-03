@@ -617,7 +617,6 @@ $(function(){
 		var url;
 		var idMenu;
 		var roles = [];
-		console.log(data);
 		url = $(this).data('url');
 		url = url + '/update-' + url;
 		
@@ -632,12 +631,11 @@ $(function(){
 			roles[idMenu] = {'idTasks': idTasks, 'statusTasks': statusTasks};
 		});
 		data.idUser = $("#idUser").val();
-		data.roles = roles;
+		data.roles  = roles;
 		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);
 		});
-
 	});
 	
 	/**
