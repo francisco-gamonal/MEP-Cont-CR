@@ -128,7 +128,6 @@ $(function(){
 	var data = {};
 	
 	//Height content-wrapper
-	//$(".content-wrapper").height($(document).height());
 	
 	//Equals height
 	$('.form-user .col-sm-6').matchHeight();
