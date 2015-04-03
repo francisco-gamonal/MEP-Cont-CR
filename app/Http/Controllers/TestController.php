@@ -24,7 +24,13 @@ class TestController extends Controller {
 	{
 		$menus = Menu::all();
 		$user = User::find(2);
-		
+
+		if($user->Tasks->isEmpty()) {
+			echo "OK";die;
+		}
+		echo "False";
+		die;
+
 		foreach($menus as $menu):
 			echo "{".$menu->id;
 			foreach($menu->Tasks as $taskMenu):
