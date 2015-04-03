@@ -22,10 +22,11 @@ class TestController extends Controller {
     
 	public function index()
 	{
-		$menu = Menu::find(4);
-		foreach($menu->Tasks as $taskMenu){
-			echo $taskMenu->name.' '.$taskMenu->id;
-		}
+		$menu = User::find(2);
+		foreach($menu->tasks AS $task):
+                    echo json_encode($task->pivot->menu_id);
+                endforeach;
+                
     }
 
 	/**

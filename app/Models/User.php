@@ -30,7 +30,7 @@ class User extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name','last','email', 'password', 'type_users_id', 'suppliers_id', 'token'];
+    protected $fillable = ['name', 'last', 'email', 'password', 'type_users_id', 'suppliers_id', 'token'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -39,42 +39,46 @@ class User extends Model {
      */
     protected $hidden = ['password', 'remember_token'];
 
-    /* Relacion con la tabla Tipo de usuarios*/
+    /* Relacion con la tabla Tipo de usuarios */
+
     public function typeUsers() {
         return $this->belongsTo('Mep\Models\TypeUser');
     }
 
     /* Relacion con la tabla Supplier */
+
     public function suppliers() {
 
         return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
     }
 
-    public function tasks(){
-        return $this->belongsToMany('Mep\Models\Task');
+    public function tasks() {
+        return $this->belongsToMany('Mep\Models\Task')->withPivot('status','menu_id');
     }
 
+    /* Relacion con la tabla schools */
 
-    /* Relacion con la tabla schools */ 
     public function schools() {
         return $this->belongsToMany('Mep\Models\School');
     }
 
     /* Generar el nombre completo del usuario */
+
     public function nameComplete() {
 
-        return $this->name.' '.$this->last;
+        return $this->name . ' ' . $this->last;
     }
 
     /* creacion de string del id de schools */
-    public  function idSchools($schools) {
+
+    public function idSchools($schools) {
         if ($schools):
-            $id ='';
+            $id = '';
             foreach ($schools AS $school):
-                $id .=$school->id.',';
-            
+                $id .=$school->id . ',';
+
             endforeach;
-            $id = substr($id,0,-1);
+            $id = substr($id, 0, -1);
             return $id;
         endif;
 
@@ -82,14 +86,15 @@ class User extends Model {
     }
 
     /* creacion de string del name de schools */
-    public  function nameSchools($schools) {
+
+    public function nameSchools($schools) {
         if ($schools):
-            $name ='';
+            $name = '';
             foreach ($schools AS $school):
-                $name .=$school->name.',';
-            
+                $name .=$school->name . ',';
+
             endforeach;
-            $name = substr($name,0,-1);
+            $name = substr($name, 0, -1);
             return $name;
         endif;
 
@@ -97,11 +102,13 @@ class User extends Model {
     }
 
     /* obtencion del id del ultimo usuario agregado */
+
     public function LastId() {
         return User::all()->last();
     }
 
     /* Busqueda de usuario por medio del token */
+
     public static function Token($token) {
         $user = User::withTrashed()->where('token', '=', $token)->get();
         if ($user):
@@ -112,7 +119,9 @@ class User extends Model {
 
         return false;
     }
+
     /* validacion de los campos del usuario */
+
     public function isValid($data) {
         $rules = ['email' => 'required|unique:users',
             'name' => 'required',
@@ -123,8 +132,8 @@ class User extends Model {
         if ($this->exists) {
             $rules['email'] .= ',email,' . $this->id;
             $rules['password'] .= ',password,' . $this->id;
-       }
-  
+        }
+
         $validator = \Validator::make($data, $rules);
         if ($validator->fails()) {
 
@@ -136,10 +145,11 @@ class User extends Model {
         return false;
     }
 
-    public function  setPasswordAttribute($value){
+    public function setPasswordAttribute($value) {
 
-        if(!empty($value)):
-            $this->attributes['password']= \Hash::make($value);
-            endif;
+        if (!empty($value)):
+            $this->attributes['password'] = \Hash::make($value);
+        endif;
     }
+
 }

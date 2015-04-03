@@ -16,12 +16,7 @@ class Menu extends Model {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status');
     }
     /* */
-    public function Users() {
-
-        return $this->belongsToMany('Mep\Models\User');
-    }
-
-    public function LastId() {
+     public function LastId() {
         return Menu::all()->last();
     }
 

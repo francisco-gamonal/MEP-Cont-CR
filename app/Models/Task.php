@@ -16,13 +16,9 @@ class Task extends Model {
     // Don't forget to fill this array
     protected $fillable = ['name'];
 
-    public function Menus() {
-
-        return $this->belongsToMany('Mep\Models\Menu');
-    }
-    public function Users() {
+   public function Users() {
         
-        return $this->belongsToMany('Mep\Models\User');
+        return $this->belongsToMany('Mep\Models\User')->withPivot('status');
     }
     public function LastId()
     {
