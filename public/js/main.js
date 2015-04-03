@@ -154,6 +154,20 @@ $(function(){
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
 	$(".role-checkbox").bootstrapSwitch({size:'small'});
 
+
+	//Events
+	$(document).off('click', '.form-role .checkAll');
+	$(document).on('click', '.form-role .checkAll', function(e){
+		e.preventDefault();
+		$(this).parent().parent().find('.role-checkbox').bootstrapSwitch('state', true, true);
+	});
+
+	$(document).off('click', '.form-role .unCheckAll');
+	$(document).on('click', '.form-role .unCheckAll', function(e){
+		e.preventDefault();
+		$(this).parent().parent().find('.role-checkbox').bootstrapSwitch('state', false, false);
+	});
+
 	/**
 	 * Menu
 	 */

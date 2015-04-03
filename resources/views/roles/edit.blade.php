@@ -84,7 +84,7 @@
 					<fieldset>
 						<legend>{{mb_convert_case($menu->name, MB_CASE_TITLE, 'utf-8')}}</legend>
 						<div class="text-center target_all">
-							<span>Marcar todos </span><input class="active" type="checkbox">
+							<a class="checkAll">Marcar todos</a> / <a class="unCheckAll">Desmarcar todos</a>
 						</div>
 						@foreach($menu->Tasks as $taskMenu)
 							@if($taskMenu->pivot->status == 1)
