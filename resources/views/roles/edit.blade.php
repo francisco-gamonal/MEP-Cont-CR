@@ -75,24 +75,24 @@
 			</div>
 			<div class="col-sm-12">
 				<div class="form-mep">
-					<p class="text-left">Seleccionar Menú</p>
+					<label class="text-left">Seleccionar Menú</label>
 				</div>
 			</div>
 			@foreach($menus as $menu)
-				<div class="col-sm-6 col-md-4">
+				<div class="col-sm-6 col-md-4 menu-role" data-menu="{{$menu->id}}">
 					<div class="form-mep">
 						<fieldset>
 							<legend>{{mb_convert_case($menu->name, MB_CASE_TITLE, 'utf-8')}}</legend>
+							<div class="text-center target_all">
+								<span>Marcar todos </span><input id="active-{{strtolower($menu->name)}}" type="checkbox">
+							</div>
 							@foreach($menu->Tasks as $taskMenu)
 								@if($taskMenu->pivot->status == 1)
 									<div class="row text-center">
-										<input class="task_menu" type="checkbox" name="role-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="{{$taskMenu->name}}" data-id="{{$taskMenu->id}}">
+										<input class="role-checkbox" type="checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="{{$taskMenu->name}}" data-id="{{$taskMenu->id}}">
 									</div>
 								@endif
 							@endforeach
-							<div class="text-left">
-								<span>Marcar todos </span><input id="active-{{$menu->name}}" type="checkbox">
-							</div>
 						</fieldset>
 					</div>
 				</div>
@@ -100,7 +100,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-roles')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="updateSchool" data-url="institucion" class="btn btn-success">Actualizar Institución</a>
+			<a href="#" id="updateRole" data-url="roles" class="btn btn-success">Actualizar Roles</a>
 		</div>
 	</div>
 @stop

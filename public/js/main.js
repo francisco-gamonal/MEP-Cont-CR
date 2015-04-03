@@ -132,7 +132,6 @@ $(function(){
 	
 	//Equals height
 	$('.form-user .col-sm-6').matchHeight();
-	$('.form-role .col-sm-6').matchHeight();
 	$('.form-role .col-sm-6 fieldset').matchHeight();
 
 	//Event menu expand
@@ -154,7 +153,7 @@ $(function(){
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
-	$("[name='role-checkbox']").bootstrapSwitch({size:'small'});
+	$(".role-checkbox").bootstrapSwitch({size:'small'});
 
 	/**
 	 * Menu
@@ -607,6 +606,43 @@ $(function(){
 	/**
 	 * End School
 	 */
+	
+	/**
+	 * Roles
+	 */
+	
+	$(document).off('click', '#updateRole');
+	$(document).on('click', '#updateRole', function(e){
+		e.preventDefault();
+		var url;
+		var idMenu;
+		var roles = [];
+		console.log(data);
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		
+		$('.menu-role').each(function (index) {
+			idMenu = $(this).attr('data-menu');
+			var idTasks     = [];
+			var statusTasks = [];
+			$('.menu-role:eq('+index+') .role-checkbox').each(function (i){
+				idTasks[i]     = $(this).data('id');
+				statusTasks[i] = $(this).bootstrapSwitch('state');
+			});
+			roles[idMenu] = {'idTasks': idTasks, 'statusTasks': statusTasks};
+		});
+		data.idUser = $("#idUser").val();
+		data.roles = roles;
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+
+	});
+	
+	/**
+	 * End Roles
+	 */
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
@@ -614,4 +650,5 @@ $(function(){
 	dataTable('#table_school', 'instituciones');
 	dataTable('#table_user', 'usuarios');
 	dataTable('#table_role', 'usuarios');
+
 });
