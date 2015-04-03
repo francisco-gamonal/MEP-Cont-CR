@@ -88,9 +88,15 @@
 							</div>
 							@foreach($menu->Tasks as $taskMenu)
 								@if($taskMenu->pivot->status == 1)
+                                                                @if($user->Tasks->pivot->status==1)
 									<div class="row text-center">
 										<input class="role-checkbox" type="checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="{{$taskMenu->name}}" data-id="{{$taskMenu->id}}">
 									</div>
+                                                                @else
+                                                                        <div class="row text-center">
+										<input class="role-checkbox" type="checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="{{$taskMenu->name}}" data-id="{{$taskMenu->id}}">
+									</div>
+                                                                @endif
 								@endif
 							@endforeach
 						</fieldset>
