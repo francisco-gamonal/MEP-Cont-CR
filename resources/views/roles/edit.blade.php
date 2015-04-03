@@ -75,7 +75,7 @@
 		</div>
 		<div class="col-sm-12">
 			<div class="form-mep">
-				<label class="text-left">Seleccionar Menú</label>
+				<label class="text-left">Seleccionar Menú (<a class="checkAll" id="checkAll">Marcar todos</a> / <a class="unCheckAll" id="unCheckAll">Desmarcar todos</a>)</label>
 			</div>
 		</div>
 		@foreach($menus as $menu)

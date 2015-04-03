@@ -168,6 +168,18 @@ $(function(){
 		$(this).parent().parent().find('.role-checkbox').bootstrapSwitch('state', false, false);
 	});
 
+	$(document).off('click', '#checkAll');
+	$(document).on('click', '#checkAll', function(e){
+		e.preventDefault();
+		$('.role-checkbox').bootstrapSwitch('state', true, true);
+	});
+
+	$(document).off('click', '#unCheckAll');
+	$(document).on('click', '#unCheckAll', function(e){
+		e.preventDefault();
+		$('.role-checkbox').bootstrapSwitch('state', false, false);
+	});
+
 	/**
 	 * Menu
 	 */
