@@ -27,6 +27,7 @@ class Kernel extends HttpKernel {
 		'auth' => 'Mep\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'Mep\Http\Middleware\RedirectIfAuthenticated',
+            'is_type' => 'Mep\Http\Middleware\IsTypeGlobal',
 	];
 
 }

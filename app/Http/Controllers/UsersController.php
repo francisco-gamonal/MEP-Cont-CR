@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Response;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
 
-
 class UsersController extends Controller {
 
     /**
@@ -77,19 +76,19 @@ class UsersController extends Controller {
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdUser = $user->LastId();
             $schoolsUser = $users->schoolsUser;
-             for ($i = 0; $i < count($schoolsUser); $i++):
+            for ($i = 0; $i < count($schoolsUser); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
                 $Relacion = user::find($ultimoIdUser['id']);
                 $Relacion->schools()->attach($users->schoolsUser[$i]);
             endfor;
-           
+
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($users->statusUser == true):
                 User::withTrashed()->find($ultimoIdUser->id)->restore();
             else:
                 User::destroy($ultimoIdUser->id);
             endif;
-          
+
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -119,13 +118,31 @@ class UsersController extends Controller {
         $typeUsers = TypeUser::orderBy('name', 'ASC')->get();
         $schools = School::orderBy('name', 'ASC')->get();
         $menus = Menu::orderBy('name', 'ASC')->get();
-        return view('users.edit', compact('user','typeUsers', 'suppliers', 'schools', 'menus'));
+        return view('users.edit', compact('user', 'typeUsers', 'suppliers', 'schools', 'menus'));
     }
 
     public function editRole($id) {
         $user = User::find($id);
         $menus = Menu::orderBy('name', 'ASC')->get();
         return view('roles.edit', compact('user', 'menus'));
+    }
+
+    public function updateRole() {
+        $roles = $this->convertionObjeto();
+        $Menus = $roles->roles;
+         $menu = user::withTrashed()->find($roles->idUser);
+        $menu->Tasks()->detach();
+        foreach ($Menus AS $idMenu => $value):
+         if($idMenu >0):
+             $statusTask= $value->statusTasks;
+          for ($e = 0; $e < count($statusTask); $e++):
+               /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                $Relacion = user::find($roles->idUser);
+                $Relacion->tasks()->attach($value->idTasks[$e],array('menu_id'=>$idMenu,'status'=>$value->statusTasks[$e]));
+            endfor;
+         endif;
+   endforeach;
+    return $this->exito('Los datos se guardaron con exito!!!');
     }
 
     /**
@@ -135,32 +152,32 @@ class UsersController extends Controller {
      * @return Response
      */
     public function update($id) {
-        
+
         /* Capturamos los datos enviados por ajax */
         $users = $this->convertionObjeto();
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $supplier = Supplier::Token($users->tokenSupplier);
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation =  array('id' => $users->idUser,
+        $Validation = array('id' => $users->idUser,
             'name' => $users->nameUser,
-                'last' => $users->lastNameUser,
-                'email' => $users->emailUser,
-                'password' => $users->passwordUser,
-                'type_users_id' => $users->idTypeUser,
-                'suppliers_id' => $supplier['id']);
+            'last' => $users->lastNameUser,
+            'email' => $users->emailUser,
+            'password' => $users->passwordUser,
+            'type_users_id' => $users->idTypeUser,
+            'suppliers_id' => $supplier['id']);
 
-       $user = User::withTrashed()->findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         /* Validamos los datos para guardar tabla menu */
         if ($user->isValid((array) $Validation)):
-         
+
             $user->update($Validation);
 
-           $schoolsUser = $users->schoolsUser;
-              $Relacion = user::find($id);
-                $Relacion->schools()->detach();
-             for ($i = 0; $i < count($schoolsUser); $i++):
+            $schoolsUser = $users->schoolsUser;
+            $Relacion = user::find($id);
+            $Relacion->schools()->detach();
+            for ($i = 0; $i < count($schoolsUser); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
-             
+
                 $Relacion->schools()->attach($users->schoolsUser[$i]);
             endfor;
             /* Enviamos el mensaje de guardado correctamente */
@@ -217,7 +234,7 @@ class UsersController extends Controller {
      */
     private function createArray($user, $supplier) {
 
-       
+
 
         if ($supplier['id']):
             $users = array('name' => $user->nameUser,
@@ -258,6 +275,5 @@ class UsersController extends Controller {
 
         return $suppliers->errors;
     }
-
 
 }

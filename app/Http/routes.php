@@ -27,7 +27,7 @@ Route::group(['before' => 'guest'], function ()
 
 Route::get('/', function()
 {
-	return view('layouts.content');
+	return view('auth.login');
 });
 /* Test para hacer pruebas */
 Route::get('test','TestController@index');

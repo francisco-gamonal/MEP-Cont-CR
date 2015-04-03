@@ -50,6 +50,11 @@ class User extends Model {
         return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
     }
 
+    public function tasks(){
+        return $this->belongsToMany('Mep\Models\Task');
+    }
+
+
     /* Relacion con la tabla schools */ 
     public function schools() {
         return $this->belongsToMany('Mep\Models\School');
