@@ -93,26 +93,27 @@ class GroupsController extends Controller {
 	public function update($id)
 	{
 		  /* Capturamos los datos enviados por ajax */
-        $typeUser = $this->convertionObjeto();
+        $groups = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('name' => $typeUser->nameTypeUser);
+        $ValidationData = array('name' => $Groups->nameGroup,'code' => $Groups->codeGroup);
         /* Declaramos las clases a utilizar */
-        $typeUsers =  TypeUser::withTrashed()->find($typeUser->idTypeUser);
+        $group = Group::withTrashed()->find($typeUser->idGroup);
         /* Validamos los datos para guardar tabla menu */
-        if ($typeUsers->isValid((array) $ValidationData)):
-            $typeUsers->name = strtoupper($ValidationData['name']);
-            $typeUsers->save();
+        if ($group->isValid((array) $ValidationData)):
+            $group->code = strtoupper($ValidationData['code']);
+            $group->name = strtoupper($ValidationData['name']);
+            $group->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($typeUser->statusTypeUser == true):
-                TypeUser::withTrashed()->find($typeUser->idTypeUser)->restore();
+            if ($groups->statusGroup == true):
+                Group::withTrashed()->find($groups->idGroup)->restore();
             else:
-                TypeUser::destroy($typeUser->idTypeUser);
+                Group::destroy($groups->idGroup);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($typeUsers->errors);
+        return $this->errores($group->errors);
 	}
 
 	/**
