@@ -88,7 +88,27 @@ class TypeBudgetsController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+        /* Capturamos los datos enviados por ajax */
+        $typeBudgets = $this->convertionObjeto();
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('name' => $typeBudgets->nameTypeBudget);
+        /* Declaramos las clases a utilizar */
+        $typeBudget = TypeBudget::Token( $typeBudgets->token);
+        /* Validamos los datos para guardar tabla menu */
+        if ($typeBudget->isValid((array)$ValidationData)):
+            $typeBudget->name = strtoupper($ValidationData['name']);
+            $typeBudget->save();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($typeBudgets->statusTypeBudget == true):
+                TypeBudget::Token($typeBudgets->token)->restore();
+            else:
+                TypeBudget::Token($typeBudgets->token)->delete();
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($typeBudget->errors);
     }
 
     /**
