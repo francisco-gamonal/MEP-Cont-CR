@@ -117,9 +117,31 @@ class CatalogsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
+	 public function destroy($token) {
+        /* les damos eliminacion pasavida */
+        $data = Catalog::Token($token)->delete();
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
+    }
 
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active($token) {
+         /* les quitamos la eliminacion pasavida */
+        $data = Catalog::Token($token)->restore();
+        if ($data):
+          /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
+        endif;
+       /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
+    }
 }
