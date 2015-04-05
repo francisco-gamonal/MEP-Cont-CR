@@ -4,7 +4,7 @@ use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Catalogs;
 use Illuminate\Http\Request;
-
+use Mep\Models\Group;
 class CatalogsController extends Controller {
 
 	/**
@@ -25,7 +25,8 @@ class CatalogsController extends Controller {
 	 */
 	public function create()
 	{
-		return view('catalogs.create');
+            $groups = Group::all();
+            return view('catalogs.create',  compact('groups'));
 	}
 
 	/**
