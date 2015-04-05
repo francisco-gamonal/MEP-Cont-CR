@@ -692,6 +692,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		var token = $(this).parent().parent().find('.group_code').data('token');
+		console.log(token);
 		url       = $(this).data('url');
 		url       = url + '/active-' + url + '/' + token;
 		data.token = token;
@@ -757,8 +758,8 @@ $(function(){
 	});
 
 	//Active Type Budgets
-	$(document).off('click', '#activeGroup');
-	$(document).on('click', '#activeGroup', function(e){
+	$(document).off('click', '#activeTypeBudget');
+	$(document).on('click', '#activeTypeBudget', function(e){
 		e.preventDefault();
 		var url;
 		var id = $(this).parent().parent().find('.group_code').data('id');
@@ -772,8 +773,8 @@ $(function(){
 	});
 
 	//Delete Type Budgets
-	$(document).off('click', '#deleteGroup');
-	$(document).on('click', '#deleteGroup', function(e){
+	$(document).off('click', '#deleteTypeBudget');
+	$(document).on('click', '#deleteTypeBudget', function(e){
 		e.preventDefault();
 		var url;
 		var id  = $(this).parent().parent().find('.group_code').data('id');
@@ -787,8 +788,8 @@ $(function(){
 	});
 
 	//Update Type Budgets
-	$(document).off('click', '#updateGroups');
-	$(document).on('click', '#updateGroups', function(e){
+	$(document).off('click', '#updateTypeBudget');
+	$(document).on('click', '#updateTypeBudget', function(e){
 		e.preventDefault();
 		var url;
 		var roles = [];

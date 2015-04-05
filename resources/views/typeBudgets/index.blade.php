@@ -54,7 +54,7 @@
 	                        <tbody>
 	                        	@foreach($typeBudgets as $typeBudget)
 		                            <tr>
-		                                <td class="text-center type_user_name">{{mb_convert_case($typeBudget->name,MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center type_budget_name">{{mb_convert_case($typeBudget->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($typeBudget->deleted_at)
 												<span>Inactivo</span>
@@ -72,7 +72,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-tipo-de-presupuesto', $typeUser->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('edit-tipo-de-presupuesto', $typeBudget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
