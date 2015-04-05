@@ -762,10 +762,10 @@ $(function(){
 	$(document).on('click', '#activeTypeBudget', function(e){
 		e.preventDefault();
 		var url;
-		var id = $(this).parent().parent().find('.group_code').data('id');
-		url    = $(this).data('url');
-		url    = url + '/active-' + url + '/' + id;
-		data.id = id;
+		var token = $(this).parent().parent().find('.type_budget_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);
@@ -777,10 +777,10 @@ $(function(){
 	$(document).on('click', '#deleteTypeBudget', function(e){
 		e.preventDefault();
 		var url;
-		var id  = $(this).parent().parent().find('.group_code').data('id');
-		url     = $(this).data('url');
-		url     = url + '/delete-' + url + '/' + id;
-		data.id = id;
+		var token = $(this).parent().parent().find('.type_budget_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);

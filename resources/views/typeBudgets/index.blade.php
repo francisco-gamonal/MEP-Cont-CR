@@ -54,7 +54,7 @@
 	                        <tbody>
 	                        	@foreach($typeBudgets as $typeBudget)
 		                            <tr>
-		                                <td class="text-center type_budget_name">{{mb_convert_case($typeBudget->name,MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center type_budget_name" data-token="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($typeBudget->deleted_at)
 												<span>Inactivo</span>
