@@ -795,10 +795,9 @@ $(function(){
 		var roles = [];
 		url = $(this).data('url');
 		url = url + '/update-' + url;
-		data.token       = $("#codeGroup").data('token');
-		data.codeGroup   = $('#codeGroup').val();
-		data.nameGroup   = $('#nameGroup').val();
-		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
+		data.token            = $("#nameTypeBudget").data('token');
+		data.nameTypeBudget   = $('#nameTypeBudget').val();
+		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);

@@ -43,7 +43,7 @@
 					<label for="nameTypeBudget">Nombre del Tipo de Presupuesto</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
-				      	<input id="nameTypeBudget" class="form-control" type="text" value="{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}">
+				      	<input id="nameTypeBudget" class="form-control" type="text" value="{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}" data-token="{{$typeBudget->token}}">
 					</div>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 			</div>
 			@endforeach
 		</section>
-		<div class="row text-center">	
+		<div class="row text-center">
 			<a href="{{route('ver-tipos-de-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="updateTypeBudget" data-url="tipos-de-presupuestos" class="btn btn-success">Actualizar Tipo de Presupuesto</a>
 		</div>
