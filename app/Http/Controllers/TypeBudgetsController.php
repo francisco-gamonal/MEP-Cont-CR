@@ -39,25 +39,25 @@ class TypeBudgetsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeBudgets->nameTypeBudget);
         /* Declaramos las clases a utilizar */
-        $typeBudget = new TypeBudgets;
+        $typeBudget = new TypeBudget;
         /* Validamos los datos para guardar tabla menu */
         if ($typeBudget->isValid((array) $ValidationData)):
             $typeBudget->name = strtoupper($ValidationData['name']);
             $typeBudget->token = Crypt::encrypt($ValidationData['name']);
             $typeBudget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
-            $idGroup = $typeBudget->LastId();
+            $idTypeBudgets = $typeBudget->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($typeBudgets->statusTypeBudget == true):
-                TypeBudgets::withTrashed()->find($typeBudgets->id)->restore();
+                TypeBudget::withTrashed()->find($idTypeBudgets->id)->restore();
             else:
-                TypeBudgets::destroy($typeBudgets->id);
+                TypeBudget::destroy($idTypeBudgets->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($group->errors);
+        return $this->errores($typeBudget->errors);
     }
 
     /**
