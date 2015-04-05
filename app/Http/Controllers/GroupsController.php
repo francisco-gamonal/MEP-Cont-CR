@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Models\Group;
 use Illuminate\Http\Request;
 
 class GroupsController extends Controller {
@@ -14,7 +14,8 @@ class GroupsController extends Controller {
 	 */
 	public function index()
 	{
-            return view('groups.index');
+            $groups = Group::all();
+            return view('groups.index',  compact('groups'));
 	}
 
 	/**
