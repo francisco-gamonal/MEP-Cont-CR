@@ -120,9 +120,11 @@ class GroupsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($token) {
+    public function destroy() {
+        /* Capturamos los datos enviados por ajax */
+        $group = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
-        $data = Group::destroy()->where('token', '=', $token)->get();
+        $data = Group::destroy()->where('token', '=', $group->tokenGroup)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -137,15 +139,17 @@ class GroupsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function active($token) {
+    public function active() {
+         /* Capturamos los datos enviados por ajax */
+        $group = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
-        $data = Group::onlyTrashed()->where('token', '=', $token)->get();
+        $data = Group::Token($group->tokenGroup)->restore();
         if ($data):
-            $data->restore();
+          
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
-        /* si hay algun error  los enviamos de regreso */
+       /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
 
