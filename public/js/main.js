@@ -715,6 +715,23 @@ $(function(){
 			messageAjax(data);
 		});
 	});
+
+	$(document).off('click', '#updateGroups');
+	$(document).on('click', '#updateGroups', function(e){
+		e.preventDefault();
+		var url;
+		var roles = [];
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token       = $("#codeGroup").data('token');
+		data.codeGroup   = $('#codeGroup').val();
+		data.nameGroup   = $('#nameGroup').val();
+		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 	
 	/**
 	 * End Groups

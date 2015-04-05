@@ -37,12 +37,13 @@
 @section('content')
 	<div class="paddingWrapper">
 		<section class="row">
+			@foreach($group as $group)
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
 					<label for="codeGroup">Código del Grupo</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				      	<input id="codeGroup" class="form-control" type="text" value="{{$group->code}}">
+				      	<input id="codeGroup" class="form-control" type="text" value="{{$group->code}}" data-token="{{$group->token}}">
 					</div>
 				</div>
 			</div>
@@ -51,7 +52,7 @@
 					<label for="nameGroup">Nombre del Grupo</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-th-list"></i></span>
-				      	<input id="nameGroup" class="form-control" type="text" value="{{$group->name}}">
+				      	<input id="nameGroup" class="form-control" type="text" value="{{mb_convert_case($group->name, MB_CASE_TITLE, 'utf-8')}}">
 					</div>
 				</div>
 			</div>
@@ -67,6 +68,7 @@
 			      	</div>
 				</div>
 			</div>
+			@endforeach
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-grupos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
