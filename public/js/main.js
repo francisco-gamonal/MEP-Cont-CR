@@ -667,11 +667,65 @@ $(function(){
 	 * End Roles
 	 */
 
+	/**
+	 * Groups
+	 */
+	
+	//Save Group
+	$(document).off('click', '#saveGroup');
+	$(document).on('click', '#saveGroup', function(e){
+		e.preventDefault();
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.codeGroup   = $('#codeGroup').val();
+		data.nameGroup   = $('#nameGroup').val();
+		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	//Active Group
+	$(document).off('click', '#activeGroup');
+	$(document).on('click', '#activeGroup', function(e){
+		e.preventDefault();
+		var url;
+		var code  = $(this).parent().parent().find('.group_code').text();
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + code;
+		data.code = code;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Group
+	$(document).off('click', '#deleteGroup');
+	$(document).on('click', '#deleteGroup', function(e){
+		e.preventDefault();
+		var url;
+		var code  = $(this).parent().parent().find('.group_code').text();
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + code;
+		data.code = code;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+	
+	/**
+	 * End Groups
+	 */
+
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
 	dataTable('#table_school', 'instituciones');
 	dataTable('#table_user', 'usuarios');
 	dataTable('#table_role', 'usuarios');
+	dataTable('#table_groups', 'grupos');
 
 });
