@@ -61,9 +61,9 @@
 			</div>
 			@endforeach
 		</section>
-		<div class="row text-center">
+		<div class="row text-center">	
 			<a href="{{route('ver-tipos-de-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="updateTypeBudget" data-url="tipos-de-presupuestos" class="btn btn-success">Actualizar Grupo</a>
+			<a href="#" id="updateTypeBudget" data-url="tipos-de-presupuestos" class="btn btn-success">Actualizar Tipo de Presupuesto</a>
 		</div>
 	</div>
 @stop
