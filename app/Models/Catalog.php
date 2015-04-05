@@ -23,7 +23,7 @@ class Catalog extends Model {
         'groups_id' => 'required',
     ];
     // Don't forget to fill this array
-    protected $fillable = ['c', 'sc', 'g', 'sg', 'p', 'sp', 'r', 'sr', 'f', 'name', 'type','groups_id'];
+    protected $fillable = ['c', 'sc', 'g', 'sg', 'p', 'sp', 'r', 'sr', 'f', 'name', 'type','groups_id','token'];
 
     public function groups() {
 
