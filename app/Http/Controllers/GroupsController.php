@@ -7,7 +7,7 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\Group;
 use Illuminate\Http\Request;
 use Input;
-
+use Crypt;
 class GroupsController extends Controller {
 
     /**
