@@ -97,9 +97,9 @@ class TypeBudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-   public function destroy($id) {
+   public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = TypeBudget::destroy($id);
+        $data = TypeBudget::destroy()->where('token', '=', $token)->get();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -114,9 +114,9 @@ class TypeBudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function active($id) {
+    public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = TypeBudget::onlyTrashed()->find($id);
+        $data = TypeBudget::onlyTrashed()->where('token', '=', $token)->get();
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
