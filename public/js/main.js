@@ -691,10 +691,10 @@ $(function(){
 	$(document).on('click', '#activeGroup', function(e){
 		e.preventDefault();
 		var url;
-		var code  = $(this).parent().parent().find('.group_code').text();
-		url       = $(this).data('url');
-		url       = url + '/active-' + url + '/' + code;
-		data.code = code;
+		var id = $(this).parent().parent().find('.group_code').data('id');
+		url    = $(this).data('url');
+		url    = url + '/active-' + url + '/' + id;
+		data.id = id;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
 			messageAjax(data);
@@ -706,10 +706,10 @@ $(function(){
 	$(document).on('click', '#deleteGroup', function(e){
 		e.preventDefault();
 		var url;
-		var code  = $(this).parent().parent().find('.group_code').text();
-		url       = $(this).data('url');
-		url       = url + '/delete-' + url + '/' + code;
-		data.code = code;
+		var id  = $(this).parent().parent().find('.group_code').data('id');
+		url     = $(this).data('url');
+		url     = url + '/delete-' + url + '/' + id;
+		data.id = id;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);

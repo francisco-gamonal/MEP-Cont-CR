@@ -23,7 +23,7 @@ Route::group(['before' => 'guest'], function ()
     require (__DIR__ . '/Routes/TypeUser.php');
     require (__DIR__ . '/Routes/Task.php');
     require (__DIR__ . '/Routes/Groups.php');
-   
+    require (__DIR__ . '/Routes/TypeBudget.php');
 //});
 
 Route::get('/', function()

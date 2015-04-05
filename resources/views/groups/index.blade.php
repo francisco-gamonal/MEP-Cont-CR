@@ -55,7 +55,7 @@
 	                        <tbody>
 	                        	@foreach($groups as $group)
 		                            <tr>
-		                                <td class="text-center group_code">{{$group->code}}</td>
+		                                <td class="text-center group_code" data-id="{{$group->id}}">{{$group->code}}</td>
 		                                <td class="text-center group_name">{{mb_convert_case($group->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($group->deleted_at)
