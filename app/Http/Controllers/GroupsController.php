@@ -80,7 +80,8 @@ class GroupsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		 $group = Group::withTrashed()->find($id);
+        return view('groups.edit', compact('group'));
 	}
 
 	/**
@@ -91,7 +92,27 @@ class GroupsController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		  /* Capturamos los datos enviados por ajax */
+        $typeUser = $this->convertionObjeto();
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('name' => $typeUser->nameTypeUser);
+        /* Declaramos las clases a utilizar */
+        $typeUsers =  TypeUser::withTrashed()->find($typeUser->idTypeUser);
+        /* Validamos los datos para guardar tabla menu */
+        if ($typeUsers->isValid((array) $ValidationData)):
+            $typeUsers->name = strtoupper($ValidationData['name']);
+            $typeUsers->save();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($typeUser->statusTypeUser == true):
+                TypeUser::withTrashed()->find($typeUser->idTypeUser)->restore();
+            else:
+                TypeUser::destroy($typeUser->idTypeUser);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($typeUsers->errors);
 	}
 
 	/**
