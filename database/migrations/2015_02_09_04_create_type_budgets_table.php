@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypesBudgetsTable extends Migration {
+class CreateTypeBudgetsTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,7 +11,7 @@ class CreateTypesBudgetsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('types_budgets', function(Blueprint $table) {
+        Schema::create('type_budgets', function(Blueprint $table) {
         $table->increments('id');
         $table->string('name');
         $table->string('token')->unique();
@@ -27,7 +27,7 @@ class CreateTypesBudgetsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('types_budgets');
+        Schema::drop('type_budgets');
     }
 
 }
