@@ -108,7 +108,38 @@ class CatalogsController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+            /* Capturamos los datos enviados por ajax */
+        $catalogs = $this->convertionObjeto();
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = array('c' => $catalogs->cCatalog,
+            'sc' => $catalogs->scCatalog,
+            'g' => $catalogs->gCatalog,
+            'sg' => $catalogs->sgCatalog,
+            'p' => $catalogs->pCatalog,
+            'sp' => $catalogs->spCatalog,
+            'r' => $catalogs->rCatalog,
+            'sr' => $catalogs->srCatalog,
+            'f' => $catalogs->fCatalog,
+            'name' => $catalogs->nameCatalog,
+            'type' => $catalogs->typeCatalog,
+            'groups_id' => $group->id);
+        /* Declaramos las clases a utilizar */
+        $catalog = Catalog::Token( $catalogs->token);
+        /* Validamos los datos para guardar tabla menu */
+        if ($catalog->isValid((array)$ValidationData)):
+            $catalog->fill($ValidationData);
+            $catalog->save();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($catalogs->statusCatalog == true):
+                Catalog::withTrashed()->where('token', '=', $catalogs->token)->restore();
+            else:
+                Catalog::destroy()->where('token', '=', $catalogs->token);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($catalog->errors);
 	}
 
 	/**
