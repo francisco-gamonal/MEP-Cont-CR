@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller {
 
+    
+    /**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		//$this->middleware('auth');
+	}
     /**
      * Display a listing of the resource.
      *
@@ -174,7 +184,10 @@ class UsersController extends Controller {
 
             $schoolsUser = $users->schoolsUser;
             $Relacion = user::find($id);
-            $Relacion->schools()->detach();
+            if(!$Relacion->schools->isEmpty()):
+                 $Relacion->schools()->detach();
+            endif;
+           
             for ($i = 0; $i < count($schoolsUser); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
 

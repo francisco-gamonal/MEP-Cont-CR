@@ -22,6 +22,7 @@ Route::group(['before' => 'guest'], function ()
     require (__DIR__ . '/Routes/Roles.php');
     require (__DIR__ . '/Routes/TypeUser.php');
     require (__DIR__ . '/Routes/Task.php');
+    require (__DIR__ . '/Routes/Groups.php');
    
 //});
 
@@ -38,8 +39,4 @@ Route::controllers([
 ]);
 
 /* Lista de  Usuarios*/
-Route::get('tarea/lista-tareas','TasksController@index');
-/* Crear Usuarios*/
-Route::get('usuarios/crear-usuarios','UsersController@create');
-/* ediar Usuarios*/
-Route::get('usuarios/{id}/editar-usuarios','UsersController@edit');
+Route::get('/inicio','HomeController@index');

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenuUserTable extends Migration {
+class CreateTaskUserTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateMenuUserTable extends Migration {
 	 */
 	public function up()
 	{
-	Schema::create('menu_user', function(Blueprint $table) {
+	Schema::create('task_user', function(Blueprint $table) {
         $table->integer('task_id')->unsigned()->index();
         $table->foreign('task_id')->references('id')->on('tasks')->onDelete('no action');
         $table->integer('menu_id')->unsigned()->index();
@@ -30,7 +30,7 @@ class CreateMenuUserTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('menu_user');
+		Schema::drop('task_user');
 	}
 
 }

@@ -12,7 +12,7 @@
 						<ul>
 							<li><a>Bienvenido Anwar Sarmiento - Administrador</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-envelope"></span></a></li>
-							<li><a href="#"><span class="glyphicon glyphicon-log-out"></span><span> Cerrar Sesión</span></a></li>
+							<li><a href="{{ url('/auth/logout') }}"><span class="glyphicon glyphicon-log-out"></span><span> Cerrar Sesión</span></a></li>
 						</ul>
 					</div>
 				</div>
