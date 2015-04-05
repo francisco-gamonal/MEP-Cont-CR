@@ -764,7 +764,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.type_budget_name').data('token');
 		url       = $(this).data('url');
-		url       = url + '/delete-' + url + '/' + token;
+		url       = url + '/active-' + url + '/' + token;
 		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
