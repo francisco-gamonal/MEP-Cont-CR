@@ -10,7 +10,8 @@ use Mep\Models\Menu;
 use Mep\Models\Task;
 use Mep\Models\TasksHasMenu;
 use Mep\Models\Supplier;
-
+use Mep\Models\Catalog;
+use Mep\Models\Group;
 class TestController extends Controller {
 
 	/**
@@ -22,29 +23,32 @@ class TestController extends Controller {
     
 	public function index()
 	{
-		$menus = Menu::all();
-		$user = User::find(2);
-
-		if($user->Tasks->isEmpty()) {
-			echo "OK";die;
-		}
-		echo "False";
-		die;
-
-		foreach($menus as $menu):
-			echo "{".$menu->id;
-			foreach($menu->Tasks as $taskMenu):
-				if($taskMenu->pivot->status == 1){
-					foreach ($user->Tasks as $taskUser) {
-						if($menu->id == $taskUser->pivot->menu_id && $taskMenu->id == $taskUser->pivot->task_id && $taskUser->pivot->status == 1){
-							echo "$taskMenu->id";
-						}
-					}
-					//echo '//id:'.$taskMenu->id.', name:'.$taskMenu->name;
-				}
-			endforeach;
-			echo "}";
-        endforeach;
+            
+            $test = Catalog::find(1);
+            echo json_encode($test->groups->name);
+//		$menus = Menu::all();
+//		$user = User::find(2);
+//
+//		if($user->Tasks->isEmpty()) {
+//			echo "OK";die;
+//		}
+//		echo "False";
+//		die;
+//
+//		foreach($menus as $menu):
+//			echo "{".$menu->id;
+//			foreach($menu->Tasks as $taskMenu):
+//				if($taskMenu->pivot->status == 1){
+//					foreach ($user->Tasks as $taskUser) {
+//						if($menu->id == $taskUser->pivot->menu_id && $taskMenu->id == $taskUser->pivot->task_id && $taskUser->pivot->status == 1){
+//							echo "$taskMenu->id";
+//						}
+//					}
+//					//echo '//id:'.$taskMenu->id.', name:'.$taskMenu->name;
+//				}
+//			endforeach;
+//			echo "}";
+//        endforeach;
                 
     }
 
