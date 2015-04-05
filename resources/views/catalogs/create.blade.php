@@ -123,7 +123,7 @@
 					<label for="nameCatalog">Nombre del Catálogo</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				      	<input id="nameCatalog" class="form-control" type="number">
+				      	<input id="nameCatalog" class="form-control" type="text">
 					</div>
 				</div>
 			</div>
