@@ -16,7 +16,7 @@ class GroupsController extends Controller {
      * @return Response
      */
     public function index() {
-        $groups = Group::all();
+        $groups = Group::withTrashed()->get();
         return view('groups.index', compact('groups'));
     }
 
