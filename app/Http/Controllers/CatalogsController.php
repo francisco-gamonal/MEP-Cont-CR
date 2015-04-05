@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Catalogs;
+use Mep\Models\Catalogs;
 use Illuminate\Http\Request;
 
 class CatalogsController extends Controller {
@@ -14,7 +14,8 @@ class CatalogsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+            $catalgs = Catalogs::withTrashed()->get();
+            return view('catalogs.index', compact('$catalgs'));
 	}
 
 	/**
@@ -24,7 +25,7 @@ class CatalogsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return view('catalogs.create');
 	}
 
 	/**
