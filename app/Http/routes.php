@@ -24,6 +24,7 @@ Route::group(['before' => 'guest'], function ()
     require (__DIR__ . '/Routes/Task.php');
     require (__DIR__ . '/Routes/Groups.php');
     require (__DIR__ . '/Routes/TypeBudget.php');
+    require (__DIR__ . '/Routes/Catalogs.php');
 //});
 
 Route::get('/', function()

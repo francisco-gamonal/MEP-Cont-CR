@@ -747,6 +747,7 @@ $(function(){
 	$(document).off('click', '#saveTypeBudget');
 	$(document).on('click', '#saveTypeBudget', function(e){
 		e.preventDefault();
+		var url;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
 		data.nameTypeBudget   = $('#nameTypeBudget').val();
@@ -805,7 +806,42 @@ $(function(){
 	});
 	
 	/**
-	 * End Groups
+	 * End Type Budgets
+	 */
+	
+
+	/**
+	 * Catalogs
+	 */
+	
+	//Save Catalogs
+	$(document).off('click', '#saveCatalog');
+	$(document).on('click', '#saveCatalog', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.cCatalog      = $('#cCatalog').val();
+		data.scCatalog     = $('#scCatalog').val();
+		data.gCatalog      = $('#gCatalog').val();
+		data.sgCatalog     = $('#sgCatalog').val();
+		data.pCatalog      = $('#pCatalog').val();
+		data.spCatalog     = $('#spCatalog').val();
+		data.rCatalog      = $('#rCatalog').val();
+		data.srCatalog     = $('#srCatalog').val();
+		data.fCatalog      = $('#fCatalog').val();
+		data.nameCatalog   = $('#nameCatalog').val();
+		data.typeCatalog   = $('#typeCatalog').val();
+		data.groupCatalog  = $('#groupCatalog').val();
+		data.statusCatalog = $('#statusCatalog').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	/**
+	 * End 
 	 */
 
 	dataTable('#table_menu', 'menús');
