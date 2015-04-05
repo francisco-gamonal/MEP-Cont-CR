@@ -27,7 +27,7 @@ class Catalog extends Model {
 
     public function groups() {
 
-        return $this->HasMany('Groups', 'id', 'groups_id');
+        return $this->HasMany('Mep\Models\Groups', 'id', 'groups_id');
     }
 
     public function LastId() {
