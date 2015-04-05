@@ -23,12 +23,12 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Grupos</h2>
+		<h2>Tipos de Presupuestos</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Grupos</a></li>
-				<li class="active-page"><a>Ver Grupos</a></li>
+				<li><a>Tipos de Presupuestos</a></li>
+				<li class="active-page"><a>Ver Tipos de Presupuestos</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -39,42 +39,40 @@
 		<section class="row">
 			<div class="table-data">
 				<div class="table-header">
-					<h5><strong>Lista de Grupos</strong></h5>
+					<h5><strong>Lista de Tipos de Presupuestos</strong></h5>
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">
-						<table id="table_groups" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+						<table id="table_type_budget" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <thead>
 	                            <tr>
-	                                <th>Código</th>
 	                                <th>Nombre</th>
 	                                <th>Estado</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($groups as $group)
+	                        	@foreach($typeBudgets as $typeBudget)
 		                            <tr>
-		                                <td class="text-center group_code" data-token="{{$group->token}}">{{$group->code}}</td>
-		                                <td class="text-center group_name">{{mb_convert_case($group->name,MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center type_user_name">{{mb_convert_case($typeBudget->name,MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
-		                                	@if($group->deleted_at)
+		                                	@if($typeBudget->deleted_at)
 												<span>Inactivo</span>
 		                                	@else
 												<span>Activo</span>
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-	                                		@if($group->deleted_at)
-	                                			<a id="activeGroup" data-url="grupos" href="#">
+	                                		@if($typeBudget->deleted_at)
+	                                			<a id="activeTypeBudget" data-url="tipos-de-presupuestos" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteGroup" data-url="grupos" href="#">
+	                                			<a id="deleteTypeBudget" data-url="tipos-de-presupuestos" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-group', $group->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('edit-tipo-de-presupuesto', $typeUser->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

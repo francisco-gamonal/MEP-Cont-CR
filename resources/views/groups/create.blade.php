@@ -42,7 +42,7 @@
 					<label for="codeGroup">Código del Grupo</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				      	<input id="codeGroup" class="form-control" type="text">
+				      	<input id="codeGroup" class="form-control" type="number">
 					</div>
 				</div>
 			</div>

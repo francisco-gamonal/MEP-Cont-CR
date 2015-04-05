@@ -691,6 +691,76 @@ $(function(){
 	$(document).on('click', '#activeGroup', function(e){
 		e.preventDefault();
 		var url;
+		var token = $(this).parent().parent().find('.group_code').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Group
+	$(document).off('click', '#deleteGroup');
+	$(document).on('click', '#deleteGroup', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.group_code').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Update Group
+	$(document).off('click', '#updateGroups');
+	$(document).on('click', '#updateGroups', function(e){
+		e.preventDefault();
+		var url;
+		var roles = [];
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token       = $("#codeGroup").data('token');
+		data.codeGroup   = $('#codeGroup').val();
+		data.nameGroup   = $('#nameGroup').val();
+		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+	
+	/**
+	 * End Groups
+	 */
+	
+	/**
+	 * Type Budgets
+	 */
+	
+	//Save Type Budgets
+	$(document).off('click', '#saveTypeBudget');
+	$(document).on('click', '#saveTypeBudget', function(e){
+		e.preventDefault();
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.nameTypeBudget   = $('#nameTypeBudget').val();
+		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	//Active Type Budgets
+	$(document).off('click', '#activeGroup');
+	$(document).on('click', '#activeGroup', function(e){
+		e.preventDefault();
+		var url;
 		var id = $(this).parent().parent().find('.group_code').data('id');
 		url    = $(this).data('url');
 		url    = url + '/active-' + url + '/' + id;
@@ -701,7 +771,7 @@ $(function(){
 		});
 	});
 
-	//Delete Group
+	//Delete Type Budgets
 	$(document).off('click', '#deleteGroup');
 	$(document).on('click', '#deleteGroup', function(e){
 		e.preventDefault();
@@ -716,6 +786,7 @@ $(function(){
 		});
 	});
 
+	//Update Type Budgets
 	$(document).off('click', '#updateGroups');
 	$(document).on('click', '#updateGroups', function(e){
 		e.preventDefault();
@@ -744,5 +815,6 @@ $(function(){
 	dataTable('#table_user', 'usuarios');
 	dataTable('#table_role', 'usuarios');
 	dataTable('#table_groups', 'grupos');
+	dataTable('#table_type_budget', 'tipos de presupuestos');
 
 });
