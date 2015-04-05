@@ -77,7 +77,7 @@ class TypeBudgetsController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $typeBudget = TypeBudget::withTrashed()->where('token', '=', $token)->get();
+        $typeBudget = TypeBudget::Token($token);
         return view('typeBudgets.edit', compact('typeBudget'));
     }
 
@@ -99,7 +99,7 @@ class TypeBudgetsController extends Controller {
      */
    public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = TypeBudget::destroy()->where('token', '=', $token)->get();
+        $data = TypeBudget::Token($token)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -116,9 +116,8 @@ class TypeBudgetsController extends Controller {
      */
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = TypeBudget::onlyTrashed()->where('token', '=', $token)->get();
+        $data = TypeBudget::Token($token)->restore();
         if ($data):
-            $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
