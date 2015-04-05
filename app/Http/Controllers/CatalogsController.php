@@ -6,7 +6,6 @@ use Mep\Models\Catalog;
 use Illuminate\Http\Request;
 use Mep\Models\Group;
 use Crypt;
-use Mep\Models\TypeBudget;
 class CatalogsController extends Controller {
 
 	/**
@@ -17,7 +16,7 @@ class CatalogsController extends Controller {
 	public function index()
 	{
             $catalogs = Catalog::withTrashed()->get();
-            return view('catalogs.index', compact('$catalogs'));
+            return view('catalogs.index', compact('catalogs'));
 	}
 
 	/**
@@ -97,7 +96,7 @@ class CatalogsController extends Controller {
 	public function edit($id)
 	{
 		$groups = Group::all();
-                 $catalogs = Catalog::withTrashed()->get();
+                 $catalogs = Catalog::withTrashed()->find($id);
             return view('catalogs.edit',  compact('groups','catalogs'));
 	}
 
