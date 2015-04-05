@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TypeBudget extends Model {
 
- use SoftDeletingTrait;
- protected $table ='types_budgets';
+
+ 
 
     // Don't forget to fill this array
     protected $fillable = ['name'];
