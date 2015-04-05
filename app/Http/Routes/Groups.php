@@ -14,7 +14,7 @@ Route::post('grupos/save-grupos','GroupsController@store');
 Route::get('grupos/editar-grupo/{token}', ['as' => 'edit-group', 'uses' =>'GroupsController@edit']);
 Route::delete('grupos/delete-grupos/{code}',['as' => 'delete-grupo', 'uses' => 'GroupsController@destroy']);
 Route::patch('grupos/active-grupos/{code}',['as' => 'active-grupo', 'uses' => 'GroupsController@active']);
-Route::put('grupos/update-grupos/{code}','GroupsController@update');
+Route::put('grupos/update-grupos/{token}','GroupsController@update');
 /**
  * Fin Rutas Menu
 */
