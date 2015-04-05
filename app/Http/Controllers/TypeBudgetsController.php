@@ -87,7 +87,7 @@ class TypeBudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
+    public function update() {
         /* Capturamos los datos enviados por ajax */
         $typeBudgets = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
