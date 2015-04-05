@@ -4,7 +4,7 @@ use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
 use Mep\Models\Group;
 use Illuminate\Http\Request;
-
+use Input;
 class GroupsController extends Controller {
 
 	/**
@@ -78,10 +78,10 @@ class GroupsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($token)
 	{
-		 $group = Group::withTrashed()->find($id);
-        return view('groups.edit', compact('group'));
+            $group = Group::withTrashed()->where('token', '=', $token)->get();
+            return view('groups.edit', compact('group'));
 	}
 
 	/**
