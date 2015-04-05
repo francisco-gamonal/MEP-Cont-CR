@@ -96,7 +96,9 @@ class CatalogsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$groups = Group::all();
+                 $catalogs = Catalog::withTrashed()->get();
+            return view('catalogs.edit',  compact('groups','catalogs'));
 	}
 
 	/**
