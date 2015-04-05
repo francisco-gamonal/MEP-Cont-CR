@@ -2,10 +2,10 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Models\TypesBudgets;
+use Mep\Models\TypeBudgets;
 use Illuminate\Http\Request;
 
-class TypesBudgetsController extends Controller {
+class TypeBudgetsController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -15,7 +15,7 @@ class TypesBudgetsController extends Controller {
 	public function index()
 	{
 		$typeBudgets = TypesBudgets::all();
-            return view('typesBudgets.index',  compact('typesBudgets'));
+        return view('typesBudgets.index',  compact('typesBudgets'));
 	}
 
 	/**
@@ -25,7 +25,7 @@ class TypesBudgetsController extends Controller {
 	 */
 	public function create()
 	{
-		return view('typesBudgets.create');
+		return view('typeBudgets.create');
 	}
 
 	/**

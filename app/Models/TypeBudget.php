@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class TypesBudgets extends Model {
+class TypeBudgets extends Model {
 
  use SoftDeletingTrait;
 
