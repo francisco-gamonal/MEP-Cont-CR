@@ -141,8 +141,7 @@ class GroupsController extends Controller {
          /* les quitamos la eliminacion pasavida */
         $data = Group::Token($token)->restore();
         if ($data):
-          
-            /* si todo sale bien enviamos el mensaje de exito */
+          /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
        /* si hay algun error  los enviamos de regreso */

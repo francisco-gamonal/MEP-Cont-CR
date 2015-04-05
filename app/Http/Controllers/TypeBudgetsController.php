@@ -99,7 +99,7 @@ class TypeBudgetsController extends Controller {
      */
    public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = TypeBudget::Token($token)->restore();
+        $data = TypeBudget::Token($token)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');

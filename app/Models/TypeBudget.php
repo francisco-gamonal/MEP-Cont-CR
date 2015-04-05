@@ -21,10 +21,10 @@ use SoftDeletes;
     }
 
     public static function Token($token) {
-        $groups = TypeBudget::withTrashed()->where('token', '=', $token)->get();
-        if ($groups):
-            foreach ($groups AS $group):
-                return $group;
+        $typeBudget = TypeBudget::withTrashed()->where('token', '=', $token)->get();
+        if ($typeBudget):
+            foreach ($typeBudget AS $typeBudgets):
+                return $typeBudgets;
             endforeach;
         endif;
 
