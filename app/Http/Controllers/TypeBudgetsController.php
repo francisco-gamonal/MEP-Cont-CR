@@ -77,7 +77,7 @@ class TypeBudgetsController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $typeBudget = TypeBudget::Token($token);
+        $typeBudget = TypeBudget::withTrashed()->where('token', '=', $token)->get();
         return view('typeBudgets.edit', compact('typeBudget'));
     }
 
