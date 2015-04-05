@@ -17,7 +17,7 @@ class CatalogsController extends Controller {
 	public function index()
 	{
             $catalogs = Catalog::withTrashed()->get();
-            return view('catalogs.index', compact('$catalogs'));
+            return view('catalogs.index', compact('catalogs'));
 	}
 
 	/**
