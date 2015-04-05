@@ -56,8 +56,8 @@
 	                        <tbody>
 	                        	@foreach($catalogs as $catalog)
 		                            <tr>
-		                                <td class="text-center catalog_name">{{mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</td>
-		                                <td class="text-center catalog_last">{{mb_convert_case($catalog->type, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center catalog_name" data-token="{{$catalog->token}}">{{mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</td>
+		                                <td class="text-center catalog_type">{{mb_convert_case($catalog->type, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center catalog_group">{{mb_convert_case($catalog->groups->name, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">
 		                                	@if($catalog->deleted_at)

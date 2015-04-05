@@ -840,6 +840,36 @@ $(function(){
 		})
 	});
 
+	//Active Catalogs
+	$(document).off('click', '#activeCatalog');
+	$(document).on('click', '#activeCatalog', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.catalog_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Catalogs
+	$(document).off('click', '#deleteCatalog');
+	$(document).on('click', '#deleteCatalog', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.catalog_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 	/**
 	 * End 
 	 */
