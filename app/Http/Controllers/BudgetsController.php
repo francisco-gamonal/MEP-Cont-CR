@@ -38,8 +38,11 @@ class BudgetsController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
+        $school= School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
+        
+        $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
         $budget = new Budgets;
         /* Validamos los datos para guardar tabla menu */
@@ -92,8 +95,12 @@ class BudgetsController extends Controller {
     public function update($id) {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
+        
+        $school= School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
+        
+        $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
         $budget = Budgets::Token($token);
         /* Validamos los datos para guardar tabla menu */
