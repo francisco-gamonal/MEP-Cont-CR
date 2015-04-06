@@ -99,8 +99,11 @@ class CatalogsController extends Controller {
 	{
             /* Capturamos los datos enviados por ajax */
         $catalogs = $this->convertionObjeto();
+        $group=  Group::Token($catalogs->groupCatalog);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($catalogs, 'Catalog');
+        /**/
+        $ValidationData['groups_id']= $group->id;
         /* Declaramos las clases a utilizar */
         $catalog = Catalog::Token($catalogs->token);
         /* Validamos los datos para guardar tabla menu */

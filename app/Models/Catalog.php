@@ -50,10 +50,6 @@ class Catalog extends Model {
             'type' => 'required',
             'groups_id' => 'required'];
 
-        if ($this->exists) {
-            $rules['name'] .= ',name,' . $this->id;
-        }
-
         $validator = \Validator::make($data, $rules);
         if ($validator->passes()) {
             return true;
