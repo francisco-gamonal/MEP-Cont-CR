@@ -16,8 +16,8 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $budget = Budgets::withTrashed()->get();
-        return view('budgets.index', compact('budget'));
+        $budgets = Budgets::withTrashed()->get();
+        return view('budgets.index', compact('budgets'));
     }
 
     /**

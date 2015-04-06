@@ -936,5 +936,6 @@ $(function(){
 	dataTable('#table_groups', 'grupos');
 	dataTable('#table_type_budget', 'tipos de presupuestos');
 	dataTable('#table_catalogs', 'catálogos');
+	dataTable('#table_budgets', 'presupuestos');
 
 });
