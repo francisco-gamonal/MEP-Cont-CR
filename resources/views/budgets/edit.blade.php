@@ -39,153 +39,72 @@
 	<section class="row form-">
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="cCatalog">C Catálogo</label>
+				<label for="nameBudget">Nombre del Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->c)
-			      		<input id="cCatalog" class="form-control" type="number" value="{{$catalog->c}}">
-			      	@else
-			      		<input id="cCatalog" class="form-control" type="number">
-			      	@endif
+					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+			      	<input id="nameBudget" class="form-control" type="text" value="{{$budget->name}}" data-token="{{$budget->token}}">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="scCatalog">SC Catálogo</label>
+				<label for="sourceBudget">Source del Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->sc)
-			      		<input id="scCatalog" class="form-control" type="number" value="{{$catalog->sc}}">
-			      	@else
-			      		<input id="scCatalog" class="form-control" type="number">
-			      	@endif
+					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+			      	<input id="sourceBudget" class="form-control" type="text" value="{{$budget->source}}">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="gCatalog">G Catálogo</label>
+				<label for="descriptionBudget">Descripción del Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->g)
-			      		<input id="gCatalog" class="form-control" type="number" value="{{$catalog->g}}">
-			      	@else
-			      		<input id="gCatalog" class="form-control" type="number">
-			      	@endif
+					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+			      	<input id="descriptionBudget" class="form-control" type="text" value="{{$budget->description}}">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="sgCatalog">SG Catálogo</label>
+				<label for="yearBudget">Año del Presupuesto</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->sg)
-			      		<input id="sgCatalog" class="form-control" type="number" value="{{$catalog->sg}}">
-			      	@else
-			      		<input id="sgCatalog" class="form-control" type="number">
-			      	@endif
+			      	<input id="yearBudget" class="form-control" type="number" value="{{$budget->year}}">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="pCatalog">P Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->p)
-				      	<input id="pCatalog" class="form-control" type="number" value="{{$catalog->p}}">
-				    @else
-				    	<input id="pCatalog" class="form-control" type="number">
-				    @endif
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="spCatalog">SP Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->sp)
-			      		<input id="spCatalog" class="form-control" type="number" value="{{$catalog->sp}}">
-			      	@else
-			      		<input id="spCatalog" class="form-control" type="number">
-			      	@endif
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="rCatalog">R Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->r)
-			      		<input id="rCatalog" class="form-control" type="number" value="{{$catalog->r}}">
-			      	@else
-			      		<input id="rCatalog" class="form-control" type="number">
-			      	@endif
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="srCatalog">SR Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->sr)
-			      		<input id="srCatalog" class="form-control" type="number" value="{{$catalog->sr}}">
-			      	@else
-			      		<input id="srCatalog" class="form-control" type="number">
-			      	@endif
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="fCatalog">F Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					@if($catalog->f)
-			      		<input id="fCatalog" class="form-control" type="number" value="{{$catalog->f}}">
-			      	@else
-						<input id="fCatalog" class="form-control" type="number">
-			      	@endif
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="nameCatalog">Nombre del Catálogo</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="nameCatalog" class="form-control" type="text" value="{{$catalog->name}}" data-token="{{$catalog->token}}">
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="typeCatalog">Tipo de Catálogo</label>
-				<select id="typeCatalog" class="form-control">
-					@if($catalog->type == 'ingresos')
-						<option value="ingresos" selected>Ingresos</option>
-						<option value="egresos">Egresos</option>
+				<label for="typeBudget">Tipo de Presupuesto</label>
+				<select id="typeBudget" class="form-control">
+					@if($budget->type == 'ordinario')
+						<option value="ordinario" selected>Ordinario</option>
+						<option value="extraordinario">Extraordinario</option>
 					@else
-						<option value="ingresos">Ingresos</option>
-						<option value="egresos" selected>Egresos</option>
+						<option value="ordinario">Ordinario</option>
+						<option value="extraordinario" selected>Extraordinario</option>
 					@endif
 				</select>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="groupCatalog">Grupo del Catálogo</label>
-				<select id="groupCatalog" class="form-control">
-					@foreach($groups as $group)
-						@if($group->id == $catalog->groups_id)
-							<option value="{{$group->token}}" selected>{{mb_convert_case($group->name, MB_CASE_TITLE, 'utf-8')}}</option>
+				<label for="globalBudget">Global del Presupuesto</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+			      	<input id="globalBudget" class="form-control" type="text" value="{{$budget->global}}">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
+				<label for="schoolBudget">Institución del Presupuesto</label>
+				<select id="schoolBudget" class="form-control">
+					@foreach($schools as $school)
+						@if($budget->schools->id == $school->id)
+							<option value="{{$school->token}}" selected>{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@else
-							<option value="{{$group->token}}">{{mb_convert_case($group->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							<option value="{{$school->token}}">{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@endif
 					@endforeach
 				</select>
@@ -193,20 +112,20 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="statusCatalog">Estado del Catálogo</label>
+				<label for="statusBudget">Estado del Presupuesto</label>
 				<div class="row">
-					@if($catalog->deleted_at)
-		      			<input id="statusCatalog" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
+					@if($budget->deleted_at)
+		      			<input id="statusBudget" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
 		      		@else
-						<input id="statusCatalog" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+						<input id="statusBudget" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
 		      		@endif
 		      	</div>
 			</div>
 		</div>
 	</section>
 	<div class="row text-center">
-		<a href="{{route('ver-catalogos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a href="#" id="updateCatalog" data-url="catalogos" class="btn btn-success">Actualizar Catálogo</a>
+		<a href="{{route('ver-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+		<a href="#" id="updateBudget" data-url="presupuestos" class="btn btn-success">Actualizar Presupuesto</a>
 	</div>
 </div>
 @stop

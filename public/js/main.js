@@ -957,6 +957,28 @@ $(function(){
 		});
 	});
 
+	//Update Budgets
+	$(document).off('click', '#updateBudget');
+	$(document).on('click', '#updateBudget', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token             = $('#nameBudget').data('token');
+		data.nameBudget        = $('#nameBudget').val();
+		data.sourceBudget      = $('#sourceBudget').val();
+		data.descriptionBudget = $('#descriptionBudget').val();
+		data.yearBudget        = $('#yearBudget').val();
+		data.typeBudget        = $('#typeBudget').val();
+		data.globalBudget      = $('#globalBudget').val();
+		data.schoolBudget      = $('#schoolBudget').val();
+		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');

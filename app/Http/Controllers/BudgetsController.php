@@ -85,8 +85,8 @@ class BudgetsController extends Controller {
      */
     public function edit($token) {
         $budget = Budget::Token($token);
-        $school = School::all();
-        return view('budgets.edit', compact('school', 'budget'));
+        $schools = School::all();
+        return view('budgets.edit', compact('schools', 'budget'));
     }
 
     /**

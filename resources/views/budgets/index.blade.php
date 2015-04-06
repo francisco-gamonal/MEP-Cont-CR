@@ -28,7 +28,7 @@
 		<ul>
 			<li><a href="{{url('/')}}">Home</a></li>
 			<li><a>Presupuestos</a></li>
-			<li class="active-page"><a>Ver Presupuesto</a></li>
+			<li class="active-page"><a>Ver Presupuestos</a></li>
 		</ul>
 	</div>
 </aside>
