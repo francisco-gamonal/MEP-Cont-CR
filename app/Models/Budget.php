@@ -13,7 +13,6 @@ class Budget extends Model {
 
     public function schools() {
 
-        return $this->HasMany('Mep\Models\Schools', 'id', 'schools_id');
     }
 
     public function LastId() {
