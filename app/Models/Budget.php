@@ -13,6 +13,7 @@ class Budget extends Model {
 
     public function schools() {
 
+        return $this->belongsTo('Mep\Models\School');
     }
 
     public function LastId() {
