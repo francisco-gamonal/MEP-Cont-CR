@@ -4,7 +4,7 @@ namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Models\Budgets;
+use Mep\Models\Budget;
 use Illuminate\Http\Request;
 use Mep\Models\School;
 
@@ -16,7 +16,7 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $budget = Budgets::withTrashed()->get();
+        $budget = Budget::withTrashed()->get();
         return view('budgets.index', compact('budget'));
     }
 
@@ -45,7 +45,7 @@ class BudgetsController extends Controller {
         /* Asignacion de id de school */
         $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
-        $budget = new Budgets;
+        $budget = new Budget;
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
@@ -54,9 +54,9 @@ class BudgetsController extends Controller {
             $idBudget = $budget->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budgets::withTrashed()->find($idBudget->id)->restore();
+                Budget::withTrashed()->find($idBudget->id)->restore();
             else:
-                Budgets::destroy($idBudget->id);
+                Budget::destroy($idBudget->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -82,7 +82,7 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $budget = Budgets::Token($token);
+        $budget = Budget::Token($token);
         $school = School::all();
         return view('budgets.edit', compact('school', 'budget'));
     }
@@ -103,16 +103,16 @@ class BudgetsController extends Controller {
         
         $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
-        $budget = Budgets::Token($token);
+        $budget = Budget::Token($token);
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
             $budget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budgets::withTrashed()->find($idBudget->id)->restore();
+                Budget::withTrashed()->find($idBudget->id)->restore();
             else:
-                Budgets::destroy($idBudget->id);
+                Budget::destroy($idBudget->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -129,7 +129,7 @@ class BudgetsController extends Controller {
      */
     public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = Budgets::Token($token)->delete();
+        $data = Budget::Token($token)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -146,7 +146,7 @@ class BudgetsController extends Controller {
      */
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = Budgets::Token($token)->restore();
+        $data = Budget::Token($token)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
