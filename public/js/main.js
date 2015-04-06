@@ -900,6 +900,32 @@ $(function(){
 	/**
 	 * End Catalogs
 	 */
+	
+
+	/**
+	 * Budgets
+	 */
+
+	//Save Catalogs
+	$(document).off('click', '#saveBudget');
+	$(document).on('click', '#saveBudget', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.nameBudget        = $('#nameBudget').val();
+		data.sourceBudget      = $('#sourceBudget').val();
+		data.descriptionBudget = $('#descriptionBudget').val();
+		data.yearBudget        = $('#yearBudget').val();
+		data.typeBudget        = $('#typeBudget').val();
+		data.globalBudget      = $('#globalBudget').val();
+		data.schoolBudget      = $('#schoolBudget').val();
+		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
 
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
