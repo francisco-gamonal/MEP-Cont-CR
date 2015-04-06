@@ -82,10 +82,10 @@ class CatalogsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($token)
 	{
 		$group = Group::all();
-                 $catalog = Catalog::withTrashed()->find($id);
+                 $catalog = Catalog::Token($token);
             return view('catalogs.edit',  compact('group','catalog'));
 	}
 
