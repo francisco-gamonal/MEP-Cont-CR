@@ -12,6 +12,8 @@ use Mep\Models\TasksHasMenu;
 use Mep\Models\Supplier;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
+use Mep\Models\Budget;
+
 class TestController extends Controller {
 
 	/**
@@ -24,8 +26,8 @@ class TestController extends Controller {
 	public function index()
 	{
             
-            $test = Catalog::find(1);
-            echo json_encode($test->groups->name);
+            $test = Budget::find(1);
+            echo json_encode($test->schools->name);
 //		$menus = Menu::all();
 //		$user = User::find(2);
 //

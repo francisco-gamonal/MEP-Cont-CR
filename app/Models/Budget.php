@@ -1,10 +1,11 @@
 <?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
+class Budget extends Model {
 
-class Budgets extends Model {
-
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
    
     // Don't forget to fill this array
@@ -12,15 +13,15 @@ class Budgets extends Model {
 
     public function schools() {
 
-        return $this->HasMany('Mep\Models\Schools', 'id', 'schools_id');
+        return $this->belongsTo('Mep\Models\School');
     }
 
     public function LastId() {
-        return Budgets::all()->last();
+        return Budget::all()->last();
     }
 
     public static function Token($token) {
-        $groups = Budgets::withTrashed()->where('token', '=', $token)->get();
+        $groups = Budget::withTrashed()->where('token', '=', $token)->get();
         if ($groups):
             foreach ($groups AS $group):
                 return $group;
