@@ -60,7 +60,7 @@
                         <tbody>
                         	@foreach($budgets as $budget)
 	                            <tr>
-	                                <td class="text-center budget_name">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</td>
+	                                <td class="text-center budget_name" data-token="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_source">{{mb_convert_case($budget->source, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_description">{{mb_convert_case($budget->description, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_year">{{$budget->year}}</td>

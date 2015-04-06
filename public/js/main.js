@@ -906,7 +906,7 @@ $(function(){
 	 * Budgets
 	 */
 
-	//Save Catalogs
+	//Save Budgets
 	$(document).off('click', '#saveBudget');
 	$(document).on('click', '#saveBudget', function(e){
 		e.preventDefault();
@@ -925,6 +925,36 @@ $(function(){
 		.done( function (data) {
 			messageAjax(data);
 		})
+	});
+
+	//Active Budgets
+	$(document).off('click', '#activeBudget');
+	$(document).on('click', '#activeBudget', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.budget_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Budgets
+	$(document).off('click', '#deleteBudget');
+	$(document).on('click', '#deleteBudget', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.budget_name').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
 	});
 
 	dataTable('#table_menu', 'menús');
