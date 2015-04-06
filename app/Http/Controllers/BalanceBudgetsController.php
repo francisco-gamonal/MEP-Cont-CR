@@ -8,6 +8,7 @@ use Mep\Models\BalanceBudgets;
 use Illuminate\Http\Request;
 use Mep\Models\Catalog;
 use Mep\Models\TypeBudget;
+use Mep\Models\Budgets;
 
 class BalanceBudgetsController extends Controller {
 
@@ -39,7 +40,34 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function store() {
-        //
+        /* Capturamos los datos enviados por ajax */
+        $balanceBudgets = $this->convertionObjeto();
+        
+        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
+        $catalog= Budgets::Token($balanceBudgets->budgetBalanceBudget);
+        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
+        $ValidationData['groups_id']= $group->id;
+        /* Declaramos las clases a utilizar */
+        $catalog = new Catalog;
+        /* Validamos los datos para guardar tabla menu */
+        if ($catalog->isValid((array) $ValidationData)):
+            $catalog->fill($ValidationData);
+            $catalog->save();
+            /* Traemos el id del tipo de usuario que se acaba de */
+            $idCatalogs = $catalog->LastId();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($catalogs->statusCatalog == true):
+                Catalog::withTrashed()->find($idCatalogs->id)->restore();
+            else:
+                Catalog::destroy($idCatalogs->id);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($catalog->errors);
     }
 
     /**

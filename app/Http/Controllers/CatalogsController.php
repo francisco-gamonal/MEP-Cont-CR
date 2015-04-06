@@ -102,7 +102,7 @@ class CatalogsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($catalogs, 'Catalog');
         /* Declaramos las clases a utilizar */
-        $catalog = Catalog::Token( $catalogs->token);
+        $catalog = Catalog::Token($catalogs->token);
         /* Validamos los datos para guardar tabla menu */
         if ($catalog->isValid((array)$ValidationData)):
             $catalog->fill($ValidationData);
