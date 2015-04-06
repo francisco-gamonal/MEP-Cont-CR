@@ -27,8 +27,7 @@ class BudgetsController extends Controller {
      */
     public function create() {
         $school = School::all();
-        $typeBudget = TypeBudget::all();
-        return view('budgets.create', compact('school','typeBudget'));
+        return view('budgets.create', compact('school'));
     }
 
     /**
@@ -78,8 +77,8 @@ class BudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id) {
-        $budget = Budgets::withTrashed()->find($id);
+    public function edit($token) {
+        $budget = Budgets::Token($token);
         $school = School::all();
         return view('budgets.edit', compact('school', 'budget'));
     }
@@ -91,7 +90,7 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function update($id) {
-       /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
