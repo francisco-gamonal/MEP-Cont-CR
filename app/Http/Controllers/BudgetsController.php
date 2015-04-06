@@ -38,10 +38,11 @@ class BudgetsController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
+        /* Consulta por token de school */
         $school= School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
-        
+        /* Asignacion de id de school */
         $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
         $budget = new Budgets;
