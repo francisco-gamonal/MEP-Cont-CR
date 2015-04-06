@@ -42,24 +42,13 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools);
-        
+        $Validation = $this->CreacionArray($schools, 'School');
+
         /* Declaramos las clases a utilizar */
         $saveSchools = new School;
         /* Validamos los datos para guardar tabla menu */
-        if ($saveSchools->isValid($Validation)): 
-           // echo json_encode($Validation[0]); 
-            $saveSchools->name = strtoupper($Validation['name']);
-               $saveSchools->charter = strtoupper($Validation['charter']);
-            $saveSchools->circuit = ($Validation['circuit']);
-            $saveSchools->code = ($Validation['code']);
-            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
-            $saveSchools->president = strtoupper($Validation['president']);
-            $saveSchools->secretary = strtoupper($Validation['secretary']);
-            $saveSchools->account = strtoupper($Validation['account']);
-            $saveSchools->title_1 = strtoupper($Validation['title_1']);
-            $saveSchools->title_2 = ($Validation['title_2']);
-            $saveSchools->token = Crypt::encrypt($Validation['charter']);
+        if ($saveSchools->isValid($Validation)):
+            $saveSchools->fill($Validation);
             $saveSchools->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSchools = $saveSchools->LastId();
@@ -69,7 +58,7 @@ class SchoolsController extends Controller {
             else:
                 School::destroy($ultimoIdSchools->id);
             endif;
-              /*Con este methodo creamos el archivo Json */
+            /* Con este methodo creamos el archivo Json */
             $this->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -109,21 +98,12 @@ class SchoolsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $Validation = $this->createArray($schools, "Schools");
+        $Validation = $this->CreacionArray($schools, 'School');
         /* Declaramos las clases a utilizar */
         $saveSchools = School::withTrashed()->find($schools->idSchool);
         /* Validamos los datos para guardar tabla menu */
-        if ($saveSchools->isValid((array) $Validation)):
-            $saveSchools->name = strtoupper($Validation['name']);
-            $saveSchools->charter = strtoupper($Validation['charter']);
-            $saveSchools->circuit = ($Validation['circuit']);
-            $saveSchools->code = ($Validation['code']);
-            $saveSchools->ffinancing = strtoupper($Validation['ffinancing']);
-            $saveSchools->president = strtoupper($Validation['president']);
-            $saveSchools->secretary = strtoupper($Validation['secretary']);
-            $saveSchools->account = strtoupper($Validation['account']);
-            $saveSchools->title_1 = strtoupper($Validation['title_1']);
-            $saveSchools->title_2 = ($Validation['title_2']);
+        if ($saveSchools->isValid($Validation)):
+            $saveSchools->fill($Validation);
             $saveSchools->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($schools->statusSchool == true):
@@ -131,7 +111,7 @@ class SchoolsController extends Controller {
             else:
                 School::destroy($schools->idSchool);
             endif;
-              /*Con este methodo creamos el archivo Json */
+            /* Con este methodo creamos el archivo Json */
             $this->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -175,8 +155,8 @@ class SchoolsController extends Controller {
         $data = School::find($id);
         if ($data):
             $data->delete();
-               /*Con este methodo creamos el archivo Json */
-           $this->fileJsonUpdate();
+            /* Con este methodo creamos el archivo Json */
+            $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -195,9 +175,9 @@ class SchoolsController extends Controller {
         $schools = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
         $data = School::withTrashed()->find($id)->restore();
-        
+
         if ($data):
-               /*Con este methodo creamos el archivo Json */
+            /* Con este methodo creamos el archivo Json */
             $this->fileJsonUpdate();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
@@ -206,18 +186,18 @@ class SchoolsController extends Controller {
         return $this->errores($data->errors);
     }
 
-    
     public function fileJsonUpdate() {
-        /*Buscamos todos los datos de school y traemos solo el id y el name*/
+        /* Buscamos todos los datos de school y traemos solo el id y el name */
         $school = School::select('id', 'name')->get();
         $dataJson = '';
         foreach ($school AS $schools):
-            $dataJson[] = array('value'=>$schools->id,'text'=>$schools->name);
+            $dataJson[] = array('value' => $schools->id, 'text' => $schools->name);
         endforeach;
-     
+
         $fh = fopen("json/schools.json", 'w')
                 or die("Error al abrir fichero de salida");
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
         fclose($fh);
     }
+
 }

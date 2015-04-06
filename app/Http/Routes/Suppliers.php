@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Rutas de Proveedores
  */
-//Route::get('tipo-de-usuarios','SupplierController@index');
+Route::get('proveedores','SupplierController@index');
 Route::get('proveedores/ver-proveedores',['as'=>'ver-proveedores','uses'=>'SupplierController@index']);
 Route::get('proveedores/registrar-proveedor','SupplierController@create');
 Route::post('proveedores/save-proveedores','SupplierController@store');

@@ -8,6 +8,7 @@ use Mep\Models\Group;
 use Illuminate\Http\Request;
 use Input;
 use Crypt;
+
 class GroupsController extends Controller {
 
     /**
@@ -38,14 +39,12 @@ class GroupsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $Groups = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('name' => $Groups->nameGroup, 'code' => $Groups->codeGroup);
+        $ValidationData = $this->CreacionArray($Groups, 'Group');
         /* Declaramos las clases a utilizar */
         $group = new Group;
         /* Validamos los datos para guardar tabla menu */
-        if ($group->isValid((array) $ValidationData)):
-            $group->code = strtoupper($ValidationData['code']);
-            $group->name = strtoupper($ValidationData['name']);
-            $group->token = Crypt::encrypt($ValidationData['name']);
+        if ($group->isValid($ValidationData)):
+            $group->fill($ValidationData);
             $group->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idGroup = $group->LastId();
@@ -93,13 +92,12 @@ class GroupsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $Groups = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = array('name' => $Groups->nameGroup, 'code' => $Groups->codeGroup);
+        $ValidationData = $this->CreacionArray($Groups, 'Group');
         /* Declaramos las clases a utilizar */
-        $group = Group::Token( $Groups->token);
+        $group = Group::Token($Groups->token);
         /* Validamos los datos para guardar tabla menu */
-        if ($group->isValid((array)$ValidationData)):
-            $group->code = strtoupper($ValidationData['code']);
-            $group->name = strtoupper($ValidationData['name']);
+        if ($group->isValid($ValidationData)):
+            $group->fill($ValidationData);
             $group->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($Groups->statusGroup == true):
@@ -138,13 +136,13 @@ class GroupsController extends Controller {
      * @return Response
      */
     public function active($token) {
-         /* les quitamos la eliminacion pasavida */
+        /* les quitamos la eliminacion pasavida */
         $data = Group::Token($token)->restore();
         if ($data):
-          /* si todo sale bien enviamos el mensaje de exito */
+            /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;
-       /* si hay algun error  los enviamos de regreso */
+        /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
 

@@ -42,16 +42,12 @@ class SupplierController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $supplier = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->createArray($supplier);
+        $ValidationData = $this->CreacionArray($supplier, 'Supplier');
         /* Declaramos las clases a utilizar */
         $suppliers = new Supplier;
         /* Validamos los datos para guardar tabla menu */
         if ($suppliers->isValid((array) $ValidationData)):
-            $suppliers->charter = strtoupper($ValidationData['charter']);
-            $suppliers->name = strtoupper($ValidationData['name']);
-            $suppliers->email = strtoupper($ValidationData['email']);
-            $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = Crypt::encrypt($ValidationData['charter']);
+            $suppliers->fill($ValidationData);
             $suppliers->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSupplier = $suppliers->LastId();
@@ -99,17 +95,12 @@ class SupplierController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $supplier = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->createArray($supplier);
+        $ValidationData = $this->CreacionArray($supplier, 'Supplier');
         /* Declaramos las clases a utilizar */
-       
-        $suppliers = Supplier::Token($supplier->tokenSupplier);
+        $suppliers= Supplier::Token($ValidationData['token']);
         /* Validamos los datos para guardar tabla menu */
-        if ($suppliers->isValid((array) $ValidationData)):
-            $suppliers->charter = strtoupper($ValidationData['charter']);
-            $suppliers->name = strtoupper($ValidationData['name']);
-            $suppliers->email = strtoupper($ValidationData['email']);
-            $suppliers->phone = strtoupper($ValidationData['phone']);
-            $suppliers->token = $supplier->tokenSupplier;
+        if ($suppliers->isValid( $ValidationData)):
+            $suppliers->fill($ValidationData);
             $suppliers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($supplier->statusSupplier == true):

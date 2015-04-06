@@ -24,6 +24,9 @@ class Group extends Model {
 
     public $timestamps = true;
 
+     // Don't forget to fill this array
+    protected $fillable = ['code', 'name','token'];
+    
     public function LastId() {
         return Group::all()->last();
     }
@@ -46,8 +49,9 @@ class Group extends Model {
         if ($this->exists) {
             $rules['name'] .= ',name,' . $this->id;
         }
-
+        
         $validator = \Validator::make($data, $rules);
+       
         if ($validator->passes()) {
             return true;
         }

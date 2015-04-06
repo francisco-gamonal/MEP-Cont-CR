@@ -21,8 +21,8 @@ class CreateSchoolsTable extends Migration {
         $table->string('president');
         $table->string('secretary');
         $table->string('account');
-        $table->string('title_1');
-        $table->string('title_2');
+        $table->string('titleOne');
+        $table->string('titleTwo');
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

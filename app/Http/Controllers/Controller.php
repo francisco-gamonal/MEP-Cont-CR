@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Response;
 use Input;
+use Crypt;
 
 abstract class Controller extends BaseController {
 
@@ -42,14 +43,21 @@ abstract class Controller extends BaseController {
     }
 
     public function CreacionArray($data, $delimiter) {
-        $newArreglo = array();
-        foreach ($data AS $key => $value):
-            $newKey = explode($delimiter, $key);
-            array_push($newArreglo, array($newKey[0] => $value));
 
+
+        foreach ($data AS $key => $value):
+
+            $newKey = explode($delimiter, $key);
+            $keyNew = ($newKey[0]);
+            $newArreglo[$keyNew] = $value;
         endforeach;
 
-        return ($newArreglo);
+        if (empty($newArreglo['token'])):
+            $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
+            return $newArreglo;
+        endif;
+
+        return $newArreglo;
     }
 
 }
