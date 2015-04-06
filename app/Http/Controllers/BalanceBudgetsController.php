@@ -44,30 +44,32 @@ class BalanceBudgetsController extends Controller {
         $balanceBudgets = $this->convertionObjeto();
         
         $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
-        $catalog= Budgets::Token($balanceBudgets->budgetBalanceBudget);
-        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
+        $budget= Budgets::Token($balanceBudgets->budgetBalanceBudget);
+        $catalog= TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
-        $ValidationData['groups_id']= $group->id;
+        $ValidationData['catalogs_id']= $catalog->id;
+        $ValidationData['budgets_id']= $budget->id;
+        $ValidationData['catalogs_id']= $catalog->id;
         /* Declaramos las clases a utilizar */
-        $catalog = new Catalog;
+        $balanceBudget = new BalanceBudgets;
         /* Validamos los datos para guardar tabla menu */
-        if ($catalog->isValid((array) $ValidationData)):
-            $catalog->fill($ValidationData);
-            $catalog->save();
+        if ($balanceBudget->isValid((array) $ValidationData)):
+            $balanceBudget->fill($ValidationData);
+            $balanceBudget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idCatalogs = $catalog->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($catalogs->statusCatalog == true):
-                Catalog::withTrashed()->find($idCatalogs->id)->restore();
+            if ($balanceBudgets->statusCatalog == true):
+                BalanceBudgets::withTrashed()->find($idCatalogs->id)->restore();
             else:
-                Catalog::destroy($idCatalogs->id);
+                BalanceBudgets::destroy($idCatalogs->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($catalog->errors);
+        return $this->errores($balanceBudget->errors);
     }
 
     /**
@@ -101,7 +103,36 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+       /* Capturamos los datos enviados por ajax */
+        $balanceBudgets = $this->convertionObjeto();
+        
+        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
+        $budget= Budgets::Token($balanceBudgets->budgetBalanceBudget);
+        $catalog= TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
+        $ValidationData['catalogs_id']= $catalog->id;
+        $ValidationData['budgets_id']= $budget->id;
+        $ValidationData['catalogs_id']= $catalog->id;
+        /* Declaramos las clases a utilizar */
+        $catalog = BalanceBudgets::Token($balanceBudgets->tokenBalanceBudget);
+        /* Validamos los datos para guardar tabla menu */
+        if ($catalog->isValid((array) $ValidationData)):
+            $catalog->fill($ValidationData);
+            $catalog->save();
+            /* Traemos el id del tipo de usuario que se acaba de */
+            $idCatalogs = $catalog->LastId();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($catalogs->statusCatalog == true):
+                Catalog::withTrashed()->find($idCatalogs->id)->restore();
+            else:
+                Catalog::destroy($idCatalogs->id);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($catalog->errors);
     }
 
     /**
@@ -110,8 +141,32 @@ class BalanceBudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
-        //
+     public function destroy($token) {
+        /* les damos eliminacion pasavida */
+        $data = BalanceBudgets::Token($token)->delete();
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
+    }
+
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active($token) {
+        /* les quitamos la eliminacion pasavida */
+        $data = BalanceBudgets::Token($token)->restore();
+        if ($data):
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
     }
 
 }

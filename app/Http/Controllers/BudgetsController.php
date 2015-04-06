@@ -95,7 +95,7 @@ class BudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
+    public function update() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
         
@@ -105,16 +105,16 @@ class BudgetsController extends Controller {
         
         $ValidationData['schools_id']=$school->id;
         /* Declaramos las clases a utilizar */
-        $budget = Budget::Token($token);
+        $budget = Budget::Token($budgets->token);
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
             $budget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::withTrashed()->find($idBudget->id)->restore();
+                Budget::Token($budgets->token)->restore();
             else:
-                Budget::destroy($idBudget->id);
+                Budget::Token($budgets->token)->delete();
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
