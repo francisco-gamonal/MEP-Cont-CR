@@ -84,9 +84,9 @@ class CatalogsController extends Controller {
 	 */
 	public function edit($token)
 	{
-		$group = Group::all();
+		$groups = Group::all();
                  $catalog = Catalog::Token($token);
-            return view('catalogs.edit',  compact('group','catalog'));
+            return view('catalogs.edit',  compact('groups','catalog'));
 	}
 
 	/**

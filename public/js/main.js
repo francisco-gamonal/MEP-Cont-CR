@@ -870,8 +870,35 @@ $(function(){
 		});
 	});
 
+	//Update Catalogs
+	$(document).off('click', '#updateCatalog');
+	$(document).on('click', '#updateCatalog', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token         = $('#nameCatalog').data('token');
+		data.cCatalog      = $('#cCatalog').val();
+		data.scCatalog     = $('#scCatalog').val();
+		data.gCatalog      = $('#gCatalog').val();
+		data.sgCatalog     = $('#sgCatalog').val();
+		data.pCatalog      = $('#pCatalog').val();
+		data.spCatalog     = $('#spCatalog').val();
+		data.rCatalog      = $('#rCatalog').val();
+		data.srCatalog     = $('#srCatalog').val();
+		data.fCatalog      = $('#fCatalog').val();
+		data.nameCatalog   = $('#nameCatalog').val();
+		data.typeCatalog   = $('#typeCatalog').val();
+		data.groupCatalog  = $('#groupCatalog').val();
+		data.statusCatalog = $('#statusCatalog').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
 	/**
-	 * End 
+	 * End Catalogs
 	 */
 
 	dataTable('#table_menu', 'menús');
