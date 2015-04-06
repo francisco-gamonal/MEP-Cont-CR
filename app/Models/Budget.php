@@ -21,10 +21,10 @@ class Budget extends Model {
     }
 
     public static function Token($token) {
-        $groups = Budget::withTrashed()->where('token', '=', $token)->get();
-        if ($groups):
-            foreach ($groups AS $group):
-                return $group;
+        $budgets = Budget::withTrashed()->where('token', '=', $token)->get();
+        if ($budgets):
+            foreach ($budgets AS $budget):
+                return $budget;
             endforeach;
         endif;
 
