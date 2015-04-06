@@ -27,7 +27,8 @@ class BudgetsController extends Controller {
      */
     public function create() {
         $school = School::all();
-        return view('budgets.create', compact('school'));
+        $typeBudget = TypeBudget::all();
+        return view('budgets.create', compact('school','typeBudget'));
     }
 
     /**

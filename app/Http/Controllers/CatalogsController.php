@@ -15,7 +15,7 @@ class CatalogsController extends Controller {
 	 */
 	public function index()
 	{
-            $catalogs = Catalog::withTrashed()->get();
+            $catalogs = Catalog::withTrashed()->paginate();
             return view('catalogs.index', compact('catalogs'));
 	}
 
