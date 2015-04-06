@@ -16,8 +16,8 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $budgets = Budgets::withTrashed()->get();
-        return view('budgets.index', compact('budgets'));
+        $budget = Budgets::withTrashed()->get();
+        return view('budgets.index', compact('budget'));
     }
 
     /**
@@ -26,8 +26,8 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function create() {
-        $schools = School::all();
-        return view('budgets.create', compact('schools'));
+        $school = School::all();
+        return view('budgets.create', compact('school'));
     }
 
     /**
@@ -78,9 +78,9 @@ class BudgetsController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $budgets = Budgets::withTrashed()->find($id);
-        $schools = School::all();
-        return view('budgets.edit', compact('schools', 'budgets'));
+        $budget = Budgets::withTrashed()->find($id);
+        $school = School::all();
+        return view('budgets.edit', compact('school', 'budget'));
     }
 
     /**
