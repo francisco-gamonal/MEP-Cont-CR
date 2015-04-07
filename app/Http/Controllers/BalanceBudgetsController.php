@@ -8,7 +8,7 @@ use Mep\Models\BalanceBudget;
 use Illuminate\Http\Request;
 use Mep\Models\Catalog;
 use Mep\Models\TypeBudget;
-use Mep\Models\Budgets;
+use Mep\Models\Budget;
 
 class BalanceBudgetsController extends Controller {
 
@@ -18,8 +18,8 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $balanceBudgets = BalanceBudget::withTrashed()->get();
-        return view('balanceBudgets.index', compact('balanceBudgets'));
+        $balanceBudget = BalanceBudget::withTrashed()->get();
+        return view('balanceBudgets.index', compact('balanceBudget'));
     }
 
     /**
@@ -28,10 +28,10 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function create() {
-        $budgets = Budgets::all();
+        $budgets = Budget::all();
         $catalogs = Catalog::all();
-        $typeBudget = TypeBudget::all();
-        return view('balanceBudgets.create', compact('budgets', 'catalogs', 'typeBudget'));
+        $typeBudgets = TypeBudget::all();
+        return view('balanceBudgets.create', compact('budgets', 'catalogs', 'typeBudgets'));
     }
 
     /**
@@ -90,10 +90,10 @@ class BalanceBudgetsController extends Controller {
      */
     public function edit($token) {
         $balanceBudget= BalanceBudget::Toke($token);
-        $budget = Budget::all();
-        $catalog = Catalog::all();
-        $typeBudget = TypeBudget::all();
-        return view('balanceBudgets.create', compact('budget', 'catalog', 'typeBudget'));
+        $budgets = Budget::all();
+        $catalogs = Catalog::all();
+        $typeBudgets = TypeBudget::all();
+        return view('balanceBudgets.create', compact('balanceBudget','budgets', 'catalogs', 'typeBudgets'));
     }
 
     /**
