@@ -979,6 +979,84 @@ $(function(){
 		});
 	});
 
+	/**
+	 * Balance Budgets
+	 */
+
+	//Save balanceBudgets
+	$(document).off('click', '#saveBalanceBudget');
+	$(document).on('click', '#saveBalanceBudget', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.amountBalanceBudget      = $('#amountBalanceBudget').val();
+		data.policiesBalanceBudget    = $('#policiesBalanceBudget').val();
+		data.strategicBalanceBudget   = $('#strategicBalanceBudget').val();
+		data.operationalBalanceBudget = $('#operationalBalanceBudget').val();
+		data.goalsBalanceBudget       = $('#goalsBalanceBudget').val();
+		data.catalogsBalanceBudget    = $('#catalogsBalanceBudget').val();
+		data.budgetBalanceBudget      = $('#budgetBalanceBudget').val();
+		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
+		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
+	});
+
+	// //Active Budgets
+	// $(document).off('click', '#activeBudget');
+	// $(document).on('click', '#activeBudget', function(e){
+	// 	e.preventDefault();
+	// 	var url;
+	// 	var token = $(this).parent().parent().find('.budget_name').data('token');
+	// 	url       = $(this).data('url');
+	// 	url       = url + '/active-' + url + '/' + token;
+	// 	data.token = token;
+	// 	ajaxForm(url, 'patch', data)
+	// 	.done( function (data) {
+	// 		messageAjax(data);
+	// 	});
+	// });
+
+	// //Delete Budgets
+	// $(document).off('click', '#deleteBudget');
+	// $(document).on('click', '#deleteBudget', function(e){
+	// 	e.preventDefault();
+	// 	var url;
+	// 	var token = $(this).parent().parent().find('.budget_name').data('token');
+	// 	url       = $(this).data('url');
+	// 	url       = url + '/delete-' + url + '/' + token;
+	// 	data.token = token;
+	// 	ajaxForm(url, 'delete', data)
+	// 	.done( function (data) {
+	// 		messageAjax(data);
+	// 	});
+	// });
+
+	// //Update Budgets
+	// $(document).off('click', '#updateBudget');
+	// $(document).on('click', '#updateBudget', function(e){
+	// 	e.preventDefault();
+	// 	var url;
+	// 	url = $(this).data('url');
+	// 	url = url + '/update-' + url;
+	// 	data.token             = $('#nameBudget').data('token');
+	// 	data.nameBudget        = $('#nameBudget').val();
+	// 	data.sourceBudget      = $('#sourceBudget').val();
+	// 	data.descriptionBudget = $('#descriptionBudget').val();
+	// 	data.yearBudget        = $('#yearBudget').val();
+	// 	data.typeBudget        = $('#typeBudget').val();
+	// 	data.globalBudget      = $('#globalBudget').val();
+	// 	data.schoolBudget      = $('#schoolBudget').val();
+	// 	data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
+	// 	ajaxForm(url,'put',data)
+	// 	.done( function (data) {
+	// 		messageAjax(data);
+	// 	});
+	// });
+
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
