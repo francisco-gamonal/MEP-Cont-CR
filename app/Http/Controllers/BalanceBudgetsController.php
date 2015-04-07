@@ -43,7 +43,7 @@ class BalanceBudgetsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $balanceBudgets = $this->convertionObjeto();
         
-        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
+        $catalog= Catalog::Token($balanceBudgets->catalogsBalanceBudget);
         $budget= Budget::Token($balanceBudgets->budgetBalanceBudget);
         $typeBudget= TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
         /* Creamos un array para cambiar nombres de parametros */
