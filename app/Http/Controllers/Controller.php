@@ -53,7 +53,13 @@ abstract class Controller extends BaseController {
         endforeach;
 
         if (empty($newArreglo['token'])):
-            $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
+            
+            if(isset($newArreglo['name'])):
+                $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
+             return $newArreglo;
+            endif;
+            
+            $newArreglo['token'] = Crypt::encrypt($newArreglo['amount']);
             return $newArreglo;
         endif;
 

@@ -10,7 +10,7 @@ class BalanceBudget extends Model {
 
  
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'policies', 'strategic', 'operational', 'goals', 'budgets_id', 'catalogs_id', 'type_budgets_id'];
+    protected $fillable = ['amount', 'policies', 'strategic', 'operational', 'goals', 'budgets_id', 'catalogs_id', 'types_budgets_id'];
 
     public function checks() {
 
@@ -49,7 +49,7 @@ class BalanceBudget extends Model {
         'goals' => 'required',
         'budgets_id' => 'required',
         'catalogs_id' => 'required',
-        'type_budgets_id' => 'required'];
+        'types_budgets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
         if ($validator->passes()) {

@@ -50,7 +50,7 @@ class BalanceBudgetsController extends Controller {
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
         $ValidationData['catalogs_id']= $catalog->id;
         $ValidationData['budgets_id']= $budget->id;
-        $ValidationData['type_budgets_id']= $typeBudget->id;
+        $ValidationData['types_budgets_id']= $typeBudget->id;
         /* Declaramos las clases a utilizar */
         $balanceBudget = new BalanceBudget;
         /* Validamos los datos para guardar tabla menu */

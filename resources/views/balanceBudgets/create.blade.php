@@ -122,7 +122,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
-			<a href="#" id="saveBalanceBudget" data-url="presupuestos" class="btn btn-success">Grabar Saldo de Presupuesto</a>
+			<a href="#" id="saveBalanceBudget" data-url="saldo-de-presupuestos" class="btn btn-success">Grabar Saldo de Presupuesto</a>
 		</div>
 	</div>
 @stop
