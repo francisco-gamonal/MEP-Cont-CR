@@ -34,7 +34,7 @@ class BalanceBudget extends Model {
         $balanceBudgets = BalanceBudget::withTrashed()->where('token', '=', $token)->get();
         if ($balanceBudgets):
             foreach ($balanceBudgets AS $balanceBudget):
-                return $balanceBudgets;
+                return $balanceBudget;
             endforeach;
         endif;
 

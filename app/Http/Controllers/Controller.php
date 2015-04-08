@@ -58,7 +58,6 @@ abstract class Controller extends BaseController {
                 $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
              return $newArreglo;
             endif;
-            
             $newArreglo['token'] = Crypt::encrypt($newArreglo['amount']);
             return $newArreglo;
         endif;

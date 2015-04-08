@@ -13,7 +13,8 @@ use Mep\Models\Supplier;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
 use Mep\Models\Budget;
-
+use Mep\Models\BalanceBudget;
+use Crypt;
 class TestController extends Controller {
 
 	/**
@@ -26,8 +27,9 @@ class TestController extends Controller {
 	public function index()
 	{
             
-            $test = Budget::find(1);
-            echo json_encode($test->schools->name);
+            $test = BalanceBudget::find(1);
+            
+            echo json_encode(Crypt::encrypt($test->amount));
 //		$menus = Menu::all();
 //		$user = User::find(2);
 //
