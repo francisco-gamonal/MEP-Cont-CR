@@ -1005,35 +1005,35 @@ $(function(){
 		})
 	});
 
-	// //Active Budgets
-	// $(document).off('click', '#activeBudget');
-	// $(document).on('click', '#activeBudget', function(e){
-	// 	e.preventDefault();
-	// 	var url;
-	// 	var token = $(this).parent().parent().find('.budget_name').data('token');
-	// 	url       = $(this).data('url');
-	// 	url       = url + '/active-' + url + '/' + token;
-	// 	data.token = token;
-	// 	ajaxForm(url, 'patch', data)
-	// 	.done( function (data) {
-	// 		messageAjax(data);
-	// 	});
-	// });
+	//Active Budgets
+	$(document).off('click', '#activeBalanceBudget');
+	$(document).on('click', '#activeBalanceBudget', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.balanceBudget_amount').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 
-	// //Delete Budgets
-	// $(document).off('click', '#deleteBudget');
-	// $(document).on('click', '#deleteBudget', function(e){
-	// 	e.preventDefault();
-	// 	var url;
-	// 	var token = $(this).parent().parent().find('.budget_name').data('token');
-	// 	url       = $(this).data('url');
-	// 	url       = url + '/delete-' + url + '/' + token;
-	// 	data.token = token;
-	// 	ajaxForm(url, 'delete', data)
-	// 	.done( function (data) {
-	// 		messageAjax(data);
-	// 	});
-	// });
+	//Delete BalanceBudgets
+	$(document).off('click', '#deleteBalanceBudget');
+	$(document).on('click', '#deleteBalanceBudget', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.balanceBudget_amount').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 
 	// //Update Budgets
 	// $(document).off('click', '#updateBudget');
@@ -1067,5 +1067,6 @@ $(function(){
 	dataTable('#table_type_budget', 'tipos de presupuestos');
 	dataTable('#table_catalogs', 'catálogos');
 	dataTable('#table_budgets', 'presupuestos');
+	dataTable('#table_balanceBudgets', 'saldo de presupuestos');
 
 });

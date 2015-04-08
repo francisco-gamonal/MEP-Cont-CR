@@ -18,8 +18,8 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $balanceBudget = BalanceBudget::withTrashed()->get();
-        return view('balanceBudgets.index', compact('balanceBudget'));
+        $balanceBudgets = BalanceBudget::withTrashed()->get();
+        return view('balanceBudgets.index', compact('balanceBudgets'));
     }
 
     /**
