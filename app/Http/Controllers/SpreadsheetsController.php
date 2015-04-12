@@ -16,7 +16,7 @@ class SpreadsheetsController extends Controller {
      * @return Response
      */
     public function index() {
-        $spreadsheets = Spreadsheets::withTrashed()->get();
+        $spreadsheets = Spreadsheet::withTrashed()->get();
         return view('spreadsheets.index', compact('spreadsheets'));
     }
 
@@ -82,7 +82,7 @@ class SpreadsheetsController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $spreadsheet = Spreadsheets::Token($token);
+        $spreadsheet = Spreadsheet::Token($token);
         $budgets = Budget::all();
         return view('spreadsheets.create', compact('budgets', 'spreadsheet'));
     }

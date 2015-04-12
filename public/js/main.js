@@ -1090,5 +1090,6 @@ $(function(){
 	dataTable('#table_catalogs', 'catálogos');
 	dataTable('#table_budgets', 'presupuestos');
 	dataTable('#table_balanceBudgets', 'saldo de presupuestos');
+	dataTable('#table_spreadsheets', 'planillas');
 
 });
