@@ -30,6 +30,8 @@ class BalanceBudgetsController extends Controller {
     public function create() {
         $catalogs = Catalog::all();
         $typeBudgets = TypeBudget::all();
+        $budgets = Budget::all();
+        
         return view('balanceBudgets.create', compact('budgets', 'catalogs', 'typeBudgets'));
     }
 
@@ -45,6 +47,7 @@ class BalanceBudgetsController extends Controller {
         $catalog= Catalog::Token($balanceBudgets->catalogsBalanceBudget);
         $budget= Budget::Token($balanceBudgets->budgetBalanceBudget);
         $typeBudget= TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
+       
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
         $ValidationData['catalogs_id']= $catalog->id;
@@ -105,14 +108,14 @@ class BalanceBudgetsController extends Controller {
        /* Capturamos los datos enviados por ajax */
         $balanceBudgets = $this->convertionObjeto();
         
-        $catalog= Catalog::Token($balanceBudgets->catalogBalanceBudget);
-        $budget= Budgets::Token($balanceBudgets->budgetBalanceBudget);
+        $catalog= Catalog::Token($balanceBudgets->catalogsBalanceBudget);
+        $budget= Budget::Token($balanceBudgets->budgetBalanceBudget);
         $typeBudget= TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
         $ValidationData['catalogs_id']= $catalog->id;
         $ValidationData['budgets_id']= $budget->id;
-        $ValidationData['type_budgets_id']= $typeBudget->id;
+        $ValidationData['types_budgets_id']= $typeBudget->id;
         /* Declaramos las clases a utilizar */
         $balanceBudget = BalanceBudget::Token($balanceBudgets->token);
         /* Validamos los datos para guardar tabla menu */
