@@ -11,7 +11,7 @@ class Spreadsheet extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['number', 'year', 'date', 'status', 'budgets_id', 'token'];
+    protected $fillable = ['number', 'year', 'date', 'simulation', 'budgets_id', 'token'];
 
     public function budgets() {
 
@@ -37,7 +37,7 @@ class Spreadsheet extends Model {
         $rules = ['number' => 'required|numeric',
             'year' => 'required',
             'date' => 'required',
-            'status' => 'required',
+            'simulation' => 'required',
             'budgets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);

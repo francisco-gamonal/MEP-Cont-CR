@@ -39,11 +39,12 @@ class SpreadsheetsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $spreadsheets = $this->convertionObjeto();
         /* Consulta por token de school */
-        $budget = Budget::Token($spreadsheets->budgetSpreadsheet);
+        $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheet');
+        $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
         $ValidationData['budgets_id'] = $budget->id;
+        $ValidationData['simulation']='false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = new Spreadsheet;
         /* Validamos los datos para guardar tabla menu */
@@ -51,12 +52,12 @@ class SpreadsheetsController extends Controller {
             $spreadsheet->fill($ValidationData);
             $spreadsheet->save();
             /* Traemos el id del tipo de usuario que se acaba de */
-            $idBudget = $budget->LastId();
+            $idSpreadsheet = $spreadsheet->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($spreadsheets->statusBudget == true):
-                Budget::withTrashed()->find($idBudget->id)->restore();
+            if ($spreadsheets->statusSpreadsheets == true):
+                Spreadsheet::withTrashed()->find($idSpreadsheet->id)->restore();
             else:
-                Budget::destroy($idBudget->id);
+                Spreadsheet::destroy($idSpreadsheet->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
