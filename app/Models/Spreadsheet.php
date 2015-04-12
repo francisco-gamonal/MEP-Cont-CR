@@ -3,25 +3,52 @@
 namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Spreadsheets extends Model {
+class Spreadsheet extends Model {
 
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
-    // Add your validation rules here
-    public static $rules = [
-        'number' => 'required',
-        'year' => 'required',
-        'date' => 'required',
-        'status' => 'required',
-        'budgets_id' => 'required',
-    ];
     // Don't forget to fill this array
-    protected $fillable = ['number', 'year', 'date', 'status', 'budgets_id'];
+    protected $fillable = ['number', 'year', 'date', 'status', 'budgets_id', 'token'];
 
     public function budgets() {
 
-        return $this->HasMany('Budgets', 'id', 'budgets_id');
+        return $this->HasMany('Mep\Models\Budget', 'id', 'budgets_id');
+    }
+
+    public function LastId() {
+        return Spreadsheet::all()->last();
+    }
+
+    public static function Token($token) {
+        $Spreadsheets = Spreadsheet::withTrashed()->where('token', '=', $token)->get();
+        if ($Spreadsheets):
+            foreach ($Spreadsheets AS $Spreadsheet):
+                return $Spreadsheet;
+            endforeach;
+        endif;
+
+        return false;
+    }
+
+    public function isValid($data) {
+        $rules = ['number' => 'required|numeric',
+            'year' => 'required',
+            'date' => 'required',
+            'status' => 'required',
+            'budgets_id' => 'required'];
+
+        $validator = \Validator::make($data, $rules);
+
+        if ($validator->passes()) {
+            return true;
+        }
+
+        $this->errors = $validator->errors();
+
+        return false;
     }
 
 }
