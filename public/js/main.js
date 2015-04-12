@@ -33,7 +33,7 @@ var messageAjax = function(data) {
 	if(data.success){
 		bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
 			location.reload();
-		});;
+		});
 	}
 	else{
 		var errors = data.errors;
@@ -52,7 +52,7 @@ var addActive = function (element) {
 	element.find('.icon-menu').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
 	element.addClass('active');
 	element.find('.nav').show('slide');
-}
+};
 
 var removeActive = function (element) {
 	$('.active').find('.icon-menu').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
@@ -127,8 +127,6 @@ $(function(){
 
 	var data = {};
 	
-	//Height content-wrapper
-	
 	//Equals height
 	$('.form-user .col-sm-6').matchHeight();
 	$('.form-role .col-sm-6 fieldset').matchHeight();
@@ -141,7 +139,7 @@ $(function(){
 		var exp = false;
 		if($(this).hasClass('active')){
 			exp = true;
-		};
+		}
 		removeActive();
 		if(!$(this).hasClass('active')){
 			if(!exp){
@@ -284,7 +282,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Update Type User
@@ -356,7 +354,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Update Supplier
@@ -480,7 +478,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Update User
@@ -567,7 +565,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Update School
@@ -1001,7 +999,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Budgets
@@ -1058,7 +1056,11 @@ $(function(){
 	});
 
 	/**
-	 * Balance Spreadsheets
+	 * End BalanceBudget
+	 */
+
+	/**
+	 * Spreadsheets
 	 */
 
 	//Save Spreadsheet
@@ -1076,9 +1078,62 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
+	//Active Spreadsheet
+	$(document).off('click', '#activeSpreadsheet');
+	$(document).on('click', '#activeSpreadsheet', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.tokenSpreadsheet').val();
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Spreadsheet
+	$(document).off('click', '#deleteSpreadsheet');
+	$(document).on('click', '#deleteSpreadsheet', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.tokenSpreadsheet').val();
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Update Spreadsheet
+	$(document).off('click', '#updateSpreadsheet');
+	$(document).on('click', '#updateSpreadsheet', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token              = $('#numberSpreadsheets').data('token');
+		data.numberSpreadsheets = $('#numberSpreadsheets').val();
+		data.yearSpreadsheets   = $('#yearSpreadsheets').val();
+		data.dateSpreadsheets   = $('#dateSpreadsheets').val();
+		data.budgetSpreadsheets = $('#budgetSpreadsheets').val();
+		data.statusSpreadsheets = $('#statusSpreadsheets').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	/**
+	 * End Spreadsheet
+	 */
+	
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');

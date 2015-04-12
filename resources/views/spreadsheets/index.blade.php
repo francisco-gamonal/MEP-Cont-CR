@@ -57,7 +57,7 @@
 	                        <tbody>
 	                        	@foreach($spreadsheets as $spreadsheet)
 		                            <tr>
-		                            	<input id="tokenSupplier" type="hidden" value="{{$spreadsheet->token}}">
+		                            	<input class="tokenSpreadsheet" type="hidden" value="{{$spreadsheet->token}}">
 		                                <td class="text-center">{{$spreadsheet->number}}</td>
 		                                <td class="text-center">{{$spreadsheet->year}}</td>
 		                                <td class="text-center">{{$spreadsheet->date}}</td>
@@ -71,11 +71,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($spreadsheet->deleted_at)
-	                                			<a id="activeSpreadsheet" data-url="proveedores" href="#">
+	                                			<a id="activeSpreadsheet" data-url="planillas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteSpreadsheet" data-url="proveedores" href="#">
+	                                			<a id="deleteSpreadsheet" data-url="planillas" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

@@ -85,7 +85,7 @@ class SpreadsheetsController extends Controller {
     public function edit($token) {
         $spreadsheet = Spreadsheet::Token($token);
         $budgets = Budget::all();
-        return view('spreadsheets.create', compact('budgets', 'spreadsheet'));
+        return view('spreadsheets.edit', compact('budgets', 'spreadsheet'));
     }
 
     /**
