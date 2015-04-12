@@ -15,7 +15,7 @@ class Spreadsheet extends Model {
 
     public function budgets() {
 
-        return $this->HasMany('Mep\Models\Budget', 'id', 'budgets_id');
+        return $this->belongsTo('Mep\Models\Budget');
     }
 
     public function LastId() {
