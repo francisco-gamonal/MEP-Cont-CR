@@ -132,6 +132,7 @@ $(function(){
 	//Equals height
 	$('.form-user .col-sm-6').matchHeight();
 	$('.form-role .col-sm-6 fieldset').matchHeight();
+	$('.form-spreadsheet .col-sm-6').matchHeight();
 
 	//Event menu expand
 	$('.submenu').on('click', function(e){
@@ -152,8 +153,6 @@ $(function(){
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
-	$(".role-checkbox").bootstrapSwitch({size:'small'});
-
 
 	//Events
 	$(document).off('click', '.form-role .checkAll');
@@ -1056,6 +1055,28 @@ $(function(){
 		.done( function (data) {
 			messageAjax(data);
 		});
+	});
+
+	/**
+	 * Balance Spreadsheets
+	 */
+
+	//Save Spreadsheet
+	$(document).off('click', '#saveSpreadsheets');
+	$(document).on('click', '#saveSpreadsheets', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.numberSpreadsheets = $('#numberSpreadsheets').val();
+		data.yearSpreadsheets   = $('#yearSpreadsheets').val();
+		data.dateSpreadsheets   = $('#dateSpreadsheets').val();
+		data.budgetSpreadsheets = $('#budgetSpreadsheets').val();
+		data.statusSpreadsheets = $('#statusSpreadsheets').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		})
 	});
 
 	dataTable('#table_menu', 'menús');
