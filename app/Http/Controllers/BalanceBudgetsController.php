@@ -28,7 +28,6 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function create() {
-        $budgets = Budget::all();
         $catalogs = Catalog::all();
         $typeBudgets = TypeBudget::all();
         return view('balanceBudgets.create', compact('budgets', 'catalogs', 'typeBudgets'));
@@ -89,11 +88,11 @@ class BalanceBudgetsController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $balanceBudget= BalanceBudget::Toke($token);
+        $balanceBudget= BalanceBudget::Token($token);
         $budgets = Budget::all();
         $catalogs = Catalog::all();
         $typeBudgets = TypeBudget::all();
-        return view('balanceBudgets.create', compact('balanceBudget','budgets', 'catalogs', 'typeBudgets'));
+        return view('balanceBudgets.edit', compact('balanceBudget','budgets', 'catalogs', 'typeBudgets'));
     }
 
     /**
