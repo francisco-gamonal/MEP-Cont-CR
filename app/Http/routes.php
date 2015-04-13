@@ -30,6 +30,7 @@ require (__DIR__ . '/Routes/Suppliers.php');
 require (__DIR__ . '/Routes/Budgets.php');
 require (__DIR__ . '/Routes/BalanceBudgets.php');
 require (__DIR__ . '/Routes/Spreadsheets.php');
+require (__DIR__ . '/Routes/Checks.php');
 //});
 
 Route::get('/', function() {
