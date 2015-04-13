@@ -180,7 +180,7 @@ $(function(){
 	$('#spreadsheetCheck').on('change', function(){
 		var token = $(this).val();
 		$.get( "registrar-cheque/"+token, function( data ) {
-		  	console.log(data);
+		  	$("#balanceBudgetCheck").html(data);
 		});
 	});
 
@@ -1140,6 +1140,36 @@ $(function(){
 	/**
 	 * End Spreadsheet
 	 */
+	
+	/**
+	 * Checks
+	 */
+
+	//Save Checks
+	$(document).off('click', '#saveCheck');
+	$(document).on('click', '#saveCheck', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		data.billCheck          = $('#billCheck').val();
+		data.conceptCheck       = $('#conceptCheck').val();
+		data.amountCheck        = $('#amountCheck').val();
+		data.retentionCheck     = $('#retentionCheck').val();
+		data.ckbillCheck        = $('#ckbillCheck').val();
+		data.ckretentionCheck   = $('#ckretentionCheck').val();
+		data.recordCheck        = $('#recordCheck').val();
+		data.dateCheck          = $('#dateCheck').val();
+		data.voucherCheck       = $('#voucherCheck').val();
+		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
+		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
+		data.supplierCheck      = $('#supplierCheck').val();
+		data.statusSpreadsheets = $('#statusCheck').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 	
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');

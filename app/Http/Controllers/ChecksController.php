@@ -20,7 +20,8 @@ class ChecksController extends Controller {
             
         $balanceBudget[] = array('id'=>$balanceBudgets->token,'value'=>$balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->sp.'-'.$balanceBudgets->catalogs->g.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name);
         endforeach;
-        return $balanceBudget;
+        $budget = view('checks.budget', compact('balanceBudget'));
+        return $budget;
     }
 
     /**

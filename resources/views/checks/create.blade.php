@@ -130,10 +130,10 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="balanceBudget_Check">Número de Cuenta</label>
-				<select id="balanceBudget_Check" class="form-control">
-					@foreach($balancebudgets as $balanceBudget)
-						<option value="{{$balanceBudget->token}}">{{mb_convert_case($balanceBudget->policies, MB_CASE_TITLE, 'utf-8')}}</option>
+				<label for="balanceBudgetCheck">Número de Cuenta</label>
+				<select id="balanceBudgetCheck" class="form-control">
+					@foreach($balanceBudgets as $balanceBudget)
+						<option value="{{$balanceBudget['id']}}">{{$balanceBudget['value']}}</option>
 					@endforeach
 				</select>
 			</div>
@@ -158,7 +158,7 @@
 		</div>
 	</section>
 	<div class="row text-center">
-		<a href="#" id="saveSupplier" data-url="proveedores" class="btn btn-success">Grabar Cheque</a>
+		<a href="#" id="saveCheck" data-url="cheques" class="btn btn-success">Grabar Cheque</a>
 	</div>
 </div>
 @stop
