@@ -16,12 +16,18 @@ class BalanceBudget extends Model {
 
         return $this->HasMany('Mep\Models\Check', 'checks_id', 'id');
     }
+    public function catalogs() {
 
+        return $this->belongsTo('Mep\Models\Catalog');
+    }
     public function budgets() {
 
         return $this->belongsTo('Mep\Models\Budget');
     }
+public function typeBudgets() {
 
+        return $this->belongsTo('Mep\Models\TypeBudget','types_budgets_id','id');
+    }
     public function transfers() {
 
         return $this->HasMany('Mep\Models\transfers', 'transfers_id', 'id');

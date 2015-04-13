@@ -28,10 +28,14 @@ class TestController extends Controller {
 	public function index()
 	{
             
-            $test = Spreadsheet::orderBy('number','ASC')->orderBy('year','ASC')->get();
-            $spreadsheets = Spreadsheet::orderBy('number','ASC')->orderBy('year','ASC')->get();
-        $test = BalanceBudget::where('budgets_id','=',$spreadsheets[0]->budgets_id)->get();
-            echo json_encode($test);
+            $test = Spreadsheet::Token('eyJpdiI6ImplVTZ0Tkgralp5ZnQrK091d3BjR3c9PSIsInZhbHVlIjoiOFVUcFR4cW9aQ0pSTEVNUHlqT1VpUT09IiwibWFjIjoiYTI4NTU5ZDU3Zjk5OGVkMDZhOWFjODU3ZjJhMDliYzMyMWRlODg3ZDE4ZWRhNGFhNDI0MTViZjI4YTU5MDYxZSJ9');
+           
+        $test = BalanceBudget::where('budgets_id','=',$test->budgets_id)->get();
+        foreach ($test AS $tests):
+            
+        $balanceBudget[] = array('id'=>$tests->token,'value'=>$tests->catalogs->p.'-'.$tests->catalogs->sp.'-'.$tests->catalogs->g.' || '.$tests->catalogs->name.' || '.$tests->typeBudgets->name);
+        endforeach;
+            echo json_encode($balanceBudget);
 //		$menus = Menu::all();
 //		$user = User::find(2);
 //
