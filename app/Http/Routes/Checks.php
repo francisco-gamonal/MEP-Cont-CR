@@ -16,6 +16,7 @@ Route::get('cheques/editar-cheque/{token}',['as'=>'edit-cheque','uses'=>'ChecksC
 Route::delete('cheques/delete-cheques/{token}',['as'=>'delete-cheque','uses'=>'ChecksController@destroy']);
 Route::patch('cheques/active-cheques/{token}',['as' => 'active-cheque', 'uses' => 'ChecksController@active']);
 Route::put('cheques/update-cheques','ChecksController@update');
+Route::get('cheques/cuentas-de-saldo-presupuesto',['as'=>'cuentas-saldo-presupuesto','uses'=>'ChecksController@accountBalanceBudgets']);
 /**
  * Fin Rutas de Tipos de Usuarios
  */
