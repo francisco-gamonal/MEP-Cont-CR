@@ -28,9 +28,10 @@ class TestController extends Controller {
 	public function index()
 	{
             
-            $test = Spreadsheet::find(1);
-            
-            echo json_encode($test->budgets);
+            $test = Spreadsheet::orderBy('number','ASC')->orderBy('year','ASC')->get();
+            $spreadsheets = Spreadsheet::orderBy('number','ASC')->orderBy('year','ASC')->get();
+        $test = BalanceBudget::where('budgets_id','=',$spreadsheets[0]->budgets_id)->get();
+            echo json_encode($test);
 //		$menus = Menu::all();
 //		$user = User::find(2);
 //
