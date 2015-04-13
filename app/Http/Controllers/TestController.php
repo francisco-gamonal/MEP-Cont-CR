@@ -15,6 +15,7 @@ use Mep\Models\Group;
 use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
+use Mep\Models\Check;
 use Crypt;
 class TestController extends Controller {
 
@@ -28,13 +29,15 @@ class TestController extends Controller {
 	public function index()
 	{
             
-            $test = Spreadsheet::Token('eyJpdiI6ImplVTZ0Tkgralp5ZnQrK091d3BjR3c9PSIsInZhbHVlIjoiOFVUcFR4cW9aQ0pSTEVNUHlqT1VpUT09IiwibWFjIjoiYTI4NTU5ZDU3Zjk5OGVkMDZhOWFjODU3ZjJhMDliYzMyMWRlODg3ZDE4ZWRhNGFhNDI0MTViZjI4YTU5MDYxZSJ9');
-           
-        $test = BalanceBudget::where('budgets_id','=',$test->budgets_id)->get();
-        foreach ($test AS $tests):
-            
-        $balanceBudget[] = array('id'=>$tests->token,'value'=>$tests->catalogs->p.'-'.$tests->catalogs->sp.'-'.$tests->catalogs->g.' || '.$tests->catalogs->name.' || '.$tests->typeBudgets->name);
-        endforeach;
+//            $test = Spreadsheet::Token('eyJpdiI6ImplVTZ0Tkgralp5ZnQrK091d3BjR3c9PSIsInZhbHVlIjoiOFVUcFR4cW9aQ0pSTEVNUHlqT1VpUT09IiwibWFjIjoiYTI4NTU5ZDU3Zjk5OGVkMDZhOWFjODU3ZjJhMDliYzMyMWRlODg3ZDE4ZWRhNGFhNDI0MTViZjI4YTU5MDYxZSJ9');
+//           
+//        $test = BalanceBudget::where('budgets_id','=',$test->budgets_id)->get();
+//        foreach ($test AS $tests):
+//            
+//        $balanceBudget[] = array('id'=>$tests->token,'value'=>$tests->catalogs->p.'-'.$tests->catalogs->sp.'-'.$tests->catalogs->g.' || '.$tests->catalogs->name.' || '.$tests->typeBudgets->name);
+//        endforeach;
+         $balanceBudget=   Check::withTrashed()->get();
+         echo json_encode($balanceBudget->supplier->name); die;
         return view('test.index',  compact('balanceBudget'));
             
 //		$menus = Menu::all();

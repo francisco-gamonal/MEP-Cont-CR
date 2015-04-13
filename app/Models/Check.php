@@ -28,7 +28,7 @@ class Check extends Model {
     }
     public function supplier() {
 
-        return $this->HasOne('Mep\Models\Supplier');
+        return $this->HasOne('Mep\Models\Supplier','id','suppliers_id');
     }
       public function LastId() {
         return Check::all()->last();
