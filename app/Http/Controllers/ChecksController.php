@@ -15,11 +15,7 @@ class ChecksController extends Controller {
 
     public function budget($token) {
         $spreadsheets = Spreadsheet::Token($token);
-        $balancebudgets = BalanceBudget::where('budgets_id', '=', $spreadsheets->budgets_id)->get();
-         foreach ($balancebudgets AS $balanceBudgets):
-            
-        $balanceBudget[] = array('id'=>$balanceBudgets->token,'value'=>$balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->sp.'-'.$balanceBudgets->catalogs->g.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name);
-        endforeach;
+        $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budgets_id);
         return $balanceBudget;
     }
 
@@ -42,11 +38,7 @@ class ChecksController extends Controller {
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balancebudgets = BalanceBudget::where('budgets_id', '=', $spreadsheets[0]->budgets_id)->get();
-         foreach ($balancebudgets AS $balanceBudget):
-            
-        $balanceBudgets[] = array('id'=>$balanceBudget->token,'value'=>$balanceBudget->catalogs->p.'-'.$balanceBudget->catalogs->sp.'-'.$balanceBudget->catalogs->g.' || '.$balanceBudget->catalogs->name.' || '.$balanceBudget->typeBudgets->name);
-        endforeach;
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
@@ -95,12 +87,18 @@ class ChecksController extends Controller {
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
+     * via ajax o directo a la vista
+     * @param  int  $budgetsId
+     * @return string
      */
-    public function show($id) {
-        //
+     private function ArregloSelectCuenta($budgetsId) {
+        $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
+        foreach ($balancebudgets AS $balanceBudgets):
+            $balanceBudget[] = array('id' => $balanceBudgets->token,
+                'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
+        endforeach;
+        return $balanceBudget;
     }
 
     /**
