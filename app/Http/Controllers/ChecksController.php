@@ -11,6 +11,10 @@ use Mep\Models\Spreadsheet;
 
 class ChecksController extends Controller {
 
+	public function budget($token){
+		return $token;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

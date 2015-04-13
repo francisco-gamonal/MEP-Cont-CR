@@ -177,6 +177,13 @@ $(function(){
 		$('.role-checkbox').bootstrapSwitch('state', false, false);
 	});
 
+	$('#spreadsheetCheck').on('change', function(){
+		var token = $(this).val();
+		$.get( "registrar-cheque/"+token, function( data ) {
+		  	console.log(data);
+		});
+	});
+
 	/**
 	 * Menu
 	 */
@@ -422,7 +429,7 @@ $(function(){
 
 		if(urlUser[1] === 'registrar-usuario'){
 			var prefetch = '../json/schools.json';
-		}else{
+		}else {
 			var prefetch = '../../json/schools.json';
 		}
 		
@@ -680,7 +687,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Group
@@ -752,7 +759,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Type Budgets
@@ -834,7 +841,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Catalogs
@@ -921,7 +928,7 @@ $(function(){
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
-		})
+		});
 	});
 
 	//Active Budgets

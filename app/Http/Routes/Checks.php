@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('cheques','ChecksController@index');
 Route::get('cheques/ver-cheques',['as'=>'ver-cheques','uses'=>'ChecksController@index']);
 Route::get('cheques/registrar-cheque','ChecksController@create');
+Route::get('cheques/registrar-cheque/{token}','ChecksController@budget');
 Route::post('cheques/save-cheques','ChecksController@store');
 Route::get('cheques/editar-cheque/{token}',['as'=>'edit-cheque','uses'=>'ChecksController@edit']);
 Route::delete('cheques/delete-cheques/{token}',['as'=>'delete-cheque','uses'=>'ChecksController@destroy']);
