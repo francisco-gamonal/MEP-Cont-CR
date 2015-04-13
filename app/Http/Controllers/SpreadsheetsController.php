@@ -94,8 +94,34 @@ class SpreadsheetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
-        //
+    public function update() {
+       /* Capturamos los datos enviados por ajax */
+        $spreadsheets = $this->convertionObjeto();
+        
+        $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
+        /* Creamos un array para cambiar nombres de parametros */
+       $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
+        $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
+        /* Asignacion de id de school */
+        $ValidationData['budgets_id'] = $budget->id;
+        $ValidationData['simulation']='false';
+        /* Declaramos las clases a utilizar */
+        $spreadsheet = Spreadsheet::Token($spreadsheets->token);
+        /* Validamos los datos para guardar tabla menu */
+        if ($spreadsheet->isValid($ValidationData)):
+            $spreadsheet->fill($ValidationData);
+            $spreadsheet->save();
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($spreadsheets->statusSpreadsheets == true):
+                Spreadsheet::Token($spreadsheets->token)->restore();
+            else:
+                Spreadsheet::Token($spreadsheets->token)->delete();
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($spreadsheet->errors);
     }
 
     /**

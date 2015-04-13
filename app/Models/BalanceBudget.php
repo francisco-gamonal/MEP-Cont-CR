@@ -10,7 +10,7 @@ class BalanceBudget extends Model {
 
  
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'policies', 'strategic', 'operational', 'goals', 'budgets_id', 'catalogs_id', 'types_budgets_id'];
+    protected $fillable = ['amount', 'policies', 'strategic', 'operational', 'goals', 'budgets_id', 'catalogs_id','token', 'types_budgets_id'];
 
     public function checks() {
 

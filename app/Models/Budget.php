@@ -9,7 +9,7 @@ class Budget extends Model {
 
    
     // Don't forget to fill this array
-    protected $fillable = ['name', 'source', 'description', 'year', 'type', 'global','status','schools_id','token'];
+    protected $fillable = ['name', 'source', 'description', 'year', 'type', 'global','schools_id','token'];
 
     public function schools() {
 
@@ -38,7 +38,6 @@ class Budget extends Model {
         'description' => 'required',
         'year' => 'required',
         'global' => 'required',
-        'status' => 'required',
         'schools_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);

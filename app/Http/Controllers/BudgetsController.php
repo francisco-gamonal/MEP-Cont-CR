@@ -46,7 +46,6 @@ class BudgetsController extends Controller {
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
         /* Asignacion de id de school */
         $ValidationData['schools_id']=$school->id;
-        $ValidationData['simulation']='false';
         /* Declaramos las clases a utilizar */
         $budget = new Budget;
         /* Validamos los datos para guardar tabla menu */

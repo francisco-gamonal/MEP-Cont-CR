@@ -1,33 +1,43 @@
-<?php
-
-namespace Mep\Models;
+<?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Balance extends Model {
 
-    use SoftDeletingTrait;
+use SoftDeletes;
 
-    // Add your validation rules here
-    public static $rules = [
-        'type' => 'required',
-        'amount' => 'required',
-        'status' => 'required',
-    ];
-    // Don't forget to fill this array
-    protected $fillable = ['type', 'amount', 'status', 'balance_budgets_id', 'checks_id', 'transfers_id'];
+      // Don't forget to fill this array
+    protected $fillable = ['type', 'amount', 'simulation', 'balance_budgets_id', 'checks_id', 'transfers_id'];
 
     public function checks() {
 
-        return $this->HasMany('Check', 'id', 'checks_id');
+        return $this->belongsTo('Mep\Models\Check');
     }
 
     public function balanceBudgets() {
 
-        return $this->HasMany('BalanceBudgets', 'id', 'balance_budgets_id');
+        return $this->belongsTo('Mep\Models\BalanceBudget');
     }
     public function transfers() {
 
-        return $this->HasMany('transfers', 'id', 'transfers_id');
+        return $this->belongsTo('Mep\Models\Transfer');
+    }
+    
+    public function isValid($data) {
+        $rules = ['type' => 'required',
+        'amount' => 'required',
+        'simulation' => 'required'];
+
+
+        $validator = \Validator::make($data, $rules);
+        if ($validator->passes()) {
+            return true;
+        }
+
+        $this->errors = $validator->errors();
+
+        return false;
     }
 }

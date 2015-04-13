@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Mep\Models\Catalog;
 use Mep\Models\TypeBudget;
 use Mep\Models\Budget;
+use Mep\Models\Balance;
 
 class BalanceBudgetsController extends Controller {
 
@@ -53,6 +54,8 @@ class BalanceBudgetsController extends Controller {
         $ValidationData['catalogs_id']= $catalog->id;
         $ValidationData['budgets_id']= $budget->id;
         $ValidationData['types_budgets_id']= $typeBudget->id;
+        
+        
         /* Declaramos las clases a utilizar */
         $balanceBudget = new BalanceBudget;
         /* Validamos los datos para guardar tabla menu */
@@ -61,6 +64,7 @@ class BalanceBudgetsController extends Controller {
             $balanceBudget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBalanceBudget = $balanceBudget->LastId();
+            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget,'entrada','false','balance_budgets_id',$idBalanceBudget->id,$balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore();
@@ -122,6 +126,8 @@ class BalanceBudgetsController extends Controller {
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
             $balanceBudget->save();
+             $searchBalance = Balance::withTrashed()->where('balance_budgets_id','=',$balanceBudget->id)->get();
+            BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false',$searchBalance[0]->id,$balanceBudgets->statusBalanceBudget  );
              /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::Token($balanceBudgets->token)->restore();
