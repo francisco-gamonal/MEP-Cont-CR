@@ -180,6 +180,7 @@ $(function(){
 	$('#spreadsheetCheck').on('change', function(){
 		var token = $(this).val();
 		$.get( "registrar-cheque/"+token, function( data ) {
+			console.log(data);
 		  	$("#balanceBudgetCheck").html(data);
 		});
 	});
