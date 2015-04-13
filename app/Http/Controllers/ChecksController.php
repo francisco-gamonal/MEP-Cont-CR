@@ -43,7 +43,11 @@ class ChecksController extends Controller {
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balancebudgets = BalanceBudget::where('budgets_id', '=', $spreadsheets[0]->budgets_id)->get();
-        return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balancebudgets'));
+         foreach ($balancebudgets AS $balanceBudget):
+            
+        $balanceBudgets[] = array('id'=>$balanceBudget->token,'value'=>$balanceBudget->catalogs->p.'-'.$balanceBudget->catalogs->sp.'-'.$balanceBudget->catalogs->g.' || '.$balanceBudget->catalogs->name.' || '.$balanceBudget->typeBudgets->name);
+        endforeach;
+        return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
     /**
