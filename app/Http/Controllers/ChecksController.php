@@ -15,7 +15,7 @@ class ChecksController extends Controller {
 
     public function budget($token) {
         $spreadsheets = Spreadsheet::Token($token);
-        $balancebudgets = BalanceBudget::where('budgets_id', '=', $spreadsheets[0]->budgets_id)->get();
+        $balancebudgets = BalanceBudget::where('budgets_id', '=', $spreadsheets->budgets_id)->get();
          foreach ($balancebudgets AS $balanceBudgets):
             
         $balanceBudget[] = array('id'=>$balanceBudgets->token,'value'=>$balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->sp.'-'.$balanceBudgets->catalogs->g.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name);
