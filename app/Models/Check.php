@@ -12,7 +12,7 @@ class Check extends Model {
     // Don't forget to fill this array
     protected $fillable = ['bill', 'concept', 'amount', 'retention', 'ckbill', 'ckretention','record','date','simulation', 'token','vouchers_id','balance_budgets_id','spreadsheets_id','suppliers_id'];
 
-    public function vouchers() {
+    public function voucher() {
 
         return $this->HasOne('Mep\Models\Vouchers');
     }
@@ -26,7 +26,7 @@ class Check extends Model {
 
         return $this->belongsTo('Mep\Models\Spreadsheets');
     }
-    public function suppliers() {
+    public function supplier() {
 
         return $this->HasOne('Mep\Models\Suppliers');
     }

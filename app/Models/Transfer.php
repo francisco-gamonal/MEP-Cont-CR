@@ -1,10 +1,12 @@
 <?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Transfers extends Model {
+class Transfer extends Model {
 
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
     // Add your validation rules here
     public static $rules = [
@@ -16,16 +18,16 @@ class Transfers extends Model {
         'spreadsheets_id' => 'required',
     ];
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'type', 'date', 'status', 'balance_budgets_id', 'spreadsheets_id'];
+    protected $fillable = ['amount', 'type', 'date', 'simulacion','token', 'balance_budgets_id', 'spreadsheets_id'];
 
     public function spreadsheets() {
 
-        return $this->HasMany('Spreadsheets', 'id', 'spreadsheets_id');
+        return $this->belongsTo('Spreadsheets', 'id', 'spreadsheets_id');
     }
 
     public function balanceBudgets() {
 
-        return $this->HasMany('BalanceBudgets', 'id', 'balance_budgets_id');
+        return $this->belongsTo('BalanceBudgets', 'id', 'balance_budgets_id');
     }
 
 }
