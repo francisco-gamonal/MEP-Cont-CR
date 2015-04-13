@@ -179,9 +179,10 @@ $(function(){
 
 	$('#spreadsheetCheck').on('change', function(){
 		var token = $(this).val();
+		$('#balanceBudgetCheck').prop('disabled', true);
 		$.get( "registrar-cheque/"+token, function( data ) {
-			console.log(data);
 		  	$("#balanceBudgetCheck").html(data);
+			$('#balanceBudgetCheck').prop('disabled', false);
 		});
 	});
 
@@ -1184,5 +1185,6 @@ $(function(){
 	dataTable('#table_budgets', 'presupuestos');
 	dataTable('#table_balanceBudgets', 'saldo de presupuestos');
 	dataTable('#table_spreadsheets', 'planillas');
+	dataTable('#table_checks', 'cheques');
 
 });
