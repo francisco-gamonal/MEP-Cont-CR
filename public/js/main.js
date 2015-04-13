@@ -1165,7 +1165,7 @@ $(function(){
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
 		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
 		data.supplierCheck      = $('#supplierCheck').val();
-		data.statusSpreadsheets = $('#statusCheck').bootstrapSwitch('state');
+		data.statusCheck = $('#statusCheck').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
