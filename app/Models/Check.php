@@ -28,20 +28,20 @@ class Check extends Model {
 
     public function vouchers() {
 
-        return $this->HasMany('Vouchers', 'id', 'vouchers_id');
+        return $this->HasOne('Mep\Models\Vouchers');
     }
 
     public function balanceBudgets() {
 
-        return $this->HasMany('balance_budgets', 'id', 'balance_budgets_id');
+        return $this->belongsTo('Mep\Models\balance_budgets');
     }
 
     public function spreadsheets() {
 
-        return $this->HasMany('Spreadsheets', 'id', 'spreadsheets_id');
+        return $this->belongsTo('Mep\Models\Spreadsheets');
     }
     public function suppliers() {
 
-        return $this->HasMany('Suppliers', 'id', 'suppliers_id');
+        return $this->HasOne('Mep\Models\Suppliers');
     }
 }
