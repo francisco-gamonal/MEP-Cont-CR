@@ -113,8 +113,8 @@ class ChecksController extends Controller {
         $check = Check::Token($token);
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
-        $spreadsheets = Spreadsheet::all();
-        $balancebudgets = BalanceBudget::all();
+        $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
         return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balancebudgets'));
     }
 
@@ -124,8 +124,42 @@ class ChecksController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
-        //
+    public function update() {
+           /* Capturamos los datos enviados por ajax */
+        $checks = $this->convertionObjeto();
+        /* Consulta por token de school */
+       // $voucher = Voucher::Token($checks->voucherCheck);
+        $supplier = Supplier::Token($checks->supplierCheck);
+        $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
+        $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = $this->CreacionArray($checks, 'Check');
+        /* Asignacion de id de school */
+     //   $ValidationData['vouchers_id'] = $voucher->id;
+        $ValidationData['suppliers_id'] = $supplier->id;
+        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
+        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+        $ValidationData['simulation'] = 'false';
+        /* Declaramos las clases a utilizar */
+        $check =  Check::Token($checks->token);
+        /* Validamos los datos para guardar tabla menu */
+        if ($check->isValid($ValidationData)):
+            $check->fill($ValidationData);
+            $check->save();
+            /* Actualizacion de la table balance */
+            $searchBalance = Balance::withTrashed()->where('checks_id','=',$check->id)->get();
+            BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($checks->statusCheck == true):
+                Check::Token($checks->token)->restore();
+            else:
+                Check::Token($checks->token)->delete();
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($check->errors);
     }
 
     /**
