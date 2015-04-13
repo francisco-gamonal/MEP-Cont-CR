@@ -2,8 +2,12 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Checks;
+use Mep\Models\Check;
 use Illuminate\Http\Request;
+use Mep\Models\Voucher;
+use Mep\Models\Supplier;
+use Mep\Models\BalanceBudget;
+use Mep\Models\Spreadsheet;
 
 class ChecksController extends Controller {
 
@@ -14,7 +18,8 @@ class ChecksController extends Controller {
 	 */
 	public function index()
 	{
-		//
+            $checks = Check::withTrashed()->get();
+            return view('checks.index', compact('checks'));
 	}
 
 	/**
@@ -24,7 +29,11 @@ class ChecksController extends Controller {
 	 */
 	public function create()
 	{
-		//
+                $voucher = Voucher::all();
+                $suppliers= Supplier::all();
+                $spreadsheets= Spreadsheet::all();
+                $balancebudgets= BalanceBudget::all();
+		return view('checks.create', compact('voucher','suppliers','spreadsheets','balancebudgets'));
 	}
 
 	/**
@@ -54,9 +63,14 @@ class ChecksController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($token)
 	{
-		//
+                $check = Check::Token($token);
+		$voucher = Voucher::all();
+                $suppliers= Supplier::all();
+                $spreadsheets= Spreadsheet::all();
+                $balancebudgets= BalanceBudget::all();
+		return view('checks.edit', compact('check','voucher','suppliers','spreadsheets','balancebudgets'));
 	}
 
 	/**

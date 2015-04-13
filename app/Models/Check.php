@@ -1,10 +1,12 @@
 <?php namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Checks extends Model {
+class Check extends Model {
 
-    use SoftDeletingTrait;
+   use SoftDeletes;
 
     // Add your validation rules here
     public static $rules = [

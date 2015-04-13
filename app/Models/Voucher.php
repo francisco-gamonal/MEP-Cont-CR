@@ -4,7 +4,7 @@ namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vouchers extends Model {
+class Voucher extends Model {
 
     //    use SoftDeletingTrait;
     // Add your validation rules here
