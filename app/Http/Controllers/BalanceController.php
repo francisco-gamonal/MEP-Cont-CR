@@ -1,84 +1,47 @@
-<?php namespace Mep\Http\Controllers;
+<?php
+
+namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Balance;
+use Mep\Models\Balance;
 use Illuminate\Http\Request;
 
 class BalanceController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
+    public static function saveBalance($amount, $type, $simulation, $table, $id, $status) {
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
+        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation, $table => $id);
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+        $balance = new Balance;
+        /* Validamos los datos para guardar tabla menu */
+        if ($balance->isValid($ValidationData)):
+            $balance->fill($ValidationData);
+            $balance->save();
+            if ($status == true): 
+                Balance::withTrashed()->find($id)->restore();
+            else:
+                Balance::destroy($id);
+            endif;
+        endif;
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+    public static function editBalance($amount, $type, $simulation, $id, $status) {
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation);
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+        $balance = Balance::withTrashed()->find($id);
+        /* Validamos los datos para guardar tabla menu */
+        if ($balance->isValid($ValidationData)):
+            $balance->fill($ValidationData);
+            $balance->save();
+            if ($status == true): 
+                Balance::withTrashed()->find($id)->restore();
+            else:
+                Balance::destroy($id);
+            endif;
+        endif;
+    }
 
 }
