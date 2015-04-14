@@ -24,7 +24,7 @@ class Check extends Model {
 
     public function spreadsheets() {
 
-        return $this->belongsTo('Mep\Models\Spreadsheets');
+        return $this->belongsTo('Mep\Models\Spreadsheet');
     }
     public function supplier() {
 

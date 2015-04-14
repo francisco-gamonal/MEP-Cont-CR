@@ -66,7 +66,7 @@
 	                                <td class="text-center">{{$check->supplier->name}}</td>
 	                                <td class="text-center">{{$check->bill}}</td>
 	                                <td class="text-center">{{$check->spreadsheets_id}}</td>
-	                                <td class="text-center">Presupuesto</td>
+	                                <td class="text-center">{{$check->spreadsheets->budgets->name}}</td>
 	                                <td class="text-center">
 	                                	@if($check->deleted_at)
 											<span>Inactivo</span>
