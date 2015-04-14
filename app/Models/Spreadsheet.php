@@ -50,5 +50,5 @@ class Spreadsheet extends Model {
 
         return false;
     }
-
+    
 }

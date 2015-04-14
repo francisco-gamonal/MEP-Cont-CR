@@ -19,7 +19,7 @@ class Check extends Model {
 
     public function balanceBudgets() {
 
-        return $this->belongsTo('Mep\Models\balance_budgets');
+        return $this->belongsTo('Mep\Models\BalanceBudget');
     }
 
     public function spreadsheets() {
@@ -67,5 +67,12 @@ class Check extends Model {
         $this->errors = $validator->errors();
 
         return false;
+    }
+    public function codeCuentaCatalog(){
+       return $this->balanceBudgets->catalogs->p.'-'.$this->balanceBudgets->catalogs->g.'-'.$this->balanceBudgets->catalogs->sp;
+        
+    }
+     public function numberSpreadsheet(){
+        return $this->spreadsheets->number.'-'.$this->spreadsheets->year;
     }
 }

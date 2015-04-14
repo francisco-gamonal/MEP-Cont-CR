@@ -36,9 +36,11 @@ class TestController extends Controller {
 //            
 //        $balanceBudget[] = array('id'=>$tests->token,'value'=>$tests->catalogs->p.'-'.$tests->catalogs->sp.'-'.$tests->catalogs->g.' || '.$tests->catalogs->name.' || '.$tests->typeBudgets->name);
 //        endforeach;
-         $balanceBudget=   Check::withTrashed()->get();
-         echo json_encode($balanceBudget->supplier->name); die;
-        return view('test.index',  compact('balanceBudget'));
+         $balanceBudget = Check::all();
+         foreach ($balanceBudget AS $test):
+         echo json_encode($test->codeCuentaCatalog()); die;
+endforeach;
+     //   return view('test.index',  compact('balanceBudget'));
             
 //		$menus = Menu::all();
 //		$user = User::find(2);

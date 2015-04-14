@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mep\Models\Catalog;
 
 class BalanceBudget extends Model {
 
@@ -66,4 +67,6 @@ public function typeBudgets() {
 
         return false;
     }
+    
+   
 }

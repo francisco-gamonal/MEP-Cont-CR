@@ -59,4 +59,8 @@ class Catalog extends Model {
 
         return false;
     }
+    public function codeCuenta(){
+        return $this->p.'-'.$this->g.'-'.$this->sp;
+        
+    }
 }
