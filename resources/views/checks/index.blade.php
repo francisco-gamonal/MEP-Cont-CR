@@ -60,12 +60,12 @@
                         <tbody>
                         	@foreach($checks as $check)
 	                            <tr>
-	                                <td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->balance_budgets_id}}</td>
+	                                <td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->codeCuentaCatalog()}}</td>
 	                                <td class="text-center">{{$check->amount}}</td>
 	                                <td class="text-center">{{$check->date}}</td>
 	                                <td class="text-center">{{$check->supplier->name}}</td>
 	                                <td class="text-center">{{$check->bill}}</td>
-	                                <td class="text-center">{{$check->spreadsheets_id}}</td>
+	                                <td class="text-center">{{$check->numberSpreadsheet()}}</td>
 	                                <td class="text-center">{{$check->spreadsheets->budgets->name}}</td>
 	                                <td class="text-center">
 	                                	@if($check->deleted_at)

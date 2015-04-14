@@ -1172,6 +1172,36 @@ $(function(){
 			messageAjax(data);
 		});
 	});
+
+	//Active Check
+	$(document).off('click', '#activeCheck');
+	$(document).on('click', '#activeCheck', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Check
+	$(document).off('click', '#deleteCheck');
+	$(document).on('click', '#deleteCheck', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
 	
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
