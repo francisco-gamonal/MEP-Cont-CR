@@ -43,5 +43,27 @@ class BalanceController extends Controller {
             endif;
         endif;
     }
+   /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+     public static function desactivar($campo,$id) {
+        /* les damos eliminacion pasavida */
+      Balance::where($campo,'=',$id)->delete();
+        
+    }
 
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public static function active($campo,$id) {
+        /* les quitamos la eliminacion pasavida */
+        Balance::where($campo,'=',$id)->restore();
+      
+    }
 }

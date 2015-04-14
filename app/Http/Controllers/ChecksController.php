@@ -13,6 +13,10 @@ use Mep\Models\Spreadsheet;
 
 class ChecksController extends Controller {
 
+    public function __construct() {
+        // $this->middleware('auth');
+    }
+
     public function budget($token) {
         $spreadsheets = Spreadsheet::Token($token);
         $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budgets_id);
@@ -52,14 +56,14 @@ class ChecksController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
         /* Consulta por token de school */
-       // $voucher = Voucher::Token($checks->voucherCheck);
+        // $voucher = Voucher::Token($checks->voucherCheck);
         $supplier = Supplier::Token($checks->supplierCheck);
         $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
         $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($checks, 'Check');
         /* Asignacion de id de school */
-     //   $ValidationData['vouchers_id'] = $voucher->id;
+        //   $ValidationData['vouchers_id'] = $voucher->id;
         $ValidationData['suppliers_id'] = $supplier->id;
         $ValidationData['spreadsheets_id'] = $spreadsheet->id;
         $ValidationData['balance_budgets_id'] = $balanceBudget->id;
@@ -94,7 +98,7 @@ class ChecksController extends Controller {
      * @param  int  $budgetsId
      * @return string
      */
-     private function ArregloSelectCuenta($budgetsId) {
+    private function ArregloSelectCuenta($budgetsId) {
         $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
             $balanceBudget[] = array('id' => $balanceBudgets->token,
@@ -125,29 +129,29 @@ class ChecksController extends Controller {
      * @return Response
      */
     public function update() {
-           /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
         /* Consulta por token de school */
-       // $voucher = Voucher::Token($checks->voucherCheck);
+        // $voucher = Voucher::Token($checks->voucherCheck);
         $supplier = Supplier::Token($checks->supplierCheck);
         $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
         $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($checks, 'Check');
         /* Asignacion de id de school */
-     //   $ValidationData['vouchers_id'] = $voucher->id;
+        //   $ValidationData['vouchers_id'] = $voucher->id;
         $ValidationData['suppliers_id'] = $supplier->id;
         $ValidationData['spreadsheets_id'] = $spreadsheet->id;
         $ValidationData['balance_budgets_id'] = $balanceBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
-        $check =  Check::Token($checks->token);
+        $check = Check::Token($checks->token);
         /* Validamos los datos para guardar tabla menu */
         if ($check->isValid($ValidationData)):
             $check->fill($ValidationData);
             $check->save();
             /* Actualizacion de la table balance */
-            $searchBalance = Balance::withTrashed()->where('checks_id','=',$check->id)->get();
+            $searchBalance = Balance::withTrashed()->where('checks_id', '=', $check->id)->get();
             BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
@@ -170,8 +174,11 @@ class ChecksController extends Controller {
      */
     public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = Check::Token($token)->delete();
+        $data = Check::Token($token);
+        BalanceController::desactivar('checks_id', $data->id);
         if ($data):
+
+            $data->delete();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -187,8 +194,10 @@ class ChecksController extends Controller {
      */
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = Check::Token($token)->restore();
+        $data = Check::Token($token);
+        BalanceController::active('checks_id', $data->id);
         if ($data):
+            $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
         endif;

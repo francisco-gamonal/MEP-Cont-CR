@@ -76,11 +76,11 @@
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($check->deleted_at)
-                                			<a id="activeCheck" data-url="presupuestos" href="#">
+                                			<a id="activeCheck" data-url="cheques" href="#">
                                 				<i class="fa fa-check-square-o"></i>
                             				</a>
                                 		@else
-                                			<a id="deleteCheck" data-url="presupuestos" href="#">
+                                			<a id="deleteCheck" data-url="cheques" href="#">
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif
