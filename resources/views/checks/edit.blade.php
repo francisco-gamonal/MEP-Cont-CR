@@ -42,7 +42,7 @@
 				<label for="billCheck">N° de Factura</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="billCheck" class="form-control" type="text" value="{{$check->bill}}">
+			      	<input id="billCheck" class="form-control" type="text" value="{{$check->bill}}" data-token="{{$check->token}}">
 				</div>
 			</div>
 		</div>

@@ -181,7 +181,7 @@ $(function(){
 	$(document).off('change', '#spreadsheetCheck');
 	$(document).on('change', '#spreadsheetCheck', function(){
 		var token = $(this).val();
-		var url   = server + 'registrar-cheque/' + token;
+		var url   = server + 'cheques/registrar-cheque/' + token;
 		$('#balanceBudgetCheck').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);
@@ -1169,7 +1169,7 @@ $(function(){
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
 		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
 		data.supplierCheck      = $('#supplierCheck').val();
-		data.statusCheck = $('#statusCheck').bootstrapSwitch('state');
+		data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
@@ -1201,6 +1201,33 @@ $(function(){
 		url       = url + '/delete-' + url + '/' + token;
 		data.token = token;
 		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Update Spreadsheet
+	$(document).off('click', '#updateCheck');
+	$(document).on('click', '#updateCheck', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		data.token 		        = $('#billCheck').data('token');
+		data.billCheck          = $('#billCheck').val();
+		data.conceptCheck       = $('#conceptCheck').val();
+		data.amountCheck        = $('#amountCheck').val();
+		data.retentionCheck     = $('#retentionCheck').val();
+		data.ckbillCheck        = $('#ckbillCheck').val();
+		data.ckretentionCheck   = $('#ckretentionCheck').val();
+		data.recordCheck        = $('#recordCheck').val();
+		data.dateCheck          = $('#dateCheck').val();
+		data.voucherCheck       = $('#voucherCheck').val();
+		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
+		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
+		data.supplierCheck      = $('#supplierCheck').val();
+		data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);
 		});
