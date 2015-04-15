@@ -38,7 +38,7 @@ class TestController extends Controller {
 //        endforeach;
          $balanceBudget = Check::all();
          foreach ($balanceBudget AS $test):
-         echo json_encode($test->codeCuentaCatalog()); 
+         echo json_encode($test->date); 
 endforeach;
      //   return view('test.index',  compact('balanceBudget'));
             
