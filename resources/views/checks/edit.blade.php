@@ -121,7 +121,7 @@
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="spreadsheetCheck">Planilla</label>
-				<select id="spreadsheetCheck" class="form-control">
+				<select id="spreadsheetCheck" class="form-control" data-url="editar-cheque">
 					@foreach($spreadsheets as $spreadsheet)
 						@if($spreadsheet->id == $check->spreadsheets_id)
 							<option value="{{$spreadsheet->token}}" selected>{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}}</option>

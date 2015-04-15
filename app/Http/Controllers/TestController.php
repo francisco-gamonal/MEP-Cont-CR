@@ -28,6 +28,7 @@ class TestController extends Controller {
     
 	public function index()
 	{
+		echo json_encode(Spreadsheet::where('token', 'eyJpdiI6InRmdVRcLzRrOXN4NWY1ZVRMa2NlN3NnPT0iLCJ2YWx1ZSI6IjNCVWxKNXlFZmJIaWZnUkx5QVhEN0E9PSIsIm1hYyI6ImU3ODI4ZGEyMDQyZDYwNjczNTg5MDUzMWY4MGEzM2E2YzJhMDEzMTVhNjQ0ZjUwN2UyZmE3MDFhMDdiMGQxOTQifQ==')->get());die;
             
 //            $test = Spreadsheet::Token('eyJpdiI6ImplVTZ0Tkgralp5ZnQrK091d3BjR3c9PSIsInZhbHVlIjoiOFVUcFR4cW9aQ0pSTEVNUHlqT1VpUT09IiwibWFjIjoiYTI4NTU5ZDU3Zjk5OGVkMDZhOWFjODU3ZjJhMDliYzMyMWRlODg3ZDE4ZWRhNGFhNDI0MTViZjI4YTU5MDYxZSJ9');
 //           

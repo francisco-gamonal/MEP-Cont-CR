@@ -177,10 +177,13 @@ $(function(){
 		$('.role-checkbox').bootstrapSwitch('state', false, false);
 	});
 
-	$('#spreadsheetCheck').on('change', function(){
+	//Ajax Select Number Account
+	$(document).off('change', '#spreadsheetCheck');
+	$(document).on('change', '#spreadsheetCheck', function(){
 		var token = $(this).val();
+		var url   = server + 'registrar-cheque/' + token;
 		$('#balanceBudgetCheck').prop('disabled', true);
-		$.get( "registrar-cheque/"+token, function( data ) {
+		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);
 			$('#balanceBudgetCheck').prop('disabled', false);
 		});
