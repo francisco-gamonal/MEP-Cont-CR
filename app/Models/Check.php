@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Carbon\Carbon;
 class Check extends Model {
 
    use SoftDeletes;
@@ -68,6 +68,11 @@ class Check extends Model {
 
         return false;
     }
+
+public function getDateAttribute($value) { 
+   // si definiste la columna en la base de datos como date
+   return date('d-m-Y',strtotime($value));
+} 
     public function codeCuentaCatalog(){
        return $this->balanceBudgets->catalogs->p.'-'.$this->balanceBudgets->catalogs->g.'-'.$this->balanceBudgets->catalogs->sp;
         
