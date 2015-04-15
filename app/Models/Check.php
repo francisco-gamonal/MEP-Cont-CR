@@ -71,7 +71,7 @@ class Check extends Model {
 
 public function getDateAttribute($value) { 
    // si definiste la columna en la base de datos como date
-   return date('d-m-Y',strtotime($value));
+  return date('d/m/Y',strtotime($value));
 } 
     public function codeCuentaCatalog(){
        return $this->balanceBudgets->catalogs->p.'-'.$this->balanceBudgets->catalogs->g.'-'.$this->balanceBudgets->catalogs->sp;
