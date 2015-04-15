@@ -10,6 +10,7 @@ use Mep\Models\Voucher;
 use Mep\Models\Supplier;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
+use Mep\Models\Balance;
 
 class ChecksController extends Controller {
 
