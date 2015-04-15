@@ -119,7 +119,7 @@ class ChecksController extends Controller {
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
-        return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balancebudgets'));
+        return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
     /**
