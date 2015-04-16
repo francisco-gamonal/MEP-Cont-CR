@@ -18,7 +18,8 @@ class TransfersController extends Controller {
      */
     public function index() {
         $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
-         return view('transfers.index', compact('transfers'));
+        $balanceBudgets = $this->arregloSelectCuenta($transfers[0]->balance_budgets_id);
+         return view('transfers.index', compact('transfers', 'balanceBudgets'));
     }
 
     /**
