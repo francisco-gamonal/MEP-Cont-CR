@@ -56,7 +56,7 @@ public function typeBudgets() {
         'goals' => 'required',
         'budgets_id' => 'required',
         'catalogs_id' => 'required',
-        'simulation' => 'required',
+       // 'simulation' => 'required',
         'types_budgets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);

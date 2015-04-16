@@ -12,7 +12,7 @@ class Transfer extends Model {
 
    
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'type', 'date', 'simulation', 'code', 'balance_budgets_id', 'spreadsheets_id'];
+    protected $fillable = ['amount', 'type', 'date', 'simulation', 'token','code', 'balance_budgets_id', 'spreadsheets_id'];
 
     public function spreadsheets() {
 

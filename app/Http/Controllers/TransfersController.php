@@ -56,7 +56,7 @@ class TransfersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $transfers = $this->convertionObjeto();
-        $transfers->codeTransfer = 1;
+        $transfers->codeTransfer = 2;
 
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
@@ -74,12 +74,7 @@ class TransfersController extends Controller {
         $transfer = new Transfer;
         /* Validamos los datos para guardar tabla menu */
         if ($transfer->isValid($ValidationData)):
-
-
-
             /* Traemos el id del ultimo registro guardado */
-
-
             $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
             $amount = 0;
             for ($i = 0; $i < count($outBalanceBudget); $i++):
@@ -88,9 +83,11 @@ class TransfersController extends Controller {
                 $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
                 $ValidationData['balance_budgets_id'] = $balanceBudget->id;
                 $ValidationData['type'] = 'salida';
-                $transfer = new Transfer;
-                $transfer->fill($ValidationData);
-                $transfer->save();
+              
+                $outTransfer = new Transfer;
+                $outTransfer->fill($ValidationData);
+                $outTransfer->save();
+                
                 $amount += $ValidationData['amount'];
             endfor;
             $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
@@ -100,7 +97,7 @@ class TransfersController extends Controller {
        
             $transfer->fill($ValidationData);
             $transfer->save();
-
+  
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
 //            if ($transfers->statusTransfer == true):
 //                Transfer::Token($tokenTransfer)->restore();
@@ -112,7 +109,7 @@ class TransfersController extends Controller {
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($user->errors);
+        return $this->errores($transfer->errors);
     }
 
     /**

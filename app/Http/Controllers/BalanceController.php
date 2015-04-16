@@ -18,10 +18,11 @@ class BalanceController extends Controller {
         if ($balance->isValid($ValidationData)):
             $balance->fill($ValidationData);
             $balance->save();
+            
             if ($status == true): 
-                Balance::withTrashed()->find($id)->restore();
+                self::Desactivar('balance_budgets_id',$id);
             else:
-                Balance::destroy($id);
+                self::active('balance_budgets_id',$id);
             endif;
         endif;
     }
