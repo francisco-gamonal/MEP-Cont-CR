@@ -136,6 +136,7 @@ class TransfersController extends Controller {
 
         $balanceBudgets = $balanceBudget;
 
+        return view('transfers.view', compact('$transfers','spreadsheets', 'balanceBudgets'));
     }
 
     /**
