@@ -58,11 +58,11 @@
                         	@foreach($transfers as $transfer)
 	                            <tr>
 	                                <td class="text-center codeTransfer" data-token="{{$transfer->token}}">{{$transfer->code}}</td>
-	                                @foreach($balanceBudgets as $balanceBudget)
-										@if($balanceBudget['idBalanceBudgets'] == $transfer->balance_budgets_id)
-											<td class="text-center">$balanceBudget['value']</td>
+                                        @foreach($balanceBudgets as $balanceBudget) 
+										@if($balanceBudget[0]['idBalanceBudgets'] == $transfer->balance_budgets_id)
+											<td class="text-center">{{$balanceBudget[0]['value']}}</td>
 										@endif
-	                                @endoforeach
+	                                @endforeach
 	                                <td class="text-center">{{$transfer->date}}</td>
 	                                <td class="text-center">{{$transfer->amount}}</td>
 	                                <td class="text-center">
@@ -82,8 +82,8 @@
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif
-										<a href="{{route('edit-transferencia', $check->token)}}"><i class="fa fa-pencil-square-o"></i></a>
-										<a href="{{route('view-transferencia', $check->token)}}"><i class="fa fa-pencil-eye"></i></a>
+										<a href="{{route('edit-transferencia', $transfer->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+										<a href="{{route('view-transferencia', $transfer->token)}}"><i class="fa fa-pencil-eye"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach

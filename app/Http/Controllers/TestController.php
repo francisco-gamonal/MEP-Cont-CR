@@ -37,8 +37,8 @@ class TestController extends Controller {
      */
     public function index() {
        $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
-       
-       echo json_encode($transfers); die;
+        $balanceBudgets = $this->arregloSelectCuenta($transfers[0]->balance_budgets_id);
+       echo json_encode($balanceBudgets); die;
     }
 
     /**

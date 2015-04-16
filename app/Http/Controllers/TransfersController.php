@@ -18,7 +18,10 @@ class TransfersController extends Controller {
      */
     public function index() {
         $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($transfers[0]->balance_budgets_id);
+        foreach ($transfers AS $transfer):
+            $balanceBudget[] = $this->arregloSelectCuenta('id',$transfer->balance_budgets_id);
+        endforeach;
+        $balanceBudgets = $balanceBudget;
          return view('transfers.index', compact('transfers', 'balanceBudgets'));
     }
 
@@ -29,7 +32,7 @@ class TransfersController extends Controller {
      */
     public function create() {
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
+        $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
 
@@ -40,8 +43,9 @@ class TransfersController extends Controller {
      * @param  int  $budgetsId
      * @return string
      */
-    private function ArregloSelectCuenta($budgetsId) {
-        $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
+    private function ArregloSelectCuenta($campo,$budgetsId) {
+        
+        $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
