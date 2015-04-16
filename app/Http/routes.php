@@ -25,8 +25,8 @@ Route::controllers([
 ]);
 
 
-  Route::group(['middleware'=>['auth','super_admin']], function ()
-  {
+  // Route::group(['middleware'=>['auth','super_admin']], function ()
+  // {
 //si el usuario ha iniciado sesión dar acceso a las rutas
 require (__DIR__ . '/Routes/User.php');
 require (__DIR__ . '/Routes/Menu.php');
@@ -44,7 +44,7 @@ require (__DIR__ . '/Routes/Spreadsheets.php');
 require (__DIR__ . '/Routes/Checks.php');
 
 require (__DIR__ . '/Routes/Transfers.php');
-});
+// });
 
 Route::get('/', function() {
     return view('auth.login');

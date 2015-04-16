@@ -39,15 +39,6 @@
 	<section class="row">
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="typeTransfer">Tipo de Transferencia</label>
-				<select id="typeTransfer" class="form-control">
-					<option value="entrada">Entrada</option>
-					<option value="salida">Salida</option>
-				</select>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
 				<label for="dateTransfer">Fecha de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
@@ -76,7 +67,7 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="inBalanceBudgetTransfer">Número de Cuenta Destino</label>
+				<label for="inBalanceBudgetTransfer">Número de Cuenta Aumento</label>
 				<select id="inBalanceBudgetTransfer" class="form-control">
 					@foreach($balanceBudgets as $balanceBudget)
 						<option value="{{$balanceBudget['id']}}">{{$balanceBudget['value']}}</option>
@@ -86,15 +77,7 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="statusTransfer">Estado de la Transferencia</label>
-				<div class="row">
-		      		<input id="statusTransfer" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
-		      	</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label>Número de Cuenta Abono</label>
+				<label>Número de Cuenta Disminución</label>
 				<div class="row outBalance">
 					<aside class="row" style="margin-bottom: .5em;">
 						<div class="col-sm-9" style="padding:0;">
@@ -111,6 +94,14 @@
 				</div>
 				<button id="addAccount" class="btn btn-info">Agregar Cuenta</button>
 				<button id="removeAccount" class="btn btn-danger hide">Eliminar Cuenta</button>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
+				<label for="statusTransfer">Estado de la Transferencia</label>
+				<div class="row">
+		      		<input id="statusTransfer" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+		      	</div>
 			</div>
 		</div>
 	</section>

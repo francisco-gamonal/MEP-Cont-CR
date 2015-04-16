@@ -1268,7 +1268,6 @@ $(function(){
 		$(".amountBalanceBudgetTransfer").each(function(index,value){
 		    amountBalanceBudgetTransfer[index] = $(this).val();
 		});
-		data.typeTransfer                = $('#typeTransfer').val();
 		data.dateTransfer                = $('#dateTransfer').val();
 		data.simulationTransfer          = $('#simulationTransfer').val();
 		data.spreadsheetTransfer         = $('#spreadsheetTransfer').val();
