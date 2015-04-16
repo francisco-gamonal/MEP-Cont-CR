@@ -114,6 +114,15 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
+					<label for="simulationBalanceBudget">Simulación de Saldo de Presupuesto</label>
+					<select id="simulationBalanceBudget" class="form-control">
+						<option value="f">No</option>
+						<option value="v">Si</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
 					<label for="statusBalanceBudget">Estado del Presupuesto</label>
 					<div class="row">
 			      		<input id="statusBalanceBudget" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>

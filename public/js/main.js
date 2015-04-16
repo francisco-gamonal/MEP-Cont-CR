@@ -1026,6 +1026,7 @@ $(function(){
 		data.catalogsBalanceBudget    = $('#catalogsBalanceBudget').val();
 		data.budgetBalanceBudget      = $('#budgetBalanceBudget').val();
 		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
+		data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
 		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
@@ -1079,6 +1080,7 @@ $(function(){
 		data.catalogsBalanceBudget    = $('#catalogsBalanceBudget').val();
 		data.budgetBalanceBudget      = $('#budgetBalanceBudget').val();
 		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
+		//data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
 		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
@@ -1285,8 +1287,6 @@ $(function(){
 	 * Transfer
 	 */
 	
-	
-
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
@@ -1300,5 +1300,5 @@ $(function(){
 	dataTable('#table_balanceBudgets', 'saldo de presupuestos');
 	dataTable('#table_spreadsheets', 'planillas');
 	dataTable('#table_checks', 'cheques');
-
+	dataTable('#table_transfers', 'transferencias');
 });
