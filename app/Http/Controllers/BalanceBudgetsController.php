@@ -64,7 +64,8 @@ class BalanceBudgetsController extends Controller {
             $balanceBudget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBalanceBudget = $balanceBudget->LastId();
-            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budgets_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
+            BalanceController::saveBalance(['amount'=>$balanceBudgets->amountBalanceBudget,'simulation'=>$balanceBudgets->simulation], 
+                    'entrada', 'false', 'balance_budgets_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore();

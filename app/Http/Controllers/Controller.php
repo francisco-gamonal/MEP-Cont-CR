@@ -60,7 +60,11 @@ abstract class Controller extends BaseController {
             elseif (isset($newArreglo['amount'])):
                 $newArreglo['token'] = Crypt::encrypt($newArreglo['amount']);
                 return $newArreglo;
+             elseif (isset($newArreglo['code'])):
+                $newArreglo['token'] = Crypt::encrypt($newArreglo['code']);
+                return $newArreglo;
             endif;
+            
             $newArreglo['token'] = Crypt::encrypt($newArreglo['number']);
             return $newArreglo;
         endif;

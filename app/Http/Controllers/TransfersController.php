@@ -42,7 +42,7 @@ class TransfersController extends Controller {
     private function ArregloSelectCuenta($budgetsId) {
         $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
+            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
         endforeach;
         return $balanceBudget;
@@ -54,43 +54,65 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function store() {
-         /* Capturamos los datos enviados por ajax */
-        $checks = $this->convertionObjeto();
-        /* Consulta por token de school */
-        echo json_encode($checks); die;
-        // $voucher = Voucher::Token($checks->voucherCheck);
-        $supplier = Supplier::Token($checks->supplierCheck);
-        $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
-        $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
+        /* Capturamos los datos enviados por ajax */
+        $transfers = $this->convertionObjeto();
+        $transfers->codeTransfer = 1;
+
+        /* obtenemos dos datos del supplier mediante token recuperamos el id */
+        $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
+
         /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->CreacionArray($checks, 'Check');
-        /* Asignacion de id de school */
-        //   $ValidationData['vouchers_id'] = $voucher->id;
-        $ValidationData['suppliers_id'] = $supplier->id;
+        $ValidationData = $this->CreacionArray($transfers, 'Transfer');
         $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-        $ValidationData['simulation'] = 'false';
+
+
         /* Declaramos las clases a utilizar */
-        $check = new Check;
+        if ($ValidationData['simulation'] == 'v'):
+            $ValidationData['simulation'] = 'TRUE';
+        endif;
+        $ValidationData['simulation'] = 'FALSE';
+        $transfer = new Transfer;
         /* Validamos los datos para guardar tabla menu */
-        if ($check->isValid($ValidationData)):
-            $check->fill($ValidationData);
-            $check->save();
-            /* Traemos el id del tipo de usuario que se acaba de */
-            $idCheck = $check->LastId();
-            /* Actualizacion de la table balance */
-            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'checks_id', $idCheck->id, $checks->statusCheck);
+        if ($transfer->isValid($ValidationData)):
+
+
+
+            /* Traemos el id del ultimo registro guardado */
+
+
+            $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
+            $amount = 0;
+            for ($i = 0; $i < count($outBalanceBudget); $i++):
+                /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
+                $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
+                $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+                $ValidationData['type'] = 'salida';
+                $transfer = new Transfer;
+                $transfer->fill($ValidationData);
+                $transfer->save();
+                $amount += $ValidationData['amount'];
+            endfor;
+            $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
+            $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+            $ValidationData['amount'] = $amount;
+            $ValidationData['type'] = 'entrada';
+       
+            $transfer->fill($ValidationData);
+            $transfer->save();
+
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($checks->statusCheck == true):
-                Check::withTrashed()->find($idCheck->id)->restore();
-            else:
-                Check::destroy($idCheck->id);
-            endif;
+//            if ($transfers->statusTransfer == true):
+//                Transfer::Token($tokenTransfer)->restore();
+//            else:
+//                Transfer::Token($tokenTransfer)->delete();
+//            endif;
+
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
         /* Enviamos el mensaje de error */
-        return $this->errores($check->errors);
+        return $this->errores($user->errors);
     }
 
     /**
