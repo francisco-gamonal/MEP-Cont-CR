@@ -24,6 +24,10 @@ class Transfer extends Model {
         return $this->belongsTo('Mep\Models\BalanceBudgets');
     }
 
+     public function balances() {
+
+        return $this->belongsTo('Mep\Models\Balance');
+    }
     /* obtencion del id del ultimo usuario agregado */
 
     public function LastId() {

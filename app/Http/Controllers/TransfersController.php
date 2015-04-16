@@ -133,10 +133,10 @@ class TransfersController extends Controller {
             $balanceBudget[] = $this->arregloSelectCuenta('id', $transfer['balance_budgets_id']);
             $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
-
+        $spreadsheet = ['code' => $spreadsheets->number . '-' . $spreadsheets->year . ' ' . $spreadsheets->budgets->name];
         $balanceBudgets = $balanceBudget;
 
-        return view('transfers.view', compact('$transfers','spreadsheets', 'balanceBudgets'));
+        return view('transfers.view', compact('transfers', 'spreadsheet', 'balanceBudgets'));
     }
 
     /**
