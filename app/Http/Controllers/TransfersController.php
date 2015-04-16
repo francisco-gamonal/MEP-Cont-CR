@@ -54,7 +54,43 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function store() {
-        //
+         /* Capturamos los datos enviados por ajax */
+        $checks = $this->convertionObjeto();
+        /* Consulta por token de school */
+        echo json_encode($checks); die;
+        // $voucher = Voucher::Token($checks->voucherCheck);
+        $supplier = Supplier::Token($checks->supplierCheck);
+        $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
+        $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = $this->CreacionArray($checks, 'Check');
+        /* Asignacion de id de school */
+        //   $ValidationData['vouchers_id'] = $voucher->id;
+        $ValidationData['suppliers_id'] = $supplier->id;
+        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
+        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+        $ValidationData['simulation'] = 'false';
+        /* Declaramos las clases a utilizar */
+        $check = new Check;
+        /* Validamos los datos para guardar tabla menu */
+        if ($check->isValid($ValidationData)):
+            $check->fill($ValidationData);
+            $check->save();
+            /* Traemos el id del tipo de usuario que se acaba de */
+            $idCheck = $check->LastId();
+            /* Actualizacion de la table balance */
+            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'checks_id', $idCheck->id, $checks->statusCheck);
+            /* Comprobamos si viene activado o no para guardarlo de esa manera */
+            if ($checks->statusCheck == true):
+                Check::withTrashed()->find($idCheck->id)->restore();
+            else:
+                Check::destroy($idCheck->id);
+            endif;
+            /* Enviamos el mensaje de guardado correctamente */
+            return $this->exito('Los datos se guardaron con exito!!!');
+        endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($check->errors);
     }
 
     /**

@@ -36,7 +36,7 @@
 				<li class="submenu">
 					<a href="#">
 						<span class="glyphicon glyphicon-home"></span>
-						<span>Profile</span>
+						<span>Profile1</span>
 						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
 					</a>
 					<ul class="nav">
