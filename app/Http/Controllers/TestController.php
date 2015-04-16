@@ -18,6 +18,7 @@ use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
 use Mep\Models\Check;
+use Mep\Models\Transfer;
 use Illuminate\Contracts\Auth\Guard;
 use Crypt;
 
@@ -35,7 +36,9 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
+       $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
        
+       echo json_encode($transfers); die;
     }
 
     /**

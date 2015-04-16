@@ -17,8 +17,8 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function index() {
-        $transfers = Transfer::withTrashed()->get();
-        return view('transfers.index', compact('transfers'));
+        $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
+         return view('transfers.index', compact('transfers'));
     }
 
     /**
@@ -56,7 +56,7 @@ class TransfersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $transfers = $this->convertionObjeto();
-        $transfers->codeTransfer = 2;
+        
 
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
@@ -67,11 +67,13 @@ class TransfersController extends Controller {
 
 
         /* Declaramos las clases a utilizar */
-        if ($ValidationData['simulation'] == 'v'):
+        $ValidationData['simulation'] = 'FALSE';
+        if ($transfers->simulationTransfer == 'v'):
             $ValidationData['simulation'] = 'TRUE';
         endif;
-        $ValidationData['simulation'] = 'FALSE';
+        
         $transfer = new Transfer;
+        $transfers->codeTransfer = $transfer->LastId()->code+1;
         /* Validamos los datos para guardar tabla menu */
         if ($transfer->isValid($ValidationData)):
             /* Traemos el id del ultimo registro guardado */
