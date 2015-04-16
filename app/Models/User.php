@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-
 use Mep\Models\Supplier;
 use Mep\Models\TypeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract{
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
-    use Authenticatable, CanResetPassword;
-    use SoftDeletes;
+    use Authenticatable,
+        CanResetPassword;
+
+use SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -38,6 +39,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
+    /**
+     *  Inicio Relaciones
+     */
     /* Relacion con la tabla Tipo de usuarios */
 
     public function typeUsers() {
@@ -52,7 +56,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function tasks() {
-        return $this->belongsToMany('Mep\Models\Task')->withPivot('status','menu_id');
+        return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
     }
 
     /* Relacion con la tabla schools */
@@ -61,11 +65,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsToMany('Mep\Models\School');
     }
 
+    /**
+     * Fin Relaciones
+     */
     /* Generar el nombre completo del usuario */
 
     public function nameComplete() {
 
         return $this->name . ' ' . $this->last;
+    }
+
+    /* obtencion del id del ultimo usuario agregado */
+
+    public function LastId() {
+        return User::all()->last();
     }
 
     /* creacion de string del id de schools */
@@ -98,12 +111,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         endif;
 
         return false;
-    }
-
-    /* obtencion del id del ultimo usuario agregado */
-
-    public function LastId() {
-        return User::all()->last();
     }
 
     /* Busqueda de usuario por medio del token */
@@ -150,5 +157,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $this->attributes['password'] = \Hash::make($value);
         endif;
     }
-
+    public function is($type){
+        
+        return $this->typeUsers->id === $type;
+    }
+    public function admin(){
+        
+        return $this->typeUsers->id === 1;
+    }
 }

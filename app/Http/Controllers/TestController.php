@@ -1,4 +1,6 @@
-<?php namespace Mep\Http\Controllers;
+<?php
+
+namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
@@ -16,121 +18,82 @@ use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
 use Mep\Models\Check;
+use Illuminate\Contracts\Auth\Guard;
 use Crypt;
+
 class TestController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+   protected $auth;
     
-    
-	public function index()
+   public function __construct(Guard $auth)
 	{
-		echo json_encode(Spreadsheet::where('token', 'eyJpdiI6InRmdVRcLzRrOXN4NWY1ZVRMa2NlN3NnPT0iLCJ2YWx1ZSI6IjNCVWxKNXlFZmJIaWZnUkx5QVhEN0E9PSIsIm1hYyI6ImU3ODI4ZGEyMDQyZDYwNjczNTg5MDUzMWY4MGEzM2E2YzJhMDEzMTVhNjQ0ZjUwN2UyZmE3MDFhMDdiMGQxOTQifQ==')->get());die;
-            
-//            $test = Spreadsheet::Token('eyJpdiI6ImplVTZ0Tkgralp5ZnQrK091d3BjR3c9PSIsInZhbHVlIjoiOFVUcFR4cW9aQ0pSTEVNUHlqT1VpUT09IiwibWFjIjoiYTI4NTU5ZDU3Zjk5OGVkMDZhOWFjODU3ZjJhMDliYzMyMWRlODg3ZDE4ZWRhNGFhNDI0MTViZjI4YTU5MDYxZSJ9');
-//           
-//        $test = BalanceBudget::where('budgets_id','=',$test->budgets_id)->get();
-//        foreach ($test AS $tests):
-//            
-//        $balanceBudget[] = array('id'=>$tests->token,'value'=>$tests->catalogs->p.'-'.$tests->catalogs->sp.'-'.$tests->catalogs->g.' || '.$tests->catalogs->name.' || '.$tests->typeBudgets->name);
-//        endforeach;
-         $balanceBudget = Check::all();
-         foreach ($balanceBudget AS $test):
-         echo json_encode($test->date); 
-endforeach;
-     //   return view('test.index',  compact('balanceBudget'));
-            
-//		$menus = Menu::all();
-//		$user = User::find(2);
-//
-//		if($user->Tasks->isEmpty()) {
-//			echo "OK";die;
-//		}
-//		echo "False";
-//		die;
-//
-//		foreach($menus as $menu):
-//			echo "{".$menu->id;
-//			foreach($menu->Tasks as $taskMenu):
-//				if($taskMenu->pivot->status == 1){
-//					foreach ($user->Tasks as $taskUser) {
-//						if($menu->id == $taskUser->pivot->menu_id && $taskMenu->id == $taskUser->pivot->task_id && $taskUser->pivot->status == 1){
-//							echo "$taskMenu->id";
-//						}
-//					}
-//					//echo '//id:'.$taskMenu->id.', name:'.$taskMenu->name;
-//				}
-//			endforeach;
-//			echo "}";
-//        endforeach;
-                
+		$this->auth = $auth;
+	}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index() {
+       
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create() {
+        //
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store() {
+        //
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id) {
+        //
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id) {
+        //
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id) {
+        //
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id) {
+        //
+    }
 
 }

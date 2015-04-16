@@ -40,7 +40,7 @@ class TransfersController extends Controller {
     private function ArregloSelectCuenta($budgetsId) {
         $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
-            $balanceBudget[] = array('id' => $balanceBudgets->token,
+            $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
         endforeach;
         return $balanceBudget;
