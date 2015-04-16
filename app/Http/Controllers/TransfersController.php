@@ -17,12 +17,12 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function index() {
-        $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
+        $transfers = Transfer::withTrashed()->where('type', '=', 'entrada')->get();
         foreach ($transfers AS $transfer):
-            $balanceBudget[] = $this->arregloSelectCuenta('id',$transfer->balance_budgets_id);
+            $balanceBudget[] = $this->arregloSelectCuenta('id', $transfer->balance_budgets_id);
         endforeach;
         $balanceBudgets = $balanceBudget;
-         return view('transfers.index', compact('transfers', 'balanceBudgets'));
+        return view('transfers.index', compact('transfers', 'balanceBudgets'));
     }
 
     /**
@@ -43,8 +43,8 @@ class TransfersController extends Controller {
      * @param  int  $budgetsId
      * @return string
      */
-    private function ArregloSelectCuenta($campo,$budgetsId) {
-        
+    private function ArregloSelectCuenta($campo, $budgetsId) {
+
         $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
@@ -61,7 +61,7 @@ class TransfersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $transfers = $this->convertionObjeto();
-        
+
 
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
@@ -76,9 +76,9 @@ class TransfersController extends Controller {
         if ($transfers->simulationTransfer == 'v'):
             $ValidationData['simulation'] = 'TRUE';
         endif;
-        
+
         $transfer = new Transfer;
-        $transfers->codeTransfer = $transfer->LastId()->code+1;
+        $transfers->codeTransfer = $transfer->LastId()->code + 1;
         /* Validamos los datos para guardar tabla menu */
         if ($transfer->isValid($ValidationData)):
             /* Traemos el id del ultimo registro guardado */
@@ -90,21 +90,21 @@ class TransfersController extends Controller {
                 $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
                 $ValidationData['balance_budgets_id'] = $balanceBudget->id;
                 $ValidationData['type'] = 'salida';
-              
+
                 $outTransfer = new Transfer;
                 $outTransfer->fill($ValidationData);
                 $outTransfer->save();
-                
+
                 $amount += $ValidationData['amount'];
             endfor;
             $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
             $ValidationData['balance_budgets_id'] = $balanceBudget->id;
             $ValidationData['amount'] = $amount;
             $ValidationData['type'] = 'entrada';
-       
+
             $transfer->fill($ValidationData);
             $transfer->save();
-  
+
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
 //            if ($transfers->statusTransfer == true):
 //                Transfer::Token($tokenTransfer)->restore();
@@ -125,8 +125,17 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function show($id) {
-        //
+    public function view($token) {
+
+        $transfers = Transfer::where('token', '=', $token)->get();
+
+        foreach ($transfers AS $transfer):
+            $balanceBudget[] = $this->arregloSelectCuenta('id', $transfer['balance_budgets_id']);
+            $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
+        endforeach;
+
+        $balanceBudgets = $balanceBudget;
+
     }
 
     /**
