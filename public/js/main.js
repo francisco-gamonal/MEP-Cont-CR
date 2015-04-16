@@ -176,6 +176,25 @@ $(function(){
 		e.preventDefault();
 		$('.role-checkbox').bootstrapSwitch('state', false, false);
 	});
+	//Add account transfer
+	$(document).on('click', '#addAccount', function(e){
+		e.preventDefault();
+		if($('.outBalance').length == 1){
+			$('#removeAccount').removeClass('hide');
+		}
+		var account = $('.outBalance aside:first').clone(true,true);
+		account.appendTo('.outBalance');
+	});
+	//Delete account transfer
+	$(document).on('click', '#removeAccount', function(e){
+		e.preventDefault();
+		var element = $(this);
+		var account = $('.outBalance aside:first');
+		account.remove();
+		if($('.outBalance aside').length == 1){
+			element.addClass('hide');
+		}
+	});
 
 	//Ajax Select Number Account
 	$(document).off('change', '#spreadsheetCheck');
@@ -1232,7 +1251,43 @@ $(function(){
 			messageAjax(data);
 		});
 	});
+	/**
+	 * End Check
+	 */
+	$(document).off('click', '#saveTransfer');
+	$(document).on('click', '#saveTransfer', function(e){
+		e.preventDefault();
+		var url;
+		var outBalanceBudgetTransfer    = [];
+		var amountBalanceBudgetTransfer = [];
+		url = $(this).data('url');
+		url = url + '/save-' + url;
+		$(".outBalanceBudgetTransfer").each(function(index,value){
+		    outBalanceBudgetTransfer[index] = $(this).val();
+		});
+		$(".amountBalanceBudgetTransfer").each(function(index,value){
+		    amountBalanceBudgetTransfer[index] = $(this).val();
+		});
+		data.typeTransfer                = $('#typeTransfer').val();
+		data.dateTransfer                = $('#dateTransfer').val();
+		data.simulationTransfer          = $('#simulationTransfer').val();
+		data.spreadsheetTransfer         = $('#spreadsheetTransfer').val();
+		data.inBalanceBudgetTransfer     = $('#inBalanceBudgetTransfer').val();
+		data.outBalanceBudgetTransfer    = outBalanceBudgetTransfer;
+		data.amountBalanceBudgetTransfer = amountBalanceBudgetTransfer;
+		data.statusTransfer              = $('#statusTransfer').bootstrapSwitch('state');
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	/**
+	 * Transfer
+	 */
 	
+	
+
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
 	dataTable('#table_supplier', 'proveedores');
