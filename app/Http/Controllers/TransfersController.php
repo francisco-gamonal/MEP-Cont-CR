@@ -9,6 +9,7 @@ use Mep\Models\Spreadsheet;
 use Mep\Models\BalanceBudget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
 class TransfersController extends Controller {
 
     /**
@@ -97,8 +98,9 @@ class TransfersController extends Controller {
         $outTransfer = new Transfer;
        /* Validamos los datos para guardar tabla menu */
             $errors_transaction = array();
+            DB::connection()->enableQueryLog();
             try {
-                DB::transaction(function() use ($ValidationData,$transfers,$transfer,$outTransfer, $errors_transaction) {
+              DB::transaction(function($errors_transaction) use ($ValidationData,$transfers,$transfer,$outTransfer, $errors_transaction) {
                     /* Traemos el id del ultimo registro guardado */
                     $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
                     $amount = 0;
@@ -137,13 +139,10 @@ class TransfersController extends Controller {
                         $errors_transaction[] = $transfer->errors;
                     endif;
                 });
-                echo json_encode($errors_transaction);die;
-                if($errors_transaction){
-                    echo json_encode($errors_transaction);
-                }
-                return $this->exito('Los datos se guardaron con exito!!!');
-            } catch (Exception $e) {
-                Log::error($e);
+                $consultas = DB::getQueryLog($errors_transaction);
+              echo json_encode($consultas); die;
+            } catch (\Exception $errors_transaction) {
+               
             }
         /* Enviamos el mensaje de error */
        
