@@ -97,42 +97,48 @@ class TransfersController extends Controller {
         
         /* Validamos los datos para guardar tabla menu */
         if ($transfer->isValid($ValidationData)):
-            /* Traemos el id del ultimo registro guardado */
-            $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
-            $amount = 0;
-            for ($i = 0; $i < count($outBalanceBudget); $i++):
-                /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
-                $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
-                $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-                $ValidationData['type'] = 'salida';
+            try {
+                DB::transaction( function() use ($dataJson, $date, $fecproxctr) {
+                    /* Traemos el id del ultimo registro guardado */
+                    $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
+                    $amount = 0;
+                    for ($i = 0; $i < count($outBalanceBudget); $i++):
+                        /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                        $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
+                        $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
+                        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+                        $ValidationData['type'] = 'salida';
 
-                $outTransfer = new Transfer;
-                $outTransfer->fill($ValidationData);
-                $outTransfer->save();
-                /* Actualizacion de la table balance */
-                BalanceController::saveBalanceTransfers($ValidationData['amount'],
-                        'salida', 'false', ['transfers_code'=>'transfers_code','transfers_balance_budgets_id'=>'transfers_balance_budgets_id'],
-                        ['transfers_code'=>$ValidationData['code'],'transfers_balance_budgets_id'=>$ValidationData['balance_budgets_id']],'false');
-                $amount += $ValidationData['amount'];
-            endfor;
-            $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
-            $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-            $ValidationData['amount'] = $amount;
-            $ValidationData['type'] = 'entrada';
+                        $outTransfer = new Transfer;
+                        $outTransfer->fill($ValidationData);
+                        $outTransfer->save();
+                        /* Actualizacion de la table balance */
+                        BalanceController::saveBalanceTransfers($ValidationData['amount'],
+                                'salida', 'false', ['transfers_code'=>'transfers_code','transfers_balance_budgets_id'=>'transfers_balance_budgets_id'],
+                                ['transfers_code'=>$ValidationData['code'],'transfers_balance_budgets_id'=>$ValidationData['balance_budgets_id']],'false');
+                        $amount += $ValidationData['amount'];
+                    endfor;
+                    $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
+                    $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+                    $ValidationData['amount'] = $amount;
+                    $ValidationData['type'] = 'entrada';
 
-            $transfer->fill($ValidationData);
-            $transfer->save();
+                    $transfer->fill($ValidationData);
+                    $transfer->save();
 
-            /* Comprobamos si viene activado o no para guardarlo de esa manera */
-//            if ($transfers->statusTransfer == true):
-//                Transfer::Token($tokenTransfer)->restore();
-//            else:
-//                Transfer::Token($tokenTransfer)->delete();
-//            endif;
+                    /* Comprobamos si viene activado o no para guardarlo de esa manera */
+        //            if ($transfers->statusTransfer == true):
+        //                Transfer::Token($tokenTransfer)->restore();
+        //            else:
+        //                Transfer::Token($tokenTransfer)->delete();
+        //            endif;
 
-            /* Enviamos el mensaje de guardado correctamente */
-            return $this->exito('Los datos se guardaron con exito!!!');
+                    /* Enviamos el mensaje de guardado correctamente */
+                    return $this->exito('Los datos se guardaron con exito!!!');
+                });
+            } catch (Exception $e) {
+                Log::error($e);
+            }
         endif;
         /* Enviamos el mensaje de error */
         return $this->errores($transfer->errors);
