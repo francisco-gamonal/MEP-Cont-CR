@@ -8,7 +8,7 @@ use Mep\Models\Transfer;
 use Mep\Models\Spreadsheet;
 use Mep\Models\BalanceBudget;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class TransfersController extends Controller {
 
     /**
@@ -90,15 +90,15 @@ class TransfersController extends Controller {
             $ValidationData['simulation'] = 'TRUE';
         endif;
         $transfer = new Transfer;
-        $ValidationData['code'] =1;
-        if(($transfer->lastCode())):
+        $ValidationData['code'] = 1;
+        if (($transfer->lastCode())):
             $ValidationData['code'] = $transfer->lastCode() + 1;
         endif;
         
-        /* Validamos los datos para guardar tabla menu */
+       /* Validamos los datos para guardar tabla menu */
         if ($transfer->isValid($ValidationData)):
             try {
-                DB::transaction( function() use ($dataJson, $date, $fecproxctr) {
+                DB::transaction(function() use ($ValidationData,$transfers,$transfer) {
                     /* Traemos el id del ultimo registro guardado */
                     $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
                     $amount = 0;
@@ -113,9 +113,7 @@ class TransfersController extends Controller {
                         $outTransfer->fill($ValidationData);
                         $outTransfer->save();
                         /* Actualizacion de la table balance */
-                        BalanceController::saveBalanceTransfers($ValidationData['amount'],
-                                'salida', 'false', ['transfers_code'=>'transfers_code','transfers_balance_budgets_id'=>'transfers_balance_budgets_id'],
-                                ['transfers_code'=>$ValidationData['code'],'transfers_balance_budgets_id'=>$ValidationData['balance_budgets_id']],'false');
+                        $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
                         $amount += $ValidationData['amount'];
                     endfor;
                     $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
@@ -125,23 +123,21 @@ class TransfersController extends Controller {
 
                     $transfer->fill($ValidationData);
                     $transfer->save();
-
-                    /* Comprobamos si viene activado o no para guardarlo de esa manera */
-        //            if ($transfers->statusTransfer == true):
-        //                Transfer::Token($tokenTransfer)->restore();
-        //            else:
-        //                Transfer::Token($tokenTransfer)->delete();
-        //            endif;
-
+                    $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
                     /* Enviamos el mensaje de guardado correctamente */
-                    return $this->exito('Los datos se guardaron con exito!!!');
+                   
                 });
+                 return $this->exito('Los datos se guardaron con exito!!!');
             } catch (Exception $e) {
                 Log::error($e);
             }
         endif;
         /* Enviamos el mensaje de error */
         return $this->errores($transfer->errors);
+    }
+
+    private function balanceSaveData($amount, $type, $code, $balanceBudget) {
+        BalanceController::saveBalanceTransfers($amount, $type, 'false', ['transfers_code' => 'transfers_code', 'transfers_balance_budgets_id' => 'transfers_balance_budgets_id'], ['transfers_code' => $code, 'transfers_balance_budgets_id' => $balanceBudget], 'false');
     }
 
     /**
