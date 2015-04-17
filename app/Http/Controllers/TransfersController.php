@@ -52,6 +52,7 @@ class TransfersController extends Controller {
         endforeach;
         return $balanceBudget;
     }
+
     /**
      * Display the specified resource.
      * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
@@ -64,10 +65,11 @@ class TransfersController extends Controller {
         $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
             $balanceBudget[] = array('id' => $balanceBudgets->id, 'token' => $balanceBudgets->token,
-                'code' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp,  'name'=>$balanceBudgets->catalogs->name );
+                'code' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp, 'name' => $balanceBudgets->catalogs->name);
         endforeach;
         return $balanceBudget;
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -76,22 +78,16 @@ class TransfersController extends Controller {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $transfers = $this->convertionObjeto();
-
-
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
-
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($transfers, 'Transfer');
         $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-
-
         /* Declaramos las clases a utilizar */
         $ValidationData['simulation'] = 'FALSE';
         if ($transfers->simulationTransfer == 'v'):
             $ValidationData['simulation'] = 'TRUE';
         endif;
-
         $transfer = new Transfer;
         $transfers->codeTransfer = $transfer->LastId()->code + 1;
         /* Validamos los datos para guardar tabla menu */
@@ -177,7 +173,7 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-   public function destroy($token) {
+    public function destroy($token) {
         /* les damos eliminacion pasavida */
         $data = Transfer::Token($token);
         BalanceController::desactivar('transfers_id', $data->id);
