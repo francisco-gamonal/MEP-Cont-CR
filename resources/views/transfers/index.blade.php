@@ -74,16 +74,7 @@
 	                                </td>
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('view-transferencia', $transfer->token)}}"><i class="fa fa-eye"></i></a>
-                                		@if($transfer->deleted_at)
-                                			<a id="activeTransfer" data-url="cheques" href="#">
-                                				<i class="fa fa-check-square-o"></i>
-                            				</a>
-                                		@else
-                                			<a id="deleteTransfer" data-url="cheques" href="#">
-												<i class="fa fa-trash-o"></i>
-											</a>
-                                		@endif
-										<a href="{{route('edit-transferencia', $transfer->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+										<a href="{{route('edit-transferencia', $transfer->token)}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach

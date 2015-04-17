@@ -148,7 +148,6 @@ class TransfersController extends Controller {
         endforeach;
         $spreadsheet = ['code' => $spreadsheets->number . '-' . $spreadsheets->year . ' ' . $spreadsheets->budgets->name];
         $balanceBudgets = $balanceBudget;
-
         return view('transfers.view', compact('transfers', 'spreadsheet', 'balanceBudgets'));
     }
 

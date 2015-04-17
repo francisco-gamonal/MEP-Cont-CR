@@ -1256,6 +1256,11 @@ $(function(){
 	/**
 	 * End Check
 	 */
+	
+	/**
+	 * Transfer
+	 */
+	
 	$(document).off('click', '#saveTransfer');
 	$(document).on('click', '#saveTransfer', function(e){
 		e.preventDefault();
@@ -1278,6 +1283,36 @@ $(function(){
 		data.amountBalanceBudgetTransfer = amountBalanceBudgetTransfer;
 		data.statusTransfer              = $('#statusTransfer').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Active Check
+	$(document).off('click', '#activeTransfer');
+	$(document).on('click', '#activeTransfer', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.codeTransfer').data('token');
+		url       = $(this).data('url');
+		url       = url + '/active-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'patch', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete Check
+	$(document).off('click', '#deleteTransfer');
+	$(document).on('click', '#deleteTransfer', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.codeTransfer').data('token');
+		url       = $(this).data('url');
+		url       = url + '/delete-' + url + '/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
 		.done( function (data) {
 			messageAjax(data);
 		});
