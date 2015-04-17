@@ -143,7 +143,7 @@ class TransfersController extends Controller {
 
         $transfers = Transfer::where('token', '=', $token)->get();
         foreach ($transfers AS $transfer):
-            $balanceBudget[] = $this->arregloSelectCuenta('id', $transfer['balance_budgets_id']);
+            $balanceBudget[] = $this->ArregloViewCuenta('id', $transfer['balance_budgets_id']);
             $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
         $spreadsheet = ['code' => $spreadsheets->number . '-' . $spreadsheets->year . ' ' . $spreadsheets->budgets->name];
