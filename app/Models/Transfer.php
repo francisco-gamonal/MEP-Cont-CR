@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+
 class Transfer extends Model {
 
     use SoftDeletes;
 
-   
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'type', 'date', 'simulation', 'token','code', 'balance_budgets_id', 'spreadsheets_id'];
+    protected $fillable = ['amount', 'type', 'date', 'simulation', 'token', 'code', 'balance_budgets_id', 'spreadsheets_id'];
 
     public function spreadsheets() {
 
@@ -24,10 +24,11 @@ class Transfer extends Model {
         return $this->belongsTo('Mep\Models\BalanceBudgets');
     }
 
-     public function balances() {
+    public function balances() {
 
         return $this->belongsTo('Mep\Models\Balance');
     }
+
     /* obtencion del id del ultimo usuario agregado */
 
     public function lastCode() {
@@ -50,24 +51,26 @@ class Transfer extends Model {
     /* validacion de los campos del usuario */
 
     public function isValid($data) {
-        $rules = ['amount' => 'required',
-        'type' => 'required',
-        'date' => 'required',
-        'code' => 'required',
-        'simulation' => 'required',
-        'balance_budgets_id' => 'required',
-        'spreadsheets_id' => 'required'];
 
-    
+        $rules = ['amount' => 'required',
+            'type' => 'required',
+            'date' => 'required',
+            'code' => 'required',
+            'simulation' => 'required',
+            'balance_budgets_id' => 'required',
+            'spreadsheets_id' => 'required'];
+
         $validator = \Validator::make($data, $rules);
         if ($validator->fails()) {
 
             return true;
         }
-
         $this->errors = $validator->errors();
-
         return false;
+    }
+
+    public function setDateAttribute($date) {
+        return date('Y-m-d', strtotime($date));
     }
 
 }
