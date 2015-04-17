@@ -26,7 +26,25 @@ class BalanceController extends Controller {
             endif;
         endif;
     }
+    public static function saveBalanceTransfers($amount, $type, $simulation, $table, $id, $status) {
 
+        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation,
+            $table['transfers_balance_budgets_id'] => $id['transfers_balance_budgets_id'],
+            $table['transfers_code'] => $id['transfers_code']);
+
+        $balance = new Balance;
+        /* Validamos los datos para guardar tabla menu */
+        if ($balance->isValid($ValidationData)):
+            $balance->fill($ValidationData);
+            $balance->save();
+            
+            if ($status == true): 
+                self::Desactivar('balance_budgets_id',$id);
+            else:
+                self::active('balance_budgets_id',$id);
+            endif;
+        endif;
+    }
     public static function editBalance($amount, $type, $simulation, $id, $status) {
 
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation);

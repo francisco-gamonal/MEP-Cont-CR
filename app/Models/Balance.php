@@ -11,7 +11,7 @@ class Balance extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['type', 'amount', 'simulation', 'balance_budgets_id', 'checks_id', 'transfers_id'];
+    protected $fillable = ['type', 'amount', 'simulation', 'balance_budgets_id', 'checks_id', 'transfers_code','transfers_balance_budgets_id'];
 
     public function checks() {
 
