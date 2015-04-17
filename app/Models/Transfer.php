@@ -5,7 +5,7 @@ namespace Mep\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\DB;
 class Transfer extends Model {
 
     use SoftDeletes;
@@ -30,8 +30,8 @@ class Transfer extends Model {
     }
     /* obtencion del id del ultimo usuario agregado */
 
-    public function LastId() {
-        return Transfer::all()->last();
+    public function lastCode() {
+        return DB::table('transfers')->max('code');
     }
 
     /* Busqueda de usuario por medio del token */

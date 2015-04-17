@@ -80,7 +80,7 @@ class TransfersController extends Controller {
         $transfers = $this->convertionObjeto();
         /* obtenemos dos datos del supplier mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
-        $transfers->codeTransfer='v';
+        $transfers->codeTransfer = 'v';
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($transfers, 'Transfer');
         $ValidationData['spreadsheets_id'] = $spreadsheet->id;
@@ -91,8 +91,8 @@ class TransfersController extends Controller {
         endif;
         $transfer = new Transfer;
         $ValidationData['code'] =1;
-        if(is_object($transfer->LastId())):
-            $ValidationData['code'] = $transfer->LastId()->code + 1;
+        if(($transfer->lastCode())):
+            $ValidationData['code'] = $transfer->lastCode() + 1;
         endif;
         
         /* Validamos los datos para guardar tabla menu */
@@ -113,7 +113,7 @@ class TransfersController extends Controller {
                 /* Actualizacion de la table balance */
                 BalanceController::saveBalanceTransfers($ValidationData['amount'],
                         'salida', 'false', ['transfers_code'=>'transfers_code','transfers_balance_budgets_id'=>'transfers_balance_budgets_id'],
-                        ['transfers_code'=>$transfers->codeTransfer,'transfers_balance_budgets_id'=>$ValidationData['balance_budgets_id']],'false');
+                        ['transfers_code'=>$ValidationData['code'],'transfers_balance_budgets_id'=>$ValidationData['balance_budgets_id']],'false');
                 $amount += $ValidationData['amount'];
             endfor;
             $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);

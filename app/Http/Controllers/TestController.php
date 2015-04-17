@@ -36,9 +36,9 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
-       $transfers = Transfer::withTrashed()->where('type','=','entrada')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($transfers[0]->balance_budgets_id);
-       echo json_encode($balanceBudgets); die;
+       $transfers = Transfer::max('code');
+        
+       echo json_encode($transfers); die;
     }
 
     /**
