@@ -52,7 +52,22 @@ class TransfersController extends Controller {
         endforeach;
         return $balanceBudget;
     }
+    /**
+     * Display the specified resource.
+     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
+     * via ajax o directo a la vista
+     * @param  int  $budgetsId
+     * @return string
+     */
+    private function ArregloViewCuenta($campo, $budgetsId) {
 
+        $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
+        foreach ($balancebudgets AS $balanceBudgets):
+            $balanceBudget[] = array('id' => $balanceBudgets->id, 'token' => $balanceBudgets->token,
+                'code' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp,  'name'=>$balanceBudgets->catalogs->name );
+        endforeach;
+        return $balanceBudget;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -121,14 +136,12 @@ class TransfersController extends Controller {
 
     /**
      * Display the specified resource.
-     *
      * @param  int  $id
      * @return Response
      */
     public function view($token) {
 
         $transfers = Transfer::where('token', '=', $token)->get();
-
         foreach ($transfers AS $transfer):
             $balanceBudget[] = $this->arregloSelectCuenta('id', $transfer['balance_budgets_id']);
             $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
@@ -165,8 +178,37 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
-        //
+   public function destroy($token) {
+        /* les damos eliminacion pasavida */
+        $data = Transfer::Token($token);
+        BalanceController::desactivar('transfers_id', $data->id);
+        if ($data):
+
+            $data->delete();
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se desactivo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
+    }
+
+    /**
+     * Restore the specified typeuser from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function active($token) {
+        /* les quitamos la eliminacion pasavida */
+        $data = Transfer::Token($token);
+        BalanceController::active('transfers_id', $data->id);
+        if ($data):
+            $data->restore();
+            /* si todo sale bien enviamos el mensaje de exito */
+            return $this->exito('Se Activo con exito!!!');
+        endif;
+        /* si hay algun error  los enviamos de regreso */
+        return $this->errores($data->errors);
     }
 
 }

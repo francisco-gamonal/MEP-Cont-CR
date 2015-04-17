@@ -29,7 +29,7 @@ class Balance extends Model {
     }
 
     public function balanceLast($type, $amount) {
-        if ($this->type == 'entrada') {
+        if ($this->type == $type) {
             return $this->amount + $amount;
         }
         return $this->$amount - $amount;
