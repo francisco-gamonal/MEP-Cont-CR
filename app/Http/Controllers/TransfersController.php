@@ -96,12 +96,13 @@ class TransfersController extends Controller {
         endif;
         $outTransfer = new Transfer;
        /* Validamos los datos para guardar tabla menu */
-        
+            $errors_transaction = array();
             try {
-                DB::transaction(function() use ($ValidationData,$transfers,$transfer,$outTransfer) {
+                DB::transaction(function() use ($ValidationData,$transfers,$transfer,$outTransfer, $errors_transaction) {
                     /* Traemos el id del ultimo registro guardado */
                     $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
                     $amount = 0;
+                    
                     for ($i = 0; $i < count($outBalanceBudget); $i++):
                         /* Comprobamos cuales estan habialitadas y esas las guardamos */
                         $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
@@ -115,11 +116,13 @@ class TransfersController extends Controller {
                         $outTransfer->save();
                         /* Actualizacion de la table balance */
                         $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
-                           
-                         endif;
+                        else:
+                            $errors_transaction[] = $outTransfer->errors;
+
+                        endif;
                         $amount += $ValidationData['amount'];
                     endfor;
-                     
+                   
                     $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
                     $ValidationData['balance_budgets_id'] = $balanceBudget->id;
                     $ValidationData['amount'] = $amount;
@@ -130,18 +133,18 @@ class TransfersController extends Controller {
                     $transfer->save();
                     $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
                     /* Enviamos el mensaje de guardado correctamente */
-                       
+                    else:
+                        $errors_transaction[] = $transfer->errors;
                     endif;
-                     
                 });
-                 return $this->exito('Los datos se guardaron con exito!!!');
-             
+                echo json_encode($errors_transaction);die;
+                if($errors_transaction){
+                    echo json_encode($errors_transaction);
+                }
+                return $this->exito('Los datos se guardaron con exito!!!');
             } catch (Exception $e) {
                 Log::error($e);
-               
             }
-          return $this->errores($outTransfer->errors);
-              return $this->errores($transfer->errors);
         /* Enviamos el mensaje de error */
        
     }

@@ -1,10 +1,14 @@
-var server = "";
-var pathname = document.location.pathname;
-var pathnameArray= pathname.split("/public/");
+var server        = "";
+var pathname      = document.location.pathname;
+var pathnameArray = pathname.split("/public/");
 
 server =  pathnameArray.length > 0 ? pathnameArray[0]+"/public/" : "";
 
-//Functions
+/**
+ * @param  {[string]} selector [id table]
+ * @param  {[string]} list [comment the table]
+ * @return {[dataTable]}   [table with options dataTable]
+ */
 var dataTable = function(selector, list){
 	var options = {
 		"order": [
@@ -28,6 +32,11 @@ var dataTable = function(selector, list){
 	$(selector).DataTable(options);
 };
 
+/**
+ * [messageAjax - Response message after request ]
+ * @param  {[json]} data [description messages error after request]
+ * @return {[alert]}     [errors in alert]
+ */
 var messageAjax = function(data) {
 	$.unblockUI();
 	if(data.success){
@@ -47,21 +56,31 @@ var messageAjax = function(data) {
 	}
 };
 
-//Functions Menu
+/**
+ * [addActive - Add class for submenu active]
+ * @param {[string]} element [submenu]
+ */
 var addActive = function (element) {
 	element.find('.icon-menu').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
 	element.addClass('active');
 	element.find('.nav').show('slide');
 };
 
+/**
+ * [removeActive - Remove class for submenu active]
+ * @param {[string]} element [submenu]
+ */
 var removeActive = function (element) {
 	$('.active').find('.icon-menu').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
 	$('.active').find('.nav').hide('slide');
 	$('.active').removeClass('active');
 };
-//End functions Menu
 
-//Function Overlay
+/**
+ * [loadingUI - Message before ajax for request]
+ * @param  {[string]} message [message for before ajax]
+ * @return {[message]}        [blockUI response with message]
+ */
 var loadingUI = function (message){
     $.blockUI({ css: {
         border: 'none',
@@ -74,6 +93,12 @@ var loadingUI = function (message){
     }, message: '<h2><img style="margin-right: 30px" src="' + server + 'img/spiffygif.gif" >' + message + '</h2>'});
 };
 
+/**
+ * [responseUI description]
+ * @param  {[string]} message [message for after Ajax request]
+ * @param  {[string]} color   [class for response message]
+ * @return {[blockUI]}        [BlockUI]
+ */
 var responseUI = function (message,color){
     $.unblockUI();
     $.blockUI({ css: {
@@ -89,9 +114,15 @@ var responseUI = function (message,color){
         $.unblockUI();
     },750);
 };
-//End functions overlay
 
-//Function Ajax
+
+/**
+ * [ajaxForm - setup ajax for request]
+ * @param  {[string]} url  [description]
+ * @param  {[string]} type [description]
+ * @param  {[json]} data [description]
+ * @return {[type]}      [description]
+ */
 var ajaxForm = function (url, type, data){
 	var message;
 	var path = server + url;

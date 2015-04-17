@@ -61,7 +61,7 @@ class Transfer extends Model {
             'spreadsheets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
-       //echo json_encode($validator); die;
+        
         if ($validator->fails()) {
           $this->errors = $validator->errors();
         return false;
