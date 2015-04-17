@@ -38,6 +38,7 @@ var dataTable = function(selector, list){
  * @return {[alert]}     [errors in alert]
  */
 var messageAjax = function(data) {
+	console.log(data.errors);
 	$.unblockUI();
 	if(data.success){
 		bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
