@@ -61,12 +61,13 @@ class Transfer extends Model {
             'spreadsheets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
+       //echo json_encode($validator); die;
         if ($validator->fails()) {
-
-            return true;
-        }
-        $this->errors = $validator->errors();
+          $this->errors = $validator->errors();
         return false;
+        }
+        
+          return true;
     }
 
     public function setDateAttribute($date) {
