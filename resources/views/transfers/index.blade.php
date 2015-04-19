@@ -57,20 +57,20 @@
                         <tbody>
                         	@foreach($transfers as $transfer)
 	                            <tr>
-	                                <td class="text-center codeTransfer" data-token="{{$transfer->token}}">{{$transfer->code}}</td>
-                                	<td>Cuenta</td>
-	                                <td class="text-center">{{$transfer->date}}</td>
-	                                <td class="text-center">{{$transfer->amount}}</td>
+	                                <td class="text-center codeTransfer" data-token="{{$transfer['token']}}">{{$transfer['code']}}</td>
+                                	<td>{{$transfer['value']}}</td>
+	                                <td class="text-center">{{$transfer['date']}}</td>
+	                                <td class="text-center">{{$transfer['amount']}}</td>
 	                                <td class="text-center">
-	                                	@if($transfer->deleted_at)
+	                                	@if($transfer['deleted_at'])
 											<span>Inactivo</span>
 	                                	@else
 											<span>Activo</span>
 	                                	@endif
 	                                </td>
 	                                <td class="text-center edit-row">
-	                                	<a href="{{route('view-transferencia', $transfer->token)}}"><i class="fa fa-eye"></i></a>
-										<a href="{{route('edit-transferencia', $transfer->token)}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
+	                                	<a href="{{route('view-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>
+										<a href="{{route('edit-transferencia', $transfer['token'])}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach
