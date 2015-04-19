@@ -10,6 +10,7 @@ use Mep\Models\BalanceBudget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Log;
 class TransfersController extends Controller {
 
     /**
@@ -112,29 +113,29 @@ class TransfersController extends Controller {
 
                 $outTransfer = new Transfer;
                 if ($outTransfer->isValid($ValidationData)):
-                $outTransfer->fill($ValidationData);
-                $outTransfer->save();
-                /* Actualizacion de la table balance */
-                $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
+                    $outTransfer->fill($ValidationData);
+                    $outTransfer->save();
+                    /* Actualizacion de la table balance */
+                    $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
                 else:
-                    $errors_transaction[] = $outTransfer->errors;
+                   $errors_transaction[] = $outTransfer->errors;
                 endif;
                 $amount += $ValidationData['amount'];
             endfor;
-           
+
             $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
             $ValidationData['balance_budgets_id'] = $balanceBudget->id;
             $ValidationData['amount'] = $amount;
             $ValidationData['type'] = 'entrada';
             $transfer = new Transfer;
             if ($transfer->isValid($ValidationData)):
-            $transfer->fill($ValidationData);
-            $transfer->save();
-            $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
+                $transfer->fill($ValidationData);
+                $transfer->save();
+                $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
             else:
                 $errors_transaction[] = $transfer->errors;
             endif;
-            if($errors_transaction){
+            if ($errors_transaction) {
                 DB::rollback();
                 return $this->errores($errors_transaction);
             }
@@ -145,6 +146,18 @@ class TransfersController extends Controller {
             DB::rollback();
             return $this->errores(array('key' => 'Error de DB'));
         }
+    }
+
+    private function errorsArray($errorsObject) {
+       
+        echo ($errorsObject);die;
+        foreach ($errorsObject AS $value) :
+            echo json_encode($value->date); die;
+        endforeach;
+            
+            $errores[$key] = $value;
+       
+     
     }
 
     private function balanceSaveData($amount, $type, $code, $balanceBudget) {

@@ -70,8 +70,8 @@ class Transfer extends Model {
           return true;
     }
 
-    public function setDateAttribute($date) {
-        return date('Y-m-d', strtotime($date));
+    public function getDateAttribute($date) {
+        return date('d-m-Y', strtotime($date));
     }
 
 }
