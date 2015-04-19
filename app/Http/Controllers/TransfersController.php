@@ -20,10 +20,10 @@ class TransfersController extends Controller {
      */
     public function index() {
        
-        $balanceBudgets = $this->arregloSelectCuenta('type', 'entrada');
-      
-   $transfers = Transfer::where('type', '=', 'entrada')->get();
-        return view('transfers.index', compact('transfers', 'balanceBudgets'));
+        $transfers = $this->arregloSelectCuenta('type', 'entrada');
+        
+        
+        return view('transfers.index', compact('transfers'));
     }
 
     /**
@@ -50,11 +50,9 @@ class TransfersController extends Controller {
         
         for($i=0;$i<count($transfers);$i++):
             $balanceBudgets = BalanceBudget::find($transfers[$i]->balance_budgets_id);
-           
-            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
+            $balanceBudget[] = array('token' => $transfers[$i]->token,'amount'=>$transfers[$i]->amount,'code'=>$transfers[$i]->code,'date'=>$transfers[$i]->date,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
             endfor;
-           
         $balanceBudgets= $balanceBudget;
         return $balanceBudgets;
     }

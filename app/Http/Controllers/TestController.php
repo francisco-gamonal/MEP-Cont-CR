@@ -38,25 +38,30 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
-        $a = array();
-        $ac = 1;
-        try {
-            DB::beginTransaction();
-            Transfer::all();
-            $a[0] = 1 + $ac;
-            DB::commit();
-            /*DB::transaction(function() use ($ac){
-                Transfer::all();
-                $a[0] = 1 + $ac;
-            });*/
-        } catch (Exception $e) {
-            $e;
-            DB::rollback();
-        }
-        echo json_encode($a);die;
-       $transfers = Transfer::max('code');
         
-       echo json_encode($transfers); die;
+    $test = BalanceBudget::find(8);
+        
+        echo json_encode($test->balances->amount);
+//        
+//        $a = array();
+//        $ac = 1;
+//        try {
+//            DB::beginTransaction();
+//            Transfer::all();
+//            $a[0] = 1 + $ac;
+//            DB::commit();
+//            /*DB::transaction(function() use ($ac){
+//                Transfer::all();
+//                $a[0] = 1 + $ac;
+//            });*/
+//        } catch (Exception $e) {
+//            $e;
+//            DB::rollback();
+//        }
+//        echo json_encode($a);die;
+//       $transfers = Transfer::max('code');
+//        
+//       echo json_encode($transfers); die;
     }
 
     /**
