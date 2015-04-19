@@ -59,8 +59,8 @@
 	                            <tr>
 	                                <td class="text-center codeTransfer" data-token="{{$transfer->token}}">{{$transfer->code}}</td>
                                     @foreach($balanceBudgets as $balanceBudget) 
-										@if($balanceBudget[0]['idBalanceBudgets'] == $transfer->balance_budgets_id)
-											<td class="text-center">{{$balanceBudget[0]['value']}}</td>
+										@if($balanceBudget['idBalanceBudgets'] == $transfer->balance_budgets_id)
+                                                                                <td class="text-center">{{$balanceBudget['value']}}</td>
 										@endif
 	                                @endforeach
 	                                <td class="text-center">{{$transfer->date}}</td>
