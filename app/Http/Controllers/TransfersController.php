@@ -20,10 +20,10 @@ class TransfersController extends Controller {
      */
     public function index() {
        
-        $balanceBudgets = $this->arregloSelectCuenta('type', 'entrada');
+        $transfers = $this->arregloSelectCuenta('type', 'entrada');
         
-        $transfers = Transfer::where('type', '=', 'entrada')->get();
-        return view('transfers.index', compact('transfers', 'balanceBudgets'));
+        
+        return view('transfers.index', compact('transfers'));
     }
 
     /**
