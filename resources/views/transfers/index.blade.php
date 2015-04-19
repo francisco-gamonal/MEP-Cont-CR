@@ -59,8 +59,8 @@
 	                            <tr>
 	                                <td class="text-center codeTransfer" data-token="{{$transfer->token}}">{{$transfer->code}}</td>
                                 	<td>Cuenta</td>
-	                                <td>{{$transfer->date}}</td>
-	                                <td>{{$transfer->amount}}</td>
+	                                <td class="text-center">{{$transfer->date}}</td>
+	                                <td class="text-center">{{$transfer->amount}}</td>
 	                                <td class="text-center">
 	                                	@if($transfer->deleted_at)
 											<span>Inactivo</span>
