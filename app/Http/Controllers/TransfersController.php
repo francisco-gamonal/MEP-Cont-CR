@@ -89,6 +89,8 @@ class TransfersController extends Controller {
             $balanceBudget[] = array('id' => $transfer->balanceBudgets->id,
                 'type'=>$transfer->type,
                 'amount'=>$transfer->amount,
+                'simulation'=>$transfer->simulation,
+                'date' => $transfer->date,
                 'token' => $transfer->balanceBudgets->token, 
                 'balance' => $transfer->balanceBudgets->amount,
                 'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp, 
@@ -96,7 +98,6 @@ class TransfersController extends Controller {
 
             //  $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
-
 
 
 

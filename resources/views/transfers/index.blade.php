@@ -58,7 +58,7 @@
                         	@foreach($transfers as $transfer)
 	                            <tr>
 	                                <td class="text-center codeTransfer" data-token="{{$transfer['token']}}">{{$transfer['code']}}</td>
-                                	<td>{{$transfer['value']}}</td>
+                                	<td class="text-center">{{$transfer['value']}}</td>
 	                                <td class="text-center">{{$transfer['date']}}</td>
 	                                <td class="text-center">{{$transfer['amount']}}</td>
 	                                <td class="text-center">

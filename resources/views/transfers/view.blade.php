@@ -42,7 +42,7 @@
 				<label for="codeTransfer">Número de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfers[0]->code}}" disabled>
+			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfers[0]['code']}}" disabled>
 				</div>
 			</div>
 		</div>
@@ -51,11 +51,11 @@
 				<label for="dateTransfer">Fecha de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="dateTransfer" class="form-control" type="date" value="{{$transfers[0]->date}}" disabled>
+			      	<input id="dateTransfer" class="form-control" type="date" value="{{$transfers[0]['date']}}" disabled>
 				</div>
 			</div>
 		</div>
-		@if($transfers[0]->simulation != "false")
+		@if($transfers[0]['simulation'] != "false")
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="simulationTransfer">Simulación de Transferencia</label>
@@ -84,20 +84,16 @@
                     <tbody>
                     	@foreach($transfers as $transfer)
 							<tr>
-								@foreach($balanceBudgets as $balanceBudget)
-									@if($balanceBudget[0]['id'] == $transfer->balance_budgets_id)
-										<th class="text-center">{{$balanceBudget[0]['code']}}</th>
-										<th class="text-center">{{$balanceBudget[0]['name']}}</th>
-									@endif
-								@endforeach
-								<th class="text-center">{{$balanceBudget[0]['balance']}}</th>
-								@if($transfer->type == 'entrada')
-									<th class="text-center">{{$transfer->amount}}</th>
+								<th class="text-center">{{$transfer['code']}}</th>
+								<th class="text-center">{{$transfer['name']}}</th>
+								<th class="text-center">{{$transfer['balance']}}</th>
+								@if($transfer['type'] == 'entrada')
+									<th class="text-center">{{$transfer['amount']}}</th>
 								@else
 									<th class="text-center">-</th>
 								@endif
-								@if($transfer->type == 'salida')
-									<th class="text-center">{{$transfer->amount}}</th>
+								@if($transfer['type'] == 'salida')
+									<th class="text-center">{{$transfer['amount']}}</th>
 								@else
 									<th class="text-center">-</th>
 								@endif
@@ -111,7 +107,7 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-transferencias')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a class="btn btn-success" href="{{route('edit-transferencia', $transfers[0]->token)}}">Editar Transferencia</a>
+		<a class="btn btn-success" href="{{route('edit-transferencia', $transfers[0]['token'])}}">Editar Transferencia</a>
 	</div>
 </div>
 @stop
