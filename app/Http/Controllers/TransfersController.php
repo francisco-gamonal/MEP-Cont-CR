@@ -210,8 +210,11 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id) {
-        //
+    public function edit($token) {
+        $transfer = Transfer::Token($token)->get();
+         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
+        $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
+        return view('transfers.edit', compact('transfer','spreadsheets', 'balanceBudgets'));
     }
 
     /**
