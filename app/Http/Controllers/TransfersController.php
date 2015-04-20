@@ -36,7 +36,8 @@ class TransfersController extends Controller {
         $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
- /**
+
+    /**
      * Display the specified resource.
      * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
      * via ajax o directo a la vista
@@ -46,11 +47,12 @@ class TransfersController extends Controller {
     private function ArregloSelectCuenta($campo, $budgetsId) {
         $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
+            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
         endforeach;
         return $balanceBudget;
     }
+
     /**
      * Display the specified resource.
      * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
@@ -102,9 +104,9 @@ class TransfersController extends Controller {
             $balanceLast = ($transfer->balanceBudgets->amount + $codeInTransfer) - ($checks + $codeOutTransfer);
 
             if ($transfer->type == 'entrada'):
-                $balanceNew =  $balanceLast+$transfer->amount;
+                $balanceNew = $balanceLast + $transfer->amount;
             else:
-                $balanceNew =  $balanceLast-$transfer->amount;
+                $balanceNew = $balanceLast - $transfer->amount;
             endif;
             $balanceBudget[] = array('id' => $transfer->balanceBudgets->id,
                 'type' => $transfer->type,
@@ -222,37 +224,38 @@ class TransfersController extends Controller {
      */
     public function edit($token) {
         $DataTransfers = Transfer::where('token', '=', $token)->get();
-        $amount =0;
+        $amount = 0;
         foreach ($DataTransfers AS $transfers):
-           
-            if($transfers->type=='entrada'):
-                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id,$transfers->amount);
+
+            if ($transfers->type == 'entrada'):
+                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount);
             else:
-                $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id,$transfers->amount);
-              endif;
-              $amount += $transfers->amount;
+                $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount);
+            endif;
+            $amount += $transfers->amount;
         endforeach;
-        $transfer = array('date'=>$transfers->date,'amount'=>$amount,
-                'simulation'=>$transfers->simulation,
-                'deleted_at'=>$transfers->deleted_at,
-                'balancebudgetIn'=>$balanceBudgetIn,
-                'balancebudgetOut'=>$balanceBudgetOut,
-                'spreadsheets'=>$transfers->spreadsheets->number.'-'.$transfers->spreadsheets   ->year,
-                'tokenSpreadsheets'=>$transfers->spreadsheets->token);
-        echo json_encode($transfer); die;
-         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
+        $transfer = array('date' => $transfers->date, 'amount' => $amount,
+            'simulation' => $transfers->simulation,
+            'deleted_at' => $transfers->deleted_at,
+            'balancebudgetIn' => $balanceBudgetIn,
+            'balancebudgetOut' => $balanceBudgetOut,
+            'spreadsheets' => $transfers->spreadsheets->number . '-' . $transfers->spreadsheets->year,
+            'tokenSpreadsheets' => $transfers->spreadsheets->token);
+
+        $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
-        return view('transfers.edit', compact('transfer','spreadsheets', 'balanceBudgets'));
+        return view('transfers.edit', compact('transfer', 'spreadsheets', 'balanceBudgets'));
     }
 
-    private function dataBalanceBudget($id,$amount){
+    private function dataBalanceBudget($id, $amount) {
         $balanceBudget = BalanceBudget::find($id);
-             
-         $data=  array('token' => $balanceBudget->token, 'amount' =>$amount, 
-                'name' => $balanceBudget->catalogs->p . '-' . $balanceBudget->catalogs->g . '-' . $balanceBudget->catalogs->sp . ' || ' . $balanceBudget->catalogs->name . ' || ' . $balanceBudget->typeBudgets->name);
-       
+
+        $data = array('token' => $balanceBudget->token, 'amount' => $amount,
+            'name' => $balanceBudget->catalogs->p . '-' . $balanceBudget->catalogs->g . '-' . $balanceBudget->catalogs->sp . ' || ' . $balanceBudget->catalogs->name . ' || ' . $balanceBudget->typeBudgets->name);
+
         return $data;
     }
+
     /**
      * Update the specified resource in storage.
      *
