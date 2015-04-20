@@ -40,7 +40,8 @@ class TestController extends Controller {
     public function index() {
         
     $test = Check::find(1);
-        
+         
+    
         echo json_encode($test->BalanceTotal(8,'2015-04-30','<='));
 //        
 //        $a = array();
