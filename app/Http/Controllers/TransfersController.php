@@ -22,9 +22,7 @@ class TransfersController extends Controller {
      */
     public function index() {
 
-        $transfers = $this->arregloSelectCuenta('type', 'entrada');
-
-
+        $transfers = $this->ArregloIndexCuenta('type', 'entrada');
         return view('transfers.index', compact('transfers'));
     }
 
@@ -38,8 +36,7 @@ class TransfersController extends Controller {
         $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
-
-    /**
+ /**
      * Display the specified resource.
      * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
      * via ajax o directo a la vista
@@ -47,6 +44,21 @@ class TransfersController extends Controller {
      * @return string
      */
     private function ArregloSelectCuenta($campo, $budgetsId) {
+        $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
+        foreach ($balancebudgets AS $balanceBudgets):
+            $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
+                'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
+        endforeach;
+        return $balanceBudget;
+    }
+    /**
+     * Display the specified resource.
+     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
+     * via ajax o directo a la vista
+     * @param  int  $budgetsId
+     * @return string
+     */
+    private function ArregloIndexCuenta($campo, $budgetsId) {
 
         $transfers = Transfer::where($campo, '=', $budgetsId)->get();
         for ($i = 0; $i < count($transfers); $i++):
@@ -105,9 +117,7 @@ class TransfersController extends Controller {
                 'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp,
                 'name' => $transfer->balanceBudgets->catalogs->name);
 
-            //  $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
-
 
         return $balanceBudget;
     }
@@ -211,12 +221,37 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function edit($token) {
-        $transfer = Transfer::Token($token)->get();
+        $DataTransfers = Transfer::where('token', '=', $token)->get();
+        foreach ($DataTransfers AS $transfers):
+           
+            if($transfers->type=='entrada'):
+                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id);
+            else:
+                $balanceBudgetOut = $this->dataBalanceBudget($transfers->balance_budgets_id);
+              endif;
+            
+        endforeach;
+        $transfer = array('date'=>$transfers->date,'amount'=>$transfers->amount,
+                'simulation'=>$transfers->simulation,
+                'deleted_at'=>$transfers->deleted_at,
+                'balancebudgetIn'=>$balanceBudgetIn,
+                'balancebudgetOut'=>$balanceBudgetOut,
+                'spreadsheets'=>$transfers->spreadsheets->number.'-'.$transfers->spreadsheets->year,
+                'tokenSpreadsheets'=>$transfers->spreadsheets->token);
+        echo json_encode($transfer); die;
          $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
         return view('transfers.edit', compact('transfer','spreadsheets', 'balanceBudgets'));
     }
 
+    private function dataBalanceBudget($id){
+        $balanceBudget = BalanceBudget::find($id);
+             
+         $data=  array('token' => $balanceBudget->token, 
+                'name' => $balanceBudget->catalogs->p . '-' . $balanceBudget->catalogs->g . '-' . $balanceBudget->catalogs->sp . ' || ' . $balanceBudget->catalogs->name . ' || ' . $balanceBudget->typeBudgets->name);
+       
+        return $data;
+    }
     /**
      * Update the specified resource in storage.
      *
