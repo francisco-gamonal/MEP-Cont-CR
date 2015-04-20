@@ -83,36 +83,32 @@ class TransfersController extends Controller {
         $transfers = Transfer::where('token', '=', $token)->get();
 
         foreach ($transfers AS $transfer):
-            //   echo json_encode($transfer->balanceBudgets->catalogs->p); 
-            //  $balancebudgets = BalanceBudget::where('id', '=', $transfer->balance_budgets_id)->get();
+            $checks = Check::where('spreadsheets_id', '<', $transfer->spreadsheets_id)->sum('amount');
+            $codeInTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budgets_id', $transfer->balance_budgets_id)->where('type', 'entrada')->sum('amount');
+            $codeOutTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budgets_id', $transfer->balance_budgets_id)->where('type', 'salida')->sum('amount');
 
+            $balanceLast = ($transfer->balanceBudgets->amount + $codeInTransfer) - ($checks + $codeOutTransfer);
+
+            if ($transfer->type == 'entrada'):
+                $balanceNew =  $balanceLast+$transfer->amount;
+            else:
+                $balanceNew =  $balanceLast-$transfer->amount;
+            endif;
             $balanceBudget[] = array('id' => $transfer->balanceBudgets->id,
-                'type'=>$transfer->type,
-                'amount'=>$transfer->amount,
-                'simulation'=>$transfer->simulation,
+                'type' => $transfer->type,
+                'amount' => $transfer->amount,
+                'simulation' => $transfer->simulation,
                 'date' => $transfer->date,
-                'token' => $transfer->balanceBudgets->token, 
-                'balance' => $transfer->balanceBudgets->amount,
-                'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp, 
+                'token' => $transfer->balanceBudgets->token,
+                'balanceLast' => $balanceLast,
+                'balanceNew' => $balanceNew,
+                'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp,
                 'name' => $transfer->balanceBudgets->catalogs->name);
 
             //  $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
 
 
-
-//        
-//       
-//        
-//        foreach ($balancebudgets AS $balanceBudgets):
-//           $checks = Check::where('balance_budgets_id','=',$balanceBudgets->id)->get();
-//            $balanceCheck=0;
-//           foreach ($checks AS $check):
-//               $balanceCheck += $check->amount;
-//           endforeach;
-//         ///  echo $balanceBudgets->amount.'-'.$balanceBudgets->id ; die;
-//            $balance = $balanceBudgets->amount ;
-//        endforeach;
         return $balanceBudget;
     }
 

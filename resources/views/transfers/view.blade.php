@@ -51,7 +51,7 @@
 				<label for="dateTransfer">Fecha de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="dateTransfer" class="form-control" type="date" value="{{$transfers[0]['date']}}" disabled>
+			      	<input id="dateTransfer" class="form-control" type="text" value="{{$transfers[0]['date']}}" disabled>
 				</div>
 			</div>
 		</div>
@@ -86,7 +86,7 @@
 							<tr>
 								<th class="text-center">{{$transfer['code']}}</th>
 								<th class="text-center">{{$transfer['name']}}</th>
-								<th class="text-center">{{$transfer['balance']}}</th>
+								<th class="text-center">{{$transfer['balanceLast']}}</th>
 								@if($transfer['type'] == 'entrada')
 									<th class="text-center">{{$transfer['amount']}}</th>
 								@else
@@ -97,7 +97,7 @@
 								@else
 									<th class="text-center">-</th>
 								@endif
-								<th class="text-center">s</th>
+								<th class="text-center">{{$transfer['balanceNew']}}</th>
 							</tr>
                     	@endforeach
                     </tbody>
