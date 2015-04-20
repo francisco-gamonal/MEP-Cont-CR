@@ -39,10 +39,10 @@
 	<section class="row">
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="codeTransfer" data-token="{{$transfer['token']}}">Número de Transferencia</label>
+				<label for="codeTransfer">Número de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfer['code']}}" disabled>
+			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfer['code']}}" data-token="{{$transfer['token']}}" disabled>
 				</div>
 			</div>
 		</div>
