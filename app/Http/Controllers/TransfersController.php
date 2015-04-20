@@ -328,6 +328,7 @@ class TransfersController extends Controller {
             Log::error($e);
             DB::rollback();
             return $this->errores(array('key' => 'Error de DB'));
+        }
     }
 
     /**

@@ -1292,7 +1292,7 @@ $(function(){
 	/**
 	 * Transfer
 	 */
-	
+	// Save Transfer
 	$(document).off('click', '#saveTransfer');
 	$(document).on('click', '#saveTransfer', function(e){
 		e.preventDefault();
@@ -1320,7 +1320,7 @@ $(function(){
 		});
 	});
 
-	//Active Check
+	//Active Transfer
 	$(document).off('click', '#activeTransfer');
 	$(document).on('click', '#activeTransfer', function(e){
 		e.preventDefault();
@@ -1335,7 +1335,7 @@ $(function(){
 		});
 	});
 
-	//Delete Check
+	//Delete Transfer
 	$(document).off('click', '#deleteTransfer');
 	$(document).on('click', '#deleteTransfer', function(e){
 		e.preventDefault();
@@ -1350,6 +1350,35 @@ $(function(){
 		});
 	});
 
+	//Update Transfer
+	$(document).off('click', '#updateTransfer');
+	$(document).on('click', '#updateTransfer', function(e){
+		e.preventDefault();
+		var url;
+		var outBalanceBudgetTransfer    = [];
+		var amountBalanceBudgetTransfer = [];
+		url = $(this).data('url');
+		url = url + '/update-' + url;
+		$(".outBalanceBudgetTransfer").each(function(index,value){
+		    outBalanceBudgetTransfer[index] = $(this).val();
+		});
+		$(".amountBalanceBudgetTransfer").each(function(index,value){
+		    amountBalanceBudgetTransfer[index] = $(this).val();
+		});
+		data.token                       = $('#codeTransfer').data('token');
+		data.dateTransfer                = $('#dateTransfer').val();
+		data.simulationTransfer          = $('#simulationTransfer').val();
+		data.spreadsheetTransfer         = $('#spreadsheetTransfer').val();
+		data.inBalanceBudgetTransfer     = $('#inBalanceBudgetTransfer').val();
+		data.outBalanceBudgetTransfer    = outBalanceBudgetTransfer;
+		data.amountBalanceBudgetTransfer = amountBalanceBudgetTransfer;
+		data.statusTransfer              = $('#statusTransfer').bootstrapSwitch('state');
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+	
 	/**
 	 * Transfer
 	 */
