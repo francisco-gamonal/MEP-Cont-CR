@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Log;
+use Mep\Models\Check;
+
 class TransfersController extends Controller {
 
     /**
@@ -19,10 +21,10 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function index() {
-       
+
         $transfers = $this->arregloSelectCuenta('type', 'entrada');
-        
-        
+
+
         return view('transfers.index', compact('transfers'));
     }
 
@@ -47,15 +49,27 @@ class TransfersController extends Controller {
     private function ArregloSelectCuenta($campo, $budgetsId) {
 
         $transfers = Transfer::where($campo, '=', $budgetsId)->get();
-        
-        for($i=0;$i<count($transfers);$i++):
+        for ($i = 0; $i < count($transfers); $i++):
             $balanceBudgets = BalanceBudget::find($transfers[$i]->balance_budgets_id);
-            $balanceBudget[] = array('token' => $transfers[$i]->token,'amount'=>$transfers[$i]->amount,'code'=>$transfers[$i]->code,'date'=>$transfers[$i]->date,'deleted_at'=>$transfers[$i]->deleted_at,
+            $balanceBudget[] = array('token' => $transfers[$i]->token, 'amount' => $transfers[$i]->amount, 'code' => $transfers[$i]->code, 'date' => $transfers[$i]->date, 'deleted_at' => $transfers[$i]->deleted_at,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
-            endfor;
-           
-        $balanceBudgets= $balanceBudget;
+        endfor;
+        $balanceBudgets = $balanceBudget;
         return $balanceBudgets;
+    }
+
+    /**
+     * Display the specified resource.
+     * @param  int  $id
+     * @return Response
+     */
+    public function view($token) {
+
+        $transfers = $this->ArregloViewCuenta($token);
+
+//        $spreadsheet = ['code' => $spreadsheets->number . '-' . $spreadsheets->year . ' ' . $spreadsheets->budgets->name];
+//        $balanceBudgets = $balanceBudget;
+        return view('transfers.view', compact('transfers', 'balanceBudgets'));
     }
 
     /**
@@ -65,13 +79,39 @@ class TransfersController extends Controller {
      * @param  int  $budgetsId
      * @return string
      */
-    private function ArregloViewCuenta($campo, $budgetsId) {
+    private function ArregloViewCuenta($token) {
+        $transfers = Transfer::where('token', '=', $token)->get();
 
-        $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
-        foreach ($balancebudgets AS $balanceBudgets):
-            $balanceBudget[] = array('id' => $balanceBudgets->id, 'token' => $balanceBudgets->token,
-                'code' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp, 'name' => $balanceBudgets->catalogs->name);
+        foreach ($transfers AS $transfer):
+            //   echo json_encode($transfer->balanceBudgets->catalogs->p); 
+            //  $balancebudgets = BalanceBudget::where('id', '=', $transfer->balance_budgets_id)->get();
+
+            $balanceBudget[] = array('id' => $transfer->balanceBudgets->id,
+                'type'=>$transfer->type,
+                'amount'=>$transfer->amount,
+                'token' => $transfer->balanceBudgets->token, 
+                'balance' => $transfer->balanceBudgets->amount,
+                'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp, 
+                'name' => $transfer->balanceBudgets->catalogs->name);
+
+            //  $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
         endforeach;
+
+
+
+
+//        
+//       
+//        
+//        foreach ($balancebudgets AS $balanceBudgets):
+//           $checks = Check::where('balance_budgets_id','=',$balanceBudgets->id)->get();
+//            $balanceCheck=0;
+//           foreach ($checks AS $check):
+//               $balanceCheck += $check->amount;
+//           endforeach;
+//         ///  echo $balanceBudgets->amount.'-'.$balanceBudgets->id ; die;
+//            $balance = $balanceBudgets->amount ;
+//        endforeach;
         return $balanceBudget;
     }
 
@@ -121,7 +161,7 @@ class TransfersController extends Controller {
                     /* Actualizacion de la table balance */
                     $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
                 else:
-                   $errors_transaction[] = $outTransfer->errors;
+                    $errors_transaction[] = $outTransfer->errors;
                 endif;
                 $amount += $ValidationData['amount'];
             endfor;
@@ -152,36 +192,19 @@ class TransfersController extends Controller {
     }
 
     private function errorsArray($errorsObject) {
-       
-        echo ($errorsObject);die;
+
+        echo ($errorsObject);
+        die;
         foreach ($errorsObject AS $value) :
-            echo json_encode($value->date); die;
+            echo json_encode($value->date);
+            die;
         endforeach;
-            
-            $errores[$key] = $value;
-       
-     
+
+        $errores[$key] = $value;
     }
 
     private function balanceSaveData($amount, $type, $code, $balanceBudget) {
         BalanceController::saveBalanceTransfers($amount, $type, 'false', ['transfers_code' => 'transfers_code', 'transfers_balance_budgets_id' => 'transfers_balance_budgets_id'], ['transfers_code' => $code, 'transfers_balance_budgets_id' => $balanceBudget], 'false');
-    }
-
-    /**
-     * Display the specified resource.
-     * @param  int  $id
-     * @return Response
-     */
-    public function view($token) {
-
-        $transfers = Transfer::where('token', '=', $token)->get();
-        foreach ($transfers AS $transfer):
-            $balanceBudget[] = $this->ArregloViewCuenta('id', $transfer['balance_budgets_id']);
-            $spreadsheets = Spreadsheet::find($transfer['spreadsheets_id']);
-        endforeach;
-        $spreadsheet = ['code' => $spreadsheets->number . '-' . $spreadsheets->year . ' ' . $spreadsheets->budgets->name];
-        $balanceBudgets = $balanceBudget;
-        return view('transfers.view', compact('transfers', 'spreadsheet', 'balanceBudgets'));
     }
 
     /**

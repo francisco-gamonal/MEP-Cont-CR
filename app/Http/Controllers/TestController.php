@@ -22,7 +22,7 @@ use Mep\Models\Transfer;
 use Illuminate\Contracts\Auth\Guard;
 use Crypt;
 use Illuminate\Support\Facades\DB;
-
+use Mep\Models\Balance;
 
 class TestController extends Controller {
 
@@ -39,9 +39,9 @@ class TestController extends Controller {
      */
     public function index() {
         
-    $test = BalanceBudget::find(8);
+    $test = Check::find(1);
         
-        echo json_encode($test->balances->amount);
+        echo json_encode($test->BalanceTotal(8,'2015-04-30','<='));
 //        
 //        $a = array();
 //        $ac = 1;

@@ -21,7 +21,7 @@ class Transfer extends Model {
 
     public function balanceBudgets() {
 
-        return $this->belongsTo('Mep\Models\BalanceBudgets');
+        return $this->belongsTo('Mep\Models\BalanceBudget');
     }
 
     public function balances() {

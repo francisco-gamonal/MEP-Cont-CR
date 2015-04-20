@@ -41,6 +41,16 @@ class Balance extends Model {
 
         endforeach;
     }
+    public function BalanceTotal($id,$date,$style){
+         $balances = Check::where('balance_budgets_id','=',$id)->where('date',$style,$id)->get();
+        $check =0;
+        foreach ($balances AS $balance):
+            $check += $balance->amount;
+        endforeach;
+        
+        return $check;
+      $checks=  $this->checks->BalanceChecks($id,$date,$style);
+    }
 
     public function isValid($data) {
         $rules = ['type' => 'required',

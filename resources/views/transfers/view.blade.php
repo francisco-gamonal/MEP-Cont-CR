@@ -90,7 +90,7 @@
 										<th class="text-center">{{$balanceBudget[0]['name']}}</th>
 									@endif
 								@endforeach
-								<th class="text-center">s</th>
+								<th class="text-center">{{$balanceBudget[0]['balance']}}</th>
 								@if($transfer->type == 'entrada')
 									<th class="text-center">{{$transfer->amount}}</th>
 								@else
