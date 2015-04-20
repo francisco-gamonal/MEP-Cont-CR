@@ -222,21 +222,22 @@ class TransfersController extends Controller {
      */
     public function edit($token) {
         $DataTransfers = Transfer::where('token', '=', $token)->get();
+        $amount =0;
         foreach ($DataTransfers AS $transfers):
            
             if($transfers->type=='entrada'):
-                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id);
+                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id,$transfers->amount);
             else:
-                $balanceBudgetOut = $this->dataBalanceBudget($transfers->balance_budgets_id);
+                $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id,$transfers->amount);
               endif;
-            
+              $amount += $transfers->amount;
         endforeach;
-        $transfer = array('date'=>$transfers->date,'amount'=>$transfers->amount,
+        $transfer = array('date'=>$transfers->date,'amount'=>$amount,
                 'simulation'=>$transfers->simulation,
                 'deleted_at'=>$transfers->deleted_at,
                 'balancebudgetIn'=>$balanceBudgetIn,
                 'balancebudgetOut'=>$balanceBudgetOut,
-                'spreadsheets'=>$transfers->spreadsheets->number.'-'.$transfers->spreadsheets->year,
+                'spreadsheets'=>$transfers->spreadsheets->number.'-'.$transfers->spreadsheets   ->year,
                 'tokenSpreadsheets'=>$transfers->spreadsheets->token);
         echo json_encode($transfer); die;
          $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
@@ -244,10 +245,10 @@ class TransfersController extends Controller {
         return view('transfers.edit', compact('transfer','spreadsheets', 'balanceBudgets'));
     }
 
-    private function dataBalanceBudget($id){
+    private function dataBalanceBudget($id,$amount){
         $balanceBudget = BalanceBudget::find($id);
              
-         $data=  array('token' => $balanceBudget->token, 
+         $data=  array('token' => $balanceBudget->token, 'amount' =>$amount, 
                 'name' => $balanceBudget->catalogs->p . '-' . $balanceBudget->catalogs->g . '-' . $balanceBudget->catalogs->sp . ' || ' . $balanceBudget->catalogs->name . ' || ' . $balanceBudget->typeBudgets->name);
        
         return $data;
