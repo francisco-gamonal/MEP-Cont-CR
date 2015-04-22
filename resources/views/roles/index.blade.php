@@ -39,7 +39,11 @@
 		<section class="row">
 			<div class="table-data">
 				<div class="table-header">
-					<h5><strong>Lista de Roles de Usuarios</strong></h5>
+					<div class="row">
+						<div class="col-sm-6">
+							<h5><strong>Lista de Roles de Usuarios</strong></h5>		
+						</div>
+					</div>
 				</div>
 				<div class="table-content">
 					<div class="table-responsive">

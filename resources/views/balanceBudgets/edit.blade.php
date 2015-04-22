@@ -41,7 +41,7 @@
 			<div class="form-mep">
 				<label for="amountBalanceBudget">Cantidad del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+					<span class="input-group-addon">#</span>
 			      	<input id="amountBalanceBudget" class="form-control" type="number" value="{{$balanceBudget->amount}}" data-token="{{$balanceBudget->token}}">
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 			<div class="form-mep">
 				<label for="policiesBalanceBudget">Políticas del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+					<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
 			      	<input id="policiesBalanceBudget" class="form-control" type="text" value="{{$balanceBudget->policies}}">
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 			<div class="form-mep">
 				<label for="strategicBalanceBudget">Estratégico del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+					<span class="input-group-addon"><i class="fa fa-file-text"></i></span>
 			      	<input id="strategicBalanceBudget" class="form-control" type="text" value="{{$balanceBudget->strategic}}">
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="form-mep">
 				<label for="operationalBalanceBudget">Operacional del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-file"></i></span>
 			      	<input id="operationalBalanceBudget" class="form-control" type="text" value="{{$balanceBudget->operational}}">
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 			<div class="form-mep">
 				<label for="goalsBalanceBudget">Metas del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-file-archive-o"></i></span>
 			      	<input id="goalsBalanceBudget" class="form-control" type="text" value="{{$balanceBudget->goals}}">
 				</div>
 			</div>

@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Catálogos</a></li>
-				<li class="active-page"><a>Crear Catálogo</a></li>
+				<li class="active-page"><a>Registrar Catálogo</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -122,7 +122,7 @@
 				<div class="form-mep">
 					<label for="nameCatalog">Nombre del Catálogo</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
 				      	<input id="nameCatalog" class="form-control" type="text">
 					</div>
 				</div>
@@ -156,6 +156,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-catalogos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveCatalog" data-url="catalogos" class="btn btn-success">Grabar Catálogo</a>
 		</div>
 	</div>

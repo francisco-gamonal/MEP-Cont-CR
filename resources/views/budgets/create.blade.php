@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Presupuestos</a></li>
-				<li class="active-page"><a>Crear Presupuesto</a></li>
+				<li class="active-page"><a>Registrar Presupuesto</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="descriptionBudget">Descripción del Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"></span></span>
 				      	<input id="descriptionBudget" class="form-control" type="text">
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 				<div class="form-mep">
 					<label for="yearBudget">Año del Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				      	<input id="yearBudget" class="form-control" type="number">
 					</div>
 				</div>
@@ -111,6 +111,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveBudget" data-url="presupuestos" class="btn btn-success">Grabar Presupuesto</a>
 		</div>
 	</div>

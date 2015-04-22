@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Grupos</a></li>
-				<li class="active-page"><a>Crear Grupo</a></li>
+				<li class="active-page"><a>Registrar Grupo</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -65,6 +65,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-grupos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveGroup" data-url="grupos" class="btn btn-success">Grabar Grupo</a>
 		</div>
 	</div>

@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Menú</a></li>
-				<li class="active-page"><a>Crear Menú</a></li>
+				<li class="active-page"><a>Registrar Menú</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -66,6 +66,7 @@
 				</div>
 			</div>
 			<div class="row text-center">
+				<a href="{{route('ver-menu')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 				<a href="#" id="saveMenu" data-url="menu" class="btn btn-success">Grabar Menú</a>
 			</div>
 		</section>

@@ -42,7 +42,7 @@
 				<label for="codeTransfer">Número de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfer['code']}}" data-token="{{$transfer['token']}}" disabled>
+			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfer['code']}}" data-token="{{$transfer['token']}}"	 disabled>
 				</div>
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 			<div class="form-mep">
 				<label for="dateTransfer">Fecha de Transferencia</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			      	<input id="dateTransfer" class="form-control" type="date" value="{{$transfer['date']}}">
 				</div>
 			</div>

@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Tipos de Presupuestos</a></li>
-				<li class="active-page"><a>Crear Tipo de Presupuesto</a></li>
+				<li class="active-page"><a>Registrar Tipo de Presupuesto</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -55,6 +55,7 @@
 				</div>
 			</div>
 			<div class="row text-center">
+				<a href="{{route('ver-tipos-de-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 				<a href="#" id="saveTypeBudget" data-url="tipos-de-presupuestos	" class="btn btn-success">Grabar Tipo de Presupuesto</a>
 			</div>
 		</section>

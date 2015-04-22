@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('presupuestos','BudgetsController@index');
 Route::get('presupuestos/ver-presupuestos',['as'=>'ver-presupuestos','uses'=>'BudgetsController@index']);
-Route::get('presupuestos/registrar-presupuesto','BudgetsController@create');
+Route::get('presupuestos/registrar-presupuesto',['as'=>'registrar-presupuesto','uses'=>'BudgetsController@create']);
 Route::post('presupuestos/save-presupuestos','BudgetsController@store');
 Route::get('presupuestos/editar-presupuesto/{token}',['as'=>'edit-presupuesto','uses'=>'BudgetsController@edit']);
 Route::delete('presupuestos/delete-presupuestos/{token}',['as'=>'delete-presupuesto','uses'=>'BudgetsController@destroy']);

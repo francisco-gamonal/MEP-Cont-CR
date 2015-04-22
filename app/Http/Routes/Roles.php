@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 /**
  *  Rutas de Privilegios
  */
-Route::get('roles','User@index');
+Route::get('roles','UsersController@indexRole');
 Route::get('roles/ver-roles',['as'=>'ver-roles','uses'=>'UsersController@indexRole']);
 Route::get('roles/editar-role/{id}',['as'=>'edit-role','uses'=>'UsersController@editRole']);
 Route::put('roles/update-roles','UsersController@updateRole');

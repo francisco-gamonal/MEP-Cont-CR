@@ -59,7 +59,7 @@
 			<div class="form-mep">
 				<label for="descriptionBudget">Descripción del Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"></span></span>
 			      	<input id="descriptionBudget" class="form-control" type="text" value="{{$budget->description}}">
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="form-mep">
 				<label for="yearBudget">Año del Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			      	<input id="yearBudget" class="form-control" type="number" value="{{$budget->year}}">
 				</div>
 			</div>

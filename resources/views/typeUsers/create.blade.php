@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Tipos de Usuarios</a></li>
-				<li class="active-page"><a>Crear Tipo de Usuario</a></li>
+				<li class="active-page"><a>Registrar Tipo de Usuario</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -55,6 +55,7 @@
 				</div>
 			</div>
 			<div class="row text-center">
+				<a href="{{route('ver-tipos-de-usuarios')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 				<a href="#" id="saveTypeUser" data-url="tipos-de-usuarios" class="btn btn-success">Grabar Tipo de Usuario</a>
 			</div>
 		</section>

@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Saldo de Presupuestos</a></li>
-				<li class="active-page"><a>Crear Saldo de Presupuesto</a></li>
+				<li class="active-page"><a>Registrar Saldo de Presupuesto</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="amountBalanceBudget">Cantidad del Saldo de Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+						<span class="input-group-addon">#</span>
 				      	<input id="amountBalanceBudget" class="form-control" type="number">
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="form-mep">
 					<label for="policiesBalanceBudget">Políticas del Saldo de Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+						<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
 				      	<input id="policiesBalanceBudget" class="form-control" type="text">
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="strategicBalanceBudget">Estratégico del Saldo de Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
+						<span class="input-group-addon"><i class="fa fa-file-text"></i></span>
 				      	<input id="strategicBalanceBudget" class="form-control" type="text">
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 				<div class="form-mep">
 					<label for="operationalBalanceBudget">Operacional del Saldo de Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-file"></i></span>
 				      	<input id="operationalBalanceBudget" class="form-control" type="text">
 					</div>
 				</div>
@@ -77,7 +77,7 @@
 				<div class="form-mep">
 					<label for="goalsBalanceBudget">Metas del Saldo de Presupuesto</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-file-archive-o"></i></span>
 				      	<input id="goalsBalanceBudget" class="form-control" type="text">
 					</div>
 				</div>
@@ -131,6 +131,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-saldo-de-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveBalanceBudget" data-url="saldo-de-presupuestos" class="btn btn-success">Grabar Saldo de Presupuesto</a>
 		</div>
 	</div>

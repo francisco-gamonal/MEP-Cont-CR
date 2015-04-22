@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="numberSpreadsheets">Número de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon">#</span>
 				      	<input id="numberSpreadsheets" class="form-control" type="number" value="{{$spreadsheet->number}}" data-token="{{$spreadsheet->token}}">
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="form-mep">
 					<label for="yearSpreadsheets">Año de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				      	<input id="yearSpreadsheets" class="form-control" type="number" value="{{$spreadsheet->year}}">
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="dateSpreadsheets">Fecha de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				      	<input id="dateSpreadsheets" class="form-control" type="date" value="{{$spreadsheet->date}}">
 					</div>
 				</div>

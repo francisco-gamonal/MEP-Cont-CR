@@ -183,6 +183,7 @@ $(function(){
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
+	$(".role-checkbox").bootstrapSwitch({size:'small'});
 
 	//Events
 	$(document).off('click', '.form-role .checkAll');

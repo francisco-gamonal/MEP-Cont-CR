@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Institución</a></li>
-				<li class="active-page"><a>Crear Institución</a></li>
+				<li class="active-page"><a>Registrar Institución</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -137,6 +137,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-institucion')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveSchool" data-url="institucion" class="btn btn-success">Grabar Institución</a>
 		</div>
 	</div>

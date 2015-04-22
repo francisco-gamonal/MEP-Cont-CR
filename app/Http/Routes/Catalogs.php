@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('catalogos','CatalogsController@index');
 Route::get('catalogos/ver-catalogos',['as'=> 'ver-catalogos', 'uses' => 'CatalogsController@index']);
-Route::get('catalogos/registrar-catalogo','CatalogsController@create');
+Route::get('catalogos/registrar-catalogo',['as'=>'registrar-catalogo', 'uses' => 'CatalogsController@create']);
 Route::post('catalogos/save-catalogos','CatalogsController@store');
 Route::get('catalogos/editar-catalogo/{token}', ['as' => 'edit-catalog', 'uses' =>'CatalogsController@edit']);
 Route::delete('catalogos/delete-catalogos/{code}',['as' => 'delete-catalogo', 'uses' => 'CatalogsController@destroy']);

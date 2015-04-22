@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Cheques</a></li>
-				<li class="active-page"><a>Crear Cheque</a></li>
+				<li class="active-page"><a>Registrar Cheque</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -41,7 +41,7 @@
 			<div class="form-mep">
 				<label for="billCheck">N° de Factura</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon">#</span>
 			      	<input id="billCheck" class="form-control" type="text">
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 			<div class="form-mep">
 				<label for="conceptCheck">Concepto de Pago</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
 			      	<input id="conceptCheck" class="form-control" type="text">
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 			<div class="form-mep">
 				<label for="amountCheck">Monto de Factura</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-usd"></i></span>
 			      	<input id="amountCheck" class="form-control" type="number">
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="form-mep">
 				<label for="retentionCheck">Monto de Retención</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-usd"></i></span>
 			      	<input id="retentionCheck" class="form-control" type="number">
 				</div>
 			</div>
@@ -104,7 +104,7 @@
 			<div class="form-mep">
 				<label for="dateCheck">Fecha del Cheque</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			      	<input id="dateCheck" class="form-control" type="date">
 				</div>
 			</div>
@@ -113,7 +113,7 @@
 			<div class="form-mep">
 				<label for="voucherCheck">Factura de Respaldo</label>
 				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<span class="input-group-addon"><i class="fa fa-files-o"></i></span>
 			      	<input id="voucherCheck" class="form-control" type="text">
 				</div>
 			</div>
@@ -158,6 +158,7 @@
 		</div>
 	</section>
 	<div class="row text-center">
+		<a href="{{route('ver-cheques')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 		<a href="#" id="saveCheck" data-url="cheques" class="btn btn-success">Grabar Cheque</a>
 	</div>
 </div>

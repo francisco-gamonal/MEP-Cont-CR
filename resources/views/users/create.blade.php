@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Usuarios</a></li>
-				<li class="active-page"><a>Crear Usuario</a></li>
+				<li class="active-page"><a>Registrar Usuario</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -113,6 +113,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-usuarios')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveUser" data-url="usuarios" class="btn btn-success">Grabar Usuario</a>
 		</div>
 	</div>

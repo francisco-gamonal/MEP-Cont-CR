@@ -39,7 +39,18 @@
 	<section class="row">
 		<div class="table-data">
 			<div class="table-header">
-				<h5><strong>Lista de Presupuestos</strong></h5>
+				<div class="row">
+					<div class="col-sm-6">
+						<h5><strong>Lista de Presupuestos</strong></h5>		
+					</div>
+					<div class="col-sm-6">
+						<a href="{{route('registrar-presupuesto')}}" class="btn btn-info pull-right">
+							<span class="glyphicon glyphicon-plus"></span>
+							<span>Nuevo</span>
+						</a>
+					</div>
+				</div>
+				
 			</div>
 			<div class="table-content">
 				<div class="table-responsive">

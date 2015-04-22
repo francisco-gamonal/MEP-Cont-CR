@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('usuarios','UsersController@index');
 Route::get('usuarios/ver-usuarios',['as'=>'ver-usuarios','uses'=>'UsersController@index']);
-Route::get('usuarios/registrar-usuario','UsersController@create');
+Route::get('usuarios/registrar-usuario',['as'=>'registrar-usuario', 'uses'=>'UsersController@create']);
 Route::post('usuarios/save-usuarios','UsersController@store');
 Route::get('usuarios/editar-usuario/{id}',['as'=>'edit-usuario','uses'=>'UsersController@edit']);
 Route::delete('usuarios/delete-usuarios/{id}',['as'=>'delete-usuario','uses'=>'UsersController@destroy']);

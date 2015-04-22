@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Planillas</a></li>
-				<li class="active-page"><a>Crear Planilla</a></li>
+				<li class="active-page"><a>Registrar Planilla</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -41,7 +41,7 @@
 				<div class="form-mep">
 					<label for="numberSpreadsheets">Número de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon">#</span>
 				      	<input id="numberSpreadsheets" class="form-control" type="number">
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="form-mep">
 					<label for="yearSpreadsheets">Año de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				      	<input id="yearSpreadsheets" class="form-control" type="number">
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 				<div class="form-mep">
 					<label for="dateSpreadsheets">Fecha de Planilla</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				      	<input id="dateSpreadsheets" class="form-control" type="date">
 					</div>
 				</div>
@@ -84,6 +84,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-planillas')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveSpreadsheets" data-url="planillas" class="btn btn-success">Grabar Planilla</a>
 		</div>
 	</div>

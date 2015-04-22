@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('proveedores','SupplierController@index');
 Route::get('proveedores/ver-proveedores',['as'=>'ver-proveedores','uses'=>'SupplierController@index']);
-Route::get('proveedores/registrar-proveedor','SupplierController@create');
+Route::get('proveedores/registrar-proveedor',['as'=>'registrar-proveedor','uses'=>'SupplierController@create']);
 Route::post('proveedores/save-proveedores','SupplierController@store');
 Route::get('proveedores/editar-proveedor/{token}',['as'=>'edit-proveedor','uses'=>'SupplierController@edit']);
 Route::delete('proveedores/delete-proveedores/{token}',['as'=>'delete-proveedor','uses'=>'SupplierController@destroy']);

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('institucion','SchoolsController@index');
 Route::get('institucion/ver-institucion',['as'=>'ver-institucion','uses'=>'SchoolsController@index']);
-Route::get('institucion/registrar-institucion','SchoolsController@create');
+Route::get('institucion/registrar-institucion',['as'=>'registrar-institucion','uses'=>'SchoolsController@create']);
 Route::post('institucion/save-institucion','SchoolsController@store');
 Route::get('institucion/editar-institucion/{id}',['as'=>'edit-school','uses'=>'SchoolsController@edit']);
 Route::delete('institucion/delete-institucion/{id}',['as'=>'delete-school','uses'=>'SchoolsController@destroy']);

@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
 				<li><a>Proveedores</a></li>
-				<li class="active-page"><a>Crear Proveedor</a></li>
+				<li class="active-page"><a>Registrar Proveedor</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -83,6 +83,7 @@
 			</div>
 		</section>
 		<div class="row text-center">
+			<a href="{{route('ver-proveedores')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
 			<a href="#" id="saveSupplier" data-url="proveedores" class="btn btn-success">Grabar Proveedor</a>
 		</div>
 	</div>
