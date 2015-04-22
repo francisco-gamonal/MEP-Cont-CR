@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-
+use DateTime;
 class Transfer extends Model {
 
     use SoftDeletes;
@@ -51,7 +51,7 @@ class Transfer extends Model {
     /* validacion de los campos del usuario */
 
     public function isValid($data) {
-
+ 
         $rules = ['amount' => 'required',
             'type' => 'required',
             'date' => 'required',
@@ -61,7 +61,7 @@ class Transfer extends Model {
             'spreadsheets_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
-        
+    
         if ($validator->fails()) {
           $this->errors = $validator->errors();
         return false;
@@ -69,9 +69,11 @@ class Transfer extends Model {
         
           return true;
     }
-
+//    public function setDateAttribute($date) {
+//        return  DateTime::createFromFormat('Y-m-d', $date); //date('Y-m-d', strtotime($date));
+//    }
     public function getDateAttribute($date) {
-        return date('d-m-Y', strtotime($date));
+        return date('d/m/Y', strtotime($date));
     }
 
 }
