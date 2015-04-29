@@ -44,6 +44,7 @@ require (__DIR__ . '/Routes/Spreadsheets.php');
 require (__DIR__ . '/Routes/Checks.php');
 
 require (__DIR__ . '/Routes/Transfers.php');
+require (__DIR__ . '/Routes/Report.php');
 // });
 
 Route::get('/', function() {
