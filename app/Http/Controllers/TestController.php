@@ -23,14 +23,19 @@ use Illuminate\Contracts\Auth\Guard;
 use Crypt;
 use Illuminate\Support\Facades\DB;
 use Mep\Models\Balance;
+use DOMPDF;
+// disable DOMPDF's internal autoloader if you are using Composer
+  define('DOMPDF_ENABLE_AUTOLOAD', false);
 
+  // include DOMPDF's default configuration
+  require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
 class TestController extends Controller {
 
    protected $auth;
     
    public function __construct(Guard $auth)
 	{
-		$this->auth = $auth;
+		//$this->auth = $auth;
 	}
     /**
      * Display a listing of the resource.
@@ -39,10 +44,10 @@ class TestController extends Controller {
      */
     public function index() {
         
-    $test = Check::find(1);
-         
-    
-        echo json_encode($test->BalanceTotal(8,'2015-04-30','<='));
+   $dompdf = new DOMPDF();
+ $dompdf->load_html('<a href="#">Hola Mundo</a>');
+ $dompdf->render();
+ $dompdf->stream("sample1.pdf");
 //        
 //        $a = array();
 //        $ac = 1;
