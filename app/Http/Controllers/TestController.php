@@ -24,6 +24,7 @@ use Crypt;
 use Illuminate\Support\Facades\DB;
 use Mep\Models\Balance;
 use DOMPDF;
+use Maatwebsite\Excel\Excel;
 // disable DOMPDF's internal autoloader if you are using Composer
   define('DOMPDF_ENABLE_AUTOLOAD', false);
 
@@ -43,6 +44,7 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
+        
         
    $dompdf = new DOMPDF();
  $dompdf->load_html('<a href="#">Hola Mundo</a>');

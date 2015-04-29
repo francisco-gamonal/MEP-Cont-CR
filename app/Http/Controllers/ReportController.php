@@ -2,7 +2,7 @@
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-
+use Mep\Models\Budget;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller {
@@ -14,8 +14,8 @@ class ReportController extends Controller {
 	 */
 	public function index()
 	{
-		//
-		return view('reports.budget.content');
+		$budget = Budget::find(1);
+		return view('reports.budget.content',  compact('budget'));
 	}
 
 	/**
