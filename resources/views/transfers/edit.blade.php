@@ -51,7 +51,7 @@
 				<label for="dateTransfer">Fecha de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-			      	<input id="dateTransfer" class="form-control" type="date" value="{{$transfer['date']}}">
+			      	<input id="dateTransfer" class="form-control" type="text" value="{{$transfer['date']}}">
 				</div>
 			</div>
 		</div>

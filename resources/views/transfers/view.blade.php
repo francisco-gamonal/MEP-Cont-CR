@@ -42,7 +42,7 @@
 				<label for="codeTransfer">Número de Transferencia</label>
 				<div class="input-group">
 					<span class="input-group-addon">#</span>
-			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfers[0]['code']}}" disabled>
+			      	<input id="codeTransfer" class="form-control" type="text" value="{{$transfers[0]['codeTransfer']}}" disabled>
 				</div>
 			</div>
 		</div>
@@ -87,12 +87,12 @@
 								<th class="text-center">{{$transfer['code']}}</th>
 								<th class="text-center">{{$transfer['name']}}</th>
 								<th class="text-center">{{$transfer['balanceLast']}}</th>
-								@if($transfer['type'] == 'entrada')
+								@if($transfer['type'] == 'salida')
 									<th class="text-center">{{$transfer['amount']}}</th>
 								@else
 									<th class="text-center">-</th>
 								@endif
-								@if($transfer['type'] == 'salida')
+								@if($transfer['type'] == 'entrada')
 									<th class="text-center">{{$transfer['amount']}}</th>
 								@else
 									<th class="text-center">-</th>
@@ -107,7 +107,7 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-transferencias')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a class="btn btn-success" href="{{route('edit-transferencia', $transfers[0]['token'])}}">Editar Transferencia</a>
+		<a class="btn btn-success" href="{{route('edit-transferencia', $transfers[0]['tokenTransfer'])}}">Editar Transferencia</a>
 	</div>
 </div>
 @stop

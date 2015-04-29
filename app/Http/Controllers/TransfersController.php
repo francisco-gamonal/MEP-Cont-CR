@@ -113,7 +113,9 @@ class TransfersController extends Controller {
                 'amount' => $transfer->amount,
                 'simulation' => $transfer->simulation,
                 'date' => $transfer->date,
+                'codeTransfer' => $transfer->code,
                 'token' => $transfer->balanceBudgets->token,
+                'tokenTransfer' => $transfer->token,
                 'balanceLast' => $balanceLast,
                 'balanceNew' => $balanceNew,
                 'code' => $transfer->balanceBudgets->catalogs->p . '-' . $transfer->balanceBudgets->catalogs->g . '-' . $transfer->balanceBudgets->catalogs->sp,
@@ -130,66 +132,31 @@ class TransfersController extends Controller {
      * @return Response
      */
     public function store() {
-        /* Capturamos los datos enviados por ajax */
+        /**/
         $transfers = $this->convertionObjeto();
-        /* obtenemos dos datos del supplier mediante token recuperamos el id */
-        $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
-        $transfers->codeTransfer = 'v';
-        /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->CreacionArray($transfers, 'Transfer');
-        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-        /* Declaramos las clases a utilizar */
-        $ValidationData['simulation'] = 'FALSE';
-        if ($transfers->simulationTransfer == 'v'):
-            $ValidationData['simulation'] = 'TRUE';
-        endif;
-        $transfer = new Transfer;
-        $ValidationData['code'] = 1;
-        if (($transfer->lastCode())):
-            $ValidationData['code'] = $transfer->lastCode() + 1;
-        endif;
-        $outTransfer = new Transfer;
-        /* Validamos los datos para guardar tabla menu */
-        $errors_transaction = array();
         try {
             DB::beginTransaction();
-            /* Traemos el id del ultimo registro guardado */
-            $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
-            $amount = 0;
-            for ($i = 0; $i < count($outBalanceBudget); $i++):
-                /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
-                $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
-                $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-                $ValidationData['type'] = 'salida';
+            /* Separamos los parametros quitandole Transfer */
+            $transfers->codeTransfer = 'v';
+            $ValidationData = $this->CreacionArray($transfers, 'Transfer');
+            /* Generamos el arreglo para cada una de las filas a guardar */
+            $transfer = $this->dataUpdateSaveTransfer($ValidationData, 'create');
+            /* Recorremos el arreglo para poder actualizar los datos */
 
-                $outTransfer = new Transfer;
-                if ($outTransfer->isValid($ValidationData)):
-                    $outTransfer->fill($ValidationData);
-                    $outTransfer->save();
-                    /* Actualizacion de la table balance */
-                    $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
-                else:
-                    $errors_transaction[] = $outTransfer->errors;
+            foreach ($transfer AS $dataTransfer):
+                /* Buscamos por el token las filas guardadas */
+                $transferQuery = new Transfer;
+                /* Comprobamos que recibimos todos los parametros requeridos */
+                if ($transferQuery->isValid($dataTransfer)):
+                    $transferQuery->fill($dataTransfer);
+                    $transferQuery->save();
+                    BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
                 endif;
-                $amount += $ValidationData['amount'];
-            endfor;
-
-            $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
-            $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-            $ValidationData['amount'] = $amount;
-            $ValidationData['type'] = 'entrada';
-            $transfer = new Transfer;
-            if ($transfer->isValid($ValidationData)):
-                $transfer->fill($ValidationData);
-                $transfer->save();
-                $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
-            else:
-                $errors_transaction[] = $transfer->errors;
-            endif;
-            if ($errors_transaction) {
+            endforeach;
+          
+            if ($transferQuery['errors']) {
                 DB::rollback();
-                return $this->errores($errors_transaction);
+                return $this->errores($transferQuery['errors']);
             }
             DB::commit();
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -198,6 +165,69 @@ class TransfersController extends Controller {
             DB::rollback();
             return $this->errores(array('key' => 'Error de DB'));
         }
+        
+        
+//        /* Capturamos los datos enviados por ajax */
+//        $transfers = $this->convertionObjeto();
+//        /* obtenemos dos datos del supplier mediante token recuperamos el id */
+//        $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
+//        $transfers->codeTransfer = 'v';
+//        /* Creamos un array para cambiar nombres de parametros */
+//        $ValidationData = $this->CreacionArray($transfers, 'Transfer');
+//        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
+//        /* Declaramos las clases a utilizar */
+//        $ValidationData['simulation'] = 'FALSE';
+//        if ($transfers->simulationTransfer == 'v'):
+//            $ValidationData['simulation'] = 'TRUE';
+//        endif;
+//        $transfer = new Transfer;
+//        $ValidationData['code'] = 1;
+//        if (($transfer->lastCode())):
+//            $ValidationData['code'] = $transfer->lastCode() + 1;
+//        endif;
+//        $outTransfer = new Transfer;
+//        /* Validamos los datos para guardar tabla menu */
+//        $errors_transaction = array();
+//        try {
+//            DB::beginTransaction();
+//            /* Traemos el id del ultimo registro guardado */
+//            $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
+//            $amount = 0;
+//            for ($i = 0; $i < count($outBalanceBudget); $i++):
+//                /* Comprobamos cuales estan habialitadas y esas las guardamos */
+//                $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
+//                $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
+//                $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+//                $ValidationData['type'] = 'salida';
+//
+//
+//                $amount += $ValidationData['amount'];
+//            endfor;
+//
+//            $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
+//            $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+//            $ValidationData['amount'] = $amount;
+//            $ValidationData['type'] = 'entrada';
+//            $transfer = new Transfer;
+//            if ($transfer->isValid($ValidationData)):
+//                $transfer->fill($ValidationData);
+//                $transfer->save();
+//                $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
+//            else:
+//                $errors_transaction[] = $transfer->errors;
+//            endif;
+//
+//            if ($errors_transaction) {
+//                DB::rollback();
+//                return $this->errores($errors_transaction);
+//            }
+//            DB::commit();
+//            return $this->exito('Los datos se guardaron con exito!!!');
+//        } catch (Exception $e) {
+//            Log::error($e);
+//            DB::rollback();
+//            return $this->errores(array('key' => 'Error de DB'));
+//        }
     }
 
     private function errorsArray($errorsObject) {
@@ -222,7 +252,7 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($token) {
+    public function edit($token) { 
         $DataTransfers = Transfer::where('token', '=', $token)->get();
         $amount = 0;
         foreach ($DataTransfers AS $transfers):
@@ -232,7 +262,11 @@ class TransfersController extends Controller {
                 $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount);
             endif;
             $amount += $transfers->amount;
+            
+            
+            
         endforeach;
+        
         $transfer = array('date' => $transfers->date, 'amount' => $amount,
             'simulation' => $transfers->simulation,
             'code' => $transfers->code,
@@ -256,71 +290,114 @@ class TransfersController extends Controller {
         return $data;
     }
 
+    private function dataUpdateSaveTransfer($data, $type) {
+
+        /* obtenemos dos datos del spreadsheet mediante token recuperamos el id */
+        $spreadsheet = Spreadsheet::Token($data['spreadsheet']);
+        unset($data['spreadsheet']);
+        $data['spreadsheets_id'] = $spreadsheet->id;
+
+        /* Asignacion de valores a la simulacion */
+        if ($data['simulation'] == 'v'):
+            $data['simulation'] = 'TRUE';
+        else:
+            $data['simulation'] = 'FALSE';
+        endif;
+
+        /* Asignacion de valores al codigo */
+        if ($type == 'create'):
+            $transfer = new Transfer;
+            $data['code'] = 1;
+            if (($transfer->lastCode())):
+                $data['code'] = $transfer->lastCode() + 1;
+            endif;
+        else:
+            $transfer = Transfer::Token($data['token']);
+            $data['code'] = $transfer->code;
+        endif;
+
+
+        $amount = 0;
+        for ($i = 0; $i < count($data['outBalanceBudget']); $i++):
+            /* Comprobamos cuales estan habialitadas y esas las guardamos */
+            $balanceBudget = BalanceBudget::Token($data['outBalanceBudget'][$i]);
+            $data['amount'] = $data['amountBalanceBudget'][$i];
+            $data['balance_budgets_id'] = $balanceBudget->id;
+            $data['type'] = 'salida';
+
+            $Transfers[] = ['amount' => $data['amount'],
+                'balance_budgets_id' => $data['balance_budgets_id'],
+                'code' => $data['code'],
+                'date' => $data['date'],
+                'token' => $data['token'],
+                'simulation' => $data['simulation'],
+                'spreadsheets_id' => $data['spreadsheets_id'],
+                'type' => $data['type']];
+            $amount += $data['amount'];
+
+        endfor;
+        /* Comprobamos cuales estan habialitadas y esas las guardamos */
+        $balanceBudget = BalanceBudget::Token($data['inBalanceBudget']);
+        $data['amount'] = $amount;
+        $data['balance_budgets_id'] = $balanceBudget->id;
+        $data['type'] = 'entrada';
+        $Transfers[] = ['amount' => $data['amount'],
+            'balance_budgets_id' => $data['balance_budgets_id'],
+            'code' => $data['code'],
+            'date' => $data['date'],
+            'token' => $data['token'],
+            'simulation' => $data['simulation'],
+            'spreadsheets_id' => $data['spreadsheets_id'],
+            'type' => $data['type']];
+
+        return $Transfers;
+    }
+
     /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
      * @return Response
      */
-    public function update($token) {
-         /* Capturamos los datos enviados por ajax */
+    public function update() {
+        /* Capturamos los datos enviados por ajax */
         $transfers = $this->convertionObjeto();
-        /* obtenemos dos datos del supplier mediante token recuperamos el id */
-        $spreadsheet = Spreadsheet::Token($transfers->spreadsheetTransfer);
-        $transfers->codeTransfer = 'v';
-        /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->CreacionArray($transfers, 'Transfer');
-        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-        /* Declaramos las clases a utilizar */
-        $ValidationData['simulation'] = 'FALSE';
-        if ($transfers->simulationTransfer == 'v'):
-            $ValidationData['simulation'] = 'TRUE';
-        endif;
-        $transfer = Transfer::Token($token);
-       
-        
-        $outTransfer = Transfer::Token($token);
-        /* Validamos los datos para guardar tabla menu */
-        $errors_transaction = array();
         try {
             DB::beginTransaction();
-            /* Traemos el id del ultimo registro guardado */
-            $outBalanceBudget = $transfers->outBalanceBudgetTransfer;
-            $amount = 0;
-            for ($i = 0; $i < count($outBalanceBudget); $i++):
-                /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                $balanceBudget = BalanceBudget::Token($transfers->outBalanceBudgetTransfer[$i]);
-                $ValidationData['amount'] = $transfers->amountBalanceBudgetTransfer[$i];
-                $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-                $ValidationData['type'] = 'salida';
+            /* Separamos los parametros quitandole Transfer */
+            $ValidationData = $this->CreacionArray($transfers, 'Transfer');
+            /* Generamos el arreglo para cada una de las filas a guardar */
+            $transfer = $this->dataUpdateSaveTransfer($ValidationData, 'edit');
+            /* Recorremos el arreglo para poder actualizar los datos */
 
-                $outTransfer = Transfer::Token($token);
-                if ($outTransfer->isValid($ValidationData)):
-                    $outTransfer->fill($ValidationData);
-                    $outTransfer->save();
-                    /* Actualizacion de la table balance */
-                    $this->balanceSaveData($ValidationData['amount'], 'salida', $ValidationData['code'], $ValidationData['balance_budgets_id']);
-                else:
-                    $errors_transaction[] = $outTransfer->errors;
+            foreach ($transfer AS $dataTransfer):
+                /* Buscamos por el token las filas guardadas */
+                $transferQuery = Transfer::Token($dataTransfer['token']);
+
+                /* Comprobamos que recibimos todos los parametros requeridos */
+
+                if ($transferQuery->isValid($dataTransfer)):
+
+                    $transferVerify = Transfer::where('code', $dataTransfer['code'])->where('balance_budgets_id', $dataTransfer['balance_budgets_id'])->get();
+                    if (($transferVerify->count() == 1)):
+
+                        DB::table('transfers')
+                                ->where('code', $dataTransfer['code'])
+                                ->where('balance_budgets_id', $dataTransfer['balance_budgets_id'])
+                                ->update($dataTransfer);
+                        BalanceController::updateBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
+                    else:
+                        $queryTransfer = new Transfer;
+                        $queryTransfer->fill($dataTransfer);
+                        $queryTransfer->save();
+                        BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
+                    endif;
                 endif;
-                $amount += $ValidationData['amount'];
-            endfor;
+            endforeach;
 
-            $balanceBudget = BalanceBudget::Token($transfers->inBalanceBudgetTransfer);
-            $ValidationData['balance_budgets_id'] = $balanceBudget->id;
-            $ValidationData['amount'] = $amount;
-            $ValidationData['type'] = 'entrada';
-            $transfer = Transfer::Token($token);
-            if ($transfer->isValid($ValidationData)):
-                $transfer->fill($ValidationData);
-                $transfer->save();
-                $this->balanceSaveData($ValidationData['amount'], 'entrada', $ValidationData['code'], $ValidationData['balance_budgets_id']);
-            else:
-                $errors_transaction[] = $transfer->errors;
-            endif;
-            if ($errors_transaction) {
+            if ($transferQuery['errors']) {
                 DB::rollback();
-                return $this->errores($errors_transaction);
+                return $this->errores($transferQuery['errors']);
             }
             DB::commit();
             return $this->exito('Los datos se guardaron con exito!!!');
