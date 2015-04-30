@@ -53,7 +53,7 @@ class ReportController extends Controller {
     }
 
     /**
-     * Obtenemos el total por grupo de cuentas para el Presupuesto
+     * Obtenemos el total del monto por grupo de cuentas para el Presupuesto
      * @param type $budget
      * @param type $group
      * @return type
@@ -72,39 +72,51 @@ class ReportController extends Controller {
      * @return type
      */
     private function ingresosBudget($budget) {
-
-
         $countTypeBudget = $budget->typeBudgets->count();
         foreach ($budget->groups AS $group):
             $groupBalanceBudget = $this->balanceForGroup($budget, $group);
-            $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                            ->where('balance_budgets.budgets_id', $budget->id)
-                            ->where('catalogs.groups_id', $group->id)
-                            ->where('catalogs.type', 'ingresos')->get();
-
-            
-
             if ($group->type == 'ingresos'):
-                foreach ($catalogBalanceBudget AS $catalog):
-                    switch ($countTypeBudget):
-                        case 1:
-                            $ingresos[] = array(
-                                array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0)),
-                                array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f, $catalog->name, $catalog->amount, '', number_format($groupBalanceBudget, 0))
-                                );
-                            break;
-                        case 2:
-                            $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                            break;
-                        case 3:
-                            $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                            break;
-                    endswitch;
-                endforeach;
+                switch ($countTypeBudget):
+                    case 1:
+                        $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        break;
+                    case 2:
+                        $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        break;
+                    case 3:
+                        $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        break;
+                endswitch;
             endif;
 
         endforeach;
+
+        // echo json_encode($ingreso); die;
         return $ingresos;
+    }
+
+    private function detailsIncomeAccounts($group, $budget) {
+        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
+                        ->where('balance_budgets.budgets_id', $budget->id)
+                        ->where('catalogs.groups_id', $group->id)
+                        ->where('catalogs.type', 'ingresos')->get();
+        $countTypeBudget = $budget->typeBudgets->count();
+        foreach ($catalogBalanceBudget AS $catalog):
+            
+ if ($catalog->type == 'ingresos'):
+            $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget->id)
+                            ->where('balance_budgets.types_budgets_id', $catalog->types_budgets_id)->get();
+        echo json_encode($amountBalanceBudget); die;
+    if($amountBalanceBudget):
+        $level1='';
+    endif;
+            
+                    return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f, $catalog->name, number_format($amountBalanceBudget, 0), '', '', '', '');
+         endif;       
+        endforeach;
     }
 
     /**
@@ -113,6 +125,8 @@ class ReportController extends Controller {
      * @return Response
      */
     public function budgetExcel() {
+
+
         $budget = Budget::find(1);
         $school = $budget->schools;
         $ingresoGroupBalanceBudgets = $this->ingresosBudget($budget);
