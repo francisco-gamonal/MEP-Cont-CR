@@ -1,28 +1,28 @@
 <div style="font-size:14px; text-align:center; background:#D0CDCD; color:black; font-weight:bold; border:2px solid black;">
 	<span>INGRESOS</span>
 </div>
-<table border="1">
+<table border="1" style="font-size:12px;" width="100%;">
 	<thead>
-		<th colspan="9">Códigos</th>
-		<th>Descripción</th>
-		<th>Preescolar</th>
-		<th>Escuela Diurna (I y II Ciclo)</th>
-		<th>Colegio (III y IV Ciclo)</th>
-		<th>Educación Especial</th>
-		<th>Sub Total</th>
-		<th>Total</th>
+		<th style="text-align:center;" colspan="9">Códigos</th>
+		<th style="text-align:center;" width="350">Descripción</th>
+		<th style="text-align:center;" >Preescolar</th>
+		<th style="text-align:center;" >Escuela Diurna (I y II Ciclo)</th>
+		<th style="text-align:center;" >Colegio (III y IV Ciclo)</th>
+		<th style="text-align:center;" >Educación Especial</th>
+		<th style="text-align:center;" >Sub Total</th>
+		<th style="text-align:center;" >Total</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>C</td>
-			<td>SC</td>
-			<td>G</td>
-			<td>SG</td>
-			<td>P</td>
-			<td>SP</td>
-			<td>R</td>
-			<td>SR</td>
-			<td>F</td>
+		<tr style="font-weight:bold; text-align:center;">
+			<td width="20">C</td>
+			<td width="20">SC</td>
+			<td width="20">G</td>
+			<td width="20">SG</td>
+			<td width="20">P</td>
+			<td width="20">SP</td>
+			<td width="20">R</td>
+			<td width="20">SR</td>
+			<td width="20">F</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -42,16 +42,16 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td>1</td>
-			<td>4</td>
-			<td>1</td>
-			<td>1</td>
-			<td>00</td>
-			<td>00</td>
-			<td>0</td>
-			<td>0</td>
-			<td>000</td>
-			<td>Transferencias Corrientes del Gobierno Central</td>
+			<td style="text-align:center;">1</td>
+			<td style="text-align:center;">4</td>
+			<td style="text-align:center;">1</td>
+			<td style="text-align:center;">1</td>
+			<td style="text-align:center;">00</td>
+			<td style="text-align:center;">00</td>
+			<td style="text-align:center;">0</td>
+			<td style="text-align:center;">0</td>
+			<td style="text-align:center;">000</td>
+			<td style="padding-left:0.5em;">Transferencias Corrientes del Gobierno Central</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -78,16 +78,16 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td>3</td>
-			<td>3</td>
-			<td>2</td>
-			<td>0</td>
-			<td>00</td>
-			<td>00</td>
-			<td>0</td>
-			<td>0</td>
-			<td>000</td>
-			<td>Superávit especifico</td>
+			<td style="text-align:center;">3</td>
+			<td style="text-align:center;">3</td>
+			<td style="text-align:center;">2</td>
+			<td style="text-align:center;">0</td>
+			<td style="text-align:center;">00</td>
+			<td style="text-align:center;">00</td>
+			<td style="text-align:center;">0</td>
+			<td style="text-align:center;">0</td>
+			<td style="text-align:center;">000</td>
+			<td style="padding-left:0.5em;">Superávit especifico</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -96,7 +96,7 @@
 			<td></td>
 		</tr>
 		<tr style="background:rgb(250, 192, 192);">
-			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right;">TOTAL INGRESOS</td>
+			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL INGRESOS</td>
 			<td></td>
 			<td></td>
 			<td></td>
