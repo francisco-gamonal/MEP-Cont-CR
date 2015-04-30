@@ -52,7 +52,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Sueldos para Cargos Fijos.</td>
+			<td style="padding-left:0.5em;">Sueldos para Cargos Fijos.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -70,7 +70,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Jornales.</td>
+			<td style="padding-left:0.5em;">Jornales.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -88,7 +88,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Tiempo extraordinario.</td>
+			<td style="padding-left:0.5em;">Tiempo extraordinario.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -106,7 +106,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Decimotercer mes.</td>
+			<td style="padding-left:0.5em;">Decimotercer mes.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -124,7 +124,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Aporte patronal al F.C.L.</td>
+			<td style="padding-left:0.5em;">Aporte patronal al F.C.L.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -160,7 +160,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Maquinaria y equipo para la producción.</td>
+			<td style="padding-left:0.5em;">Maquinaria y equipo para la producción.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -178,7 +178,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Equipo de transporte.</td>
+			<td style="padding-left:0.5em;">Equipo de transporte.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -196,7 +196,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Otras construcciónes, adiciones y mejoras.</td>
+			<td style="padding-left:0.5em;">Otras construcciónes, adiciones y mejoras.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -214,7 +214,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Semovientes.</td>
+			<td style="padding-left:0.5em;">Semovientes.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -250,7 +250,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Becas a terceras personas.</td>
+			<td style="padding-left:0.5em;">Becas a terceras personas.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -268,7 +268,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Otras transferencias a personas.</td>
+			<td style="padding-left:0.5em;">Otras transferencias a personas.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -286,7 +286,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td>Prestaciones legales.</td>
+			<td style="padding-left:0.5em;">Prestaciones legales.</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -304,7 +304,7 @@
 			<td></td>
 		</tr>
 		<tr style="background:rgb(250, 192, 192);">
-			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right;">TOTAL EGRESOS</td>
+			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL EGRESOS</td>
 			<td></td>
 			<td></td>
 			<td></td>

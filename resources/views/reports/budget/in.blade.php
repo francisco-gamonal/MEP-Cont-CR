@@ -51,7 +51,7 @@
 			<td style="text-align:center;">0</td>
 			<td style="text-align:center;">0</td>
 			<td style="text-align:center;">000</td>
-			<td>Transferencias Corrientes del Gobierno Central</td>
+			<td style="padding-left:0.5em;">Transferencias Corrientes del Gobierno Central</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -87,7 +87,7 @@
 			<td style="text-align:center;">0</td>
 			<td style="text-align:center;">0</td>
 			<td style="text-align:center;">000</td>
-			<td>Superávit especifico</td>
+			<td style="padding-left:0.5em;">Superávit especifico</td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -96,7 +96,7 @@
 			<td></td>
 		</tr>
 		<tr style="background:rgb(250, 192, 192);">
-			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right;">TOTAL INGRESOS</td>
+			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL INGRESOS</td>
 			<td></td>
 			<td></td>
 			<td></td>
