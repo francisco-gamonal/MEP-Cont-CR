@@ -96,6 +96,7 @@
 											</a>
                                 		@endif
 										<a href="{{route('edit-presupuesto', $budget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+										<a href="{{route('report-presupuestos', $budget->token)}}"><i class="fa fa-bar-chart"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach
