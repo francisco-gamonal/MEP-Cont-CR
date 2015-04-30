@@ -1,4 +1,6 @@
-<?php namespace Mep\Models;
+<?php
+
+namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
@@ -6,18 +8,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TypeBudget extends Model {
 
-
- 
-
     // Don't forget to fill this array
-    protected $fillable = ['name'];
+    protected $fillable = ['name','token'];
 
-use SoftDeletes;
+    use SoftDeletes;
 
     public $timestamps = true;
 
     public function LastId() {
         return TypeBudget::all()->last();
+    }
+
+    public function budgets() {
+
+        return $this->belongsToMany('Mep\Models\Budget');
     }
 
     public static function Token($token) {
@@ -47,4 +51,5 @@ use SoftDeletes;
 
         return false;
     }
+
 }

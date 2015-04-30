@@ -19,6 +19,14 @@ class Budget extends Model {
 
         return $this->hasMany('Mep\Models\BalanceBudget','budgets_id','id');
     }
+    public function groups() {
+
+        return $this->belongsToMany('Mep\Models\Group');
+    }
+    public function typeBudgets() {
+
+        return $this->belongsToMany('Mep\Models\TypeBudget');
+    }
     public function LastId() {
         return Budget::all()->last();
     }

@@ -21,7 +21,7 @@ class BalanceBudget extends Model {
 
     public function catalogs() {
 
-        return $this->belongsTo('Mep\Models\Catalog');
+        return $this->belongsTo('Mep\Models\Catalog','catalogs_id','id');
     }
 
     public function budgets() {

@@ -45,31 +45,16 @@ class TestController extends Controller {
      */
     public function index() {
         
-        
-   $dompdf = new DOMPDF();
- $dompdf->load_html('<a href="#">Hola Mundo</a>');
- $dompdf->render();
- $dompdf->stream("sample1.pdf");
-//        
-//        $a = array();
-//        $ac = 1;
-//        try {
-//            DB::beginTransaction();
-//            Transfer::all();
-//            $a[0] = 1 + $ac;
-//            DB::commit();
-//            /*DB::transaction(function() use ($ac){
-//                Transfer::all();
-//                $a[0] = 1 + $ac;
-//            });*/
-//        } catch (Exception $e) {
-//            $e;
-//            DB::rollback();
-//        }
-//        echo json_encode($a);die;
-//       $transfers = Transfer::max('code');
-//        
-//       echo json_encode($transfers); die;
+        $budget = Budget::find(1);
+        $balance = BalanceBudget::where('budgets_id',$budget->id)->get();
+      //  echo   json_encode($budget->groups[0]);
+    foreach($budget->groups AS $balances):
+       
+        if($balances->type=='ingresos'):
+         echo   json_encode($balances->name);
+        endif;
+    endforeach;
+      
     }
 
     /**
