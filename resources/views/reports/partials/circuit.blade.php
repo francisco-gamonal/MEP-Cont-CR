@@ -5,10 +5,10 @@
 		<p style="margin:0;">DIRECCION REGIONAL DE EDUCACIÓN DE XXXX</p>
 	</div>
 	<div style="font-size:13px; text-align:center;">
-		<p style="margin:0;">JUNTA Administrativa Unidad Pedagófica ABC CÉDULA JURÍDICA 3-008-xxxx</p>
+		<p style="margin:0;">{{$budget->schools->name}} CÉDULA JURÍDICA {{$budget->schools->charter}}</p>
 		<p>
-			<span>CIRCUITO 00</span>
-			<span>CÓDIGO 0000</span>
+			<span>CIRCUITO {{$budget->schools->circuit}}</span>
+			<span>CÓDIGO {{$budget->schools->code}}</span>
 		</p>
 	</div>
 </div>

@@ -157,6 +157,11 @@ class BudgetsController extends Controller {
         return $this->errores($data->errors);
     }
 
+    /**
+     * [report description]
+     * @param  [string] $token
+     * @return [type]   view
+     */
     public function report($token) {
         $budget = Budget::Token($token);
         return view('reports.budget.content', compact('budget'));

@@ -11,6 +11,7 @@ namespace Mep\Models;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Mep\Models\Catalog;
 
 /**
  * Description of Group
@@ -59,6 +60,10 @@ class Group extends Model {
         $this->errors = $validator->errors();
 
         return false;
+    }
+
+    public function catalogsIn($groupId){
+        return Catalog::where('groups_id', $groupId)->where('type', 'ingresos')->get();
     }
 
 }
