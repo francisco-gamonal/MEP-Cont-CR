@@ -102,14 +102,25 @@ class ReportController extends Controller {
         $ingresos[] = array('');
         return $ingresos;
     }
-
+    /**
+     * 
+     * @param type $budget
+     * @param type $catalog
+     * @param type $type
+     * @return type
+     */
     private function balanceTypeBudget($budget, $catalog, $type) {
         $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
                         ->where('balance_budgets.catalogs_id', $catalog)
                         ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
         return $amountBalanceBudget;
     }
-
+    /**
+     * 
+     * @param type $group
+     * @param type $budget
+     * @return type
+     */
     private function detailsIncomeAccounts($group, $budget) {
         $countTypeBudget = $budget->typeBudgets->count();
 
@@ -117,7 +128,7 @@ class ReportController extends Controller {
                         ->where('balance_budgets.budgets_id', $budget->id)
                         ->where('catalogs.groups_id', $group->id)
                         ->where('catalogs.type', 'ingresos')->get();
-//echo json_encode($catalogBalanceBudget); die;
+
         foreach ($catalogBalanceBudget AS $catalog):
 
             for ($i = 0; $i < count($budget->typeBudgets); $i++):

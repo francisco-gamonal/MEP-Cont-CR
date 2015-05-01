@@ -25,36 +25,83 @@ use Illuminate\Support\Facades\DB;
 use Mep\Models\Balance;
 use DOMPDF;
 use Maatwebsite\Excel\Excel;
-// disable DOMPDF's internal autoloader if you are using Composer
-  define('DOMPDF_ENABLE_AUTOLOAD', false);
 
-  // include DOMPDF's default configuration
-  require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
+// disable DOMPDF's internal autoloader if you are using Composer
+define('DOMPDF_ENABLE_AUTOLOAD', false);
+
+// include DOMPDF's default configuration
+require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
+
 class TestController extends Controller {
 
-   protected $auth;
-    
-   public function __construct(Guard $auth)
-	{
-		//$this->auth = $auth;
-	}
+    protected $auth;
+
+    public function __construct(Guard $auth) {
+        //$this->auth = $auth;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
     public function index() {
-        
-        $budget = Budget::find(1);
-        $balance = BalanceBudget::where('budgets_id',$budget->id)->get();
-      //  echo   json_encode($budget->groups[0]);
-    foreach($budget->groups AS $balances):
+         $budget = Budget::find(1);
+         $countTypeBudget = $budget->typeBudgets->count();
+       $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+        foreach ($balanceBudgets AS $catalog):
+
+
+            for ($i = 0; $i < count($budget->typeBudgets); $i++):
+                $typeBudget[] = ($budget->typeBudgets[$i]->id);
+            endfor;
+ 
+            switch ($countTypeBudget):
+                case 1:
+                    $typeBudgetQ[] = array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                        'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
+                        'name' => $catalog->catalogs->name,
+                        $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0), '', '', '', '');
+                    break;
+                case 2:
+                    $typeBudgetQ = array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                        'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
+                        'name' => $catalog->catalogs->name,
+                        $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
+                        $typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0), '', '', '');
+                    break;
+                case 3:
+                    $typeBudgetQ =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                        'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
+                        'name' => $catalog->catalogs->name,
+                        $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
+                        $typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
+                        $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0), '', '', '');
+                    break;
+            endswitch;
+            
        
-        if($balances->type=='ingresos'):
-         echo   json_encode($balances->name);
-        endif;
-    endforeach;
-      
+        endforeach;
+//        foreach ($budget->groups AS $group):
+//            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
+//                        ->where('balance_budgets.budgets_id', $budget->id)
+//                        ->where('catalogs.groups_id', $group->id)
+//                        ->where('catalogs.type', 'ingresos')->get();
+//            //  echo   json_encode($budget->groups[0]);
+//            foreach ($balance AS $balances):
+//
+//
+//                echo json_encode($balances);
+//
+//            endforeach;
+//        endforeach;
+    }
+
+    private function balanceTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
+                        ->where('balance_budgets.catalogs_id', $catalog)
+                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+        echo json_encode($amountBalanceBudget); 
     }
 
     /**

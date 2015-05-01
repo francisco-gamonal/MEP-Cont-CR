@@ -164,7 +164,10 @@ class BudgetsController extends Controller {
      */
     public function report($token) {
         $budget = Budget::Token($token);
+
         return view('reports.budget.content', compact('budget'));
     }
-
+    private function AcountBalanceBudget(){
+        
+    }
 }
