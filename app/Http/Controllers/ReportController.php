@@ -19,7 +19,8 @@ class ReportController extends Controller {
      */
     public function index() {
         $budget = Budget::find(1);
-        return view('reports.budget.content', compact('budget'));
+        $balanceBudgets=  BalanceBudget::where('budgets_id',$budget->id)->get();
+        return view('reports.budget.content', compact('budget','balanceBudgets'));
     }
 
     /**
