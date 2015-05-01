@@ -25,7 +25,7 @@ class Budget extends Model {
     }
     public function typeBudgets() {
 
-        return $this->belongsToMany('Mep\Models\TypeBudget');
+        return $this->belongsToMany('Mep\Models\TypeBudget')->orderBy('id', 'asc');
     }
     public function LastId() {
         return Budget::all()->last();
