@@ -19,8 +19,8 @@ class ReportController extends Controller {
      */
     public function index() {
         $budget = Budget::find(1);
-        $balanceBudgets=  BalanceBudget::where('budgets_id',$budget->id)->get();
-        return view('reports.budget.content', compact('budget','balanceBudgets'));
+        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+        return view('reports.budget.content', compact('budget', 'balanceBudgets'));
     }
 
     /**
@@ -59,11 +59,11 @@ class ReportController extends Controller {
      * @param type $group
      * @return type
      */
-    private function balanceForGroup($budget, $group) {
+    private function balanceForGroup($budget, $group,$type) {
         $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
                         ->where('balance_budgets.budgets_id', $budget->id)
                         ->where('catalogs.groups_id', $group->id)
-                        ->where('catalogs.type', 'ingresos')->sum('amount');
+                        ->where('catalogs.type', $type)->sum('amount');
 
         return $balanceGroup;
     }
@@ -73,27 +73,27 @@ class ReportController extends Controller {
      * @param type $budget
      * @return type
      */
-    private function ingresosBudget($budget) {
+    private function CuentasSaldoBudget($budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
         foreach ($budget->groups AS $group):
-            $groupBalanceBudget = $this->balanceForGroup($budget, $group);
-            if ($group->type == 'ingresos'):
+            $groupBalanceBudget = $this->balanceForGroup($budget, $group,$type);
+            if ($group->type == $type):
                 switch ($countTypeBudget):
                     case 1:
                         $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget, $type);
                         break;
                     case 2:
                         $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget, $type);
                         break;
                     case 3:
                         $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget, $type);
                         break;
                     case 4:
                         $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget);
+                        $ingresos[] = $this->detailsIncomeAccounts($group, $budget, $type);
                         break;
                 endswitch;
             endif;
@@ -102,6 +102,36 @@ class ReportController extends Controller {
         $ingresos[] = array('');
         return $ingresos;
     }
+    private function egresosBudget($budget){
+         $countTypeBudget = $budget->typeBudgets->count();
+        foreach ($budget->groups AS $group):
+            $groupBalanceBudget = $this->balanceForGroup($budget, $group,'egresos');
+            if ($group->type == 'egresos'):
+                switch ($countTypeBudget):
+                    case 1:
+                        $egresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $egresos[] = $this->detailsIncomeAccounts($group, $budget, 'egresos');
+                        break;
+                    case 2:
+                        $egresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $egresos[] = $this->detailsIncomeAccounts($group, $budget, 'egresos');
+                        break;
+                    case 3:
+                        $egresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $egresos[] = $this->detailsIncomeAccounts($group, $budget, 'egresos');
+                        break;
+                    case 4:
+                        $egresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $egresos[] = $this->detailsIncomeAccounts($group, $budget, 'egresos');
+                        break;
+                endswitch;
+            endif;
+
+        endforeach;
+        $egresos[] = array('');
+        return $egresos;
+    }
+
     /**
      * 
      * @param type $budget
@@ -115,19 +145,20 @@ class ReportController extends Controller {
                         ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
         return $amountBalanceBudget;
     }
+
     /**
      * 
      * @param type $group
      * @param type $budget
      * @return type
      */
-    private function detailsIncomeAccounts($group, $budget) {
+    private function detailsIncomeAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
         $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
                         ->where('balance_budgets.budgets_id', $budget->id)
                         ->where('catalogs.groups_id', $group->id)
-                        ->where('catalogs.type', 'ingresos')->get();
+                        ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget AS $catalog):
 
@@ -171,18 +202,20 @@ class ReportController extends Controller {
 
         $budget = Budget::find(1);
         $school = $budget->schools;
-        $ingresoGroupBalanceBudgets = $this->ingresosBudget($budget);
+        $ingresoGroupBalanceBudgets = $this->CuentasSaldoBudget($budget,'ingresos');
+        $egresoGroupBalanceBudgets = $this->CuentasSaldoBudget($budget,'egresos');
         $arrangement = $this->headerTable($budget);
-
-        //   echo json_encode($ingresoGroupBalanceBudgets); die;
-        // 
-//dd($data); die;
-
-        Excel::create('Filename', function($excel) use ($school, $arrangement, $budget, $ingresoGroupBalanceBudgets) {
-            $excel->sheet('Sheetname', function($sheet) use ( $school, $arrangement, $budget, $ingresoGroupBalanceBudgets) {
+//echo json_encode($egresoGroupBalanceBudgets); die;
+        Excel::create('Filename', function($excel) use ($school, $arrangement, $budget, $ingresoGroupBalanceBudgets,$egresoGroupBalanceBudgets) {
+            $excel->sheet('Sheetname', function($sheet) use ( $school, $arrangement, $budget, $ingresoGroupBalanceBudgets,$egresoGroupBalanceBudgets) {
 
 
                 $letraColumna = $arrangement['letras'];
+                $count = 14 + count($ingresoGroupBalanceBudgets);
+                $countEgreso = 2 + $count;
+                $countHeaderEgre=3 + $count;
+                $countHeaderCat=4 + $count;
+                $countDetailsCat=5 + $count;
                 /* Inicio Encabezado */
                 $sheet->mergeCells('A1:' . $letraColumna . '1');
                 $sheet->mergeCells('A2:' . $letraColumna . '2');
@@ -194,10 +227,10 @@ class ReportController extends Controller {
                 $sheet->mergeCells('A8:' . $letraColumna . '8');
                 $sheet->mergeCells('A9:' . $letraColumna . '9');
                 $sheet->mergeCells('A10:' . $letraColumna . '10');
-                $sheet->cells('A1:' . $letraColumna . '10', function($cells) {
+                $sheet->cells('A1:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('center');
                 });
-//                $count = 14 + count($ingresoGroupBalanceBudgets);
+                
 
                 /* fin Encabezado */
 
@@ -205,15 +238,20 @@ class ReportController extends Controller {
                 $sheet->mergeCells('A11:' . $letraColumna . '11');
                 $sheet->mergeCells('A12:' . $letraColumna . '12');
                 $sheet->setBorder('A12:' . $letraColumna . '19', 'thin');
+                $sheet->setBorder('A' . $countEgreso . ':' . $letraColumna. $countHeaderCat, 'thin');
 
-//                $sheet->mergeCells('A' . $count . ':' . $letraColumna . '11');
-//                $sheet->mergeCells('A' . $count . ':' . $letraColumna . '12');
-//                $sheet->setBorder('A' . $count . ':' . $letraColumna . '19', 'thin');
+//                
+//                
+//                
 //                $countCode = $count - 2;
 //                $sheet->mergeCells('A' . $countCode . ':J' . $countCode);
 
                 $sheet->mergeCells('A13:I13');
                 $sheet->cells('A12:' . $letraColumna . '14', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('A'.$countEgreso.':'.$letraColumna .$countHeaderCat , function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
@@ -228,15 +266,19 @@ class ReportController extends Controller {
                 $sheet->row(12, array('INGRESOS'));
                 $sheet->row(13, $arrangement['typeBudget']);
                 $sheet->row(14, array('C', 'SC', 'G', 'SG', 'P', 'SP', 'R', 'SR', 'F'));
-//                $sheet->row(1 + $count, array(''));
-//                $sheet->row(2 + $count, array('EGRESOS' . $count));
-//                $sheet->row(3 + $count, $arrangement['typeBudget']);
-//                $sheet->row(4 + $count, array('C', 'SC', 'G', 'SG', 'P', 'SP', 'R', 'SR', 'F'));
+                $sheet->row(1 + $count, array(''));
+                $sheet->mergeCells('A' . $countEgreso . ':' . $letraColumna . $countEgreso);
+                $sheet->row($countEgreso, array('EGRESOS'));
+                $sheet->mergeCells('A' . $countHeaderEgre . ':I'. $countHeaderEgre);
+                $sheet->row($countHeaderEgre, $arrangement['typeBudget']);
+                $sheet->row(1+ $countHeaderEgre, array('C', 'SC', 'G', 'SG', 'P', 'SP', 'R', 'SR', 'F'));
+//                
 //                $sheet->mergeCells('A15:J15');
 //                $countCode = 3 + $count;
 //                $sheet->mergeCells('A' . $countCode . ':J' . $countCode);
-                $sheet->fromArray($ingresoGroupBalanceBudgets, null, 'A15', false, false);
-
+            
+                $sheet->fromArray($ingresoGroupBalanceBudgets,null, 'A15', true, false);
+               $sheet->fromArray($egresoGroupBalanceBudgets, null, 'A24', false, false);
 
                 /* fin Ingresos */
             });

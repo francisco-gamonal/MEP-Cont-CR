@@ -51,13 +51,10 @@ class TestController extends Controller {
        
         $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         foreach ($balanceBudgets AS $catalog):
-
-
             for ($i = 0; $i < count($budget->typeBudgets); $i++):
                 $typeBudget[] = ($budget->typeBudgets[$i]->id);
             endfor;
- 
-            switch ($countTypeBudget):
+             switch ($countTypeBudget):
                 case 1:
                     $typeBudgetQ[] = array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
                         'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
@@ -65,14 +62,14 @@ class TestController extends Controller {
                         $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0), '', '', '', '');
                     break;
                 case 2:
-                    $typeBudgetQ = array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                    $typeBudgetQ[] = array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
                         'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
                         'name' => $catalog->catalogs->name,
                         $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
                         $typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0), '', '', '');
                     break;
                 case 3:
-                    $typeBudgetQ =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                    $typeBudgetQ[] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
                         'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
                         'name' => $catalog->catalogs->name,
                         $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
