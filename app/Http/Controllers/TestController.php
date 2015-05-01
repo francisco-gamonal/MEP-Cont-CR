@@ -48,7 +48,8 @@ class TestController extends Controller {
     public function index() {
          $budget = Budget::find(1);
          $countTypeBudget = $budget->typeBudgets->count();
-       $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+       
+        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         foreach ($balanceBudgets AS $catalog):
 
 
@@ -79,8 +80,7 @@ class TestController extends Controller {
                         $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0), '', '', '');
                     break;
             endswitch;
-            
-       
+            echo json_encode($typeBudgetQ);
         endforeach;
 //        foreach ($budget->groups AS $group):
 //            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
@@ -101,7 +101,8 @@ class TestController extends Controller {
         $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
                         ->where('balance_budgets.catalogs_id', $catalog)
                         ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
-        echo json_encode($amountBalanceBudget); 
+        
+        return $amountBalanceBudget;
     }
 
     /**
