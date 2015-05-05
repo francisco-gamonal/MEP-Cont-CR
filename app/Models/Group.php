@@ -65,5 +65,17 @@ class Group extends Model {
     public function catalogsIn($groupId){
         return Catalog::where('groups_id', $groupId)->where('type', 'ingresos')->get();
     }
-
+    /**
+     * Obtenemos el total del monto por grupo de cuentas para el Presupuesto
+     * @param type $budget
+     * @param type $group
+     * @return type
+     */
+    public function balanceForGroup($budget, $group, $type) {
+        $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
+                        ->where('balance_budgets.budgets_id', $budget->id)
+                        ->where('catalogs.groups_id', $group->id)
+                        ->where('catalogs.type', $type)->sum('amount');
+        return $balanceGroup;
+    }
 }

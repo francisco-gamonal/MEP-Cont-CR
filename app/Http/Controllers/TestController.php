@@ -58,12 +58,14 @@ class TestController extends Controller {
                     $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
                         'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
                         'name' => $catalog->catalogs->name,
-                        $typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
-                        $typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
-                        $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0), '', '', '');
+                        'type' => $catalog->catalogs->type,
+                        'typeBudget' => $this->amountTypeBudget($budget, $catalog));
+                       //$typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
+                        //$typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
+                       // $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0));
          
         endforeach;
-           // $var = array_unique($typeBudgetQ[0], 'SORT_REGULAR');       
+            //$var = array_unique($typeBudgetQ, SORT_REGULAR);       
             echo json_encode($typeBudgetQ);
             
 //        foreach ($budget->groups AS $group):
@@ -79,6 +81,13 @@ class TestController extends Controller {
 //
 //            endforeach;
 //        endforeach;
+    }
+    
+    private function amountTypeBudget($budget, $catalog){
+        foreach($budget->typeBudgets as $typeBudget){
+            $a[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id));
+        }
+        return $a;
     }
 
     private function balanceTypeBudget($budget, $catalog, $type) {
