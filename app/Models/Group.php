@@ -76,6 +76,6 @@ class Group extends Model {
                         ->where('balance_budgets.budgets_id', $budget->id)
                         ->where('catalogs.groups_id', $group->id)
                         ->where('catalogs.type', $type)->sum('amount');
-        return $balanceGroup;
+        return number_format($balanceGroup);
     }
 }

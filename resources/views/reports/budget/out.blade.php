@@ -6,12 +6,11 @@
 	<thead>
 		<th style="text-align:center;" colspan="9">Códigos</th>
 		<th style="text-align:center;" width="350">Descripción</th>
-		<th style="text-align:center;">Preescolar</th>
-		<th style="text-align:center;">Escuela Diurna (I y II Ciclo)</th>
-		<th style="text-align:center;">Colegio (III y IV Ciclo)</th>
-		<th style="text-align:center;">Educación Especial</th>
-		<th style="text-align:center;">Sub Total</th>
-		<th style="text-align:center;">Total</th>
+		@foreach($budget->typeBudgets as $typeBudget)
+			<th style="text-align:center;">{{ $typeBudget->name }}</th>
+		@endforeach
+		<th style="text-align:center;">SUB TOTAL</th>
+		<th style="text-align:center;">TOTAL</th>
 	</thead>
 	<tbody>
 		<tr style="font-size:12px; font-weight:bold; text-align:center;">
@@ -25,292 +24,71 @@
 			<td width="20">&nbsp;</td>
 			<td width="20">&nbsp;</td>
 			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10" style="font-weight:bold;font-size:13px;">0. REMUNERACIONES</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			@foreach($budget->typeBudgets as $typeBudget)
+				<td></td>
+			@endforeach
 			<td></td>
 			<td></td>
 		</tr>
-		<tr>
-			<td style="text-align:center;">0</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">01</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Sueldos para Cargos Fijos.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">0</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">01</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Jornales.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">0</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">02</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Tiempo extraordinario.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">0</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">03</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Decimotercer mes.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">0</td>
-			<td style="text-align:center;">05</td>
-			<td style="text-align:center;">02</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Aporte patronal al F.C.L.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10">&nbsp;</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10" style="font-weight:bold;font-size:13px;">5. BIENES DURADEROS</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">5</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">01</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Maquinaria y equipo para la producción.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">5</td>
-			<td style="text-align:center;">01</td>
-			<td style="text-align:center;">02</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Equipo de transporte.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">5</td>
-			<td style="text-align:center;">02</td>
-			<td style="text-align:center;">99</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Otras construcciónes, adiciones y mejoras.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">5</td>
-			<td style="text-align:center;">99</td>
-			<td style="text-align:center;">01</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Semovientes.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10">&nbsp;</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10" style="font-weight:bold;font-size:13px;">6. TRANSFERENCIAS CORRIENTES</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">6</td>
-			<td style="text-align:center;">02</td>
-			<td style="text-align:center;">02</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Becas a terceras personas.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">6</td>
-			<td style="text-align:center;">02</td>
-			<td style="text-align:center;">99</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Otras transferencias a personas.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:center;">6</td>
-			<td style="text-align:center;">03</td>
-			<td style="text-align:center;">01</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td style="padding-left:0.5em;">Prestaciones legales.</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="10">&nbsp;</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
+		@foreach($budget->groups as $group)
+			@if($group->type == 'egresos')
+				<tr>
+					<td colspan="10" style="font-weight:bold;font-size:13px;">{{$group->code}}.- {{$group->name}}</td>
+					@foreach($budget->typeBudgets as $typeBudget)
+						<td></td>
+					@endforeach
+					<td></td>
+					<td style="text-align:center; padding:0 .5em;">{{$group->balanceForGroup($budget, $group, $group->type)}}</td>
+				</tr>
+				@foreach($catalogsBudget as $catalog)
+					@if($group->id == $catalog['groups_id'])
+						@if($catalog['type'] == 'egresos')
+							<tr>
+								<td style="text-align:center;">{{$catalog['p']}}</td>
+								<td style="text-align:center;">{{$catalog['g']}}</td>
+								<td style="text-align:center;">{{$catalog['sp']}}</td>
+								<td style="text-align:center;"></td>
+								<td style="text-align:center;"></td>
+								<td style="text-align:center;"></td>
+								<td style="text-align:center;"></td>
+								<td style="text-align:center;"></td>
+								<td style="text-align:center;"></td>
+								<td style="padding-left:0.5em;">{{$catalog['name']}}</td>
+								@foreach($catalog['typeBudget'] as $amount)
+									@if($amount>0)
+										<td style="text-align:center;">{{$amount}}</td>
+									@else
+										<td></td>
+									@endif
+								@endforeach
+								<td></td>
+							</tr>
+						@endif
+					@endif
+				@endforeach
+				<tr>
+					<td colspan="10">&nbsp;</td>
+					@foreach($budget->typeBudgets as $typeBudget)
+						<td></td>
+					@endforeach
+					<td></td>
+					<td></td>
+				</tr>
+			@endif
+		@endforeach
 		<tr style="background:rgb(250, 192, 192);">
 			<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL EGRESOS</td>
+			<?php $tot = 0; ?>
+			@foreach($budget->typeBudgets as $typeBudget)
+				<?php $tot += $typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos'); ?>
+				@if($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos') > 0)
+					<td style="text-align:center;">{{number_format($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos'))}}</td>
+				@else
+					<td></td>
+				@endif
+			@endforeach
 			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td style="text-align:center;">{{number_format($tot)}}</td>
 		</tr>
 	</tbody>
 </table>

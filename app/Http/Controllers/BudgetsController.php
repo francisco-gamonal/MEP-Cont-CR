@@ -7,6 +7,7 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\Budget;
 use Illuminate\Http\Request;
 use Mep\Models\School;
+use Mep\Models\BalanceBudget;
 
 class BudgetsController extends Controller {
 
@@ -163,11 +164,83 @@ class BudgetsController extends Controller {
      * @return [type]   view
      */
     public function report($token) {
-        $budget = Budget::Token($token);
+        $budget         = Budget::Token($token);
+        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+        $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets);
+        $html           = view('reports.budget.content', compact('budget', 'catalogsBudget'));
 
-        return view('reports.budget.content', compact('budget'));
+        // disable DOMPDF's internal autoloader if you are using Composer
+        define('DOMPDF_ENABLE_AUTOLOAD', false);
+
+        // include DOMPDF's default configuration
+        require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
+
+        /*$html =
+          '<html><body>'.
+          '<p>Put your html here, or generate it with your favourite '.
+          'templating system.</p>'.
+          '</body></html>';*/
+
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $dompdf->stream("sample.pdf");
+
     }
-    private function AcountBalanceBudget(){
-        
+
+    /**
+     * [catalogsBudget description]
+     * @param  [type] $budget         [description]
+     * @param  [type] $balanceBudgets [description]
+     * @return [type]                 [description]
+     */
+    private function catalogsBudget($budget, $balanceBudgets){
+        foreach ($balanceBudgets as $catalog) {
+            $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c, 
+                'sc' => $catalog->catalogs->sc, 
+                'g' => $catalog->catalogs->g, 
+                'sg' => $catalog->catalogs->sg,
+                'p' => $catalog->catalogs->p, 
+                'sp' => $catalog->catalogs->sp, 
+                'r' => $catalog->catalogs->r, 
+                'sr' => $catalog->catalogs->sr, 
+                'f' => $catalog->catalogs->f,
+                'name' => $catalog->catalogs->name,
+                'type' => $catalog->catalogs->type,
+                'groups_id' => $catalog->catalogs->groups_id,
+                'typeBudget' => $this->amountTypeBudget($budget, $catalog));
+        }
+        return $typeBudget;
     }
+
+    /**
+     * [amountTypeBudget description]
+     * @param  [type] $budget  [description]
+     * @param  [type] $catalog [description]
+     * @return [type]          [description]
+     */
+    private function amountTypeBudget($budget, $catalog){
+        $total = 0;
+        foreach($budget->typeBudgets as $typeBudget){
+            $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
+            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id));
+        }
+        $dataTypeBudget['subtotal'] = number_format($total);
+        return $dataTypeBudget;
+    }
+
+    /**
+     * [balanceTypeBudget description]
+     * @param  [type] $budget  [description]
+     * @param  [type] $catalog [description]
+     * @param  [type] $type    [description]
+     * @return [type]          [description]
+     */
+    private function balanceTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
+                        ->where('balance_budgets.catalogs_id', $catalog)
+                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+        return $amountBalanceBudget;
+    }
+
 }

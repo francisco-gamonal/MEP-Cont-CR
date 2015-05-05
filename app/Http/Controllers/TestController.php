@@ -46,20 +46,14 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
-         $budget = Budget::find(1);
-         $countTypeBudget = $budget->typeBudgets->count();
-       
+        $budget = Budget::find(1);
         $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         foreach ($balanceBudgets AS $catalog):
-            for ($i = 0; $i < count($budget->typeBudgets); $i++):
-                $typeBudget[] = ($budget->typeBudgets[$i]->id);
-            endfor;
-            
-                    $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
-                        'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
-                        'name' => $catalog->catalogs->name,
-                        'type' => $catalog->catalogs->type,
-                        'typeBudget' => $this->amountTypeBudget($budget, $catalog));
+            $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+                'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
+                'name' => $catalog->catalogs->name,
+                'type' => $catalog->catalogs->type,
+                'typeBudget' => $this->amountTypeBudget($budget, $catalog));
                        //$typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
                         //$typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
                        // $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0));
