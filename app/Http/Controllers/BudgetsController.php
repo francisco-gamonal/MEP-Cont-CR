@@ -167,24 +167,11 @@ class BudgetsController extends Controller {
         $budget         = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets);
-        $html           = view('reports.budget.content', compact('budget', 'catalogsBudget'));
 
-        // disable DOMPDF's internal autoloader if you are using Composer
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
+        $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
+               ->setOrientation('landscape');
 
-        // include DOMPDF's default configuration
-        require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
-
-        /*$html =
-          '<html><body>'.
-          '<p>Put your html here, or generate it with your favourite '.
-          'templating system.</p>'.
-          '</body></html>';*/
-
-        $dompdf = new \DOMPDF();
-        $dompdf->load_html($html);
-        $dompdf->render();
-        $dompdf->stream("sample.pdf");
+        return $pdf->stream('Reporte.pdf');
 
     }
 
