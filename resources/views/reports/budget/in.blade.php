@@ -4,7 +4,7 @@
 <table border="1" style="font-size:12px;" width="100%;">
 	<tr>
 		<th style="text-align:center;" colspan="9">Códigos</th>
-		<th style="text-align:center;" width="280">Descripción</th>
+		<th style="text-align:center;" width="260">Descripción</th>
 		@foreach($budget->typeBudgets as $typeBudget)
 			<th style="text-align:center;">{{ $typeBudget->name }}</th>
 		@endforeach
@@ -12,15 +12,15 @@
 		<th style="text-align:center;">TOTAL</th>
 	</tr>
 	<tr style="font-weight:bold; text-align:center;">
-		<td width="20">C</td>
-		<td width="20">SC</td>
-		<td width="20">G</td>
-		<td width="20">SG</td>
-		<td width="20">P</td>
-		<td width="20">SP</td>
-		<td width="20">R</td>
-		<td width="20">SR</td>
-		<td width="20">F</td>
+		<td width="10">C</td>
+		<td width="10">SC</td>
+		<td width="10">G</td>
+		<td width="10">SG</td>
+		<td width="10">P</td>
+		<td width="10">SP</td>
+		<td width="10">R</td>
+		<td width="10">SR</td>
+		<td width="10">F</td>
 		<td></td>
 		@foreach($budget->typeBudgets as $typeBudget)
 			<td></td>

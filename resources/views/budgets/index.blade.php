@@ -65,6 +65,7 @@
                                 <th>Global</th>
                                 <th>Institución</th>
                                 <th>Estado</th>
+                                <th>Reporte</th>
                                 <th>Edición</th>
                             </tr>
                         </thead>
@@ -86,6 +87,10 @@
 	                                	@endif
 	                                </td>
 	                                <td class="text-center edit-row">
+										<a href="{{route('report-presupuestos', $budget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+										<a href="{{route('reporte-presupuesto-excel', $budget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+	                                </td>
+	                                <td class="text-center edit-row">
                                 		@if($budget->deleted_at)
                                 			<a id="activeBudget" data-url="presupuestos" href="#">
                                 				<i class="fa fa-check-square-o"></i>
@@ -96,7 +101,6 @@
 											</a>
                                 		@endif
 										<a href="{{route('edit-presupuesto', $budget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
-										<a href="{{route('report-presupuestos', $budget->token)}}"><i class="fa fa-bar-chart"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach
