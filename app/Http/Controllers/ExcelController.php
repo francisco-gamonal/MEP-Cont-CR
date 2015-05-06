@@ -1,6 +1,4 @@
-<?php
-
-namespace Mep\Http\Controllers;
+<?php namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
@@ -11,6 +9,9 @@ use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 
 class ExcelController extends Controller {
+    
+    
+    
      
     /**
      ****************** Inicia el codigo para el archivo de Excel por periodo para el presupuesto **********************
@@ -566,20 +567,20 @@ class ExcelController extends Controller {
      */
     public function budgetGeneralExcel() {
         $budget = Budget::where('id',1)->where('global',1)->get();
-        $school = $budget->schools;
+        $school = $budget[0]->schools;
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
          * */
-        $BalanceBudgets = $this->egresosGeneralBudget($budget, 'egresos');
+        $BalanceBudgets = $this->egresosGeneralBudget($budget[0], 'egresos');
 
         /* Con esta variables obtendremos la cantidad de las filas en los ingresos para 
           crear los rangos de celdas */
-        $cuenta = $this->CuentasGeneralSaldoBudget($budget, 'ingresos');
+        $cuenta = $this->CuentasGeneralSaldoBudget($budget[0], 'ingresos');
         /**/
-        $header= $this->headerGeneralExcel($budget);
+        $header= $this->headerGeneralExcel($budget[0]);
         /* Libreria de excel */
-        Excel::create('Filename', function($excel) use ($header, $budget, $BalanceBudgets, $cuenta) {
-            $excel->sheet('Sheetname', function($sheet) use ( $header, $budget, $BalanceBudgets, $cuenta) {
+        Excel::create('Filename', function($excel) use ($header,  $BalanceBudgets, $cuenta) {
+            $excel->sheet('Sheetname', function($sheet) use ( $header,  $BalanceBudgets, $cuenta) {
                 $letraColumna = 'L';
                 $count = count($cuenta);
                 $countFinal = count($BalanceBudgets);
@@ -810,8 +811,8 @@ class ExcelController extends Controller {
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function budgetInicialExcel() {
-        $budget = Budget::find(1);
+    public function budgetInicialExcel($token) {
+        $budget = Budget::Token($token);
         $school = $budget->schools;
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
@@ -875,7 +876,7 @@ class ExcelController extends Controller {
      * @param type $budget
      * @return string
      */
-    private function headerTable($budget) {
+    private function headerInicialTable($budget) {
         $countTypeBudget = $budget->typeBudgets->count();
 
         for ($i = 0; $i < count($budget->typeBudgets); $i++):
@@ -920,7 +921,7 @@ class ExcelController extends Controller {
      */
     private function headerExcel($budget) {
         $school = $budget->schools;
-        $arrangement = $this->headerTable($budget);
+        $arrangement = $this->headerInicialTable($budget);
         $header = array(
             array(''),
             array('MINISTERIO DE EDUCACIÓN PÚBLICA'),
@@ -1094,7 +1095,7 @@ class ExcelController extends Controller {
     private function egresosBudget($budget) {
         $countTypeBudget = $budget->typeBudgets->count();
         $ingresos = $this->CuentasSaldoBudget($budget, 'ingresos');
-        $arrangement = $this->headerTable($budget);
+        $arrangement = $this->headerInicialTable($budget);
 
         $ingresos[] = array('');
         $ingresos[] = array('EGRESOS');
