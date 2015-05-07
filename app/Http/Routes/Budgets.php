@@ -16,6 +16,7 @@ Route::delete('presupuestos/delete-presupuestos/{token}',['as'=>'delete-presupue
 Route::patch('presupuestos/active-presupuestos/{token}',['as' => 'active-presupuesto', 'uses' => 'BudgetsController@active']);
 Route::put('presupuestos/update-presupuestos','BudgetsController@update');
 Route::get('presupuestos/reporte/{token}',['as'=>'report-presupuestos','uses'=>'BudgetsController@report']);
+Route::get('presupuestos/reporte-global/{token}/{global}/{year}',['as'=>'report-global-presupuestos','uses'=>'BudgetsController@globalReport']);
 /**
  * Fin Rutas de Tipos de Usuarios
  */
