@@ -1,1 +1,6 @@
+@include('reports.partials.circuitGlobal')
+@include('reports.global.title')
+@include('reports.global.transcription')
+@include('reports.global.in')
+@include('reports.global.out')
 @include('reports.global.firm')
