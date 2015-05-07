@@ -37,7 +37,21 @@ class Check extends Model {
     public function LastId() {
         return Check::all()->last();
     }
+    /**
+     * 
+     * @param type $token
+     * @return boolean
+     */
+    public static function Spreadsheet($id) {
+        $checks = Check::withTrashed()->where('spreadsheets_id', $id)->get();
+        if ($checks):
+            foreach ($checks AS $check):
+                return $check;
+            endforeach;
+        endif;
 
+        return false;
+    }
     public static function Token($token) {
         $budgets = Check::withTrashed()->where('token', '=', $token)->get();
         if ($budgets):

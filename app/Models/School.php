@@ -15,7 +15,9 @@ class School extends Model {
     public function users() {
         return $this->belongsToMany('Mep\Models\User');
     }
-
+    public function budgets() {
+        return $this->hasMany('Mep\Models\Budget','schools_id','id');
+    }
     public function LastId() {
         return School::all()->last();
     }

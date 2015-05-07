@@ -1,4 +1,6 @@
-<?php namespace Mep\Http\Controllers;
+<?php
+
+namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
@@ -7,15 +9,102 @@ use Maatwebsite\Excel\Facades\Excel;
 use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
-
+use Mep\Models\Spreadsheet;
+use Mep\Models\Check;
+use Mep\Models\School;
 class ExcelController extends Controller {
-    
-    
-    
-     
+
     /**
-     ****************** Inicia el codigo para el archivo de Excel por periodo para el presupuesto **********************
+     * **************************************inicio Excel de cuadro planilla *************************************
      */
+    public function excelSpreadsheet() {
+        $spreadsheet = Spreadsheet::find(2);
+        $spreadsheets = $this->CreateArraySpreadsheet($spreadsheet);
+        Excel::create('Planilla-', function($excel) use ($spreadsheets) {
+            $excel->sheet('Cuadro Planilla-', function($sheet) use ( $spreadsheets) {
+                $sheet->mergeCells('B1:M1');
+                $sheet->mergeCells('B2:M2');
+                $sheet->mergeCells('B3:M3');
+                $sheet->mergeCells('B5:I5');
+                $sheet->mergeCells('B6:I6');
+                $sheet->mergeCells('B7:I7');
+                $sheet->mergeCells('B8:I8');
+                $sheet->mergeCells('B9:I9');
+                $sheet->mergeCells('B10:I10');
+                $sheet->mergeCells('J6:M10');
+                $sheet->mergeCells('B11:C12');
+                $sheet->mergeCells('D11:I12');
+                $sheet->mergeCells('J11:K12');   
+                $sheet->cells('B1:M5', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('B6:I10', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('J6:M10', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('B11:M13', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->setBorder('B11:K12','thin');
+                $sheet->setBorder('B13:M13','thin');
+                $sheet->fromArray($spreadsheets, null, 'B1', true, false);
+            });
+        })->export('xls');
+    }
+
+    private function CreateArraySpreadsheet($spreadsheet) {
+        
+        $spreadsheets = $this->headerSpreadsheet($spreadsheet);
+        $spreadsheets[] = $this->contentSpreadsheet($spreadsheet);
+        return $spreadsheets;
+    }
+    private function contentSpreadsheet($spreadsheet){
+       $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+        
+            foreach ($checks AS $check):
+                 $content[]= ($check->balanceBudgets->catalogs->codeCuenta());
+            endforeach;
+       
+           
+       return  $content;
+    }
+
+    private function headerSpreadsheet($spreadsheet) {
+        $header = array(
+            array('MINISTERIO DE EDUCACION PUBLICA'),
+            array('DIRECCION REGIONAL DE EDUCACION DE AGUIRRE'),
+            array('OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
+            array(''),
+            array('FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
+            array('PLANILLA DE PAGO N. 71- 2011  FECHA  28  de Diciembre   del 2011','','','','','','','','PROGRAMA:       Ley 6746'),
+            array('Junta: Administrativa CTP de Matapalo'),
+            array('Cédula Jurídica 3-008-056599'),
+            array(''),
+            array(''),
+            array('Información presupuestaria','','Información del pago','','','','','','# Cheques',''),
+            array(''),
+            array('Codigo','Saldo presupuestario','# Factura','Nombre del Proveedor','Concepto','Monto','Retención','Monto a Cancelar','Pago ck','Retención','Acta N. / Acuerdo N.','Saldo Presupuestario Final'),
+            array('')
+            
+        );
+        return $header;
+    }
+
+    /**
+     * **************************************Final Excel de cuadro planilla *************************************
+     */
+    /**
+     * ***************** Inicia el codigo para el archivo de Excel por periodo para el presupuesto **********************
+     */
+
     /**
      * Con este methodo unimos dos los datos finales
      * para generar el archivo de excel
@@ -82,7 +171,8 @@ class ExcelController extends Controller {
             });
         })->export('xls');
     }
-     /**
+
+    /**
      * Con este metrodo creamos el encabezado de las tablas para mostrar
      * @param type $budget
      * @return string
@@ -187,7 +277,7 @@ class ExcelController extends Controller {
      * @param type $type
      * @return type
      */
-    private function saldoPeriodTypeBudget($budget, $type) { 
+    private function saldoPeriodTypeBudget($budget, $type) {
         $typeBudget = $this->PeriodForTypeBudget($budget);
         $paso1 = $this->balancePeriodForTypeBudget($budget, $typeBudget[0], $type);
         $countTypeBudget = count($typeBudget);
@@ -558,16 +648,24 @@ class ExcelController extends Controller {
         $string = array_unique($details, SORT_REGULAR);
         return $string;
     }
-     /**
-     ****************** Fin del codigo para el archivo de Excel por periodo para el presupuesto **********************
-     */
-    
+
     /**
-     ****************** Inicia el codigo para el archivo de Excel General **********************
+     * ***************** Fin del codigo para el archivo de Excel por periodo para el presupuesto **********************
      */
-    public function budgetGeneralExcel() {
-        $budget = Budget::where('id',1)->where('global',1)->get();
-        $school = $budget[0]->schools;
+
+    /**
+     * ***************** Inicia el codigo para el archivo de Excel General **********************
+     */
+    public function generalBudgetExcel() {
+        $school= School::Token('qkwewqkewqklqeklkl123');
+        $budgets = Budget::where('schools_id', $school->id)->where('global', 1)->get();
+        $content= $this->headerGeneralExcel($school);
+        foreach($budgets AS  $budget):
+            //$content[]= $this->CuentasGeneralSaldoBudget($budget, 'ingresos');
+             echo json_encode($content); 
+        endforeach;
+      // echo json_encode($budget); 
+       die;
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
          * */
@@ -577,10 +675,10 @@ class ExcelController extends Controller {
           crear los rangos de celdas */
         $cuenta = $this->CuentasGeneralSaldoBudget($budget[0], 'ingresos');
         /**/
-        $header= $this->headerGeneralExcel($budget[0]);
+        $header = $this->headerGeneralExcel($budget[0]);
         /* Libreria de excel */
-        Excel::create('Filename', function($excel) use ($header,  $BalanceBudgets, $cuenta) {
-            $excel->sheet('Sheetname', function($sheet) use ( $header,  $BalanceBudgets, $cuenta) {
+        Excel::create('Filename', function($excel) use ($header, $BalanceBudgets, $cuenta) {
+            $excel->sheet('Sheetname', function($sheet) use ( $header, $BalanceBudgets, $cuenta) {
                 $letraColumna = 'L';
                 $count = count($cuenta);
                 $countFinal = count($BalanceBudgets);
@@ -588,10 +686,10 @@ class ExcelController extends Controller {
                 $countHeaderEgre = 3 + $count;
                 $countHeaderCat = 4 + $count;
                 $countDetailsCat = 5 + $count;
-                $countHeader= count($header)-2;
-                $countHeaderTable= $countHeader+1;
-                $countCuadro= $countFinal+3;
-                $countCuadroFinal=$countCuadro+17;
+                $countHeader = count($header) - 2;
+                $countHeaderTable = $countHeader + 1;
+                $countCuadro = $countFinal + 3;
+                $countCuadroFinal = $countCuadro + 17;
                 /* Inicio Encabezado */
                 $sheet->mergeCells('A1:' . $letraColumna . '1');
                 $sheet->mergeCells('A2:' . $letraColumna . '2');
@@ -606,27 +704,27 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('A11:' . $letraColumna . '11');
                 $sheet->mergeCells('A12:' . $letraColumna . '12');
                 $sheet->mergeCells('A13:' . $letraColumna . '13');
-                
+
                 /* fin Encabezado */
 
                 /* Inicio Ingresos */
-                $sheet->mergeCells('A'.$countHeader.':' . $letraColumna .$countHeader);
-                $sheet->mergeCells('A'.$countHeaderTable.':I'  .$countHeaderTable);
-              // $sheet->mergeCells('A12:' . $letraColumna . '12');
+                $sheet->mergeCells('A' . $countHeader . ':' . $letraColumna . $countHeader);
+                $sheet->mergeCells('A' . $countHeaderTable . ':I' . $countHeaderTable);
+                // $sheet->mergeCells('A12:' . $letraColumna . '12');
                 $sheet->mergeCells('A' . $countEgreso . ':' . $letraColumna . $countEgreso);
                 $sheet->mergeCells('A' . $countHeaderEgre . ':I' . $countHeaderEgre);
-                $sheet->setBorder('A'.$countHeader.':' . $letraColumna . $count, 'thin');
+                $sheet->setBorder('A' . $countHeader . ':' . $letraColumna . $count, 'thin');
                 $sheet->setBorder('A' . $countEgreso . ':' . $letraColumna . $countFinal, 'thin');
-                
-                
-               
+
+
+
                 $sheet->cells('A1:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('center');
                 });
                 $sheet->cells('A11:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('left');
                 });
-                $sheet->cells('A'.$countHeader.':' . $letraColumna .$countHeaderTable, function($cells) {
+                $sheet->cells('A' . $countHeader . ':' . $letraColumna . $countHeaderTable, function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
@@ -634,10 +732,10 @@ class ExcelController extends Controller {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
-                
-                
+
+
                 $sheet->fromArray($BalanceBudgets, null, 'A1', true, false);
-                 $sheet->cell('B40:L50' , function($cells) {
+                $sheet->cell('B40:L50', function($cells) {
                     $cells->setBorder('solid', 'none', 'none', 'solid');
                 });
                 /* fin Ingresos */
@@ -772,8 +870,8 @@ class ExcelController extends Controller {
      * @param type $budget
      * @return array
      */
-    private function headerGeneralExcel($budget) {
-        $school = $budget->schools;
+    private function headerGeneralExcel($school) {
+        
         $header = array(
             array(''),
             array('MINISTERIO DE EDUCACIÓN PÚBLICA'),
@@ -781,29 +879,30 @@ class ExcelController extends Controller {
             array($school->name . ', CÉDULA JURÍDICA ' . $school->charter),
             array('CIRCUITO ' . $school->circuit . '   CÓDIGO  ' . $school->code),
             array(''),
-            array('PRESUPUESTO ORDINARIO PARA EL EJERCICIO ECONÓMICO ' . $budget->year),
+            array('PRESUPUESTO ORDINARIO PARA EL EJERCICIO ECONÓMICO ' . $school->budgets[0]->year ),
             array(''),
-            array('(Del 01 de enero al 31 de diciembre del ' . $budget->year . ')'),
+            array('(Del 01 de enero al 31 de diciembre del ' . $school->budgets[0]->year . ')'),
             array('(Veinti tres millones ochocientos  ochenta y cinco  mil novecientos  setenta y siete con 87/100)'),
             array('Transcripción del acuerdo de Junta de aprobación presupuestaria: '),
             array('Este proyecto de presupuesto fue aprobado en la sesión número _________, realizada el día ___, del mes de ______________, del'),
-            array('año  ' . $budget->year . '. Todo lo anterior consta en el acta N. ___, artículo N. ___.'),
+            array('año  ' . $school->budgets[0]->year . '. Todo lo anterior consta en el acta N. ___, artículo N. ___.'),
             array(''),
             array(''),
             array('INGRESOS'),
             array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total'),
             array('C', 'SC', 'G', 'SG', 'P', 'SP', 'R', 'SR', 'F')
         );
+       
         return $header;
     }
+
     /**
-     ****************** Finaliza el codigo para el archivo de Excel General presupuesto **********************
+     * ***************** Finaliza el codigo para el archivo de Excel General presupuesto **********************
      */
-    
-    
     /**
-     ****************** Inicia el codigo para el archivo de Excel Inicial para el presupuesto **********************
+     * ***************** Inicia el codigo para el archivo de Excel Inicial para el presupuesto **********************
      */
+
     /**
      * Con este methodo unimos dos los datos finales
      * para generar el archivo de excel
@@ -976,7 +1075,7 @@ class ExcelController extends Controller {
      * @param type $type
      * @return type
      */
-    private function saldoTypeBudget($budget, $type) { 
+    private function saldoTypeBudget($budget, $type) {
         $typeBudget = $this->forTypeBudget($budget);
         $paso1 = $this->balanceForTypeBudget($budget, $typeBudget[0], $type);
         $countTypeBudget = count($typeBudget);
