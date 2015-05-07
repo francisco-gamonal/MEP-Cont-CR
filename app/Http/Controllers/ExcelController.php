@@ -12,6 +12,8 @@ use Mep\Models\Catalog;
 use Mep\Models\Spreadsheet;
 use Mep\Models\Check;
 use Mep\Models\School;
+use Mep\Models\Group;
+
 class ExcelController extends Controller {
 
     /**
@@ -34,7 +36,7 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('J6:M10');
                 $sheet->mergeCells('B11:C12');
                 $sheet->mergeCells('D11:I12');
-                $sheet->mergeCells('J11:K12');   
+                $sheet->mergeCells('J11:K12');
                 $sheet->cells('B1:M5', function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
@@ -53,28 +55,29 @@ class ExcelController extends Controller {
                     $cells->setValignment('center');
                     $cells->setFontWeight('bold');
                 });
-                $sheet->setBorder('B11:K12','thin');
-                $sheet->setBorder('B13:M13','thin');
+                $sheet->setBorder('B11:K12', 'thin');
+                $sheet->setBorder('B13:M13', 'thin');
                 $sheet->fromArray($spreadsheets, null, 'B1', true, false);
             });
         })->export('xls');
     }
 
     private function CreateArraySpreadsheet($spreadsheet) {
-        
+
         $spreadsheets = $this->headerSpreadsheet($spreadsheet);
         $spreadsheets[] = $this->contentSpreadsheet($spreadsheet);
         return $spreadsheets;
     }
-    private function contentSpreadsheet($spreadsheet){
-       $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
-        
-            foreach ($checks AS $check):
-                 $content[]= ($check->balanceBudgets->catalogs->codeCuenta());
-            endforeach;
-       
-           
-       return  $content;
+
+    private function contentSpreadsheet($spreadsheet) {
+        $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+
+        foreach ($checks AS $check):
+            $content[] = ($check->balanceBudgets->catalogs->codeCuenta());
+        endforeach;
+
+
+        return $content;
     }
 
     private function headerSpreadsheet($spreadsheet) {
@@ -84,16 +87,15 @@ class ExcelController extends Controller {
             array('OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
             array(''),
             array('FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
-            array('PLANILLA DE PAGO N. 71- 2011  FECHA  28  de Diciembre   del 2011','','','','','','','','PROGRAMA:       Ley 6746'),
+            array('PLANILLA DE PAGO N. 71- 2011  FECHA  28  de Diciembre   del 2011', '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
             array('Junta: Administrativa CTP de Matapalo'),
             array('Cédula Jurídica 3-008-056599'),
             array(''),
             array(''),
-            array('Información presupuestaria','','Información del pago','','','','','','# Cheques',''),
+            array('Información presupuestaria', '', 'Información del pago', '', '', '', '', '', '# Cheques', ''),
             array(''),
-            array('Codigo','Saldo presupuestario','# Factura','Nombre del Proveedor','Concepto','Monto','Retención','Monto a Cancelar','Pago ck','Retención','Acta N. / Acuerdo N.','Saldo Presupuestario Final'),
+            array('Codigo', 'Saldo presupuestario', '# Factura', 'Nombre del Proveedor', 'Concepto', 'Monto', 'Retención', 'Monto a Cancelar', 'Pago ck', 'Retención', 'Acta N. / Acuerdo N.', 'Saldo Presupuestario Final'),
             array('')
-            
         );
         return $header;
     }
@@ -656,32 +658,96 @@ class ExcelController extends Controller {
     /**
      * ***************** Inicia el codigo para el archivo de Excel General **********************
      */
-    public function generalBudgetExcel() {
-        $school= School::Token('qkwewqkewqklqeklkl123');
-        $budgets = Budget::where('schools_id', $school->id)->where('global', 1)->get();
-        $content= $this->headerGeneralExcel($school);
-        foreach($budgets AS  $budget):
-            //$content[]= $this->CuentasGeneralSaldoBudget($budget, 'ingresos');
-             echo json_encode($content); 
+    public function generalInExcel($groups, $catalogsBudget, $school) {
+        $content = $this->headerGeneralExcel($school);
+        foreach ($groups as $group):
+            if ($group->type == 'ingresos'):
+                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+                foreach ($catalogsBudget as $catalog):
+                    if ($group->id == $catalog->groups_id):
+                        if ($catalog->type == 'ingresos'):
+                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
+                                $catalog->name, number_format($catalog->amount));
+
+
+                        endif;
+                    endif;
+                endforeach;
+
+            endif;
         endforeach;
-      // echo json_encode($budget); 
-       die;
+        return $content;
+    }
+
+    public function generalOutExcel($groups, $catalogsBudget, $school) {
+        $content = $this->generalInExcel($groups, $catalogsBudget, $school);
+        $content[] = array('');
+        $content[] = array('EGRESOS');
+        $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
+        $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
+        foreach ($groups as $group):
+            if ($group->type == 'egresos'):
+                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+                foreach ($catalogsBudget as $catalog):
+                    if ($group->id == $catalog->groups_id):
+                        if ($catalog->type == 'egresos'):
+                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
+                                $catalog->name, number_format($catalog->amount));
+
+
+                        endif;
+                    endif;
+                endforeach;
+
+            endif;
+        endforeach;
+        return $content;
+    }
+
+    public function generalBudgetExcel() {
+        $school = School::Token('qkwewqkewqklqeklkl123');
+        $catalogs = Catalog::all();
+        $global = 1;
+        $year = 2015;
+        foreach ($catalogs as $catalog) {
+            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
+                    ->where('schools_id', $school->id)
+                    ->where('global', $global)
+                    ->where('catalogs_id', $catalog->id)
+                    ->where('year', $year)
+                    ->sum('amount');
+
+            if ($amount > 0) {
+                $groups[$catalog->groups_id] = Group::find($catalog->groups_id);
+                $catalog->amount = $amount;
+                $catalogsBudget[] = $catalog;
+            }
+        }
+
+        foreach ($groups as $group) {
+            $totGroup = 0;
+            foreach ($catalogsBudget as $catalog) {
+                if ($group->id == $catalog->groups_id) {
+                    $totGroup += $catalog->amount;
+                }
+            }
+            $group->total = $totGroup;
+        }
+        $content = $this->generalOutExcel($groups, $catalogsBudget, $school);
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
          * */
-        $BalanceBudgets = $this->egresosGeneralBudget($budget[0], 'egresos');
-
         /* Con esta variables obtendremos la cantidad de las filas en los ingresos para 
           crear los rangos de celdas */
-        $cuenta = $this->CuentasGeneralSaldoBudget($budget[0], 'ingresos');
+        $cuenta = $this->generalInExcel($groups, $catalogsBudget, $school);
         /**/
-        $header = $this->headerGeneralExcel($budget[0]);
+        $header = $this->headerGeneralExcel($school);
         /* Libreria de excel */
-        Excel::create('Filename', function($excel) use ($header, $BalanceBudgets, $cuenta) {
-            $excel->sheet('Sheetname', function($sheet) use ( $header, $BalanceBudgets, $cuenta) {
+        Excel::create('Filename', function($excel) use ($header, $content, $cuenta) {
+            $excel->sheet('Sheetname', function($sheet) use ( $header, $content, $cuenta) {
                 $letraColumna = 'L';
                 $count = count($cuenta);
-                $countFinal = count($BalanceBudgets);
+                $countFinal = count($content);
                 $countEgreso = 2 + $count;
                 $countHeaderEgre = 3 + $count;
                 $countHeaderCat = 4 + $count;
@@ -732,12 +798,12 @@ class ExcelController extends Controller {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
-
-
-                $sheet->fromArray($BalanceBudgets, null, 'A1', true, false);
-                $sheet->cell('B40:L50', function($cells) {
+                 $sheet->cell('B40:L50', function($cells) {
                     $cells->setBorder('solid', 'none', 'none', 'solid');
                 });
+
+                $sheet->fromArray($content, null, 'A1', true, false);
+               
                 /* fin Ingresos */
             });
         })->export('xls');
@@ -871,7 +937,7 @@ class ExcelController extends Controller {
      * @return array
      */
     private function headerGeneralExcel($school) {
-        
+
         $header = array(
             array(''),
             array('MINISTERIO DE EDUCACIÓN PÚBLICA'),
@@ -879,7 +945,7 @@ class ExcelController extends Controller {
             array($school->name . ', CÉDULA JURÍDICA ' . $school->charter),
             array('CIRCUITO ' . $school->circuit . '   CÓDIGO  ' . $school->code),
             array(''),
-            array('PRESUPUESTO ORDINARIO PARA EL EJERCICIO ECONÓMICO ' . $school->budgets[0]->year ),
+            array('PRESUPUESTO ORDINARIO PARA EL EJERCICIO ECONÓMICO ' . $school->budgets[0]->year),
             array(''),
             array('(Del 01 de enero al 31 de diciembre del ' . $school->budgets[0]->year . ')'),
             array('(Veinti tres millones ochocientos  ochenta y cinco  mil novecientos  setenta y siete con 87/100)'),
@@ -892,7 +958,7 @@ class ExcelController extends Controller {
             array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total'),
             array('C', 'SC', 'G', 'SG', 'P', 'SP', 'R', 'SR', 'F')
         );
-       
+
         return $header;
     }
 
