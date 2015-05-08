@@ -193,8 +193,12 @@ class BudgetsController extends Controller {
             }
             $group->total = $totGroup;
         }
+        $count = count($catalogsBudget) +count($groups)+6;
+       if($count>=18):
+           $top=300;
+       endif;
         //echo view('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year'));die;
-        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year'));
+        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year','top'));
         return $pdf->stream('Reporte.pdf');
     }
 

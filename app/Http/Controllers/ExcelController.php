@@ -658,56 +658,10 @@ class ExcelController extends Controller {
     /**
      * ***************** Inicia el codigo para el archivo de Excel General **********************
      */
-    public function generalInExcel($groups, $catalogsBudget, $school) {
-        $content = $this->headerGeneralExcel($school);
-        foreach ($groups as $group):
-            if ($group->type == 'ingresos'):
-                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
-                foreach ($catalogsBudget as $catalog):
-                    if ($group->id == $catalog->groups_id):
-                        if ($catalog->type == 'ingresos'):
-                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                                $catalog->name, number_format($catalog->amount));
-
-
-                        endif;
-                    endif;
-                endforeach;
-
-            endif;
-        endforeach;
-        return $content;
-    }
-
-    public function generalOutExcel($groups, $catalogsBudget, $school) {
-        $content = $this->generalInExcel($groups, $catalogsBudget, $school);
-        $content[] = array('');
-        $content[] = array('EGRESOS');
-        $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
-        $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
-        foreach ($groups as $group):
-            if ($group->type == 'egresos'):
-                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
-                foreach ($catalogsBudget as $catalog):
-                    if ($group->id == $catalog->groups_id):
-                        if ($catalog->type == 'egresos'):
-                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                                $catalog->name, number_format($catalog->amount));
-
-
-                        endif;
-                    endif;
-                endforeach;
-
-            endif;
-        endforeach;
-        return $content;
-    }
-
-    public function generalBudgetExcel($token,$global,$year) {
+    public function generalBudgetExcel($token, $global, $year) {
         $school = School::Token($token);
         $catalogs = Catalog::all();
-       
+
         foreach ($catalogs as $catalog) {
             $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
                     ->where('schools_id', $school->id)
@@ -736,17 +690,22 @@ class ExcelController extends Controller {
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
          * */
+        $countFinal = count($content);
+
+        $foots = $this->generalFootExcel();
+        foreach ($foots AS $foot):
+            $content[] = $foot;
+        endforeach;
         /* Con esta variables obtendremos la cantidad de las filas en los ingresos para 
           crear los rangos de celdas */
         $cuenta = $this->generalInExcel($groups, $catalogsBudget, $school);
         /**/
         $header = $this->headerGeneralExcel($school);
         /* Libreria de excel */
-        Excel::create('Filename', function($excel) use ($header, $content, $cuenta) {
-            $excel->sheet('Sheetname', function($sheet) use ( $header, $content, $cuenta) {
+        Excel::create('Filename', function($excel) use ($header, $content, $cuenta, $countFinal) {
+            $excel->sheet('Sheetname', function($sheet) use ( $header, $content, $cuenta, $countFinal) {
                 $letraColumna = 'L';
                 $count = count($cuenta);
-                $countFinal = count($content);
                 $countEgreso = 2 + $count;
                 $countHeaderEgre = 3 + $count;
                 $countHeaderCat = 4 + $count;
@@ -755,6 +714,7 @@ class ExcelController extends Controller {
                 $countHeaderTable = $countHeader + 1;
                 $countCuadro = $countFinal + 3;
                 $countCuadroFinal = $countCuadro + 17;
+                $AlignCount = $countCuadro + 9;
                 /* Inicio Encabezado */
                 $sheet->mergeCells('A1:' . $letraColumna . '1');
                 $sheet->mergeCells('A2:' . $letraColumna . '2');
@@ -780,9 +740,43 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('A' . $countHeaderEgre . ':I' . $countHeaderEgre);
                 $sheet->setBorder('A' . $countHeader . ':' . $letraColumna . $count, 'thin');
                 $sheet->setBorder('A' . $countEgreso . ':' . $letraColumna . $countFinal, 'thin');
-
-
-
+                /* Firmas */
+                $sheet->mergeCells('K' . $countCuadro . ':' . $letraColumna . $countCuadro, 'thin');
+                $countCuadroX =$countCuadro+3;
+                $sheet->mergeCells('K' . $countCuadroX . ':' . $letraColumna . $countCuadroX, 'thin');
+                $countCuadroZ =$countCuadroX+1;
+                $sheet->mergeCells('K' . $countCuadroZ . ':' . $letraColumna . $countCuadroZ, 'thin');
+                $countCuadroY =$countCuadroZ+4;
+                $sheet->mergeCells('K' . $countCuadroY . ':' . $letraColumna . $countCuadroY, 'thin');
+                $countCuadroJ = $countCuadro + 2;
+                $sheet->mergeCells('B' . $countCuadroJ . ':J' . $countCuadroJ, 'thin');
+                $countCuadroR = $countCuadroJ + 1;
+                $sheet->mergeCells('B' . $countCuadroR . ':J' . $countCuadroR, 'thin');
+                $countCuadroN = $countCuadroR + 1;
+                $sheet->mergeCells('B' . $countCuadroN . ':J' . $countCuadroN, 'thin');
+                $countCuadroA = $countCuadroN + 1;
+                $sheet->mergeCells('B' . $countCuadroA . ':J' . $countCuadroA, 'thin');
+                $countCuadroB = $countCuadroA + 1;
+                $sheet->mergeCells('B' . $countCuadroB . ':J' . $countCuadroB, 'thin');
+                $countCuadroC = $countCuadroB + 1;
+                $sheet->mergeCells('B' . $countCuadroC . ':J' . $countCuadroC, 'thin');
+                $countCuadroD = $countCuadroC + 1;
+                $sheet->mergeCells('B' . $countCuadroD . ':J' . $countCuadroD, 'thin');
+                $countCuadroE = $countCuadroD + 1;
+                $sheet->mergeCells('B' . $countCuadroE . ':J' . $countCuadroE, 'thin');
+                $countCuadroK = $countCuadroE + 1;
+                $sheet->mergeCells('B' . $countCuadroK . ':J' . $countCuadroK, 'thin');
+                $countCuadroL = $countCuadroK + 1;
+                $sheet->mergeCells('B' . $countCuadroL . ':J' . $countCuadroL, 'thin');
+                $countCuadroM = $countCuadroL + 1;
+                $sheet->mergeCells('B' . $countCuadroM . ':J' . $countCuadroM, 'thin');
+                $countCuadroO = $countCuadroM + 1;
+                $sheet->mergeCells('B' . $countCuadroO . ':J' . $countCuadroO, 'thin');
+                $countCuadroP = $countCuadroO + 1;
+                $sheet->mergeCells('B' . $countCuadroP . ':I' . $countCuadroP, 'thin');
+                $countCuadroQ = $countCuadroP + 1;
+                $sheet->mergeCells('B' . $countCuadroQ . ':I' . $countCuadroQ, 'thin');
+                /**/
                 $sheet->cells('A1:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('center');
                 });
@@ -793,140 +787,114 @@ class ExcelController extends Controller {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
-                $sheet->cells('A' . $countEgreso . ':' . $letraColumna . $countHeaderCat, function($cells) {
+                $sheet->cells('A' . $countCuadro . ':' . $letraColumna . $countCuadro, function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
-                 $sheet->cell('B40:L50', function($cells) {
+
+                $sheet->cells('A' . $countCuadro . ':' . $letraColumna . $AlignCount, function($cells) {
+                    $cells->setAlignment('center');
+                });
+
+                $sheet->cells('A' . $countCuadro . ':' . $letraColumna . $countCuadro, function($cells) {
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('K' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
+                   $cells->setAlignment('center');
+                });
+                $sheet->cell('B' . $countCuadro . ':L' . $countCuadroFinal, function($cells) {
                     $cells->setBorder('solid', 'none', 'none', 'solid');
                 });
 
                 $sheet->fromArray($content, null, 'A1', true, false);
-               
+
                 /* fin Ingresos */
             });
         })->export('xls');
     }
 
+    private function generalFootExcel() {
+        $foot = array(
+            array('', ''),
+            array('', ''),
+            array('', '', '', '', '', '', '', '', '', '', '( Uso de la Regional)'),
+            array('', ''),
+            array('', 'MARITZA Sanchez Gutierrez ced 6 158434'),
+            array('', 'Presidente(a) de La Junta', '', '', '', '', '', '', '', '', '', '________________'),
+            array('', 'Nombre, cédula y firma', '', '', '', '', '', '', '', '', 'Fecha de Recibido'),
+            array('', ''),
+            array('', 'Grettel Roman Ceciliano 6 300 310'),
+            array('', 'Secretario(a) de La Junta'),
+            array('', 'Nombre, cédula y firma', '', '', '', '', '', '', '', '', '', '________________'),
+            array('', '', '', '', '', '', '', '', '', 'Recibido por'),
+            array('', '****************************************************************************************'),
+            array('', 'Nombre y firma del funcionario que revisó el documento : ____________________________________'),
+            array('', ''),
+            array('', 'Sello de aprobación de la Dirección Regional: '),
+            array('', '', '', '', '', '', '', '', '', '( Sello)'),
+            array('', 'Fecha de aprobación: _______________________')
+        );
+        return $foot;
+    }
+
     /**
-     * Con este metodos generamos el array de las cuentas de detalle para generar el excel
-     * y unimos los datos del encabezado y los datos del ingresos
-     * @param type $budget
+     * 
+     * @param type $groups
+     * @param type $catalogsBudget
+     * @param type $school
      * @return type
      */
-    private function egresosGeneralBudget($budget) {
-        $countTypeBudget = $budget->typeBudgets->count();
-        $ingresos = $this->CuentasGeneralSaldoBudget($budget, 'ingresos');
-        $ingresos[] = array('');
-        $ingresos[] = array('EGRESOS');
-        $ingresos[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
-        $ingresos[] = array('P', 'G', 'SP', '', '', '', '', '', '');
-
-        foreach ($budget->groups AS $group):
-            $groupBalanceBudget = $this->balanceForGroup($budget, $group, 'egresos');
-
+    private function generalOutExcel($groups, $catalogsBudget, $school) {
+        $content = $this->generalInExcel($groups, $catalogsBudget, $school);
+        $content[] = array('');
+        $content[] = array('EGRESOS');
+        $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
+        $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
+        foreach ($groups as $group):
             if ($group->type == 'egresos'):
-                $ArregloCuentasDetalle = $this->detailsGlobalIncomeAccounts($group, $budget, 'egresos');
-                $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                foreach ($ArregloCuentasDetalle AS $detalle):
-                    $ingresos[] = $detalle;
+                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+                foreach ($catalogsBudget as $catalog):
+                    if ($group->id == $catalog->groups_id):
+                        if ($catalog->type == 'egresos'):
+                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
+                                $catalog->name, number_format($catalog->amount));
+
+
+                        endif;
+                    endif;
                 endforeach;
 
             endif;
-
         endforeach;
-        $ingresos[] = $this->saldoGlobalTypeBudget($budget, 'egresos');
-        return $ingresos;
+        return $content;
     }
 
     /**
-     * Con este methodo generamos las cuentas de ingresos para 
-     * los archivos de excel.
-     * @param type $budget
-     * @return type
+     * 
+     * @param type $groups
+     * @param type $catalogsBudget
+     * @param type $school
+     * @return type.
      */
-    private function CuentasGeneralSaldoBudget($budget, $type) {
-        $ingresos = $this->headerGeneralExcel($budget);
+    private function generalInExcel($groups, $catalogsBudget, $school) {
+        $content = $this->headerGeneralExcel($school);
+        foreach ($groups as $group):
+            if ($group->type == 'ingresos'):
+                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+                foreach ($catalogsBudget as $catalog):
+                    if ($group->id == $catalog->groups_id):
+                        if ($catalog->type == 'ingresos'):
+                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
+                                $catalog->name, number_format($catalog->amount));
 
-        foreach ($budget->groups AS $group):
-            $groupBalanceBudget = $this->balanceForGroup($budget, $group, $type);
 
-            if ($group->type == $type):
-                $ArregloCuentasDetalle = $this->detailsGlobalIncomeAccounts($group, $budget, $type);
-
-                $ingresos[] = array($group->code . '. ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
-                foreach ($ArregloCuentasDetalle AS $detalle):
-                    $ingresos[] = $detalle;
+                        endif;
+                    endif;
                 endforeach;
+
             endif;
         endforeach;
-
-        $ingresos[] = $this->saldoGlobalTypeBudget($budget, 'ingresos');
-        return $ingresos;
-    }
-
-    /**
-     * Con este methodo generamos el array de las cuentas de detalle
-     * @param type $group
-     * @param type $budget
-     * @return type
-     */
-    private function detailsGlobalIncomeAccounts($group, $budget, $type) {
-        $countTypeBudget = $budget->typeBudgets->count();
-
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
-                        ->where('catalogs.type', $type)->get();
-        foreach ($catalogBalanceBudget AS $catalog):
-            $paso1 = $this->balanceGlobalTypeBudget($budget->id, $catalog->id);
-            $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
-                $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                $catalog->name, number_format($paso1, 0), '');
-        endforeach;
-
-        $string = array_unique($details, SORT_REGULAR);
-        return $string;
-    }
-
-    /**
-     * Con este methodo generamos los totales de cada cuadro
-     * para los archivos de excel
-     * @param type $budget
-     * @param type $type
-     * @return type
-     */
-    private function saldoGlobalTypeBudget($budget, $type) {
-        $paso1 = $this->balanceGlobalForTypeBudget($budget, $type);
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0), number_format($paso1, 0));
-    }
-
-    /**
-     * Obtenemos el saldo de cada una de las cuentas
-     * @param type $budget
-     * @param type $catalog
-     * @param type $type
-     * @return type
-     */
-    private function balanceGlobalTypeBudget($budget, $catalog) {
-        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
-                        ->where('balance_budgets.catalogs_id', $catalog)->sum('amount');
-
-
-        return $amountBalanceBudget;
-    }
-
-    /**
-     * Obtenemos el total del monto por grupo de cuentas para el Presupuesto
-     * @param type $budget
-     * @param type $group
-     * @return type
-     */
-    private function balanceGlobalForTypeBudget($budget, $type) {
-        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.type', $type)->sum('amount');
-        return $balanceTypeBudget;
+        return $content;
     }
 
     /**

@@ -1,4 +1,5 @@
-<div class="firm" style="margin:0 auto; border:1px solid black; width:97%; font-size:12px;">
+
+<div class="firm" style=" margin-top: <?php echo $top; ?> border:1px solid black; width:97%; font-size:12px;">
 	<div style="display:inline-block; vertical-align:middle; width:70%; border-right:1px solid black; padding-top:2em;">
 		<p style="margin:0 auto; text-align:center;">{{$school->president}}</p>
 		<p style="margin:0; text-align:center;">Presidente(a) de La Junta</p>
