@@ -704,11 +704,10 @@ class ExcelController extends Controller {
         return $content;
     }
 
-    public function generalBudgetExcel() {
-        $school = School::Token('qkwewqkewqklqeklkl123');
+    public function generalBudgetExcel($token,$global,$year) {
+        $school = School::Token($token);
         $catalogs = Catalog::all();
-        $global = 1;
-        $year = 2015;
+       
         foreach ($catalogs as $catalog) {
             $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
                     ->where('schools_id', $school->id)
