@@ -65,7 +65,11 @@ class ExcelController extends Controller {
     private function CreateArraySpreadsheet($spreadsheet) {
 
         $spreadsheets = $this->headerSpreadsheet($spreadsheet);
-        $spreadsheets[] = $this->contentSpreadsheet($spreadsheet);
+        $spreadsheet=$this->contentSpreadsheet($spreadsheet);
+        foreach($spreadsheet AS $value):
+            $spreadsheets[] = $value ;
+        endforeach;
+        
         return $spreadsheets;
     }
 
@@ -73,7 +77,12 @@ class ExcelController extends Controller {
         $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
 
         foreach ($checks AS $check):
-            $content[] = ($check->balanceBudgets->catalogs->codeCuenta());
+            
+            $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
+                '0.00',$check->bill,$check->supplier->name,$check->concept,
+                $check->amount,$check->retention,$check->cancelarAmount(),$check->ckbill,
+                $check->ckretention,$check->record,'0.00'
+                );
         endforeach;
 
 
@@ -94,7 +103,7 @@ class ExcelController extends Controller {
             array(''),
             array('Información presupuestaria', '', 'Información del pago', '', '', '', '', '', '# Cheques', ''),
             array(''),
-            array('Codigo', 'Saldo presupuestario', '# Factura', 'Nombre del Proveedor', 'Concepto', 'Monto', 'Retención', 'Monto a Cancelar', 'Pago ck', 'Retención', 'Acta N. / Acuerdo N.', 'Saldo Presupuestario Final'),
+            array('Codigo', 'Saldo presupuestario', '# Factura', 'Nombre del Proveedor', 'Concepto', 'Monto', 'Retención', 'Monto a Cancelar', 'Pago ck', 'Pago Retención', 'Acta N. / Acuerdo N.', 'Saldo Presupuestario Final'),
             array('')
         );
         return $header;
@@ -689,7 +698,7 @@ class ExcelController extends Controller {
         $content = $this->generalOutExcel($groups, $catalogsBudget, $school);
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
-         * */
+         **/
         $countFinal = count($content);
 
         $foots = $this->generalFootExcel();
@@ -740,10 +749,13 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('A' . $countHeaderEgre . ':I' . $countHeaderEgre);
                 $sheet->setBorder('A' . $countHeader . ':' . $letraColumna . $count, 'thin');
                 $sheet->setBorder('A' . $countEgreso . ':' . $letraColumna . $countFinal, 'thin');
+               
+               
                 /* Firmas */
                 $sheet->mergeCells('K' . $countCuadro . ':' . $letraColumna . $countCuadro, 'thin');
                 $countCuadroX =$countCuadro+3;
                 $sheet->mergeCells('K' . $countCuadroX . ':' . $letraColumna . $countCuadroX, 'thin');
+                $sheet->mergeCells('B' . $countCuadro . ':J'. $countCuadro, 'thin');
                 $countCuadroZ =$countCuadroX+1;
                 $sheet->mergeCells('K' . $countCuadroZ . ':' . $letraColumna . $countCuadroZ, 'thin');
                 $countCuadroY =$countCuadroZ+4;
@@ -776,6 +788,8 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('B' . $countCuadroP . ':I' . $countCuadroP, 'thin');
                 $countCuadroQ = $countCuadroP + 1;
                 $sheet->mergeCells('B' . $countCuadroQ . ':I' . $countCuadroQ, 'thin');
+                $countCuadroT=$countCuadroQ+3;
+                $sheet->mergeCells('J' . $countCuadroP . ':J' .$countCuadroT , 'thin');
                 /**/
                 $sheet->cells('A1:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('center');
@@ -799,13 +813,19 @@ class ExcelController extends Controller {
                 $sheet->cells('A' . $countCuadro . ':' . $letraColumna . $countCuadro, function($cells) {
                     $cells->setFontWeight('bold');
                 });
+                $sheet->cell('J' . $countCuadroP . ':J'. $countCuadroT, function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                });
                 $sheet->cells('K' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
                    $cells->setAlignment('center');
                 });
-                $sheet->cell('B' . $countCuadro . ':L' . $countCuadroFinal, function($cells) {
-                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                 $sheet->cells('B' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
+                   $cells->setBorder('solid' , 'none', 'none', 'none');
                 });
+               
 
+               
                 $sheet->fromArray($content, null, 'A1', true, false);
 
                 /* fin Ingresos */

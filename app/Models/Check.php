@@ -37,6 +37,9 @@ class Check extends Model {
     public function LastId() {
         return Check::all()->last();
     }
+    public function cancelarAmount() {
+        return $this->amount-$this->retention;
+    }
     /**
      * 
      * @param type $token
