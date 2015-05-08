@@ -13,7 +13,7 @@ use Mep\Models\Spreadsheet;
 use Mep\Models\Check;
 use Mep\Models\School;
 use Mep\Models\Group;
-
+use Mep\Models\Balance;
 class ExcelController extends Controller {
 
     /**
@@ -75,17 +75,21 @@ class ExcelController extends Controller {
 
     private function contentSpreadsheet($spreadsheet) {
         $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
-
+            $balanceInicial= 0;
+            $balanceTotal=0;
         foreach ($checks AS $check):
-            
+                $balance =Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id);
+        $balanceTotal = $balance -$check->amount;
             $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                '0.00',$check->bill,$check->supplier->name,$check->concept,
+                $balance,$check->bill,$check->supplier->name,$check->concept,
                 $check->amount,$check->retention,$check->cancelarAmount(),$check->ckbill,
-                $check->ckretention,$check->record,'0.00'
+                $check->ckretention,$check->record,$balanceTotal
                 );
+        //    echo json_encode($content);
+          //  $balanceInicial += $balanceInicial;
         endforeach;
 
-
+ //die;
         return $content;
     }
 

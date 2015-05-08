@@ -41,10 +41,10 @@ class Balance extends Model {
 
         endforeach;
     }
-    public function BalanceInicialTotal($id,$check,$style){
+    public static function BalanceInicialTotal($id,$check){
          $balanceBudget = Balance::where('balance_budgets_id',$id)->sum('amount');
         $checks = Balance::where('checks_id','<',$check)->where('balance_budgets_id',$id)->sum('amount');
-        $checks = Balance::where('checks_id','<',$check)->where('transfers_balance_budgets_id',$id)->sum('amount');
+       
         $balance=$balanceBudget-$checks;
         return $balance;
     
