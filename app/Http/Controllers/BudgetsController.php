@@ -10,6 +10,7 @@ use Mep\Models\School;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BudgetsController extends Controller {
 
@@ -161,14 +162,15 @@ class BudgetsController extends Controller {
     }
 
     /**
-     * [report description]
-     * @param  [string] $token
-     * @return [type]   view
+     * [globalReport description]
+     * @param  [type] $token  [description]
+     * @param  [type] $global [description]
+     * @param  [type] $year   [description]
+     * @return [type]         [description]
      */
     public function globalReport($token, $global, $year) {
         $school   = School::Token($token);
         $catalogs = Catalog::all();
-
         foreach ($catalogs as $catalog) {
             $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
                     ->where('schools_id', $school->id)
@@ -176,14 +178,12 @@ class BudgetsController extends Controller {
                     ->where('catalogs_id', $catalog->id)
                     ->where('year', $year)
                     ->sum('amount');
-
             if($amount>0){
                 $groups[$catalog->groups_id] = Group::find($catalog->groups_id);
                 $catalog->amount  = $amount;
                 $catalogsBudget[] = $catalog;
             }
         }
-
         foreach ($groups as $group) {
             $totGroup = 0;
             foreach($catalogsBudget as $catalog){
@@ -193,9 +193,8 @@ class BudgetsController extends Controller {
             }
             $group->total = $totGroup;
         }
-        
-        $pdf = \PDF::loadView('reports.global.content', compact('budget', 'catalogsBudget', 'groups', 'school', 'global', 'year'));
-
+        //echo view('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year'));die;
+        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year'));
         return $pdf->stream('Reporte.pdf');
     }
 
@@ -210,7 +209,6 @@ class BudgetsController extends Controller {
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
                ->setOrientation('landscape');
-
         return $pdf->stream('Reporte.pdf');
     }
 
