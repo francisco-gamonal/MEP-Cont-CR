@@ -158,4 +158,8 @@ class SpreadsheetsController extends Controller {
         return $this->errores($data->errors);
     }
 
+    public function report($token){
+        return view('reports.spreadsheet.content');
+    }
+
 }

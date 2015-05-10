@@ -77,7 +77,11 @@
 	                                <td class="text-center budget_description">{{mb_convert_case($budget->description, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_year">{{$budget->year}}</td>
 	                                <td class="text-center budget_type">{{mb_convert_case($budget->type, MB_CASE_TITLE, 'utf-8')}}</td>
-	                                <td class="text-center budget_global">{{mb_convert_case($budget->global, MB_CASE_TITLE, 'utf-8')}}</td>
+	                                <td class="text-center budget_global edit-row">
+	                                	{{mb_convert_case($budget->global, MB_CASE_TITLE, 'utf-8')}}
+										<a href="{{route('report-global-presupuestos', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+										<a href="{{route('reporte-presupuesto-ordinario-excel', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+	                                </td>
 	                                <td class="text-center budget_school">{{mb_convert_case($budget->schools->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center">
 	                                	@if($budget->deleted_at)

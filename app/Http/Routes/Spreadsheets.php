@@ -15,6 +15,7 @@ Route::get('planillas/editar-planilla/{token}',['as'=>'edit-planilla','uses'=>'S
 Route::delete('planillas/delete-planillas/{token}',['as'=>'delete-planilla','uses'=>'SpreadsheetsController@destroy']);
 Route::patch('planillas/active-planillas/{token}',['as' => 'active-planilla', 'uses' => 'SpreadsheetsController@active']);
 Route::put('planillas/update-planillas','SpreadsheetsController@update');
+Route::get('planillas/reporte/{token}',['as'=>'report-planilla','uses'=>'SpreadsheetsController@report']);
 /**
  * Fin Rutas de Tipos de Usuarios
  */
