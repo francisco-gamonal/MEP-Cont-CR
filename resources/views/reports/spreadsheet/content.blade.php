@@ -1,3 +1,5 @@
 @include('reports.partials.circuitSpreadsheet')
 @include('reports.spreadsheet.tableSpreadsheet')
 @include('reports.spreadsheet.tableHeader')
+@include('reports.spreadsheet.tableData')
+@include('reports.spreadsheet.firm')

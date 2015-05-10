@@ -7,17 +7,16 @@
 		<th colspan="2"></th>
 	</tr>
 	<tr>
-		<th style="text-align:center;">Cuenta Presupuestaria</th>
-		<th style="text-align:center;">Saldo Presupuestario</th>
-		<th style="text-align:center;"># Factura</th>
-		<th style="text-align:center;">Nombre del Proveedor</th>
-		<th style="text-align:center;">Concepto</th>
-		<th style="text-align:center;">Monto</th>
-		<th style="text-align:center;">Retención</th>
-		<th style="text-align:center;">Monto a Cancelar</th>
-		<th style="text-align:center;">Pago ck</th>
-		<th style="text-align:center;">Retención</th>
-		<th style="text-align:center;">Acta N./Acuerdo N.</th>
-		<th style="text-align:center;">Saldo Presupuestario Final</th>
+		<th style="text-align:center;" width="15">Cuenta Presupuestaria</th>
+		<th style="text-align:center;" width="15">Saldo Presupuestario</th>
+		<th style="text-align:center;" width="15"># Factura</th>
+		<th style="text-align:center;" width="15">Nombre del Proveedor</th>
+		<th style="text-align:center;" width="15">Concepto</th>
+		<th style="text-align:center;" width="15">Monto</th>
+		<th style="text-align:center;" width="15">Retención</th>
+		<th style="text-align:center;" width="15">Monto a Cancelar</th>
+		<th style="text-align:center;" width="15">Pago ck</th>
+		<th style="text-align:center;" width="15">Retención</th>
+		<th style="text-align:center;" width="15">Acta N./Acuerdo N.</th>
+		<th style="text-align:center;" width="15">Saldo Presupuestario Final</th>
 	</tr>
-</table>

@@ -2,11 +2,13 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
-use Mep\Models\Spreadsheet;
 use Illuminate\Http\Request;
+use Mep\Http\Controllers\Controller;
+use Mep\Http\Requests;
+use Mep\Models\Balance;
 use Mep\Models\Budget;
+use Mep\Models\Check;
+use Mep\Models\Spreadsheet;
 
 class SpreadsheetsController extends Controller {
 
@@ -159,7 +161,32 @@ class SpreadsheetsController extends Controller {
     }
 
     public function report($token){
-        return view('reports.spreadsheet.content');
+        $spreadsheet    = Spreadsheet::Token($token);
+        $checks         = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+        $balanceTotal   = 0;
+        $totalAmount    = 0;
+        $totalCancelar  = 0;
+        $totalRetention = 0;
+        foreach ($checks AS $index => $check):
+            if ($index == 0) {
+                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet);
+            } else {
+                $balance = $balance;
+            }
+            $balanceTotal = $balance - $check->amount;
+            $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
+                $balance, $check->bill, $check->supplier->name, $check->concept,
+                $check->amount, $check->retention, $check->cancelarAmount(), $check->ckbill,
+                $check->ckretention, $check->record, $balanceTotal
+            );
+            $balance = $balanceTotal;
+            $totalAmount += $check->amount;
+            $totalRetention+=$check->retention;
+            $totalCancelar+=$check->cancelarAmount();
+        endforeach;
+        
+        $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
+        return $pdf->stream('Reporte.pdf');
     }
 
 }

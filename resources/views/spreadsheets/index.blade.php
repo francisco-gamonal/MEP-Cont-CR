@@ -61,6 +61,7 @@
 	                                <th>Fecha</th>
 	                                <th>Presupuesto</th>
 	                                <th>Estado</th>
+	                                <th>Reporte</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
@@ -78,6 +79,10 @@
 		                                	@else
 												<span>Activo</span>
 		                                	@endif
+		                                </td>
+		                                <td class="text-center edit-row">
+											<a href="{{route('report-planilla', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+											<a href="{{route('reporte-planilla-excel', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($spreadsheet->deleted_at)
