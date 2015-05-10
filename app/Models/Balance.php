@@ -41,15 +41,13 @@ class Balance extends Model {
 
         endforeach;
     }
-    public function BalanceTotal($id,$date,$style){
-         $balances = Check::where('balance_budgets_id','=',$id)->where('date',$style,$id)->get();
-        $check =0;
-        foreach ($balances AS $balance):
-            $check += $balance->amount;
-        endforeach;
-        
-        return $check;
-      $checks=  $this->checks->BalanceChecks($id,$date,$style);
+    public static function BalanceInicialTotal($id,$check){
+         $balanceBudget = Balance::where('balance_budgets_id',$id)->sum('amount');
+        $checks = Balance::where('checks_id','<',$check)->where('balance_budgets_id',$id)->sum('amount');
+       
+        $balance=$balanceBudget-$checks;
+        return $balance;
+    
     }
 
     public function isValid($data) {

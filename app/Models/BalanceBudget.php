@@ -42,7 +42,11 @@ class BalanceBudget extends Model {
 
         return $this->HasMany('Mep\Models\transfers', 'transfers_id', 'id');
     }
-
+    public static function balanceInitial($id) {
+        
+        $balance = self::find($id);
+        return $balance;
+    }
     public function LastId() {
         return BalanceBudget::all()->last();
     }
