@@ -14,13 +14,14 @@ use Mep\Models\Check;
 use Mep\Models\School;
 use Mep\Models\Group;
 use Mep\Models\Balance;
+
 class ExcelController extends Controller {
 
     /**
      * **************************************inicio Excel de cuadro planilla *************************************
      */
-    public function excelSpreadsheet() {
-        $spreadsheet = Spreadsheet::find(2);
+    public function excelSpreadsheet($token) {
+        $spreadsheet = Spreadsheet::Token($token);
         $spreadsheets = $this->CreateArraySpreadsheet($spreadsheet);
         Excel::create('Planilla-', function($excel) use ($spreadsheets) {
             $excel->sheet('Cuadro Planilla-', function($sheet) use ( $spreadsheets) {
@@ -65,31 +66,40 @@ class ExcelController extends Controller {
     private function CreateArraySpreadsheet($spreadsheet) {
 
         $spreadsheets = $this->headerSpreadsheet($spreadsheet);
-        $spreadsheet=$this->contentSpreadsheet($spreadsheet);
-        foreach($spreadsheet AS $value):
-            $spreadsheets[] = $value ;
+        $spreadsheet = $this->contentSpreadsheet($spreadsheet);
+        foreach ($spreadsheet AS $value):
+            $spreadsheets[] = $value;
         endforeach;
-        
+
         return $spreadsheets;
     }
 
     private function contentSpreadsheet($spreadsheet) {
         $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
-            $balanceInicial= 0;
-            $balanceTotal=0;
-        foreach ($checks AS $check):
-                $balance =Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id);
-        $balanceTotal = $balance -$check->amount;
+        $balanceTotal = 0;
+        $totalAmount = 0;
+        $totalRetention = 0;
+        $totalCancelar = 0;
+        foreach ($checks AS $index => $check):
+            if ($index == 0) {
+                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet);
+            } else {
+                $balance = $balance;
+            }
+            $balanceTotal = $balance - $check->amount;
             $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                $balance,$check->bill,$check->supplier->name,$check->concept,
-                $check->amount,$check->retention,$check->cancelarAmount(),$check->ckbill,
-                $check->ckretention,$check->record,$balanceTotal
-                );
-        //    echo json_encode($content);
-          //  $balanceInicial += $balanceInicial;
-        endforeach;
+                $balance, $check->bill, $check->supplier->name, $check->concept,
+                $check->amount, $check->retention, $check->cancelarAmount(), $check->ckbill,
+                $check->ckretention, $check->record, $balanceTotal
+            );
 
- //die;
+            $balance = $balanceTotal;
+            $totalAmount += $check->amount;
+            $totalRetention+=$check->retention;
+            $totalCancelar+=$check->cancelarAmount();
+        endforeach;
+        $content[] = array('', '', '', '', '', $totalAmount, $totalRetention, $totalCancelar, '', '', '', '');
+
         return $content;
     }
 
@@ -702,7 +712,7 @@ class ExcelController extends Controller {
         $content = $this->generalOutExcel($groups, $catalogsBudget, $school);
         /** Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
-         **/
+         * */
         $countFinal = count($content);
 
         $foots = $this->generalFootExcel();
@@ -753,16 +763,16 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('A' . $countHeaderEgre . ':I' . $countHeaderEgre);
                 $sheet->setBorder('A' . $countHeader . ':' . $letraColumna . $count, 'thin');
                 $sheet->setBorder('A' . $countEgreso . ':' . $letraColumna . $countFinal, 'thin');
-               
-               
+
+
                 /* Firmas */
                 $sheet->mergeCells('K' . $countCuadro . ':' . $letraColumna . $countCuadro, 'thin');
-                $countCuadroX =$countCuadro+3;
+                $countCuadroX = $countCuadro + 3;
                 $sheet->mergeCells('K' . $countCuadroX . ':' . $letraColumna . $countCuadroX, 'thin');
-                $sheet->mergeCells('B' . $countCuadro . ':J'. $countCuadro, 'thin');
-                $countCuadroZ =$countCuadroX+1;
+                $sheet->mergeCells('B' . $countCuadro . ':J' . $countCuadro, 'thin');
+                $countCuadroZ = $countCuadroX + 1;
                 $sheet->mergeCells('K' . $countCuadroZ . ':' . $letraColumna . $countCuadroZ, 'thin');
-                $countCuadroY =$countCuadroZ+4;
+                $countCuadroY = $countCuadroZ + 4;
                 $sheet->mergeCells('K' . $countCuadroY . ':' . $letraColumna . $countCuadroY, 'thin');
                 $countCuadroJ = $countCuadro + 2;
                 $sheet->mergeCells('B' . $countCuadroJ . ':J' . $countCuadroJ, 'thin');
@@ -792,8 +802,8 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('B' . $countCuadroP . ':I' . $countCuadroP, 'thin');
                 $countCuadroQ = $countCuadroP + 1;
                 $sheet->mergeCells('B' . $countCuadroQ . ':I' . $countCuadroQ, 'thin');
-                $countCuadroT=$countCuadroQ+3;
-                $sheet->mergeCells('J' . $countCuadroP . ':J' .$countCuadroT , 'thin');
+                $countCuadroT = $countCuadroQ + 3;
+                $sheet->mergeCells('J' . $countCuadroP . ':J' . $countCuadroT, 'thin');
                 /**/
                 $sheet->cells('A1:' . $letraColumna . '13', function($cells) {
                     $cells->setAlignment('center');
@@ -817,19 +827,19 @@ class ExcelController extends Controller {
                 $sheet->cells('A' . $countCuadro . ':' . $letraColumna . $countCuadro, function($cells) {
                     $cells->setFontWeight('bold');
                 });
-                $sheet->cell('J' . $countCuadroP . ':J'. $countCuadroT, function($cells) {
+                $sheet->cell('J' . $countCuadroP . ':J' . $countCuadroT, function($cells) {
                     $cells->setAlignment('center');
                     $cells->setValignment('center');
                 });
                 $sheet->cells('K' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
-                   $cells->setAlignment('center');
+                    $cells->setAlignment('center');
                 });
-                 $sheet->cells('B' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
-                   $cells->setBorder('solid' , 'none', 'none', 'none');
+                $sheet->cells('B' . $countCuadro . ':' . $letraColumna . $countCuadroFinal, function($cells) {
+                    $cells->setBorder('solid', 'none', 'none', 'none');
                 });
-               
 
-               
+
+
                 $sheet->fromArray($content, null, 'A1', true, false);
 
                 /* fin Ingresos */
