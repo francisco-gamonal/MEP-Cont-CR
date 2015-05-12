@@ -24,7 +24,7 @@ class ExcelController extends Controller {
     public function excelTransfers() {
         $transfers = Transfer::where('code', 9)->get();
         $content = $this->CreateArrayTransfer($transfers);
-         $firms = $this->firmTransfers();
+        $firms = $this->firmTransfers();
         foreach ($firms AS $firm):
             $content[] = $firm;
         endforeach;
@@ -48,31 +48,26 @@ class ExcelController extends Controller {
 
     private function contentTransfers($transfers) {
         $content = array();
-        $balance=0;
-        $aumento=0;
-        $rebajo=0;
+        $aumento = 0;
+        $rebajo = 0;
         foreach ($transfers AS $index => $transfer):
-            if ($balance == 0) {
-                $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, '', $transfer->spreadsheets, $transfer->spreadsheets_id);
-            } else {
-                $balance = $balance;
-            }
+
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
+
             if ($transfer->type == 'salida'):
-
-
                 $balanceTotal = $balance - $transfer->amount;
                 $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, $transfer->amount, '', $balanceTotal);
                 $aumento += $transfer->amount;
             else:
-
-                $balanceTotal = $balance - $transfer->amount;
+                $balanceTotal = $balance + $transfer->amount;
                 $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, '', $transfer->amount, $balanceTotal);
                 $rebajo += $transfer->amount;
             endif;
         endforeach;
-        $content[]=array('','','',$rebajo,$aumento,'');
+        $content[] = array('', '', '', $rebajo, $aumento, '');
         return $content;
     }
+
     private function firmTransfers() {
         $firm = array(
             array(''),
@@ -83,7 +78,7 @@ class ExcelController extends Controller {
             array('Revisado por Tesorero Contador:_________________________'),
             array('Aprobación (para uso exclusivo de la Dirección Regional de Educación)'),
             array('Nombre y firma del funcionario que aprueba:_______________________________________'),
-            array('Sello Dirección Regional:_______________________________________','','','','','Fecha de aprobación')
+            array('Sello Dirección Regional:_______________________________________', '', '', '', '', 'Fecha de aprobación')
         );
 
         return $firm;
@@ -228,7 +223,7 @@ class ExcelController extends Controller {
         $totalCancelar = 0;
         foreach ($checks AS $index => $check):
             if ($index == 0) {
-                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, '');
+                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
             } else {
                 $balance = $balance;
             }

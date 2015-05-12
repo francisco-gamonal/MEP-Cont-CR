@@ -58,10 +58,8 @@ class Balance extends Model {
          if(!empty($check)):
         $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('checks_id','<',$check)
                 ->where('balances.balance_budgets_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
-         endif;
-      
-         if(!empty($checkTransfer)):
-        $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('checks_id','<',$check)
+         else:
+        $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('spreadsheets_id','<',$checkTransfer)
                 ->where('balances.balance_budgets_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
          endif;
         $balance=($balanceBudget+$transfersEntrada)-($checks+$transfersSalida);
