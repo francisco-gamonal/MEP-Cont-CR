@@ -14,8 +14,98 @@ use Mep\Models\Check;
 use Mep\Models\School;
 use Mep\Models\Group;
 use Mep\Models\Balance;
+use Mep\Models\Transfer;
 
 class ExcelController extends Controller {
+
+    /**
+     * **************************************inicio Excel de cuadro Transferencia *************************************
+     */
+    public function excelTransfers() {
+        $transfers = Transfer::where('code', 9)->get();
+        $content = $this->CreateArrayTransfer($transfers);
+         $firms = $this->firmSpreadshet();
+        foreach ($firms AS $firm):
+            $spreadsheets[] = $firm;
+        endforeach;
+        Excel::create('Transfers-', function($excel) use ($content) {
+            $excel->sheet('Cuadro Transfers-', function($sheet) use ($content ) {
+                $sheet->fromArray($content, null, 'A1', true, false);
+            });
+        })->export('xls');
+    }
+
+    private function CreateArrayTransfer($transfers) {
+
+        $spreadsheets = $this->headerTransfers();
+        $spreadsheet = $this->contentTransfers($transfers);
+        foreach ($spreadsheet AS $value):
+            $spreadsheets[] = $value;
+        endforeach;
+
+        return $spreadsheets;
+    }
+
+    private function contentTransfers($transfers) {
+        $content = array();
+        $balance=0;
+        $aumento=0;
+        $rebajo=0;
+        foreach ($transfers AS $index => $transfer):
+            if ($balance == 0) {
+                $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, '', $transfer->spreadsheets, $transfer->spreadsheets_id);
+            } else {
+                $balance = $balance;
+            }
+            if ($transfer->type == 'salida'):
+
+
+                $balanceTotal = $balance - $transfer->amount;
+                $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, $transfer->amount, '', $balanceTotal);
+                $aumento += $transfer->amount;
+            else:
+
+                $balanceTotal = $balance - $transfer->amount;
+                $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, '', $transfer->amount, $balanceTotal);
+                $rebajo += $transfer->amount;
+            endif;
+        endforeach;
+        $content[]=array('','','',$rebajo,$aumento,'');
+        return $content;
+    }
+    private function firmTransfers() {
+        $firm = array(
+            array(''),
+            array('Modifcacion(es) aprobada(s) según Acuerdo de junta N°___, en sesión (x) ordinaria () estraordinaria, de fecha'),
+            array('___ de _____________________ del ____________'),
+            array('Firma Presidente(a) de la junta _________________________________'),
+            array('Firma Secretario(a) de la junta _________________________________'),
+            array('Revisado por Tesorero Contador:_________________________'),
+            array('Aprobación (para uso exclusivo de la Dirección Regional de Educación)'),
+            array('Nombre y firma del funcionario que aprueba:_______________________________________'),
+            array('Sello Dirección Regional:_______________________________________','','','','','Fecha de aprobación')
+        );
+
+        return $firm;
+    }
+
+    private function headerTransfers() {
+        $header = array(array('MINISTERIO DE EDUCACION PUBLICA'),
+            array('DIRECCION REGIONAL DE EDUCACION DE AGUIRRE'),
+            array('OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
+            array(''),
+            array('F-3B MODIFICACIÓN PRESUPUESTARIA PARA APROBACIÓN EXTERNA'),
+            array('MODIFICACIONES PRESUPUESTARIAS'),
+            array('Junta: Administrativa CTP de Matapalo Cédula Jurídica 3-008-056599  CÓDIGO 5838'),
+            array('CÓDIGO DE LA CUENTA', 'NOMBRE DE LA CUENTA', 'SALDO PRESUPUESTARIO DISPONIBLE', 'REBAJO', 'AUMENTO', 'SALDO ACTUAL')
+        );
+
+        return $header;
+    }
+
+    /**
+     * **************************************fin Excel de cuadro Transferencia *************************************
+     */
 
     /**
      * **************************************inicio Excel de cuadro planilla *************************************
@@ -28,9 +118,9 @@ class ExcelController extends Controller {
         foreach ($firms AS $firm):
             $spreadsheets[] = $firm;
         endforeach;
-      //  echo json_encode($Content); die;
-        Excel::create('Planilla-', function($excel) use ($spreadsheets,$Content) {
-            $excel->sheet('Cuadro Planilla-', function($sheet) use ( $spreadsheets,$Content) {
+        //  echo json_encode($Content); die;
+        Excel::create('Planilla-', function($excel) use ($spreadsheets, $Content) {
+            $excel->sheet('Cuadro Planilla-', function($sheet) use ( $spreadsheets, $Content) {
                 $sheet->mergeCells('B1:M1');
                 $sheet->mergeCells('B2:M2');
                 $sheet->mergeCells('B3:M3');
@@ -45,25 +135,25 @@ class ExcelController extends Controller {
                 $sheet->mergeCells('D11:I12');
                 $sheet->mergeCells('J11:K12');
                 $sheet->mergeCells('L11:M12');
-                $firm=$Content +3;
-                $sheet->cells('B'.$firm.':M'.$firm, function($cells) {
+                $firm = $Content + 3;
+                $sheet->cells('B' . $firm . ':M' . $firm, function($cells) {
                     $cells->setAlignment('center');
-                 //   $cells->setFontWeight('bold');
+                    //   $cells->setFontWeight('bold');
                 });
-                $sheet->mergeCells('B'.$firm.':D'.$firm);
-                $sheet->mergeCells('G'.$firm.':K'.$firm);
-                $firm=$firm +1;
-                $sheet->mergeCells('B'.$firm.':D'.$firm);
-                $sheet->mergeCells('G'.$firm.':K'.$firm);
-                $firm=$firm +2;
-                $sheet->mergeCells('B'.$firm.':D'.$firm);
-                $sheet->mergeCells('G'.$firm.':K'.$firm);
-                 $firm=$firm +1;
-                $sheet->mergeCells('B'.$firm.':D'.$firm);
-                $sheet->mergeCells('G'.$firm.':K'.$firm);
-                $firm=$firm +1;
-                $sheet->mergeCells('B'.$firm.':D'.$firm);
-                $sheet->mergeCells('G'.$firm.':K'.$firm);
+                $sheet->mergeCells('B' . $firm . ':D' . $firm);
+                $sheet->mergeCells('G' . $firm . ':K' . $firm);
+                $firm = $firm + 1;
+                $sheet->mergeCells('B' . $firm . ':D' . $firm);
+                $sheet->mergeCells('G' . $firm . ':K' . $firm);
+                $firm = $firm + 2;
+                $sheet->mergeCells('B' . $firm . ':D' . $firm);
+                $sheet->mergeCells('G' . $firm . ':K' . $firm);
+                $firm = $firm + 1;
+                $sheet->mergeCells('B' . $firm . ':D' . $firm);
+                $sheet->mergeCells('G' . $firm . ':K' . $firm);
+                $firm = $firm + 1;
+                $sheet->mergeCells('B' . $firm . ':D' . $firm);
+                $sheet->mergeCells('G' . $firm . ':K' . $firm);
                 $sheet->setHeight(13, 50);
 
                 $sheet->cells('B1:M5', function($cells) {
@@ -75,7 +165,7 @@ class ExcelController extends Controller {
                     $cells->setFontWeight('bold');
                 });
                 $sheet->cells('J6:M10', function($cells) {
-                    $cells->setBorder('solid','none','solid','none');
+                    $cells->setBorder('solid', 'none', 'solid', 'none');
                     $cells->setAlignment('center');
                     $cells->setValignment('center');
                     $cells->setFontWeight('bold');
@@ -85,20 +175,20 @@ class ExcelController extends Controller {
                     $cells->setValignment('center');
                     $cells->setFontWeight('bold');
                 });
-                $sheet->cells('G'.$Content.':I'.$Content, function($cells) {
+                $sheet->cells('G' . $Content . ':I' . $Content, function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                 });
-                $content=$Content-1;
-                
-             //   $sheet->setBorder('B6:M10', 'thin');
+                $content = $Content - 1;
+
+                //   $sheet->setBorder('B6:M10', 'thin');
                 $sheet->setBorder('J6:M10', 'thin');
                 $sheet->setBorder('B11:K12', 'thin');
                 $sheet->setBorder('L11:M12', 'thin');
                 $sheet->setBorder('B13:M13', 'thin');
-                $sheet->setBorder('B15:M'.$content, 'thin');
-                $sheet->setBorder('G'.$Content.':I'.$Content, 'thin');
-                
+                $sheet->setBorder('B15:M' . $content, 'thin');
+                $sheet->setBorder('G' . $Content . ':I' . $Content, 'thin');
+
                 $sheet->fromArray($spreadsheets, null, 'B1', true, false);
             });
         })->export('xls');
@@ -111,21 +201,22 @@ class ExcelController extends Controller {
         foreach ($spreadsheet AS $value):
             $spreadsheets[] = $value;
         endforeach;
-        
+
         return $spreadsheets;
     }
-    private function firmSpreadshet(){
-        $firm= array(
+
+    private function firmSpreadshet() {
+        $firm = array(
             array(''),
             array(''),
-            array('Aprobado por:_________________________','','','','','Revisado por:___________________________'),
-            array('Nombre, firma, cédula  del Secretario (a)y sello de Junta','','','','','Nombre, firma, cédula y sello   del Director (a)'),
+            array('Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
+            array('Nombre, firma, cédula  del Secretario (a)y sello de Junta', '', '', '', '', 'Nombre, firma, cédula y sello   del Director (a)'),
             array(''),
-            array('Aprobado por:_________________________','','','','','Revisado por:___________________________'),
-            array('Nombre, firma, cédula  del Presidente(a) ó','','','','','Nombre, firma, cédula  y sello del Tesorero-'),
-            array('Vicepresidente(a)','','','','','Contador')
+            array('Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
+            array('Nombre, firma, cédula  del Presidente(a) ó', '', '', '', '', 'Nombre, firma, cédula  y sello del Tesorero-'),
+            array('Vicepresidente(a)', '', '', '', '', 'Contador')
         );
-        
+
         return $firm;
     }
 
@@ -137,7 +228,7 @@ class ExcelController extends Controller {
         $totalCancelar = 0;
         foreach ($checks AS $index => $check):
             if ($index == 0) {
-                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet);
+                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, '');
             } else {
                 $balance = $balance;
             }

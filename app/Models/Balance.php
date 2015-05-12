@@ -41,12 +41,10 @@ class Balance extends Model {
 
         endforeach;
     }
-    public static function BalanceInicialTotal($id,$check,$spreadsheet){
+    public static function BalanceInicialTotal($id,$check,$spreadsheet,$checkTransfer){
          
          $balanceBudget = Balance::where('balance_budgets_id',$id)->sum('amount');
-         /**/
-        $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('checks_id','<',$check)
-                ->where('balances.balance_budgets_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
+        
         /**/
         
        $transfersEntrada = Transfer::where('transfers.spreadsheets_id','<=',$spreadsheet->id)
@@ -56,8 +54,16 @@ class Balance extends Model {
        $transfersSalida = Transfer::where('transfers.spreadsheets_id','<=',$spreadsheet->id)
                ->where('transfers.balance_budgets_id',$id)->where('transfers.type','salida')->sum('transfers.amount');
        /**/
-       
+        /**/
+         if(!empty($check)):
+        $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('checks_id','<',$check)
+                ->where('balances.balance_budgets_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
+         endif;
       
+         if(!empty($checkTransfer)):
+        $checks = Balance::join('checks','checks.id','=','balances.checks_id')->where('checks_id','<',$check)
+                ->where('balances.balance_budgets_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
+         endif;
         $balance=($balanceBudget+$transfersEntrada)-($checks+$transfersSalida);
       
         return $balance;
