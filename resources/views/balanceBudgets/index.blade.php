@@ -65,6 +65,7 @@
                                 <th>Presupuesto</th>
                                 <th>Tipo de Presupuesto</th>
                                 <th>Estado</th>
+                                <th>Reporte</th>
                                 <th>Edición</th>
                             </tr>
                         </thead>
@@ -85,6 +86,9 @@
 	                                	@else
 											<span>Activo</span>
 	                                	@endif
+	                                </td>
+									<td class="text-center edit-row">
+										<a href="{{route('reporte-saldo-de-presupuestos', $balanceBudget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($balanceBudget->deleted_at)

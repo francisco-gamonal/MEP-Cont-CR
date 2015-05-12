@@ -15,6 +15,7 @@ Route::get('saldo-de-presupuestos/editar-saldo-de-presupuesto/{token}',['as'=>'e
 Route::delete('saldo-de-presupuestos/delete-saldo-de-presupuestos/{token}',['as'=>'delete-saldo-de-presupuesto','uses'=>'BalanceBudgetsController@destroy']);
 Route::patch('saldo-de-presupuestos/active-saldo-de-presupuestos/{token}',['as' => 'active-saldo-de-presupuesto', 'uses' => 'BalanceBudgetsController@active']);
 Route::put('saldo-de-presupuestos/update-saldo-de-presupuestos','BalanceBudgetsController@update');
+Route::get('saldo-de-presupuestos/reporte/{token}',['as'=>'reporte-saldo-de-presupuestos','uses'=>'BalanceBudgetsController@report']);
 /**
  * Fin Rutas de Tipos de Usuarios
  */

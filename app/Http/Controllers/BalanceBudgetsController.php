@@ -182,4 +182,9 @@ class BalanceBudgetsController extends Controller {
         return $this->errores($data->errors);
     }
 
+    public function report($token) {
+        $balanceBudget = BalanceBudget::Token($token);
+        return view('reports.balanceBudget.content', compact('balanceBudget'));
+    }
+
 }
