@@ -184,7 +184,8 @@ class BalanceBudgetsController extends Controller {
 
     public function report($token) {
         $balanceBudget = BalanceBudget::Token($token);
-        return view('reports.balanceBudget.content', compact('balanceBudget'));
+        $pdf = \PDF::loadView('reports.balanceBudget.content', compact('balanceBudget'))->setOrientation('landscape');
+        return $pdf->stream('Reporte.pdf');
     }
 
 }
