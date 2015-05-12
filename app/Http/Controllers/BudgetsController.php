@@ -161,6 +161,14 @@ class BudgetsController extends Controller {
         return $this->errores($data->errors);
     }
 
+    public function poaReport($token){
+        $budget              = Budget::Token($token);
+        $balanceBudgets      = BalanceBudget::where('budgets_id', $budget->id)->get();
+        $totalBalanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->sum('amount');
+        $pdf = \PDF::loadView('reports.budget.poa.content',  compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
+        return $pdf->stream('Poa.pdf');
+    }
+
     /**
      * [globalReport description]
      * @param  [type] $token  [description]

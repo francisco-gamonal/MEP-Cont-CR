@@ -58,7 +58,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Source</th>
+                                <!-- <th>Source</th> -->
                                 <th>Descripción</th>
                                 <th>Año</th>
                                 <th>Tipo</th>
@@ -66,6 +66,7 @@
                                 <th>Institución</th>
                                 <th>Estado</th>
                                 <th>Reporte</th>
+                                <th>POA</th>
                                 <th>Edición</th>
                             </tr>
                         </thead>
@@ -73,7 +74,7 @@
                         	@foreach($budgets as $budget)
 	                            <tr>
 	                                <td class="text-center budget_name" data-token="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</td>
-	                                <td class="text-center budget_source">{{mb_convert_case($budget->source, MB_CASE_TITLE, 'utf-8')}}</td>
+	                                <!-- <td class="text-center budget_source">{{mb_convert_case($budget->source, MB_CASE_TITLE, 'utf-8')}}</td> -->
 	                                <td class="text-center budget_description">{{mb_convert_case($budget->description, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_year">{{$budget->year}}</td>
 	                                <td class="text-center budget_type">{{mb_convert_case($budget->type, MB_CASE_TITLE, 'utf-8')}}</td>
@@ -93,6 +94,9 @@
 	                                <td class="text-center edit-row">
 										<a href="{{route('report-presupuestos', $budget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 										<a href="{{route('reporte-presupuesto-excel', $budget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+	                                </td>
+	                                <td class="text-center edit-row">
+										<a href="{{route('reporte-poa-presupuestos', $budget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($budget->deleted_at)
