@@ -24,9 +24,9 @@ class ExcelController extends Controller {
     public function excelTransfers() {
         $transfers = Transfer::where('code', 9)->get();
         $content = $this->CreateArrayTransfer($transfers);
-         $firms = $this->firmSpreadshet();
+         $firms = $this->firmTransfers();
         foreach ($firms AS $firm):
-            $spreadsheets[] = $firm;
+            $content[] = $firm;
         endforeach;
         Excel::create('Transfers-', function($excel) use ($content) {
             $excel->sheet('Cuadro Transfers-', function($sheet) use ($content ) {
