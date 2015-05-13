@@ -18,7 +18,7 @@ use Mep\Models\Transfer;
 
 class ExcelController extends Controller {
 
-     /**
+    /**
      * **************************************inicio Excel de cuadro POA *************************************
      */
     public function excelPoaBudget($token) {
@@ -87,7 +87,7 @@ class ExcelController extends Controller {
         $content = $this->headerPoaBudget($Budget);
         $firm = $this->firmPoaBudget($Budget);
         $balanceBudget = $this->contentPoaBudget($Budget);
-        
+
 
         foreach ($balanceBudget AS $data):
             $content[] = $data;
@@ -99,7 +99,7 @@ class ExcelController extends Controller {
     }
 
     private function firmPoaBudget($Budget) {
-      
+
         $firm = array(
             array(''),
             array('________________________________'),
@@ -110,16 +110,16 @@ class ExcelController extends Controller {
     }
 
     private function contentPoaBudget($Budget) {
-        foreach($Budget->balancebudgets AS $balanceBudget ):
-        $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $Budget->name, $balanceBudget->amount);
-        $balanceBudgetAmount += $balanceBudget->amount;
+        foreach ($Budget->balancebudgets AS $balanceBudget):
+            $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $Budget->name, $balanceBudget->amount);
+            $balanceBudgetAmount += $balanceBudget->amount;
         endforeach;
         $content[] = array('', '', 'TOTAL PRESUPUESTO ' . $Budget->name, '', '', '', $balanceBudgetAmount);
         return $content;
     }
 
     private function headerPoaBudget($Budget) {
-      
+
         $year = $Budget->year - 1;
         $header = array(array('POA'),
             array('MATRIZ PARA VINCULAR EL PLAN OPERATIVO CENTRO EDUCATIVO Y PRESUPUESTO DE LA JUNTA ADMINISTRATIVA'),
@@ -137,7 +137,7 @@ class ExcelController extends Controller {
     /**
      * **************************************FIN Excel de cuadro POA *************************************
      */
-    
+
     /**
      * **************************************inicio Excel de cuadro POA *************************************
      */
@@ -207,7 +207,7 @@ class ExcelController extends Controller {
         $content = $this->headerPoa($balanceBudget);
         $firm = $this->firmPoa($balanceBudget);
         $balanceBudget = $this->contentPoa($balanceBudget);
-        
+
 
         foreach ($balanceBudget AS $data):
             $content[] = $data;
@@ -219,7 +219,7 @@ class ExcelController extends Controller {
     }
 
     private function firmPoa($balanceBudget) {
-      
+
         $firm = array(
             array(''),
             array('________________________________'),
@@ -338,9 +338,9 @@ class ExcelController extends Controller {
         $content = array();
         $aumento = 0;
         $rebajo = 0;
-        
+
         foreach ($transfers AS $index => $transfer):
-           
+
             $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
 
             if ($transfer->type == 'salida'):
@@ -1315,22 +1315,25 @@ class ExcelController extends Controller {
         $content[] = array('EGRESOS');
         $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
         $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
+         $Total = 0;
         foreach ($groups as $group):
             if ($group->type == 'egresos'):
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+               $amount = 0;
                 foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->groups_id):
                         if ($catalog->type == 'egresos'):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                                 $catalog->name, number_format($catalog->amount));
 
-
+                            $amount +=$catalog->amount;
                         endif;
                     endif;
                 endforeach;
-
+                $Total +=$amount;
             endif;
         endforeach;
+        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total));
         return $content;
     }
 
@@ -1343,8 +1346,10 @@ class ExcelController extends Controller {
      */
     private function generalInExcel($groups, $catalogsBudget, $school) {
         $content = $this->headerGeneralExcel($school);
+         $Total = 0;
         foreach ($groups as $group):
             if ($group->type == 'ingresos'):
+                 $amount = 0;
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
                 foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->groups_id):
@@ -1352,13 +1357,14 @@ class ExcelController extends Controller {
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                                 $catalog->name, number_format($catalog->amount));
 
-
+                            $amount +=$catalog->amount;
                         endif;
                     endif;
                 endforeach;
-
+                $Total +=$amount;
             endif;
         endforeach;
+        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total));
         return $content;
     }
 
