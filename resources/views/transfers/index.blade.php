@@ -81,6 +81,7 @@
 	                                </td>
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('reporte-transferencias', $transfer['token'])}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+	                                	<a href="{{route('reporte-transfers-excel', $transfer['token'])}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('view-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>
