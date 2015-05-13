@@ -65,7 +65,7 @@
                                 <th>Presupuesto</th>
                                 <th>Tipo de Presupuesto</th>
                                 <th>Estado</th>
-                                <th>Reporte</th>
+                                <th>Reporte POA</th>
                                 <th>Edición</th>
                             </tr>
                         </thead>
@@ -89,6 +89,7 @@
 	                                </td>
 									<td class="text-center edit-row">
 										<a href="{{route('reporte-saldo-de-presupuestos', $balanceBudget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                                                                <a href="{{route('reporte-saldo-de-presupuestos-poa', $balanceBudget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($balanceBudget->deleted_at)
