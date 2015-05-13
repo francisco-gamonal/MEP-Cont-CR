@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Log;
 use Mep\Models\Check;
+use Mep\Models\Balance;
 
 class TransfersController extends Controller {
 
@@ -445,6 +446,30 @@ class TransfersController extends Controller {
         endif;
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
+    }
+
+    public function report($token) {
+        $transfers = Transfer::where('token', $token)->get();
+        $content   = array();
+        $aumento   = 0;
+        $rebajo    = 0;
+        foreach ($transfers AS $index => $transfer):
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
+
+            if ($transfer->type == 'salida'):
+                $balanceTotal = $balance - $transfer->amount;
+                $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, $transfer->amount, '', $balanceTotal);
+                $aumento += $transfer->amount;
+            else:
+                $balanceTotal = $balance + $transfer->amount;
+                $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, '', $transfer->amount, $balanceTotal);
+                $rebajo += $transfer->amount;
+            endif;
+        endforeach;
+        $school = $transfers[0]->balanceBudgets->budgets->schools;
+        $pdf = \PDF::loadView('reports.transfer.content', compact('content','rebajo','aumento', 'school'))
+                ->setOrientation('landscape');
+        return $pdf->stream('Reporte.pdf');
     }
 
 }

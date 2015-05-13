@@ -61,6 +61,7 @@
                                 <th>Fecha</th>
                                 <th>Monto</th>
                                 <th>Estado</th>
+                                <th>Reporte</th>
                                 <th>Edición</th>
                             </tr>
                         </thead>
@@ -77,6 +78,9 @@
 	                                	@else
 											<span>Activo</span>
 	                                	@endif
+	                                </td>
+	                                <td class="text-center edit-row">
+	                                	<a href="{{route('reporte-transferencias', $transfer['token'])}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('view-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>

@@ -16,6 +16,7 @@ Route::get('transferencias/editar-transferencia/{token}',['as'=>'edit-transferen
 Route::delete('transferencias/delete-transferencias/{token}',['as'=>'delete-transferencia','uses'=>'TransfersController@destroy']);
 Route::patch('transferencias/active-transferencias/{token}',['as' => 'active-transferencia', 'uses' => 'TransfersController@active']);
 Route::put('transferencias/update-transferencias','TransfersController@update');
+Route::get('transferencias/reporte/{token}',['as' => 'reporte-transferencias', 'uses' => 'TransfersController@report']);
 /**
  * Fin Rutas Transferencias
  */
