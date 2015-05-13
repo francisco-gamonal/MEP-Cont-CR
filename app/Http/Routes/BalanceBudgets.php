@@ -16,6 +16,7 @@ Route::delete('saldo-de-presupuestos/delete-saldo-de-presupuestos/{token}',['as'
 Route::patch('saldo-de-presupuestos/active-saldo-de-presupuestos/{token}',['as' => 'active-saldo-de-presupuesto', 'uses' => 'BalanceBudgetsController@active']);
 Route::put('saldo-de-presupuestos/update-saldo-de-presupuestos','BalanceBudgetsController@update');
 Route::get('saldo-de-presupuestos/reporte/{token}',['as'=>'reporte-saldo-de-presupuestos','uses'=>'BalanceBudgetsController@report']);
+
 /**
  * Fin Rutas de Tipos de Usuarios
  */

@@ -18,66 +18,305 @@ use Mep\Models\Transfer;
 
 class ExcelController extends Controller {
 
+     /**
+     * **************************************inicio Excel de cuadro POA *************************************
+     */
+    public function excelPoaBudget($token) {
+        $Budget = Budget::Token($token);
+        $content = $this->CreateArrayPoaBudget($Budget);
+        Excel::create('Transfers-', function($excel) use ($content) {
+            $excel->sheet('Cuadro Transfers-', function($sheet) use ($content ) {
+                $sheet->mergeCells('A1:G1');
+                $sheet->setBorder('A1:G1', 'thin');
+                $sheet->mergeCells('A2:G2');
+                $sheet->mergeCells('A3:G3');
+                $sheet->mergeCells('A3:G3');
+                $sheet->mergeCells('A4:G4');
+                $sheet->mergeCells('A6:G6');
+                $sheet->mergeCells('A7:G7');
+                $sheet->setBorder('A7:G7', 'thin');
+                $sheet->setBorder('A8:G8', 'thin');
+                $sheet->cells('A7:G8', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $count = count($content) - 4;
+                $sheet->mergeCells('C' . $count . ':F' . $count);
+                $sheet->setBorder('A9:G' . $count, 'thin');
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('A1:G1', function($cells) {
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('A6:G6', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->fromArray($content, null, 'A1', true, false);
+            });
+        })->export('xls');
+    }
+
+    private function CreateArrayPoaBudget($Budget) {
+        $content = $this->headerPoaBudget($Budget);
+        $firm = $this->firmPoaBudget($Budget);
+        $balanceBudget = $this->contentPoaBudget($Budget);
+        
+
+        foreach ($balanceBudget AS $data):
+            $content[] = $data;
+        endforeach;
+        foreach ($firm AS $data):
+            $content[] = $data;
+        endforeach;
+        return $content;
+    }
+
+    private function firmPoaBudget($Budget) {
+      
+        $firm = array(
+            array(''),
+            array('________________________________'),
+            array('Fernando Enrique Espinoza'),
+            array('Director ' . $budgets->name)
+        );
+        return $firm;
+    }
+
+    private function contentPoaBudget($Budget) {
+        foreach($Budget->balancebudgets AS $balanceBudget ):
+        $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $Budget->name, $balanceBudget->amount);
+        $balanceBudgetAmount += $balanceBudget->amount;
+        endforeach;
+        $content[] = array('', '', 'TOTAL PRESUPUESTO ' . $Budget->name, '', '', '', $balanceBudgetAmount);
+        return $content;
+    }
+
+    private function headerPoaBudget($Budget) {
+      
+        $year = $Budget->year - 1;
+        $header = array(array('POA'),
+            array('MATRIZ PARA VINCULAR EL PLAN OPERATIVO CENTRO EDUCATIVO Y PRESUPUESTO DE LA JUNTA ADMINISTRATIVA'),
+            array($Budget->schools->name . ' CODIGO: ' . $Budget->schools->code),
+            array('Presupuesto inicial de la institucion1' . $year . ' PARA GIRAR EL AÑO ' . $Budget->year),
+            array($Budget->name),
+            array(''),
+            array('PLAN OPERATIVO'),
+            array('POLITICAS', 'OBJECTIVO ESTRATEGICO', 'OBJETIVO OPERACIONAL', 'METAS', 'CODIGOS PRESUPUESTARIO', 'RECURSOS PROVINIENTES', 'MONTO DEL PROYECTO')
+        );
+
+        return $header;
+    }
+
+    /**
+     * **************************************FIN Excel de cuadro POA *************************************
+     */
+    
+    /**
+     * **************************************inicio Excel de cuadro POA *************************************
+     */
+    public function excelPoa($token) {
+        $balanceBudget = BalanceBudget::Token($token);
+        $content = $this->CreateArrayPoa($balanceBudget);
+        Excel::create('Transfers-', function($excel) use ($content) {
+            $excel->sheet('Cuadro Transfers-', function($sheet) use ($content ) {
+                $sheet->mergeCells('A1:G1');
+                $sheet->setBorder('A1:G1', 'thin');
+                $sheet->mergeCells('A2:G2');
+                $sheet->mergeCells('A3:G3');
+                $sheet->mergeCells('A3:G3');
+                $sheet->mergeCells('A4:G4');
+                $sheet->mergeCells('A6:G6');
+                $sheet->mergeCells('A7:G7');
+                $sheet->setBorder('A7:G7', 'thin');
+                $sheet->setBorder('A8:G8', 'thin');
+                $sheet->cells('A7:G8', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $count = count($content) - 4;
+                $sheet->mergeCells('C' . $count . ':F' . $count);
+                $sheet->setBorder('A9:G' . $count, 'thin');
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $count = $count + 1;
+                $sheet->mergeCells('A' . $count . ':G' . $count);
+                $sheet->cells('A' . $count . ':G' . $count, function($cells) {
+                    $cells->setAlignment('right');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('A1:G1', function($cells) {
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->cells('A6:G6', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                });
+                $sheet->fromArray($content, null, 'A1', true, false);
+            });
+        })->export('xls');
+    }
+
+    private function CreateArrayPoa($balanceBudget) {
+        $content = $this->headerPoa($balanceBudget);
+        $firm = $this->firmPoa($balanceBudget);
+        $balanceBudget = $this->contentPoa($balanceBudget);
+        
+
+        foreach ($balanceBudget AS $data):
+            $content[] = $data;
+        endforeach;
+        foreach ($firm AS $data):
+            $content[] = $data;
+        endforeach;
+        return $content;
+    }
+
+    private function firmPoa($balanceBudget) {
+      
+        $firm = array(
+            array(''),
+            array('________________________________'),
+            array('Fernando Enrique Espinoza'),
+            array('Director ' . $balanceBudget->budgets->name)
+        );
+        return $firm;
+    }
+
+    private function contentPoa($balanceBudget) {
+
+        $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $balanceBudget->budgets->name, $balanceBudget->amount);
+
+        $content[] = array('', '', 'TOTAL PRESUPUESTO ' . $balanceBudget->budgets->name, '', '', '', $balanceBudget->amount);
+        return $content;
+    }
+
+    private function headerPoa($balanceBudget) {
+        // $balanceBudget->budgets->schools->name;
+        $year = $balanceBudget->budgets->year - 1;
+        $header = array(array('POA'),
+            array('MATRIZ PARA VINCULAR EL PLAN OPERATIVO CENTRO EDUCATIVO Y PRESUPUESTO DE LA JUNTA ADMINISTRATIVA'),
+            array($balanceBudget->budgets->schools->name . ' CODIGO: ' . $balanceBudget->budgets->schools->code),
+            array('Presupuesto inicial de la institucion1' . $year . ' PARA GIRAR EL AÑO ' . $balanceBudget->budgets->year),
+            array($balanceBudget->budgets->name),
+            array(''),
+            array('PLAN OPERATIVO'),
+            array('POLITICAS', 'OBJECTIVO ESTRATEGICO', 'OBJETIVO OPERACIONAL', 'METAS', 'CODIGOS PRESUPUESTARIO', 'RECURSOS PROVINIENTES', 'MONTO DEL PROYECTO')
+        );
+
+        return $header;
+    }
+
+    /**
+     * **************************************FIN Excel de cuadro POA *************************************
+     */
+
     /**
      * **************************************inicio Excel de cuadro Transferencia *************************************
      */
     public function excelTransfers($token) {
         $transfers = Transfer::where('token', $token)->get();
         $content = $this->CreateArrayTransfer($transfers);
-        $file= Count($content);
+        $file = Count($content);
         $firms = $this->firmTransfers();
         foreach ($firms AS $firm):
             $content[] = $firm;
         endforeach;
-        Excel::create('Transfers-', function($excel) use ($content,$file) {
-            $excel->sheet('Cuadro Transfers-', function($sheet) use ($content,$file ) {
-                 $sheet->mergeCells('A1:M1');
+        Excel::create('Transfers-', function($excel) use ($content, $file) {
+            $excel->sheet('Cuadro Transfers-', function($sheet) use ($content, $file ) {
+                $sheet->mergeCells('A1:M1');
                 $sheet->mergeCells('A2:M2');
                 $sheet->mergeCells('A3:M3');
                 $sheet->mergeCells('A5:F5');
                 $sheet->mergeCells('A6:F6');
                 $sheet->mergeCells('A7:F7');
                 $sheet->setBorder('A8:F' . $file, 'thin');
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                $sheet->mergeCells('A'.$file.':F'.$file);
-                $file=$file+1;
-                
-                $sheet->mergeCells('A'.$file.':C'.$file);
-                $sheet->mergeCells('D'.$file.':F'.$file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+                $sheet->mergeCells('A' . $file . ':F' . $file);
+                $file = $file + 1;
+
+                $sheet->mergeCells('A' . $file . ':C' . $file);
+                $sheet->mergeCells('D' . $file . ':F' . $file);
                 $sheet->cells('A8:F8', function($cells) {
                     $cells->setFontWeight(10);
                 });
                 $sheet->cells('A1:F3', function($cells) {
                     $cells->setAlignment('center');
-                       $cells->setFontWeight('bold');
+                    $cells->setFontWeight('bold');
                 });
                 $sheet->cells('A4:F8', function($cells) {
                     $cells->setAlignment('center');
                     $cells->setValignment('center');
-                       $cells->setFontWeight('bold');
+                    $cells->setFontWeight('bold');
                 });
-                $file=$file-9;
-                $file1=$file+3;
-                $sheet->cells('A'.$file.':F'.$file1, function($cells) {
+                $file = $file - 9;
+                $file1 = $file + 3;
+                $sheet->cells('A' . $file . ':F' . $file1, function($cells) {
                     $cells->setAlignment('left');
                     $cells->setValignment('center');
-                       $cells->setFontWeight('bold');
+                    $cells->setFontWeight('bold');
                 });
-               
+
                 $sheet->setHeight(8, 50);
                 $sheet->fromArray($content, null, 'A1', true, false);
             });
@@ -86,13 +325,13 @@ class ExcelController extends Controller {
 
     private function CreateArrayTransfer($transfers) {
 
-        $spreadsheets = $this->headerTransfers();
-        $spreadsheet = $this->contentTransfers($transfers);
-        foreach ($spreadsheet AS $value):
-            $spreadsheets[] = $value;
+        $transfers = $this->headerTransfers();
+        $transfer = $this->contentTransfers($transfers);
+        foreach ($transfer AS $value):
+            $transfers[] = $value;
         endforeach;
 
-        return $spreadsheets;
+        return $transfers;
     }
 
     private function contentTransfers($transfers) {
@@ -125,6 +364,7 @@ class ExcelController extends Controller {
             array('Firma Presidente(a) de la junta _________________________________'),
             array('Firma Secretario(a) de la junta _________________________________'),
             array('Revisado por Tesorero Contador:_________________________'),
+            array(''),
             array('Aprobación (para uso exclusivo de la Dirección Regional de Educación)'),
             array('Nombre y firma del funcionario que aprueba:_______________________________________'),
             array('Sello Dirección Regional:_______________________________________', '', '', 'Fecha de aprobación________________')
