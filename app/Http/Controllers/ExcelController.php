@@ -325,21 +325,22 @@ class ExcelController extends Controller {
 
     private function CreateArrayTransfer($transfers) {
 
-        $transfers = $this->headerTransfers();
+        $HeaderTransfers = $this->headerTransfers();
         $transfer = $this->contentTransfers($transfers);
         foreach ($transfer AS $value):
-            $transfers[] = $value;
+            $HeaderTransfers[] = $value;
         endforeach;
 
-        return $transfers;
+        return $HeaderTransfers;
     }
 
     private function contentTransfers($transfers) {
         $content = array();
         $aumento = 0;
         $rebajo = 0;
+        
         foreach ($transfers AS $index => $transfer):
-
+           
             $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
 
             if ($transfer->type == 'salida'):
@@ -352,7 +353,7 @@ class ExcelController extends Controller {
                 $rebajo += $transfer->amount;
             endif;
         endforeach;
-        $content[] = array('', '', '', $rebajo, $aumento, '');
+        $content[] = array('', '', 'TOTAL', $rebajo, $aumento, '');
         return $content;
     }
 
