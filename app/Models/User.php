@@ -58,7 +58,10 @@ use SoftDeletes;
     public function tasks() {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
     }
-
+    
+    public function menus() {
+        return $this->belongsToMany('Mep\Models\Menu')->withPivot('status', 'task_id');
+    }
     /* Relacion con la tabla schools */
 
     public function schools() {
