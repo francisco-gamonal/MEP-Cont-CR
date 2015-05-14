@@ -17,50 +17,50 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         CanResetPassword;
 
 use SoftDeletes;
-
+    
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'users';
-
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'last', 'email', 'password', 'type_users_id', 'suppliers_id', 'token'];
-
+    
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-
+    
     /**
      *  Inicio Relaciones
      */
     /* Relacion con la tabla Tipo de usuarios */
-
+    
     public function typeUsers() {
         return $this->belongsTo('Mep\Models\TypeUser');
     }
-
+    
     /* Relacion con la tabla Supplier */
-
+    
     public function suppliers() {
 
         return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
     }
-
+    
     public function tasks() {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
     }
     
     public function menus() {
-        return $this->belongsToMany('Mep\Models\Menu')->withPivot('status', 'task_id');
+        return $this->belongsToMany('Mep\Models\Menu','task_user')->withPivot('status', 'task_id');
     }
     /* Relacion con la tabla schools */
 

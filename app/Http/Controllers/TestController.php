@@ -46,7 +46,24 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
-        
+        //echo json_encode(\Auth::user()->menus);die;
+        $temp = null;
+        $menu = array();
+        foreach (\Auth::user()->menus as $value) {
+            if($value->pivot->status == 1){
+               //echo $value->pivot->status.'<br>';
+               $task = Task::find($value->pivot->task_id);
+               $tempArr = array_push($menu[$temp], $task->name);
+               //echo $task->name.'<br>';
+            }
+            if($temp != $value->id){
+                //echo $value->name.'<br>';
+                $temp = $value->name;
+                $menu[] = $temp;
+            }
+            
+        }echo json_encode($tempArr);die;
+
         $typeBudgetQ = BalanceBudget::balanceInitial(15);
         
 //        $budget = Budget::find(1);
@@ -63,7 +80,7 @@ class TestController extends Controller {
 //         
 //        endforeach;
             //$var = array_unique($typeBudgetQ, SORT_REGULAR);       
-            echo json_encode($typeBudgetQ->balances->amount);
+            //echo json_encode($typeBudgetQ->balances->amount);
             
 //        foreach ($budget->groups AS $group):
 //            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')

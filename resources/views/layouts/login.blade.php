@@ -24,7 +24,7 @@
 				<div class="panel-heading">Login</div>
 				<div class="panel-body">
 					<form class="form-horizontal" role="form" method="POST" action="http://localhost/MEP-Cont-CR/public/auth/login">
-						<input type="hidden" name="_token" value="dipfwowdCyFWvglCLApImTDZqBvOsDcKW9xmGbyK">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
