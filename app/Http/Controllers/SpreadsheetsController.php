@@ -13,6 +13,15 @@ use Mep\Models\Spreadsheet;
 class SpreadsheetsController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -46,7 +55,7 @@ class SpreadsheetsController extends Controller {
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
         $ValidationData['budgets_id'] = $budget->id;
-        $ValidationData['simulation']='false';
+        $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = new Spreadsheet;
         /* Validamos los datos para guardar tabla menu */
@@ -97,16 +106,16 @@ class SpreadsheetsController extends Controller {
      * @return Response
      */
     public function update() {
-       /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $spreadsheets = $this->convertionObjeto();
-        
+
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
-       $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
+        $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
         $ValidationData['budgets_id'] = $budget->id;
-        $ValidationData['simulation']='false';
+        $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = Spreadsheet::Token($spreadsheets->token);
         /* Validamos los datos para guardar tabla menu */
@@ -160,12 +169,12 @@ class SpreadsheetsController extends Controller {
         return $this->errores($data->errors);
     }
 
-    public function report($token){
-        $spreadsheet    = Spreadsheet::Token($token);
-        $checks         = Check::where('spreadsheets_id', $spreadsheet->id)->get();
-        $balanceTotal   = 0;
-        $totalAmount    = 0;
-        $totalCancelar  = 0;
+    public function report($token) {
+        $spreadsheet = Spreadsheet::Token($token);
+        $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+        $balanceTotal = 0;
+        $totalAmount = 0;
+        $totalCancelar = 0;
         $totalRetention = 0;
         foreach ($checks AS $index => $check):
             if ($index == 0) {
@@ -184,7 +193,7 @@ class SpreadsheetsController extends Controller {
             $totalRetention+=$check->retention;
             $totalCancelar+=$check->cancelarAmount();
         endforeach;
-        
+
         $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
         return $pdf->stream('Reporte.pdf');
     }

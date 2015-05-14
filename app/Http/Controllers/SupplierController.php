@@ -14,6 +14,15 @@ use Crypt;
 class SupplierController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -97,9 +106,9 @@ class SupplierController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($supplier, 'Supplier');
         /* Declaramos las clases a utilizar */
-        $suppliers= Supplier::Token($ValidationData['token']);
+        $suppliers = Supplier::Token($ValidationData['token']);
         /* Validamos los datos para guardar tabla menu */
-        if ($suppliers->isValid( $ValidationData)):
+        if ($suppliers->isValid($ValidationData)):
             $suppliers->fill($ValidationData);
             $suppliers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
@@ -152,26 +161,27 @@ class SupplierController extends Controller {
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
-       
+
     /**
      * 
      * @param type $supplier
      * @return type
      */
     private function createArray($supplier) {
-        if(in_array('tokenSupplier', (array)$supplier)):
+        if (in_array('tokenSupplier', (array) $supplier)):
             $suppliers = array('charter' => $supplier->charterSupplier,
-            'name' => ($supplier->nameSupplier),
-            'phone' => ($supplier->phoneSupplier),
-            'token' => Crypt::encrypt($supplier->charterSupplier),
-            'email' => ($supplier->emailSupplier));
-        return $suppliers;
+                'name' => ($supplier->nameSupplier),
+                'phone' => ($supplier->phoneSupplier),
+                'token' => Crypt::encrypt($supplier->charterSupplier),
+                'email' => ($supplier->emailSupplier));
+            return $suppliers;
         endif;
         $suppliers = array('charter' => $supplier->charterSupplier,
             'name' => ($supplier->nameSupplier),
             'phone' => ($supplier->phoneSupplier),
-            'token'=>$supplier->tokenSupplier,
+            'token' => $supplier->tokenSupplier,
             'email' => ($supplier->emailSupplier));
         return $suppliers;
     }
+
 }

@@ -13,6 +13,15 @@ use Mep\Models\Catalog;
 class ReportController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -20,10 +29,9 @@ class ReportController extends Controller {
     public function index() {
         $budget = Budget::find(1);
         $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
-        
+
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets);
-        return view('reports.budget.content', compact('budget', 'balanceBudgets','catalogsBudget'));
+        return view('reports.budget.content', compact('budget', 'balanceBudgets', 'catalogsBudget'));
     }
 
-  
 }

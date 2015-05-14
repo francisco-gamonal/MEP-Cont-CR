@@ -7,7 +7,17 @@ use Mep\Http\Controllers\Controller;
 use Mep\Models\TypeBudget;
 use Illuminate\Http\Request;
 use Crypt;
+
 class TypeBudgetsController extends Controller {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -93,9 +103,9 @@ class TypeBudgetsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeBudgets->nameTypeBudget);
         /* Declaramos las clases a utilizar */
-        $typeBudget = TypeBudget::Token( $typeBudgets->token);
+        $typeBudget = TypeBudget::Token($typeBudgets->token);
         /* Validamos los datos para guardar tabla menu */
-        if ($typeBudget->isValid((array)$ValidationData)):
+        if ($typeBudget->isValid((array) $ValidationData)):
             $typeBudget->name = strtoupper($ValidationData['name']);
             $typeBudget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
@@ -117,7 +127,7 @@ class TypeBudgetsController extends Controller {
      * @param  int  $id
      * @return Response
      */
-   public function destroy($token) {
+    public function destroy($token) {
         /* les damos eliminacion pasavida */
         $data = TypeBudget::Token($token)->delete();
         if ($data):

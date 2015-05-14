@@ -19,7 +19,7 @@ class MenuController extends Controller {
      * @return void
      */
     public function __construct() {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -156,7 +156,7 @@ class MenuController extends Controller {
             return $this->exito('Se desactivo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
     /**
@@ -176,7 +176,7 @@ class MenuController extends Controller {
             return $this->exito('Se Activo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
 }
