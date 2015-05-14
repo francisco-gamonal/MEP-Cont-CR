@@ -89,6 +89,7 @@
 	                                </td>
 									<td class="text-center edit-row">
 										<a href="{{route('reporte-saldo-de-presupuestos', $balanceBudget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+										<a href="{{route('reporte-saldo-de-presupuestos-excel', $balanceBudget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($balanceBudget->deleted_at)
