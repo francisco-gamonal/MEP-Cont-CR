@@ -37,7 +37,7 @@ class TestController extends Controller {
     protected $auth;
 
     public function __construct(Guard $auth) {
-        //$this->auth = $auth;
+        $this->middleware('auth');
     }
 
     /**
