@@ -104,12 +104,13 @@ class ExcelController extends Controller {
             array(''),
             array('________________________________'),
             array('Fernando Enrique Espinoza'),
-            array('Director ' . $budgets->name)
+            array('Director ' . $Budget->name)
         );
         return $firm;
     }
 
     private function contentPoaBudget($Budget) {
+        $balanceBudgetAmount=0;
         foreach ($Budget->balancebudgets AS $balanceBudget):
             $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $Budget->name, $balanceBudget->amount);
             $balanceBudgetAmount += $balanceBudget->amount;
