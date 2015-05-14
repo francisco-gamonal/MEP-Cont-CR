@@ -75,7 +75,7 @@
 		</div>
 	</div>
 	<div class="content-wrapper">
-		@yield('message')
+		@include('layouts.message')
 		@yield('page')
 		@yield('content')
 	</div>
