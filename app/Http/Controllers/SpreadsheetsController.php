@@ -169,7 +169,7 @@ class SpreadsheetsController extends Controller {
         $totalRetention = 0;
         foreach ($checks AS $index => $check):
             if ($index == 0) {
-                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet);
+                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
             } else {
                 $balance = $balance;
             }

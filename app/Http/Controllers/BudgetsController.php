@@ -205,7 +205,6 @@ class BudgetsController extends Controller {
         if($count>=18):
             $top=125;
         endif;
-        //echo view('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year'));die;
         $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year','top'));
         return $pdf->stream('Reporte.pdf');
     }
