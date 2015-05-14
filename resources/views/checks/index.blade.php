@@ -1,26 +1,5 @@
 @extends('layouts.mep')
 
-@section('message')
-<div class="message border-bottom">
-	<div class="row">
-		<div class="col-md-4">
-			<a href="#"><span class="glyphicon glyphicon-th-list"></span></a>
-		</div>
-		<div class="col-md-8">
-			<div class="pull-right">
-				<div class="list-inline-block">
-					<ul>
-						<li><a>Bienvenido Anwar Sarmiento - Administrador</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-envelope"></span></a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-log-out"></span><span> Cerrar Sesión</span></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-@endsection
-
 @section('page')
 <aside class="page"> 
 	<h2>Cheques</h2>
