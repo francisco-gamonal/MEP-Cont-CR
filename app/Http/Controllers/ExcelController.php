@@ -19,6 +19,15 @@ use Mep\Models\Transfer;
 class ExcelController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * **************************************inicio Excel de cuadro POA *************************************
      */
     public function excelPoaBudget($token) {
@@ -110,7 +119,7 @@ class ExcelController extends Controller {
     }
 
     private function contentPoaBudget($Budget) {
-        $balanceBudgetAmount=0;
+        $balanceBudgetAmount = 0;
         foreach ($Budget->balancebudgets AS $balanceBudget):
             $content[] = array($balanceBudget->policies, $balanceBudget->strategic, $balanceBudget->operational, $balanceBudget->goals, $balanceBudget->catalogs->codeCuenta(), $Budget->name, $balanceBudget->amount);
             $balanceBudgetAmount += $balanceBudget->amount;
@@ -1316,11 +1325,11 @@ class ExcelController extends Controller {
         $content[] = array('EGRESOS');
         $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
         $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
-         $Total = 0;
+        $Total = 0;
         foreach ($groups as $group):
             if ($group->type == 'egresos'):
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
-               $amount = 0;
+                $amount = 0;
                 foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->groups_id):
                         if ($catalog->type == 'egresos'):
@@ -1347,10 +1356,10 @@ class ExcelController extends Controller {
      */
     private function generalInExcel($groups, $catalogsBudget, $school) {
         $content = $this->headerGeneralExcel($school);
-         $Total = 0;
+        $Total = 0;
         foreach ($groups as $group):
             if ($group->type == 'ingresos'):
-                 $amount = 0;
+                $amount = 0;
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
                 foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->groups_id):

@@ -17,6 +17,15 @@ use Mep\Models\Balance;
 class TransfersController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -154,7 +163,7 @@ class TransfersController extends Controller {
                     BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
                 endif;
             endforeach;
-          
+
             if ($transferQuery['errors']) {
                 DB::rollback();
                 return $this->errores($transferQuery['errors']);
@@ -166,8 +175,8 @@ class TransfersController extends Controller {
             DB::rollback();
             return $this->errores(array('key' => 'Error de DB'));
         }
-        
-        
+
+
 //        /* Capturamos los datos enviados por ajax */
 //        $transfers = $this->convertionObjeto();
 //        /* obtenemos dos datos del supplier mediante token recuperamos el id */
@@ -253,7 +262,7 @@ class TransfersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($token) { 
+    public function edit($token) {
         $DataTransfers = Transfer::where('token', '=', $token)->get();
         $amount = 0;
         foreach ($DataTransfers AS $transfers):
@@ -263,11 +272,11 @@ class TransfersController extends Controller {
                 $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount);
             endif;
             $amount += $transfers->amount;
-            
-            
-            
+
+
+
         endforeach;
-        
+
         $transfer = array('date' => $transfers->date, 'amount' => $amount,
             'simulation' => $transfers->simulation,
             'code' => $transfers->code,
@@ -450,9 +459,9 @@ class TransfersController extends Controller {
 
     public function report($token) {
         $transfers = Transfer::where('token', $token)->get();
-        $content   = array();
-        $aumento   = 0;
-        $rebajo    = 0;
+        $content = array();
+        $aumento = 0;
+        $rebajo = 0;
         foreach ($transfers AS $index => $transfer):
             $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
 
@@ -467,7 +476,7 @@ class TransfersController extends Controller {
             endif;
         endforeach;
         $school = $transfers[0]->balanceBudgets->budgets->schools;
-        $pdf = \PDF::loadView('reports.transfer.content', compact('content','rebajo','aumento', 'school'))
+        $pdf = \PDF::loadView('reports.transfer.content', compact('content', 'rebajo', 'aumento', 'school'))
                 ->setOrientation('landscape');
         return $pdf->stream('Reporte.pdf');
     }

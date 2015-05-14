@@ -11,7 +11,17 @@ use Mep\Models\TypeBudget;
 use Mep\Models\Budget;
 use Mep\Models\Balance;
 use Maatwebsite\Excel\Facades\Excel;
+
 class BalanceBudgetsController extends Controller {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -65,8 +75,7 @@ class BalanceBudgetsController extends Controller {
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBalanceBudget = $balanceBudget->LastId();
             //,'simulation'=>$balanceBudgets->simulation
-            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 
-                    'entrada', 'false', 'balance_budgets_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
+            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budgets_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore();

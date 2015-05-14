@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Response;
 
 class TypeUsersController extends Controller {
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -22,7 +30,6 @@ class TypeUsersController extends Controller {
         $typeUsers = TypeUser::withTrashed()->get();
         return view('typeUsers.index', compact('typeUsers'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -92,12 +99,12 @@ class TypeUsersController extends Controller {
      * @return Response
      */
     public function update($id) {
-         /* Capturamos los datos enviados por ajax */
+        /* Capturamos los datos enviados por ajax */
         $typeUser = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
-        $typeUsers =  TypeUser::withTrashed()->find($typeUser->idTypeUser);
+        $typeUsers = TypeUser::withTrashed()->find($typeUser->idTypeUser);
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
             $typeUsers->name = strtoupper($ValidationData['name']);
@@ -121,7 +128,7 @@ class TypeUsersController extends Controller {
      * @param  int  $id
      * @return Response
      */
-     public function destroy() {
+    public function destroy() {
         /* Capturamos los datos enviados por ajax */
         $TypeUser = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
@@ -131,7 +138,7 @@ class TypeUsersController extends Controller {
             return $this->exito('Se desactivo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
     /**
@@ -151,7 +158,7 @@ class TypeUsersController extends Controller {
             return $this->exito('Se Activo con exito!!!');
         endif;
         /* si hay algun error  los enviamos de regreso */
-       return $this->errores($data->errors);
+        return $this->errores($data->errors);
     }
 
 }

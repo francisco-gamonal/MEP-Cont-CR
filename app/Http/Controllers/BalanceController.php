@@ -9,6 +9,15 @@ use Illuminate\Http\Request;
 
 class BalanceController extends Controller {
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public static function saveBalance($amount, $type, $simulation, $table, $id, $status) {
 
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation, $table => $id);
@@ -27,7 +36,7 @@ class BalanceController extends Controller {
         endif;
     }
 
-    public static function saveBalanceTransfers($amount, $type, $simulation,  $id, $balanceBudget) {
+    public static function saveBalanceTransfers($amount, $type, $simulation, $id, $balanceBudget) {
 
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation,
             'transfers_balance_budgets_id' => $balanceBudget,
@@ -50,11 +59,10 @@ class BalanceController extends Controller {
         $balance = Balance::find($balanceId[0]->id);
         /* Validamos los datos para guardar tabla menu */
         if ($balance->isValid($ValidationData)):
-             
+
             $balance->fill($ValidationData);
             $balance->save();
         endif;
-       
     }
 
     public static function editBalance($amount, $type, $simulation, $id, $status) {

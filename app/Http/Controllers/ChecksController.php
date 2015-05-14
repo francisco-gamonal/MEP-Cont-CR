@@ -15,7 +15,7 @@ use Mep\Models\Balance;
 class ChecksController extends Controller {
 
     public function __construct() {
-        // $this->middleware('auth');
+         $this->middleware('auth');
     }
 
     public function budget($token) {

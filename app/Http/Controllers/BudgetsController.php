@@ -15,6 +15,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class BudgetsController extends Controller {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -23,7 +32,6 @@ class BudgetsController extends Controller {
 
         $budgets = Budget::withTrashed()->get();
         return view('budgets.index', compact('budgets'));
-
     }
 
     /**
@@ -45,11 +53,11 @@ class BudgetsController extends Controller {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
         /* Consulta por token de school */
-        $school= School::Token($budgets->schoolBudget);
+        $school = School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
         /* Asignacion de id de school */
-        $ValidationData['schools_id']=$school->id;
+        $ValidationData['schools_id'] = $school->id;
         /* Declaramos las clases a utilizar */
         $budget = new Budget;
         /* Validamos los datos para guardar tabla menu */
@@ -102,12 +110,12 @@ class BudgetsController extends Controller {
     public function update() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
-        
-        $school= School::Token($budgets->schoolBudget);
+
+        $school = School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
-        
-        $ValidationData['schools_id']=$school->id;
+
+        $ValidationData['schools_id'] = $school->id;
         /* Declaramos las clases a utilizar */
         $budget = Budget::Token($budgets->token);
         /* Validamos los datos para guardar tabla menu */
@@ -161,11 +169,11 @@ class BudgetsController extends Controller {
         return $this->errores($data->errors);
     }
 
-    public function poaReport($token){
-        $budget              = Budget::Token($token);
-        $balanceBudgets      = BalanceBudget::where('budgets_id', $budget->id)->get();
+    public function poaReport($token) {
+        $budget = Budget::Token($token);
+        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         $totalBalanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->sum('amount');
-        $pdf = \PDF::loadView('reports.budget.poa.content',  compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
+        $pdf = \PDF::loadView('reports.budget.poa.content', compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
         return $pdf->stream('Poa.pdf');
     }
 
@@ -177,7 +185,7 @@ class BudgetsController extends Controller {
      * @return [type]         [description]
      */
     public function globalReport($token, $global, $year) {
-        $school   = School::Token($token);
+        $school = School::Token($token);
         $catalogs = Catalog::all();
         foreach ($catalogs as $catalog) {
             $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
@@ -186,26 +194,26 @@ class BudgetsController extends Controller {
                     ->where('catalogs_id', $catalog->id)
                     ->where('year', $year)
                     ->sum('amount');
-            if($amount>0){
+            if ($amount > 0) {
                 $groups[$catalog->groups_id] = Group::find($catalog->groups_id);
-                $catalog->amount  = $amount;
+                $catalog->amount = $amount;
                 $catalogsBudget[] = $catalog;
             }
         }
         foreach ($groups as $group) {
             $totGroup = 0;
-            foreach($catalogsBudget as $catalog){
-                if($group->id == $catalog->groups_id){
+            foreach ($catalogsBudget as $catalog) {
+                if ($group->id == $catalog->groups_id) {
                     $totGroup += $catalog->amount;
                 }
             }
             $group->total = $totGroup;
         }
-        $count = count($catalogsBudget) +count($groups)+6;
-        if($count>=18):
-            $top=125;
+        $count = count($catalogsBudget) + count($groups) + 6;
+        if ($count >= 18):
+            $top = 125;
         endif;
-        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year','top'));
+        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year', 'top'));
         return $pdf->stream('Reporte.pdf');
     }
 
@@ -215,11 +223,11 @@ class BudgetsController extends Controller {
      * @return [type]   view
      */
     public function report($token) {
-        $budget         = Budget::Token($token);
+        $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
-               ->setOrientation('landscape');
+                ->setOrientation('landscape');
         return $pdf->stream('Reporte.pdf');
     }
 
@@ -229,16 +237,16 @@ class BudgetsController extends Controller {
      * @param  [type] $balanceBudgets [description]
      * @return [type]                 [description]
      */
-    private function catalogsBudget($budget, $balanceBudgets){
+    private function catalogsBudget($budget, $balanceBudgets) {
         foreach ($balanceBudgets as $catalog) {
-            $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c, 
-                'sc' => $catalog->catalogs->sc, 
-                'g' => $catalog->catalogs->g, 
+            $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c,
+                'sc' => $catalog->catalogs->sc,
+                'g' => $catalog->catalogs->g,
                 'sg' => $catalog->catalogs->sg,
-                'p' => $catalog->catalogs->p, 
-                'sp' => $catalog->catalogs->sp, 
-                'r' => $catalog->catalogs->r, 
-                'sr' => $catalog->catalogs->sr, 
+                'p' => $catalog->catalogs->p,
+                'sp' => $catalog->catalogs->sp,
+                'r' => $catalog->catalogs->r,
+                'sr' => $catalog->catalogs->sr,
                 'f' => $catalog->catalogs->f,
                 'name' => $catalog->catalogs->name,
                 'type' => $catalog->catalogs->type,
@@ -254,9 +262,9 @@ class BudgetsController extends Controller {
      * @param  [type] $catalog [description]
      * @return [type]          [description]
      */
-    private function amountTypeBudget($budget, $catalog){
+    private function amountTypeBudget($budget, $catalog) {
         $total = 0;
-        foreach($budget->typeBudgets as $typeBudget){
+        foreach ($budget->typeBudgets as $typeBudget) {
             $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
             $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id));
         }
