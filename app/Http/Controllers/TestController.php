@@ -70,9 +70,11 @@ class TestController extends Controller {
             }*/
         }
         foreach ($tempKey as $key => $task) {
+            echo $key;
             foreach ($task as $value) {
-                echo $key.' '.$value->name;
+                echo '<br>'.$value->name;
             }
+            echo '<br>';
         }
         /*$typeBudgetQ = BalanceBudget::balanceInitial(15);
         

@@ -25,54 +25,7 @@
 		<div class="logo paddingWrapper">
 			<figure><a href="{{ url('/') }}"><img class="center-block" src="{{ asset('img/mep-logo.png') }}"></a></figure>
 		</div>
-		<div class="menu">
-			<ul class="nav">
-				<li class="active">
-					<a href="{{ url('/') }}">
-						<span class="glyphicon glyphicon-home"></span>
-						<span>Home</span>
-					</a>
-				</li>
-				<li class="submenu">
-					<a href="#">
-						<span class="glyphicon glyphicon-home"></span>
-						<span>Profile1</span>
-						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
-					</a>
-					<ul class="nav">
-						<li><a href="#">Developer</a></li>
-						<li><a href="#">DBA</a></li>
-						<li><a href="#">Servidores</a></li>
-						<li><a href="#">Servidores</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="#">
-						<span class="glyphicon glyphicon-home"></span>
-						<span>Messages</span>
-					</a>
-				</li>
-				<li class="submenu">
-					<a href="#">
-						<span class="glyphicon glyphicon-home"></span>
-						<span>Profile</span>
-						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
-					</a>
-					<ul class="nav">
-						<li><a href="#">Developer</a></li>
-						<li><a href="#">DBA</a></li>
-						<li><a href="#">Servidores</a></li>
-						<li><a href="#">Servidores</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="#">
-						<span class="glyphicon glyphicon-home"></span>
-						<span>Messages</span>
-					</a>
-				</li>
-			</ul>
-		</div>
+		@include('layouts.menu')
 	</div>
 	<div class="content-wrapper">
 		@include('layouts.message')
