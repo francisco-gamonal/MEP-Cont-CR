@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model {
 
-      use SoftDeletes;
-     // Don't forget to fill this array
+    use SoftDeletes;
+    // Don't forget to fill this array
     protected $fillable = ['name', 'url'];
 
     public function Tasks() {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status');
     }
-    /* */
-     public function LastId() {
+
+    public function tasksActive(){
+        return $this->belongsToMany('Mep\Models\Task', 'task_user')->wherePivot('status', 1);
+    }
+    
+    public function LastId() {
         return Menu::all()->last();
     }
 

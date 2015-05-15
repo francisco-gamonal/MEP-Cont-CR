@@ -47,54 +47,60 @@ class TestController extends Controller {
      */
     public function index() {
         //echo json_encode(\Auth::user()->menus);die;
-        $temp = null;
-        $menu = array();
-        foreach (\Auth::user()->menus as $value) {
-            if($value->pivot->status == 1){
-               //echo $value->pivot->status.'<br>';
-               $task = Task::find($value->pivot->task_id);
-               $tempArr = array_push($menu[$temp], $task->name);
-               //echo $task->name.'<br>';
+        $temp     = null;
+        $tempKey  = array();
+        $tempData = array();
+        foreach (\Auth::user()->menus as $menu) {
+            //echo json_encode($menu->pivot);die;
+            //$a[] = $menu->tasksActive;
+            //echo json_encode($menu->tasksActive);
+            if($temp != $menu->id){
+                //echo $menu->name.'<br>';
+                $temp = $menu->id;
+                /*if($menu->id == 1){
+                    echo json_encode($menu->tasksActive);die;
+                }*/
+                $tempKey[$menu->name] = $menu->tasksActive()->select('name')->get();
+                //echo json_encode($tempKey);die;
             }
-            if($temp != $value->id){
-                //echo $value->name.'<br>';
-                $temp = $value->name;
-                $menu[] = $temp;
+            /*if($menu->pivot->status == 1){
+                $task = Task::find($menu->pivot->task_id);
+                $tempData[] = $task->name;
+                //echo $task->name.'<br>';
+            }*/
+        }
+        foreach ($tempKey as $key => $task) {
+            foreach ($task as $value) {
+                echo $key.' '.$value->name;
             }
-            
-        }echo json_encode($tempArr);die;
-
-        $typeBudgetQ = BalanceBudget::balanceInitial(15);
+        }
+        /*$typeBudgetQ = BalanceBudget::balanceInitial(15);
         
-//        $budget = Budget::find(1);
-//        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
-//        foreach ($balanceBudgets AS $catalog):
-//            $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
-//                'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
-//                'name' => $catalog->catalogs->name,
-//                'type' => $catalog->catalogs->type,
-//                'typeBudget' => $this->amountTypeBudget($budget, $catalog));
-//                       //$typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
-//                        //$typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
-//                       // $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0));
-//         
-//        endforeach;
-            //$var = array_unique($typeBudgetQ, SORT_REGULAR);       
-            //echo json_encode($typeBudgetQ->balances->amount);
+        $budget = Budget::find(1);
+        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+        foreach ($balanceBudgets AS $catalog):
+           $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
+               'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
+               'name' => $catalog->catalogs->name,
+               'type' => $catalog->catalogs->type,
+               'typeBudget' => $this->amountTypeBudget($budget, $catalog));
+                      //$typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
+                       //$typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
+                      // $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0));
+        endforeach;
+        $var = array_unique($typeBudgetQ, SORT_REGULAR);       
+        echo json_encode($typeBudgetQ->balances->amount);
             
-//        foreach ($budget->groups AS $group):
-//            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-//                        ->where('balance_budgets.budgets_id', $budget->id)
-//                        ->where('catalogs.groups_id', $group->id)
-//                        ->where('catalogs.type', 'ingresos')->get();
-//            //  echo   json_encode($budget->groups[0]);
-//            foreach ($balance AS $balances):
-//
-//
-//                echo json_encode($balances);
-//
-//            endforeach;
-//        endforeach;
+        foreach ($budget->groups AS $group):
+            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
+                       ->where('balance_budgets.budgets_id', $budget->id)
+                       ->where('catalogs.groups_id', $group->id)
+                       ->where('catalogs.type', 'ingresos')->get();
+            //  echo   json_encode($budget->groups[0]);
+            foreach ($balance AS $balances):
+                echo json_encode($balances);
+            endforeach;
+       endforeach;*/
     }
     
     private function amountTypeBudget($budget, $catalog){
