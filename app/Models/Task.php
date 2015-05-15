@@ -24,7 +24,7 @@ class Task extends Model {
         return $this->belongsToMany('Mep\Models\Menu');
     }
     public static function urlMenu($id){
-        return self::find($id)->menus[0]->url;
+        return self::find($id)->menus->url;
     }
 
     public function LastId()

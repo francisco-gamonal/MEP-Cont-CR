@@ -51,14 +51,12 @@ class TestController extends Controller {
 //         echo json_encode($tas->menus[0]->url); die;
         //echo json_encode(\Auth::user()->menus);die;
         $tempKey = \Mep\Facades\MenuFacades::Menu();
-        echo json_encode($tempKey); die;
-        foreach ($tempKey as $key => $task) {
-            echo json_encode(task::urlMenu($task[0]->id)); die;
-//            foreach ($task as $value) {
-//                echo '<br>'.$value->name;
-//            }
-//            echo '<br>';
-        }
+        //echo json_encode($tempKey); die;
+        foreach ($tempKey as $menu) {
+            foreach ($menu['tasks'] as $key => $value) {
+                echo json_encode($value->url);
+            }
+        }die;
         /*$typeBudgetQ = BalanceBudget::balanceInitial(15);
         
         $budget = Budget::find(1);

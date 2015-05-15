@@ -1,30 +1,20 @@
 <div class="menu">
 	<ul class="nav">
-		<?php $temp = null; ?>
-		@foreach (\Auth::user()->menus as $menu)
-			@if($temp != $menu->id)
-				<?php $temp = $menu->id; ?>
-				@if(count($menu->tasksActive) > 0)
-					<li class="submenu">
-						<a href="#">
-							<span class="glyphicon glyphicon-home"></span>
-							<span>{{mb_convert_case($menu->name, MB_CASE_TITLE, 'utf-8')}}</span>
-							<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
-						</a>
-						<ul class="nav">
-						@foreach($menu->tasksActive()->select('name')->get() as $task)
-							<li><a href="{{ url(''.strtolower($menu->url).'/'.strtolower($task->name))}}">{{$task->name}}</a></li>
-						@endforeach
-						</ul>
-					</li>
-				@else
-					<li>
-						<a href="{{ url(''.$menu->url) }}">
-							<span class="glyphicon glyphicon-home"></span>
-							<span>{{mb_convert_case($menu->name, MB_CASE_TITLE, 'utf-8')}}</span>
-						</a>
-					</li>
-				@endif
+		<?php $menus = \Mep\Facades\MenuFacades::Menu(); ?>
+		@foreach ($menus as $key => $menu)
+			@if(count($menu['tasks']) > 0)
+				<li class="submenu">
+					<a href="#">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>{{mb_convert_case($key, MB_CASE_TITLE, 'utf-8')}}</span>
+						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
+					</a>
+					<ul class="nav">
+					@foreach($menu['tasks'] as $task)
+						<li><a href="{{ url(strtolower($menu['url']).'/'.strtolower($task->name).'-'.strtolower($key))}}">{{$task->name}}</a></li>
+					@endforeach
+					</ul>
+				</li>
 			@endif
 		@endforeach
 		<!-- <li class="active">

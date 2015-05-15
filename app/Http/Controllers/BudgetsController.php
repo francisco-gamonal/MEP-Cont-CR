@@ -21,7 +21,7 @@ class BudgetsController extends Controller {
      */
     public function __construct() {
         $this->middleware('auth');
-        //  $this->middleware('counter',['except'=>'index']);
+        $this->middleware('counter',['except'=>'index']);
     }
 
     /**
