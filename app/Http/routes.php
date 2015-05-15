@@ -11,7 +11,7 @@
   |
  */
 /* Lista de  Usuarios */
-Route::get('/inicio',['as'=>'home','uses'=>'HomeController@index'] );
+Route::get('/inicio', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('/', function() {
     return view('auth.login');
@@ -24,9 +24,6 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
-
-  // Route::group(['middleware'=>['auth','super_admin']], function ()
-  // {
 //si el usuario ha iniciado sesión dar acceso a las rutas
 require (__DIR__ . '/Routes/User.php');
 require (__DIR__ . '/Routes/Menu.php');
@@ -45,12 +42,3 @@ require (__DIR__ . '/Routes/Checks.php');
 
 require (__DIR__ . '/Routes/Transfers.php');
 require (__DIR__ . '/Routes/Report.php');
-// });
-
-Route::get('/', function() {
-    return view('auth.login');
-
-});
-
-
-

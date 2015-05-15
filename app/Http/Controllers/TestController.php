@@ -47,28 +47,8 @@ class TestController extends Controller {
      */
     public function index() {
         //echo json_encode(\Auth::user()->menus);die;
-        $temp     = null;
-        $tempKey  = array();
-        $tempData = array();
-        foreach (\Auth::user()->menus as $menu) {
-            //echo json_encode($menu->pivot);die;
-            //$a[] = $menu->tasksActive;
-            //echo json_encode($menu->tasksActive);
-            if($temp != $menu->id){
-                //echo $menu->name.'<br>';
-                $temp = $menu->id;
-                /*if($menu->id == 1){
-                    echo json_encode($menu->tasksActive);die;
-                }*/
-                $tempKey[$menu->name] = $menu->tasksActive()->select('name')->get();
-                //echo json_encode($tempKey);die;
-            }
-            /*if($menu->pivot->status == 1){
-                $task = Task::find($menu->pivot->task_id);
-                $tempData[] = $task->name;
-                //echo $task->name.'<br>';
-            }*/
-        }
+        $tempKey = \Mep\Facades\MenuFacades::Menu();
+        echo json_encode($tempKey); die;
         foreach ($tempKey as $key => $task) {
             echo $key;
             foreach ($task as $value) {
