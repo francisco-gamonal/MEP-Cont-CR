@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Mep\Models\Balance;
 use DOMPDF;
 use Maatwebsite\Excel\Excel;
-
+use Collective\Html\HtmlBuilder;
 // disable DOMPDF's internal autoloader if you are using Composer
 define('DOMPDF_ENABLE_AUTOLOAD', false);
 
@@ -50,8 +50,8 @@ class TestController extends Controller {
 //        
 //         echo json_encode($tas->menus[0]->url); die;
         //echo json_encode(\Auth::user()->menus);die;
-        $tempKey = \Mep\Facades\MenuFacades::Menu();
-        //echo json_encode($tempKey); die;
+       $menus = \Html::menu(); 
+        echo json_encode($menus); die;
         foreach ($tempKey as $menu) {
             foreach ($menu['tasks'] as $key => $value) {
                 echo json_encode($value->url);

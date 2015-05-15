@@ -1,6 +1,6 @@
 <div class="menu">
 	<ul class="nav">
-		<?php $menus = \Mep\Facades\MenuFacades::Menu(); ?>
+		<?php $menus = \Html::menu(); ?>
 		@foreach ($menus as $key => $menu)
 			@if(count($menu['tasks']) > 0)
 				<li class="submenu">
