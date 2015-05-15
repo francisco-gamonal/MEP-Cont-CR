@@ -129,6 +129,7 @@ return [
         'Mep\Providers\ConfigServiceProvider',
         'Mep\Providers\EventServiceProvider',
         'Mep\Providers\RouteServiceProvider',
+     //   'Mep\Providers\MenuServiceProvider',
         /* New */
         'Maatwebsite\Excel\ExcelServiceProvider',
     ],
@@ -178,5 +179,6 @@ return [
         'View' => 'Illuminate\Support\Facades\View',
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'PDF' => 'Barryvdh\DomPDF\Facade',
+        'Menu' => 'Mep\Facades\MenuFacades',
     ],
 ];

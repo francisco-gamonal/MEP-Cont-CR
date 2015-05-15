@@ -29,12 +29,12 @@ abstract class IsTypeGlobal {
         /**/
         if (!$this->auth->user()->is($this->getType())) {
             /**/
-            $this->auth->logout();
+            
             /**/
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->to('/');
+                return redirect()->to('/inicio')->with('error','No tiene Permisos para esa opcion');
             }
         }
         return $next($request);
