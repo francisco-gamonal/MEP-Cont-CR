@@ -27,7 +27,7 @@ class MenuFacades extends Facade {
 
             if ($temp != $menu->id) {
                 $temp = $menu->id;
-                $Menu[$menu->name] = $menu->tasksActive()->select('name')->get();
+                $Menu[$menu->name] = $menu->tasksActive()->select('name','id')->get();
             }
         }
         return $Menu;
