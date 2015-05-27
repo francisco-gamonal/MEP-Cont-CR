@@ -25,7 +25,7 @@ class HtmlBuilder extends CollectiveHtmlBuilder {
 
             if ($temp != $menu->id) {
                 $temp = $menu->id;
-                $Menu[$menu->name] = ['url'=>$menu->url,'id'=>$menu->id,'tasks'=>$menu->tasksActive()->select('name','id')->get()];
+                $Menu[$menu->route] = ['url'=>$menu->url,'name'=>$menu->name,'id'=>$menu->id,'tasks'=>$menu->tasksActive()->select('name','id')->get()];
             }
         }
         return $Menu;

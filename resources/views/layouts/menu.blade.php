@@ -6,7 +6,7 @@
 				<li class='submenu {{ (Route::currentRouteName() != "home") ? (explode("-", Route::currentRouteName())[1] == strtolower($key) ? "active" : "" ): "" }}'>
 					<a href="#">
 						<span class="glyphicon glyphicon-home"></span>
-						<span>{{mb_convert_case($key, MB_CASE_TITLE, 'utf-8')}}</span>
+						<span>{{mb_convert_case($menu['name'], MB_CASE_TITLE, 'utf-8')}}</span>
 						<span class="icon-menu glyphicon glyphicon-chevron-right pull-right"></span>
 					</a>
 					<ul class="nav" style='{{ (Route::currentRouteName() != "home") ? (explode("-", Route::currentRouteName())[1] == strtolower($key) ? "display:block" : "display:none" ) : "" }}'>
