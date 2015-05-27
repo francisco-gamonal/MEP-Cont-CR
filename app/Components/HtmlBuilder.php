@@ -1,6 +1,4 @@
-<?php
-
-namespace Mep\Facades;
+<?php namespace Mep\Components;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,18 +6,18 @@ namespace Mep\Facades;
  * and open the template in the editor.
  */
 
-use Illuminate\Support\Facades\Facade;
+use Collective\Html\HtmlBuilder as CollectiveHtmlBuilder;
 
 /**
  * Description of MenuServiceProvider
  *
  * @author Anwar Sarmiento
  */
-class MenuFacades extends Facade {
+class HtmlBuilder extends CollectiveHtmlBuilder {
 
     //put your code here
 
-    public static function Menu() {
+    public function menu() {
         $temp = null;
         $Menu = array();
         $tempData = array();

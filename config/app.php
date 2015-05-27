@@ -120,7 +120,6 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
-        'Barryvdh\DomPDF\ServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -129,9 +128,12 @@ return [
         'Mep\Providers\ConfigServiceProvider',
         'Mep\Providers\EventServiceProvider',
         'Mep\Providers\RouteServiceProvider',
-     //   'Mep\Providers\MenuServiceProvider',
+        'Mep\Providers\HtmlServiceProvider',
+        //   'Mep\Providers\MenuServiceProvider',
         /* New */
         'Maatwebsite\Excel\ExcelServiceProvider',
+        'Barryvdh\DomPDF\ServiceProvider',
+        
     ],
     /*
       |--------------------------------------------------------------------------
@@ -177,8 +179,10 @@ return [
         'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
+        /* Terceros */
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'PDF' => 'Barryvdh\DomPDF\Facade',
-        'Menu' => 'Mep\Facades\MenuFacades',
+        'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
     ],
 ];
