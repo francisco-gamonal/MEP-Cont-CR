@@ -53,7 +53,7 @@ ul
 .content-wrapper
     background bg_content
     color bg_nav
-    margin 0 0 0 200px
+    margin 0 0 0 220px
     height 100%
     overflow auto
 
@@ -100,6 +100,7 @@ ul
             a:focus
                 background-color bg_nav_hover
                 color white
+                font-weight bold
         li.active
             border-left 4px solid color_border_nav
             background bg_nav_hover
@@ -110,10 +111,14 @@ ul
                 display none
                 li
                     a
-                        padding 0.4em 0 .4em 2.5em
+                        padding 0.4em 0 .4em 3em
                 li:last-child
                     margin-bottom .5em
-     
+                .active-menu
+                    a
+                        color white
+                        font-weight bold
+
 .message
     background bg_message
     color color_message
@@ -139,7 +144,7 @@ ul
     overflow auto
     position fixed
     top 0px
-    width 200px
+    width 220px
 
 .paddingWrapper
     padding 1em

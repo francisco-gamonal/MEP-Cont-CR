@@ -2,10 +2,10 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Home</h2>
+		<h2>Inicio</h2>
 		<div class="list-inline-block">
 			<ul>
-				<li class="active"><a href="{{url('/')}}">Home</a></li>
+				<li class="active"><a href="{{route('home')}}">Inicio</a></li>
 			</ul>
 		</div>
 	</aside>

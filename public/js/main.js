@@ -180,6 +180,10 @@ $(function(){
 		}
 	});
 
+	$('.submenu li a').on('click', function(){
+		window.location.href = $(this).attr('href');
+	});
+
 	//Switch Checkbox
 	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
 	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
