@@ -7,18 +7,20 @@
  */
 use Illuminate\Database\Seeder;
 /**
- * Description of VouchersTableSeeder
+ * Description of MenusTasksTableSeeder
  *
  * @author Anwar Sarmiento
  */
-class VouchersTableSeeder extends Seeder {
+class MenuTaskTableSeeder {
     //put your code here
-    
-     public function run() {
-        \DB::table('suppliers')->insert([
-            'id' => 1,
-            'imagen' => 'Stephanie Robles Ortega',
-            'suppliers_id' => 1,
+    public function run() {
+        \DB::table('menu_task')->insert([
+            'task_id' => 1,
+            'menu_id' => 2
+         ]);
+        \DB::table('menu_task')->insert([
+             'task_id' => 2,
+            'menu_id' => 2
          ]);
     }
 }
