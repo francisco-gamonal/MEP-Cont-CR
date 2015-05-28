@@ -12,8 +12,8 @@ class SchoolsTableSeeder extends Seeder {
             'circuit' => '01',
             'code' => '5748',
             'ffinancing' => 'LEY 6746 FONDO GENERAL PARA JUNTAS DE EDUCACIÓN Y ADMINISTRATIVAS',
-            'title_1' => 'MINISTERIO DE EDUCACIÓN PÚBLICA',
-            'title_2' => 'DIRECCIÓN REGIONAL DE EDUCACIÓN DE AGUIRRE'
+            'titleone' => 'MINISTERIO DE EDUCACIÓN PÚBLICA',
+            'titletwo' => 'DIRECCIÓN REGIONAL DE EDUCACIÓN DE AGUIRRE'
         ]);
     }
 

@@ -21,9 +21,9 @@ class CreateBalancesTable extends Migration {
             $table->integer('check_id')->unsigned()->nullable()->index();
             $table->foreign('check_id')->references('id')->on('checks')->onDelete('no action');
             $table->integer('transfer_code')->unsigned()->nullable()->index();
-            $table->foreign('transfer_code')->references('id')->on('transfers')->onDelete('no action');
+            $table->foreign('transfer_code')->references('code')->on('transfers')->onDelete('no action');
             $table->integer('transfer_balance_budget_id')->unsigned()->nullable()->index();
-            $table->foreign('transfer_balance_budget_id')->references('id')->on('transfers')->onDelete('no action');
+            $table->foreign('transfer_balance_budget_id')->references('balance_budget_id')->on('transfers')->onDelete('no action');
             $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();
