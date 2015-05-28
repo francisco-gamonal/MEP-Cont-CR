@@ -20,10 +20,10 @@ class CreateBalancesTable extends Migration {
             $table->foreign('balance_budget_id')->references('id')->on('balance_budgets')->onDelete('no action');
             $table->integer('check_id')->unsigned()->nullable()->index();
             $table->foreign('check_id')->references('id')->on('checks')->onDelete('no action');
-            $table->integer('transfers_code')->unsigned()->nullable()->index();
-            $table->foreign('transfers_code')->references('id')->on('transfers')->onDelete('no action');
-            $table->integer('transfers_balance_budgets_id')->unsigned()->nullable()->index();
-            $table->foreign('transfers_balance_budgets_id')->references('id')->on('transfers')->onDelete('no action');
+            $table->integer('transfer_code')->unsigned()->nullable()->index();
+            $table->foreign('transfer_code')->references('id')->on('transfers')->onDelete('no action');
+            $table->integer('transfer_balance_budget_id')->unsigned()->nullable()->index();
+            $table->foreign('transfer_balance_budget_id')->references('id')->on('transfers')->onDelete('no action');
             $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();

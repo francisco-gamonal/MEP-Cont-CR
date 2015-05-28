@@ -13,8 +13,8 @@ class CreateBudgetsTable extends Migration {
     public function up() {
         Schema::create('budgets', function(Blueprint $table) {
             $table->increments('id');
-            $table->date('name');
-            $table->string('source');
+            $table->date('name',80);
+            $table->string('source',150);
             $table->string('description', 200);
             $table->string('year', 4);
             $table->enum('type', 'ordinario', 'extraordinario');

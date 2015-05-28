@@ -13,10 +13,10 @@ class CreateSuppliersTable extends Migration {
     public function up() {
         Schema::create('suppliers', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('charter');
+        $table->string('charter',60);
         $table->string('name');
-        $table->string('phone');
-        $table->string('email')->unique();
+        $table->string('phone',12);
+        $table->string('email',150)->unique();
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

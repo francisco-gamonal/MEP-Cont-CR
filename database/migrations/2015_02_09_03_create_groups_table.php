@@ -13,8 +13,8 @@ class CreateGroupsTable extends Migration {
     public function up() {
          Schema::create('groups', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('code');
-        $table->string('name');
+        $table->string('code',10);
+        $table->string('name',80);
         $table->enum('type',['ingresos','egresos']);
         $table->string('token')->unique();
         $table->engine = 'InnoDB';

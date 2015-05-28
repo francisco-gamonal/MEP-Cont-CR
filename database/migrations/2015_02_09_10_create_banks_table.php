@@ -14,7 +14,7 @@ class CreateBanksTable extends Migration {
         Schema::create('banks', function(Blueprint $table) {
         $table->increments('id');
         $table->date('date');
-        $table->string('name');
+        $table->string('name',80);
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

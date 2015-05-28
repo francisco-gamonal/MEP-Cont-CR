@@ -13,10 +13,10 @@ class CreateSupportsTable extends Migration {
     public function up() {
         Schema::create('supports', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('title');
+        $table->string('title',150);
         $table->mediumText('message');
-        $table->integer('users_id')->unsigned()->index();
-        $table->foreign('users_id')->references('id')->on('users')->onDelete('no action');
+        $table->integer('user_id')->unsigned()->index();
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

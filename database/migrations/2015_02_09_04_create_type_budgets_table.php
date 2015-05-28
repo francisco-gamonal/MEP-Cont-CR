@@ -13,7 +13,7 @@ class CreateTypeBudgetsTable extends Migration {
     public function up() {
         Schema::create('type_budgets', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('name');
+        $table->string('name',80);
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

@@ -13,7 +13,7 @@ class CreateTypeUsersTable extends Migration {
     public function up() {
         Schema::create('type_users', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('name');
+        $table->string('name',80);
         $table->engine = 'InnoDB';
         $table->timestamps();
         $table->softDeletes();

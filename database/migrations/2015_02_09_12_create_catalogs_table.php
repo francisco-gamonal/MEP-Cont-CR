@@ -12,16 +12,16 @@ class CreateCatalogsTable extends Migration {
      */
     public function up() {
         Schema::create('catalogs', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('c', 2);
-            $table->string('sc', 2);
-            $table->string('g', 2);
-            $table->string('sg', 2);
-            $table->string('p', 2);
-            $table->string('sp', 2);
-            $table->string('r', 2);
-            $table->string('sr', 2);
-            $table->string('f', 3);
+            $table->increments('id')->nullable();
+            $table->string('c', 2)->nullable();
+            $table->string('sc', 2)->nullable();
+            $table->string('g', 2)->nullable();
+            $table->string('sg', 2)->nullable();
+            $table->string('p', 2)->nullable();
+            $table->string('sp', 2)->nullable();
+            $table->string('r', 2)->nullable();
+            $table->string('sr', 2)->nullable();
+            $table->string('f', 3)->nullable();
             $table->string('name');
             $table->enum('type', ['ingresos', 'egresos']);
             $table->integer('group_id')->unsigned()->index();

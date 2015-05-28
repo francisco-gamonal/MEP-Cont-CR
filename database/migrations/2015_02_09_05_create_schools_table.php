@@ -13,16 +13,16 @@ class CreateSchoolsTable extends Migration {
     public function up() {
         Schema::create('schools', function(Blueprint $table) {
         $table->increments('id');
-        $table->string('name');
-        $table->string('charter');
-        $table->string('circuit');
-        $table->string('code');
-        $table->string('ffinancing');
-        $table->string('president');
-        $table->string('secretary');
-        $table->string('account');
-        $table->string('titleOne');
-        $table->string('titleTwo');
+        $table->string('name',150);
+        $table->string('charter',60);
+        $table->string('circuit',20);
+        $table->string('code',20);
+        $table->string('ffinancing',150);
+        $table->string('president',150);
+        $table->string('secretary',150);
+        $table->string('account',150);
+        $table->string('titleOne',200);
+        $table->string('titleTwo',200);
         $table->string('token')->unique();
         $table->engine = 'InnoDB';
         $table->timestamps();

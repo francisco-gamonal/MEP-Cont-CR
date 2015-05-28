@@ -13,14 +13,15 @@ class CreateUsersTable extends Migration {
     public function up() {
         Schema::create('users', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('last');
-            $table->string('email')->unique();
+            $table->string('name',80);
+            $table->string('last',80);
+            $table->string('email',200)->unique();
             $table->string('password');
-            $table->integer('type_users_id')->unsigned()->index();
-            $table->foreign('type_users_id')->references('id')->on('type_users')->onDelete('no action');
-            $table->integer('suppliers_id')->unsigned()->nullable()->index();
-            $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('no action');
+            $table->integer('type_user_id')->unsigned()->index();
+            $table->foreign('type_user_id')->references('id')->on('type_users')->onDelete('no action');
+            $table->integer('supplier_id')->unsigned()->nullable()->index();
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('no action');
+            $table->string('remember_token');
             $table->string('token')->unique();
             $table->rememberToken();
             $table->engine = 'InnoDB';

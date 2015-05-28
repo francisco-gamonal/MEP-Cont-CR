@@ -17,13 +17,39 @@ class MenuTableSeeder extends Seeder {
     public function run() {
          \DB::table('menus')->insert([
             'id' => 1,
-            'name' => 'menu',
-            'url' => '/menus'
+            'route' => 'MENU',
+            'name' => 'MENU',
+            'url' => '/MENU'
          ]);
          \DB::table('menus')->insert([
             'id' => 2,
-            'name' => 'usuarios',
-            'url' => '/usuarios'
+            'route' => 'USUARIOS',
+            'name' => 'USUARIOS',
+            'url' => '/USUARIOS'
+         ]);
+           \DB::table('menus')->insert([
+            'id' => 3,
+            'route' => 'PRESUPUESTOS',
+            'name' => 'PRESUPUESTOS',
+            'url' => '/PRESUPUESTOS'
+         ]);
+           \DB::table('menus')->insert([
+            'id' => 4,
+            'route' => 'TIPO-DE-PRESUPUESTOS',
+            'name' => 'TIPO DE PRESUPUESTOS',
+            'url' => '/TIPO-DE-PRESUPUESTOS'
+         ]);
+           \DB::table('menus')->insert([
+            'id' => 5,
+            'route' => 'CATALOGOS',
+            'name' => 'CATALOGOS',
+            'url' => '/CATALOGOS'
+         ]);
+           \DB::table('menus')->insert([
+            'id' => 6,
+            'route' => 'GRUPOS-DE-CUENTAS',
+            'name' => 'GRUPOS DE CUENTAS',
+            'url' => '/GRUPOS-DE-CUENTAS'
          ]);
     }
 }

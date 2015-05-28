@@ -16,11 +16,11 @@ class MenusTasksTableSeeder {
     public function run() {
         \DB::table('menu_task')->insert([
             'task_id' => 1,
-            'menu_id' => 1
+            'menu_id' => 2
          ]);
         \DB::table('menu_task')->insert([
-             'task_id' => 1,
-            'menu_id' => 1
+             'task_id' => 2,
+            'menu_id' => 2
          ]);
     }
 }

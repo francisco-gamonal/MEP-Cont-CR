@@ -14,7 +14,7 @@ class CreateTasksTable extends Migration {
 	{
 	 Schema::create('tasks', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',150);
             $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();
