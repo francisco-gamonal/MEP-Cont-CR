@@ -17,7 +17,7 @@ class CreateBudgetsTable extends Migration {
             $table->string('source',150);
             $table->string('description', 200);
             $table->string('year', 4);
-            $table->enum('type', 'ordinario', 'extraordinario');
+            $table->enum('type', ['ordinario', 'extraordinario']);
             $table->string('global', 1);
             $table->integer('school_id')->unsigned()->index();
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('no action');
