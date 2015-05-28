@@ -9,7 +9,7 @@ class Budget extends Model {
 
    
     // Don't forget to fill this array
-    protected $fillable = ['name', 'source', 'description', 'year', 'type', 'global','schools_id','token'];
+    protected $fillable = ['name', 'source', 'description', 'year', 'type', 'global','school_id','token'];
 
     public function schools() {
 
@@ -17,7 +17,7 @@ class Budget extends Model {
     }
     public function balanceBudgets() {
 
-        return $this->hasMany('Mep\Models\BalanceBudget','budgets_id','id');
+        return $this->hasMany('Mep\Models\BalanceBudget','budget_id','id');
     }
     public function groups() {
 
@@ -49,7 +49,8 @@ class Budget extends Model {
         'description' => 'required',
         'year' => 'required',
         'global' => 'required',
-        'schools_id' => 'required'];
+        'token' => 'required',
+        'school_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
        

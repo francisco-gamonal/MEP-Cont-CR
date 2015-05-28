@@ -21,7 +21,7 @@ class BudgetsController extends Controller {
      */
     public function __construct() {
         $this->middleware('auth');
-        $this->middleware('counter',['except'=>'index']);
+     //   $this->middleware('admin',['only'=>'index']);
     }
 
     /**
@@ -58,7 +58,7 @@ class BudgetsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
         /* Asignacion de id de school */
-        $ValidationData['schools_id'] = $school->id;
+        $ValidationData['school_id'] = $school->id;
         /* Declaramos las clases a utilizar */
         $budget = new Budget;
         /* Validamos los datos para guardar tabla menu */
@@ -116,7 +116,7 @@ class BudgetsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
 
-        $ValidationData['schools_id'] = $school->id;
+        $ValidationData['school_id'] = $school->id;
         /* Declaramos las clases a utilizar */
         $budget = Budget::Token($budgets->token);
         /* Validamos los datos para guardar tabla menu */
@@ -172,8 +172,8 @@ class BudgetsController extends Controller {
 
     public function poaReport($token) {
         $budget = Budget::Token($token);
-        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
-        $totalBalanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->sum('amount');
+        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
+        $totalBalanceBudgets = BalanceBudget::where('budget_id', $budget->id)->sum('amount');
         $pdf = \PDF::loadView('reports.budget.poa.content', compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
         return $pdf->stream('Poa.pdf');
     }
@@ -189,10 +189,10 @@ class BudgetsController extends Controller {
         $school = School::Token($token);
         $catalogs = Catalog::all();
         foreach ($catalogs as $catalog) {
-            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
-                    ->where('schools_id', $school->id)
+            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budget_id')
+                    ->where('school_id', $school->id)
                     ->where('global', $global)
-                    ->where('catalogs_id', $catalog->id)
+                    ->where('catalog_id', $catalog->id)
                     ->where('year', $year)
                     ->sum('amount');
             if ($amount > 0) {
@@ -225,7 +225,7 @@ class BudgetsController extends Controller {
      */
     public function report($token) {
         $budget = Budget::Token($token);
-        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
+        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
                 ->setOrientation('landscape');
@@ -251,7 +251,7 @@ class BudgetsController extends Controller {
                 'f' => $catalog->catalogs->f,
                 'name' => $catalog->catalogs->name,
                 'type' => $catalog->catalogs->type,
-                'groups_id' => $catalog->catalogs->groups_id,
+                'group_id' => $catalog->catalogs->groups_id,
                 'typeBudget' => $this->amountTypeBudget($budget, $catalog, null));
         }
         return $typeBudget;
@@ -281,9 +281,9 @@ class BudgetsController extends Controller {
      * @return [type]          [description]
      */
     private function balanceTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
-                        ->where('balance_budgets.catalogs_id', $catalog)
-                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
+                        ->where('balance_budgets.catalog_id', $catalog)
+                        ->where('balance_budgets.type_budget_id', $type)->sum('amount');
         return $amountBalanceBudget;
     }
 

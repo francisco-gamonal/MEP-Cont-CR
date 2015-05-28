@@ -12,7 +12,7 @@ class TypeUser extends Model {
      *
      * @var string
      */
-    protected $table = 'type_users';
+  
 
     use SoftDeletes;
 

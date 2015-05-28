@@ -46,44 +46,9 @@ class TestController extends Controller {
      * @return Response
      */
     public function index() {
-//        $tas = Task::find(1);
-//        
-//         echo json_encode($tas->menus[0]->url); die;
-        //echo json_encode(\Auth::user()->menus);die;
-       $menus = \Html::menu(); 
-        echo json_encode($menus); die;
-        foreach ($tempKey as $menu) {
-            foreach ($menu['tasks'] as $key => $value) {
-                echo json_encode($value->url);
-            }
-        }die;
-        /*$typeBudgetQ = BalanceBudget::balanceInitial(15);
+        $user = \Auth::user()->typeUsers->name; //\Auth::user();
         
-        $budget = Budget::find(1);
-        $balanceBudgets = BalanceBudget::where('budgets_id', $budget->id)->get();
-        foreach ($balanceBudgets AS $catalog):
-           $typeBudgetQ[$catalog->catalogs->id] =array('c' => $catalog->catalogs->c, 'sc' => $catalog->catalogs->sc, 'g' => $catalog->catalogs->g, 'sg' => $catalog->catalogs->sg,
-               'p' => $catalog->catalogs->p, 'sp' => $catalog->catalogs->sp, 'r' => $catalog->catalogs->r, 'sr' => $catalog->catalogs->sr, 'f' => $catalog->catalogs->f,
-               'name' => $catalog->catalogs->name,
-               'type' => $catalog->catalogs->type,
-               'typeBudget' => $this->amountTypeBudget($budget, $catalog));
-                      //$typeBudget[0] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[0]), 0),
-                       //$typeBudget[1] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[1]), 0),
-                      // $typeBudget[2] => number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget[2]), 0));
-        endforeach;
-        $var = array_unique($typeBudgetQ, SORT_REGULAR);       
-        echo json_encode($typeBudgetQ->balances->amount);
-            
-        foreach ($budget->groups AS $group):
-            $balance =  BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                       ->where('balance_budgets.budgets_id', $budget->id)
-                       ->where('catalogs.groups_id', $group->id)
-                       ->where('catalogs.type', 'ingresos')->get();
-            //  echo   json_encode($budget->groups[0]);
-            foreach ($balance AS $balances):
-                echo json_encode($balances);
-            endforeach;
-       endforeach;*/
+        echo json_encode($user);
     }
     
     private function amountTypeBudget($budget, $catalog){

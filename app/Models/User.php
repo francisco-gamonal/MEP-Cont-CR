@@ -17,51 +17,52 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         CanResetPassword;
 
 use SoftDeletes;
-    
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'users';
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'last', 'email', 'password', 'type_users_id', 'suppliers_id', 'token'];
-    
+    protected $fillable = ['name', 'last', 'email', 'password', 'type_user_id', 'supplier_id', 'token'];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-    
+
     /**
      *  Inicio Relaciones
      */
     /* Relacion con la tabla Tipo de usuarios */
-    
+
     public function typeUsers() {
-        return $this->belongsTo('Mep\Models\TypeUser');
+        return $this->belongsTo('Mep\Models\TypeUser','type_user_id','id');
     }
-    
+
     /* Relacion con la tabla Supplier */
-    
+
     public function suppliers() {
 
-        return $this->hasOne('Mep\Models\Supplier', 'id', 'suppliers_id');
+        return $this->belongsTo('Mep\Models\Supplier');
     }
-    
+
     public function tasks() {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
     }
-    
+
     public function menus() {
-        return $this->belongsToMany('Mep\Models\Menu','task_user')->withPivot('status', 'task_id');
+        return $this->belongsToMany('Mep\Models\Menu', 'task_user')->withPivot('status', 'task_id');
     }
+
     /* Relacion con la tabla schools */
 
     public function schools() {
@@ -160,12 +161,15 @@ use SoftDeletes;
             $this->attributes['password'] = \Hash::make($value);
         endif;
     }
-    public function is($type){
-        
+
+    public function is($type) {
+
         return $this->typeUsers->id === $type;
     }
-    public function admin(){
-        
+
+    public function admin() {
+
         return $this->typeUsers->id === 1;
     }
+
 }

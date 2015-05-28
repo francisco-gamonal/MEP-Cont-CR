@@ -10,7 +10,7 @@ class School extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['name', 'charter', 'circuit', 'code', 'ffinancing', 'president', 'secretary', 'account', 'titleOne', 'titleTwo'];
+    protected $fillable = ['name', 'charter', 'circuit', 'code', 'ffinancing', 'president', 'secretary', 'account','token', 'titleOne', 'titleTwo'];
 
     public function users() {
         return $this->belongsToMany('Mep\Models\User');
@@ -44,11 +44,13 @@ class School extends Model {
             'president'  => 'required',
             'secretary'  => 'required',
             'account'    => 'required',
+            'token'    => 'required|unique:schools',
             'titleOne'    => 'required',
             'titleTwo'    => 'required'];
 
         if ($this->exists) {
             $rules['charter'] .= ',charter,' . $this->id;
+            $rules['token'] .= ',token,' . $this->id;
         }
 
         $validator = \Validator::make($data, $rules);
