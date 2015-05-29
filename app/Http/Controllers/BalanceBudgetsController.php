@@ -61,9 +61,9 @@ class BalanceBudgetsController extends Controller {
 
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
-        $ValidationData['catalogs_id'] = $catalog->id;
-        $ValidationData['budgets_id'] = $budget->id;
-        $ValidationData['types_budgets_id'] = $typeBudget->id;
+        $ValidationData['catalog_id'] = $catalog->id;
+        $ValidationData['budget_id'] = $budget->id;
+        $ValidationData['type_budget_id'] = $typeBudget->id;
 
 
         /* Declaramos las clases a utilizar */
@@ -72,10 +72,12 @@ class BalanceBudgetsController extends Controller {
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
             $balanceBudget->save();
+            $budget= Budget::find($ValidationData['budget_id']);
+            $budget->typeBudgets()->attach($ValidationData['type_budget_id']);
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBalanceBudget = $balanceBudget->LastId();
             //,'simulation'=>$balanceBudgets->simulation
-            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budgets_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
+            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budget_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore();
@@ -128,16 +130,18 @@ class BalanceBudgetsController extends Controller {
         $typeBudget = TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
-        $ValidationData['catalogs_id'] = $catalog->id;
-        $ValidationData['budgets_id'] = $budget->id;
-        $ValidationData['types_budgets_id'] = $typeBudget->id;
+        $ValidationData['catalog_id'] = $catalog->id;
+        $ValidationData['budget_id'] = $budget->id;
+        $ValidationData['type_budget_id'] = $typeBudget->id;
         /* Declaramos las clases a utilizar */
         $balanceBudget = BalanceBudget::Token($balanceBudgets->token);
         /* Validamos los datos para guardar tabla menu */
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
             $balanceBudget->save();
-            $searchBalance = Balance::withTrashed()->where('balance_budgets_id', '=', $balanceBudget->id)->get();
+            $budget= Budget::find($ValidationData['budget_id']);
+            $budget->typeBudgets()->attach($ValidationData['budget_id']);
+            $searchBalance = Balance::withTrashed()->where('balance_budget_id', '=', $balanceBudget->id)->get();
             BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', $searchBalance[0]->id, $balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
@@ -161,7 +165,7 @@ class BalanceBudgetsController extends Controller {
     public function destroy($token) {
         /* les damos eliminacion pasavida */
         $data = BalanceBudget::Token($token);
-        BalanceController::desactivar('balance_budgets_id', $data->id);
+        BalanceController::desactivar('balance_budget_id', $data->id);
         if ($data):
 
             $data->delete();
@@ -181,7 +185,7 @@ class BalanceBudgetsController extends Controller {
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
         $data = BalanceBudget::Token($token);
-        BalanceController::active('balance_budgets_id', $data->id);
+        BalanceController::active('balance_budget_id', $data->id);
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
