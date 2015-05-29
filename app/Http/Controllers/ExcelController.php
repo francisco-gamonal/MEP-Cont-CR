@@ -351,7 +351,7 @@ class ExcelController extends Controller {
 
         foreach ($transfers AS $index => $transfer):
 
-            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id);
 
             if ($transfer->type == 'salida'):
                 $balanceTotal = $balance - $transfer->amount;
@@ -715,9 +715,9 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balancePeriodForGroup($budget, $group, $type) {
-        $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->sum('amount');
         return $balanceGroup;
     }
@@ -729,10 +729,10 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balancePeriodForTypeBudget($budget, $typeBudget, $type) {
-        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
+        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.type', $type)
-                        ->where('balance_budgets.types_budgets_id', $typeBudget)->sum('amount');
+                        ->where('balance_budgets.type_budget_id', $typeBudget)->sum('amount');
         return $balanceTypeBudget;
     }
 
@@ -929,9 +929,9 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balancePeriodTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
-                        ->where('balance_budgets.catalogs_id', $catalog)
-                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
+                        ->where('balance_budgets.catalog_id', $catalog)
+                        ->where('balance_budgets.type_budget_id', $type)->sum('amount');
 
 
         return $amountBalanceBudget;
@@ -960,9 +960,9 @@ class ExcelController extends Controller {
     private function detailsPeriodIncomeAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget AS $catalog):
@@ -1042,9 +1042,9 @@ class ExcelController extends Controller {
     private function detailsPeriodEgresosAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget AS $catalog):
@@ -1127,15 +1127,15 @@ class ExcelController extends Controller {
         $catalogs = Catalog::all();
 
         foreach ($catalogs as $catalog) {
-            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budgets_id')
-                    ->where('schools_id', $school->id)
+            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budget_id')
+                    ->where('school_id', $school->id)
                     ->where('global', $global)
-                    ->where('catalogs_id', $catalog->id)
+                    ->where('catalog_id', $catalog->id)
                     ->where('year', $year)
                     ->sum('amount');
 
             if ($amount > 0) {
-                $groups[$catalog->groups_id] = Group::find($catalog->groups_id);
+                $groups[$catalog->group_id] = Group::find($catalog->group_id);
                 $catalog->amount = $amount;
                 $catalogsBudget[] = $catalog;
             }
@@ -1144,7 +1144,7 @@ class ExcelController extends Controller {
         foreach ($groups as $group) {
             $totGroup = 0;
             foreach ($catalogsBudget as $catalog) {
-                if ($group->id == $catalog->groups_id) {
+                if ($group->id == $catalog->group_id) {
                     $totGroup += $catalog->amount;
                 }
             }
@@ -1331,7 +1331,7 @@ class ExcelController extends Controller {
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
                 $amount = 0;
                 foreach ($catalogsBudget as $catalog):
-                    if ($group->id == $catalog->groups_id):
+                    if ($group->id == $catalog->group_id):
                         if ($catalog->type == 'egresos'):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                                 $catalog->name, number_format($catalog->amount));
@@ -1362,7 +1362,7 @@ class ExcelController extends Controller {
                 $amount = 0;
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
                 foreach ($catalogsBudget as $catalog):
-                    if ($group->id == $catalog->groups_id):
+                    if ($group->id == $catalog->group_id):
                         if ($catalog->type == 'ingresos'):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                                 $catalog->name, number_format($catalog->amount));
@@ -1561,9 +1561,9 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balanceForGroup($budget, $group, $type) {
-        $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->sum('amount');
         return $balanceGroup;
     }
@@ -1575,10 +1575,10 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balanceForTypeBudget($budget, $typeBudget, $type) {
-        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
+        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.type', $type)
-                        ->where('balance_budgets.types_budgets_id', $typeBudget)->sum('amount');
+                        ->where('balance_budgets.type_budget_id', $typeBudget)->sum('amount');
         return $balanceTypeBudget;
     }
 
@@ -1775,9 +1775,9 @@ class ExcelController extends Controller {
      * @return type
      */
     private function balanceTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
-                        ->where('balance_budgets.catalogs_id', $catalog)
-                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
+                        ->where('balance_budgets.catalog_id', $catalog)
+                        ->where('balance_budgets.type_budget_id', $type)->sum('amount');
 
 
         return $amountBalanceBudget;
@@ -1806,9 +1806,9 @@ class ExcelController extends Controller {
     private function detailsIncomeAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget AS $catalog):
@@ -1888,9 +1888,9 @@ class ExcelController extends Controller {
     private function detailsEgresosAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
-                        ->where('catalogs.groups_id', $group->id)
+        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget AS $catalog):

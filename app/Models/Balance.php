@@ -11,16 +11,16 @@ class Balance extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['type', 'amount', 'simulation', 'balance_budget_id', 'check_id', 'transfers_code','transfers_balance_budgets_id'];
+    protected $fillable = ['type', 'amount', 'simulation', 'balance_budget_id', 'check_id', 'transfer_code','transfer_balance_budget_id'];
 
     public function checks() {
 
-        return $this->belongsTo('Mep\Models\Check');
+        return $this->belongsTo('Mep\Models\Check', 'check_id', 'id');
     }
 
     public function balanceBudgets() {
 
-        return $this->belongsTo('Mep\Models\BalanceBudget');
+        return $this->belongsTo('Mep\Models\BalanceBudget', 'balance_budget_id', 'id');
     }
 
     public function transfers() {
@@ -47,19 +47,19 @@ class Balance extends Model {
         
         /**/
         
-       $transfersEntrada = Transfer::where('transfers.spreadsheets_id','<=',$spreadsheet->id)
+       $transfersEntrada = Transfer::where('transfers.spreadsheet_id','<=',$spreadsheet->id)
                ->where('transfers.balance_budget_id',$id)->where('transfers.type','entrada')->sum('transfers.amount');
       
        /**/
-       $transfersSalida = Transfer::where('transfers.spreadsheets_id','<=',$spreadsheet->id)
+       $transfersSalida = Transfer::where('transfers.spreadsheet_id','<=',$spreadsheet->id)
                ->where('transfers.balance_budget_id',$id)->where('transfers.type','salida')->sum('transfers.amount');
        /**/
         /**/
          if(!empty($check)):
-        $checks = Balance::join('checks','checks.id','=','balances.check_id')->where('checks_id','<',$check)
+        $checks = Balance::join('checks','checks.id','=','balances.check_id')->where('check_id','<',$check)
                 ->where('balances.balance_budget_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
          else:
-        $checks = Balance::join('checks','checks.id','=','balances.check_id')->where('spreadsheets_id','<',$checkTransfer)
+        $checks = Balance::join('checks','checks.id','=','balances.check_id')->where('spreadsheet_id','<',$checkTransfer)
                 ->where('balances.balance_budget_id',$id)->where('date',$spreadsheet->date)->sum('balances.amount');
          endif;
         $balance=($balanceBudget+$transfersEntrada)-($checks+$transfersSalida);

@@ -13,7 +13,7 @@ class Budget extends Model {
 
     public function schools() {
 
-        return $this->belongsTo('Mep\Models\School');
+        return $this->belongsTo('Mep\Models\School','school_id','id');
     }
     public function balanceBudgets() {
 

@@ -28,7 +28,7 @@ class SpreadsheetsController extends Controller {
      */
     public function index() {
         $spreadsheets = Spreadsheet::withTrashed()->get();
-        return view('spreadsheets.index', compact('spreadsheets'));
+       return view('spreadsheets.index', compact('spreadsheets'));
     }
 
     /**
@@ -54,7 +54,7 @@ class SpreadsheetsController extends Controller {
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
-        $ValidationData['budgets_id'] = $budget->id;
+        $ValidationData['budget_id'] = $budget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = new Spreadsheet;
@@ -112,9 +112,8 @@ class SpreadsheetsController extends Controller {
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
-        $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
-        $ValidationData['budgets_id'] = $budget->id;
+        $ValidationData['budget_id'] = $budget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = Spreadsheet::Token($spreadsheets->token);
@@ -171,7 +170,7 @@ class SpreadsheetsController extends Controller {
 
     public function report($token) {
         $spreadsheet = Spreadsheet::Token($token);
-        $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+        $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
         $balanceTotal = 0;
         $totalAmount = 0;
         $totalCancelar = 0;

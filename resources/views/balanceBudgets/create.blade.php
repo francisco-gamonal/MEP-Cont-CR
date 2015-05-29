@@ -73,7 +73,7 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="budgetBalanceBudget">Presupuesto del Saldo de Presupuesto</label>
+					<label for="budgetBalanceBudget">Presupuesto</label>
 					<select id="budgetBalanceBudget" class="form-control">
 						@foreach($budgets as $budget)
 							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>

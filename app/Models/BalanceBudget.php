@@ -26,7 +26,7 @@ class BalanceBudget extends Model {
 
     public function budgets() {
 
-        return $this->belongsTo('Mep\Models\Budget');
+        return $this->belongsTo('Mep\Models\Budget', 'budget_id', 'id');
     }
     public function balances() {
 

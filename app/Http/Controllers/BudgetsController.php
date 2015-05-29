@@ -20,6 +20,7 @@ class BudgetsController extends Controller {
      * @return void
      */
     public function __construct() {
+        set_time_limit(0);
         $this->middleware('auth');
      //   $this->middleware('admin',['only'=>'index']);
     }
@@ -251,7 +252,7 @@ class BudgetsController extends Controller {
                 'f' => $catalog->catalogs->f,
                 'name' => $catalog->catalogs->name,
                 'type' => $catalog->catalogs->type,
-                'group_id' => $catalog->catalogs->groups_id,
+                'group_id' => $catalog->catalogs->group_id,
                 'typeBudget' => $this->amountTypeBudget($budget, $catalog, null));
         }
         return $typeBudget;

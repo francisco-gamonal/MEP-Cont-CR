@@ -20,7 +20,7 @@ class ChecksController extends Controller {
 
     public function budget($token) {
         $spreadsheets = Spreadsheet::Token($token);
-        $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budgets_id);
+        $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budget_id);
         $budget = view('checks.budget', compact('balanceBudget'));
         return $budget;
     }
@@ -44,7 +44,7 @@ class ChecksController extends Controller {
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
@@ -65,9 +65,9 @@ class ChecksController extends Controller {
         $ValidationData = $this->CreacionArray($checks, 'Check');
         /* Asignacion de id de school */
         //   $ValidationData['vouchers_id'] = $voucher->id;
-        $ValidationData['suppliers_id'] = $supplier->id;
-        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+        $ValidationData['supplier_id'] = $supplier->id;
+        $ValidationData['spreadsheet_id'] = $spreadsheet->id;
+        $ValidationData['balance_budget_id'] = $balanceBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $check = new Check;
@@ -78,7 +78,7 @@ class ChecksController extends Controller {
             /* Traemos el id del tipo de usuario que se acaba de */
             $idCheck = $check->LastId();
             /* Actualizacion de la table balance */
-            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'checks_id', $idCheck->id, $checks->statusCheck);
+            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
                 Check::withTrashed()->find($idCheck->id)->restore();
@@ -100,7 +100,7 @@ class ChecksController extends Controller {
      * @return string
      */
     private function ArregloSelectCuenta($budgetsId) {
-        $balancebudgets = BalanceBudget::where('budgets_id', '=', $budgetsId)->get();
+        $balancebudgets = BalanceBudget::where('budget_id', '=', $budgetsId)->get();
         foreach ($balancebudgets AS $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
@@ -119,7 +119,7 @@ class ChecksController extends Controller {
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budgets_id);
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
         return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
@@ -141,9 +141,9 @@ class ChecksController extends Controller {
         $ValidationData = $this->CreacionArray($checks, 'Check');
         /* Asignacion de id de school */
         //   $ValidationData['vouchers_id'] = $voucher->id;
-        $ValidationData['suppliers_id'] = $supplier->id;
-        $ValidationData['spreadsheets_id'] = $spreadsheet->id;
-        $ValidationData['balance_budgets_id'] = $balanceBudget->id;
+        $ValidationData['supplier_id'] = $supplier->id;
+        $ValidationData['spreadsheet_id'] = $spreadsheet->id;
+        $ValidationData['balance_budget_id'] = $balanceBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $check = Check::Token($checks->token);
@@ -152,7 +152,7 @@ class ChecksController extends Controller {
             $check->fill($ValidationData);
             $check->save();
             /* Actualizacion de la table balance */
-            $searchBalance = Balance::withTrashed()->where('checks_id', '=', $check->id)->get();
+            $searchBalance = Balance::withTrashed()->where('check_id', '=', $check->id)->get();
             BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
@@ -176,7 +176,7 @@ class ChecksController extends Controller {
     public function destroy($token) {
         /* les damos eliminacion pasavida */
         $data = Check::Token($token);
-        BalanceController::desactivar('checks_id', $data->id);
+        BalanceController::desactivar('check_id', $data->id);
         if ($data):
 
             $data->delete();
@@ -196,7 +196,7 @@ class ChecksController extends Controller {
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
         $data = Check::Token($token);
-        BalanceController::active('checks_id', $data->id);
+        BalanceController::active('check_id', $data->id);
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */

@@ -11,11 +11,11 @@ class Spreadsheet extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['number', 'year', 'date', 'simulation', 'budgets_id', 'token'];
+    protected $fillable = ['number', 'year', 'date', 'simulation', 'budget_id', 'token'];
 
     public function budgets() {
 
-        return $this->belongsTo('Mep\Models\Budget');
+        return $this->belongsTo('Mep\Models\Budget','budget_id','id');
     }
 
     public function LastId() {
@@ -38,7 +38,8 @@ class Spreadsheet extends Model {
             'year' => 'required',
             'date' => 'required',
             'simulation' => 'required',
-            'budgets_id' => 'required'];
+            'token' => 'required',
+            'budget_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
 

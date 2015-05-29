@@ -58,10 +58,10 @@ class TypeBudget extends Model {
      * @return type
      */
     public function balanceForTypeBudget($budget, $typeBudget, $type) {
-        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalogs_id')
-                        ->where('balance_budgets.budgets_id', $budget->id)
+        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.type', $type)
-                        ->where('balance_budgets.types_budgets_id', $typeBudget)->sum('amount');
+                        ->where('balance_budgets.type_budget_id', $typeBudget)->sum('amount');
         return $balanceTypeBudget;
     }
 }

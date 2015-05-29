@@ -40,7 +40,7 @@
 				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{$group->balanceForGroup($budget, $group, $group->type)}}</td>
 			</tr>
 			@foreach($catalogsBudget as $catalog)
-				@if($group->id == $catalog['groups_id'])
+				@if($group->id == $catalog['group_id'])
 					@if($catalog['type'] == 'egresos')
 						<tr>
 							<td style="text-align:center;">{{$catalog['p']}}</td>

@@ -54,7 +54,7 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="ckbillCheck">Número de Factura del Cheque</label>
+				<label for="ckbillCheck">Número de Cheque</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 			      	<input id="ckbillCheck" class="form-control" type="text">
@@ -63,7 +63,7 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="ckretentionCheck">Número de Retención del Cheque</label>
+				<label for="ckretentionCheck">Número de Cheque de Retención</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
 			      	<input id="ckretentionCheck" class="form-control" type="text">

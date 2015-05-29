@@ -107,7 +107,8 @@ return [
             'charter'=>'Cedula',
             'email'=>'Correo Electronico',
             'phone'=>'Telefono',
-            'password'=>'Contraseña'
+            'password'=>'Contraseña',
+            'Record'=>'Acta y Acuerdo'
         ],
 
 ];

@@ -12,7 +12,7 @@ class Transfer extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['amount', 'type', 'date', 'simulation', 'token', 'code', 'balance_budgets_id', 'spreadsheets_id'];
+    protected $fillable = ['amount', 'type', 'date', 'simulation', 'token', 'code', 'balance_budget_id', 'spreadsheet_id'];
 
     public function spreadsheets() {
 
@@ -57,8 +57,8 @@ class Transfer extends Model {
             'date' => 'required',
             'code' => 'required',
             'simulation' => 'required',
-            'balance_budgets_id' => 'required',
-            'spreadsheets_id' => 'required'];
+            'balance_budget_id' => 'required',
+            'spreadsheet_id' => 'required'];
 
         $validator = \Validator::make($data, $rules);
     
