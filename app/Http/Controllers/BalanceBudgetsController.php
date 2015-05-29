@@ -72,8 +72,14 @@ class BalanceBudgetsController extends Controller {
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
             $balanceBudget->save();
-            $budget= Budget::find($ValidationData['budget_id']);
-            $budget->typeBudgets()->attach($ValidationData['type_budget_id']);
+            /**/
+            $budget = TypeBudget::find($ValidationData['type_budget_id']);
+          
+            if(empty($budget->budgets)):
+                 $budget->budgets()->detach($ValidationData['budget_id']);
+                $budget->budgets()->attach($ValidationData['budget_id']);
+            endif;
+            /**/
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBalanceBudget = $balanceBudget->LastId();
             //,'simulation'=>$balanceBudgets->simulation
@@ -139,8 +145,13 @@ class BalanceBudgetsController extends Controller {
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
             $balanceBudget->save();
-            $budget= Budget::find($ValidationData['budget_id']);
-            $budget->typeBudgets()->attach($ValidationData['budget_id']);
+            /**/
+            $budget = Budget::find($ValidationData['budget_id']);
+            if ($budget->typeBudgets()->id == $ValidationData['type_budget_id']):
+                $budget->typeBudgets()->attach($ValidationData['type_budget_id']);
+            endif;
+
+            /**/
             $searchBalance = Balance::withTrashed()->where('balance_budget_id', '=', $balanceBudget->id)->get();
             BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', $searchBalance[0]->id, $balanceBudgets->statusBalanceBudget);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
