@@ -2,24 +2,16 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
 use Mep\Models\School;
-use Illuminate\Http\Request;
-use Input;
-use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
-use Crypt;
-use Illuminate\Support\Facades\Hash;
 
-class SchoolsController extends Controller {
-
+class SchoolsController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -28,8 +20,10 @@ class SchoolsController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         $schools = School::withTrashed()->orderBy('name', 'ASC')->get();
+
         return View('schools.index', compact('schools'));
     }
 
@@ -38,7 +32,8 @@ class SchoolsController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         return View('schools.create');
     }
 
@@ -47,26 +42,26 @@ class SchoolsController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function store()
+    {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $Validation = $this->CreacionArray($schools, 'School');
 
         /* Declaramos las clases a utilizar */
-        $saveSchools = new School;
+        $saveSchools = new School();
         /* Validamos los datos para guardar tabla menu */
         if ($saveSchools->isValid($Validation)):
             $saveSchools->fill($Validation);
-            $saveSchools->save();
+        $saveSchools->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoIdSchools = $saveSchools->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($schools->statusSchool == true):
-                School::withTrashed()->find($ultimoIdSchools->id)->restore();
-            else:
+                School::withTrashed()->find($ultimoIdSchools->id)->restore(); else:
                 School::destroy($ultimoIdSchools->id);
-            endif;
+        endif;
             /* Con este methodo creamos el archivo Json */
             $this->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
@@ -79,31 +74,38 @@ class SchoolsController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $school = School::withTrashed()->find($id);
+
         return View('schools.edit', compact('school'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update($id) {
+    public function update($id)
+    {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
@@ -113,13 +115,12 @@ class SchoolsController extends Controller {
         /* Validamos los datos para guardar tabla menu */
         if ($saveSchools->isValid($Validation)):
             $saveSchools->fill($Validation);
-            $saveSchools->save();
+        $saveSchools->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($schools->statusSchool == true):
-                School::withTrashed()->find($schools->idSchool)->restore();
-            else:
+                School::withTrashed()->find($schools->idSchool)->restore(); else:
                 School::destroy($schools->idSchool);
-            endif;
+        endif;
             /* Con este methodo creamos el archivo Json */
             $this->fileJsonUpdate();
             /* Enviamos el mensaje de guardado correctamente */
@@ -131,13 +132,15 @@ class SchoolsController extends Controller {
 
     /**
      * Creamos el array para la validacion con los
-     * nombre de los campos
+     * nombre de los campos.
+     *
      * @param type $user
      * @param type $supplier
+     *
      * @return type
      */
-    private function createArray($schools) {
-
+    private function createArray($schools)
+    {
         $school = array('name' => $schools->nameSchool,
             'charter' => $schools->charterSchool,
             'circuit' => $schools->circuitSchool,
@@ -147,17 +150,20 @@ class SchoolsController extends Controller {
             'secretary' => $schools->secretarySchool,
             'account' => $schools->accountSchool,
             'title_1' => $schools->titleOneSchool,
-            'title_2' => ($schools->titleTwoSchool));
+            'title_2' => ($schools->titleTwoSchool), );
+
         return $school;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
@@ -176,10 +182,12 @@ class SchoolsController extends Controller {
     /**
      * Restore the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function active($id) {
+    public function active($id)
+    {
         /* Capturamos los datos enviados por ajax */
         $schools = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
@@ -195,18 +203,18 @@ class SchoolsController extends Controller {
         return $this->errores($data->errors);
     }
 
-    public function fileJsonUpdate() {
+    public function fileJsonUpdate()
+    {
         /* Buscamos todos los datos de school y traemos solo el id y el name */
         $school = School::select('id', 'name')->get();
         $dataJson = '';
-        foreach ($school AS $schools):
+        foreach ($school as $schools):
             $dataJson[] = array('value' => $schools->id, 'text' => $schools->name);
         endforeach;
 
-        $fh = fopen("json/schools.json", 'w')
-                or die("Error al abrir fichero de salida");
+        $fh = fopen('json/schools.json', 'w')
+                or die('Error al abrir fichero de salida');
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
         fclose($fh);
     }
-
 }

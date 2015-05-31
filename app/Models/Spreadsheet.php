@@ -3,43 +3,45 @@
 namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Spreadsheet extends Model {
-
+class Spreadsheet extends Model
+{
     use SoftDeletes;
 
     // Don't forget to fill this array
     protected $fillable = ['number', 'year', 'date', 'simulation', 'budget_id', 'token'];
 
-    public function budgets() {
-
-        return $this->belongsTo('Mep\Models\Budget','budget_id','id');
+    public function budgets()
+    {
+        return $this->belongsTo('Mep\Models\Budget', 'budget_id', 'id');
     }
 
-    public function LastId() {
-        return Spreadsheet::all()->last();
+    public function LastId()
+    {
+        return self::all()->last();
     }
 
-    public static function Token($token) {
-        $Spreadsheets = Spreadsheet::withTrashed()->where('token', '=', $token)->get();
+    public static function Token($token)
+    {
+        $Spreadsheets = self::withTrashed()->where('token', '=', $token)->get();
         if ($Spreadsheets):
-            foreach ($Spreadsheets AS $Spreadsheet):
+            foreach ($Spreadsheets as $Spreadsheet):
                 return $Spreadsheet;
-            endforeach;
+        endforeach;
         endif;
 
         return false;
     }
 
-    public function isValid($data) {
+    public function isValid($data)
+    {
         $rules = ['number' => 'required|numeric',
             'year' => 'required',
             'date' => 'required',
             'simulation' => 'required',
             'token' => 'required',
-            'budget_id' => 'required'];
+            'budget_id' => 'required', ];
 
         $validator = \Validator::make($data, $rules);
 
@@ -51,5 +53,4 @@ class Spreadsheet extends Model {
 
         return false;
     }
-    
 }

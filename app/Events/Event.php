@@ -1,7 +1,8 @@
-<?php namespace Mep\Events;
+<?php
 
-abstract class Event {
+namespace Mep\Events;
 
-	//
-
+abstract class Event
+{
+    //
 }

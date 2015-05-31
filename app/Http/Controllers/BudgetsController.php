@@ -2,24 +2,19 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
 use Mep\Models\Budget;
-use Illuminate\Http\Request;
 use Mep\Models\School;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
-use Maatwebsite\Excel\Facades\Excel;
 
-class BudgetsController extends Controller {
-
+class BudgetsController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         set_time_limit(0);
         $this->middleware('auth');
      //   $this->middleware('admin',['only'=>'index']);
@@ -30,9 +25,10 @@ class BudgetsController extends Controller {
      *
      * @return Response
      */
-    public function index() {
-
+    public function index()
+    {
         $budgets = Budget::withTrashed()->get();
+
         return view('budgets.index', compact('budgets'));
     }
 
@@ -41,8 +37,10 @@ class BudgetsController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         $schools = School::all();
+
         return view('budgets.create', compact('schools'));
     }
 
@@ -51,7 +49,8 @@ class BudgetsController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function store()
+    {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
         /* Consulta por token de school */
@@ -61,19 +60,18 @@ class BudgetsController extends Controller {
         /* Asignacion de id de school */
         $ValidationData['school_id'] = $school->id;
         /* Declaramos las clases a utilizar */
-        $budget = new Budget;
+        $budget = new Budget();
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
-            $budget->save();
+        $budget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBudget = $budget->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::withTrashed()->find($idBudget->id)->restore();
-            else:
+                Budget::withTrashed()->find($idBudget->id)->restore(); else:
                 Budget::destroy($idBudget->id);
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -84,32 +82,39 @@ class BudgetsController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function edit($token) {
+    public function edit($token)
+    {
         $budget = Budget::Token($token);
         $schools = School::all();
+
         return view('budgets.edit', compact('schools', 'budget'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update() {
+    public function update()
+    {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
 
@@ -123,13 +128,12 @@ class BudgetsController extends Controller {
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
-            $budget->save();
+        $budget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::Token($budgets->token)->restore();
-            else:
+                Budget::Token($budgets->token)->restore(); else:
                 Budget::Token($budgets->token)->delete();
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -140,10 +144,12 @@ class BudgetsController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy($token) {
+    public function destroy($token)
+    {
         /* les damos eliminacion pasavida */
         $data = Budget::Token($token)->delete();
         if ($data):
@@ -157,10 +163,12 @@ class BudgetsController extends Controller {
     /**
      * Restore the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function active($token) {
+    public function active($token)
+    {
         /* les quitamos la eliminacion pasavida */
         $data = Budget::Token($token)->restore();
         if ($data):
@@ -171,22 +179,27 @@ class BudgetsController extends Controller {
         return $this->errores($data->errors);
     }
 
-    public function poaReport($token) {
+    public function poaReport($token)
+    {
         $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $totalBalanceBudgets = BalanceBudget::where('budget_id', $budget->id)->sum('amount');
         $pdf = \PDF::loadView('reports.budget.poa.content', compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
+
         return $pdf->stream('Poa.pdf');
     }
 
     /**
-     * [globalReport description]
-     * @param  [type] $token  [description]
-     * @param  [type] $global [description]
-     * @param  [type] $year   [description]
-     * @return [type]         [description]
+     * [globalReport description].
+     *
+     * @param [type] $token  [description]
+     * @param [type] $global [description]
+     * @param [type] $year   [description]
+     *
+     * @return [type] [description]
      */
-    public function globalReport($token, $global, $year) {
+    public function globalReport($token, $global, $year)
+    {
         $school = School::Token($token);
         $catalogs = Catalog::all();
         foreach ($catalogs as $catalog) {
@@ -216,30 +229,38 @@ class BudgetsController extends Controller {
             $top = 125;
         endif;
         $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year', 'top'));
+
         return $pdf->stream('Reporte.pdf');
     }
 
     /**
-     * [report description]
-     * @param  [string] $token
-     * @return [type]   view
+     * [report description].
+     *
+     * @param [string] $token
+     *
+     * @return [type] view
      */
-    public function report($token) {
+    public function report($token)
+    {
         $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
                 ->setOrientation('landscape');
+
         return $pdf->stream('Reporte.pdf');
     }
 
     /**
-     * [catalogsBudget description]
-     * @param  [type] $budget         [description]
-     * @param  [type] $balanceBudgets [description]
-     * @return [type]                 [description]
+     * [catalogsBudget description].
+     *
+     * @param [type] $budget         [description]
+     * @param [type] $balanceBudgets [description]
+     *
+     * @return [type] [description]
      */
-    private function catalogsBudget($budget, $balanceBudgets) {
+    private function catalogsBudget($budget, $balanceBudgets)
+    {
         foreach ($balanceBudgets as $catalog) {
             $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c,
                 'sc' => $catalog->catalogs->sc,
@@ -253,39 +274,47 @@ class BudgetsController extends Controller {
                 'name' => $catalog->catalogs->name,
                 'type' => $catalog->catalogs->type,
                 'group_id' => $catalog->catalogs->group_id,
-                'typeBudget' => $this->amountTypeBudget($budget, $catalog, null));
+                'typeBudget' => $this->amountTypeBudget($budget, $catalog, null), );
         }
+
         return $typeBudget;
     }
 
     /**
-     * [amountTypeBudget description]
-     * @param  [type] $budget  [description]
-     * @param  [type] $catalog [description]
-     * @return [type]          [description]
+     * [amountTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     *
+     * @return [type] [description]
      */
-    private function amountTypeBudget($budget, $catalog) {
+    private function amountTypeBudget($budget, $catalog)
+    {
         $total = 0;
         foreach ($budget->typeBudgets as $typeBudget) {
             $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
             $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id));
         }
         $dataTypeBudget['subtotal'] = number_format($total);
+
         return $dataTypeBudget;
     }
 
     /**
-     * [balanceTypeBudget description]
-     * @param  [type] $budget  [description]
-     * @param  [type] $catalog [description]
-     * @param  [type] $type    [description]
-     * @return [type]          [description]
+     * [balanceTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     * @param [type] $type    [description]
+     *
+     * @return [type] [description]
      */
-    private function balanceTypeBudget($budget, $catalog, $type) {
+    private function balanceTypeBudget($budget, $catalog, $type)
+    {
         $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
                         ->where('balance_budgets.catalog_id', $catalog)
                         ->where('balance_budgets.type_budget_id', $type)->sum('amount');
+
         return $amountBalanceBudget;
     }
-
 }

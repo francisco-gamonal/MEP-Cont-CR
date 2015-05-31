@@ -1,4 +1,6 @@
-<?php namespace Mep\Providers;
+<?php
+
+namespace Mep\Providers;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,24 +9,23 @@
  */
 use Collective\Html\HtmlServiceProvider as colletiveServiceProvider;
 use Mep\Components\HtmlBuilder;
+
 /**
- * Description of HtmlServiceProvider
+ * Description of HtmlServiceProvider.
  *
  * @author Anwar Sarmiento
  */
-class HtmlServiceProvider extends colletiveServiceProvider {
+class HtmlServiceProvider extends colletiveServiceProvider
+{
     //put your code here
-    
+
     /**
-	 * Register the HTML builder instance.
-	 *
-	 * @return void
-	 */
-	protected function registerHtmlBuilder()
-	{
-		$this->app->bindShared('html', function($app)
-		{
-			return new HtmlBuilder($app['url']);
-		});
-	}
+     * Register the HTML builder instance.
+     */
+    protected function registerHtmlBuilder()
+    {
+        $this->app->bindShared('html', function ($app) {
+            return new HtmlBuilder($app['url']);
+        });
+    }
 }

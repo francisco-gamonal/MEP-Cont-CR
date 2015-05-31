@@ -13,7 +13,7 @@
 /* Lista de  Usuarios */
 Route::get('/inicio', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-Route::get('/', function() {
+Route::get('/', function () {
     return view('auth.login');
 });
 /* Test para hacer pruebas */
@@ -25,20 +25,20 @@ Route::controllers([
 ]);
 
 //si el usuario ha iniciado sesión dar acceso a las rutas
-require (__DIR__ . '/Routes/User.php');
-require (__DIR__ . '/Routes/Menu.php');
-require (__DIR__ . '/Routes/Schools.php');
-require (__DIR__ . '/Routes/Roles.php');
-require (__DIR__ . '/Routes/TypeUser.php');
+require __DIR__.'/Routes/User.php';
+require __DIR__.'/Routes/Menu.php';
+require __DIR__.'/Routes/Schools.php';
+require __DIR__.'/Routes/Roles.php';
+require __DIR__.'/Routes/TypeUser.php';
 //require (__DIR__ . '/Routes/Task.php');
-require (__DIR__ . '/Routes/Groups.php');
-require (__DIR__ . '/Routes/TypeBudget.php');
-require (__DIR__ . '/Routes/Catalogs.php');
-require (__DIR__ . '/Routes/Suppliers.php');
-require (__DIR__ . '/Routes/Budgets.php');
-require (__DIR__ . '/Routes/BalanceBudgets.php');
-require (__DIR__ . '/Routes/Spreadsheets.php');
-require (__DIR__ . '/Routes/Checks.php');
+require __DIR__.'/Routes/Groups.php';
+require __DIR__.'/Routes/TypeBudget.php';
+require __DIR__.'/Routes/Catalogs.php';
+require __DIR__.'/Routes/Suppliers.php';
+require __DIR__.'/Routes/Budgets.php';
+require __DIR__.'/Routes/BalanceBudgets.php';
+require __DIR__.'/Routes/Spreadsheets.php';
+require __DIR__.'/Routes/Checks.php';
 
-require (__DIR__ . '/Routes/Transfers.php');
-require (__DIR__ . '/Routes/Report.php');
+require __DIR__.'/Routes/Transfers.php';
+require __DIR__.'/Routes/Report.php';

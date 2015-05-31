@@ -1,10 +1,12 @@
-<?php namespace Mep\Models;
+<?php
+
+namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Supports extends Model {
-
-	    use SoftDeletingTrait;
+class Support extends Model
+{
+        use SoftDeletingTrait;
 
     // Add your validation rules here
     public static $rules = [
@@ -15,10 +17,8 @@ class Supports extends Model {
     // Don't forget to fill this array
     protected $fillable = ['title', 'message', 'users_id'];
 
-    public function users() {
-
+    public function users()
+    {
         return $this->HasMany('Users', 'id', 'users_id');
     }
-
-
 }

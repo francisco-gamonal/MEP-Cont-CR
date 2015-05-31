@@ -1,4 +1,6 @@
-<?php namespace Mep\Components;
+<?php
+
+namespace Mep\Components;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,26 +11,26 @@
 use Collective\Html\HtmlBuilder as CollectiveHtmlBuilder;
 
 /**
- * Description of MenuServiceProvider
+ * Description of MenuServiceProvider.
  *
  * @author Anwar Sarmiento
  */
-class HtmlBuilder extends CollectiveHtmlBuilder {
-
+class HtmlBuilder extends CollectiveHtmlBuilder
+{
     //put your code here
 
-    public function menu() {
+    public function menu()
+    {
         $temp = null;
         $Menu = array();
         $tempData = array();
         foreach (\Auth::user()->menus as $menu) {
-
             if ($temp != $menu->id) {
                 $temp = $menu->id;
-                $Menu[$menu->route] = ['url'=>$menu->url,'name'=>$menu->name,'id'=>$menu->id,'tasks'=>$menu->tasksActive()->select('name','id')->get()];
+                $Menu[$menu->route] = ['url' => $menu->url,'name' => $menu->name,'id' => $menu->id,'tasks' => $menu->tasksActive()->select('name', 'id')->get()];
             }
         }
+
         return $Menu;
     }
-
 }

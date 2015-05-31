@@ -7,16 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Mep\Models\Supplier;
-use Mep\Models\TypeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
-
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+{
     use Authenticatable,
         CanResetPassword;
 
-use SoftDeletes;
+    use SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -40,62 +38,69 @@ use SoftDeletes;
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     *  Inicio Relaciones
+     *  Inicio Relaciones.
      */
     /* Relacion con la tabla Tipo de usuarios */
 
-    public function typeUsers() {
-        return $this->belongsTo('Mep\Models\TypeUser','type_user_id','id');
+    public function typeUsers()
+    {
+        return $this->belongsTo('Mep\Models\TypeUser', 'type_user_id', 'id');
     }
 
     /* Relacion con la tabla Supplier */
 
-    public function suppliers() {
-
+    public function suppliers()
+    {
         return $this->belongsTo('Mep\Models\Supplier');
     }
 
-    public function tasks() {
+    public function tasks()
+    {
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
     }
 
-    public function menus() {
+    public function menus()
+    {
         return $this->belongsToMany('Mep\Models\Menu', 'task_user')->withPivot('status', 'task_id');
     }
 
     /* Relacion con la tabla schools */
 
-    public function schools() {
+    public function schools()
+    {
         return $this->belongsToMany('Mep\Models\School');
     }
 
     /**
-     * Fin Relaciones
+     * Fin Relaciones.
      */
     /* Generar el nombre completo del usuario */
 
-    public function nameComplete() {
-
-        return $this->name . ' ' . $this->last;
+    public function nameComplete()
+    {
+        return $this->name.' '.$this->last;
     }
 
     /* obtencion del id del ultimo usuario agregado */
 
-    public function LastId() {
-        return User::all()->last();
+    public function LastId()
+    {
+        return self::all()->last();
     }
 
     /* creacion de string del id de schools */
 
-    public function idSchools($schools) {
+    public function idSchools($schools)
+    {
         if ($schools):
             $id = '';
-            foreach ($schools AS $school):
-                $id .=$school->id . ',';
+        foreach ($schools as $school):
+                $id .= $school->id.',';
 
-            endforeach;
-            $id = substr($id, 0, -1);
-            return $id;
+        endforeach;
+        $id = substr($id, 0, -1);
+
+        return $id;
         endif;
 
         return false;
@@ -103,15 +108,17 @@ use SoftDeletes;
 
     /* creacion de string del name de schools */
 
-    public function nameSchools($schools) {
+    public function nameSchools($schools)
+    {
         if ($schools):
             $name = '';
-            foreach ($schools AS $school):
-                $name .=$school->name . ',';
+        foreach ($schools as $school):
+                $name .= $school->name.',';
 
-            endforeach;
-            $name = substr($name, 0, -1);
-            return $name;
+        endforeach;
+        $name = substr($name, 0, -1);
+
+        return $name;
         endif;
 
         return false;
@@ -119,12 +126,13 @@ use SoftDeletes;
 
     /* Busqueda de usuario por medio del token */
 
-    public static function Token($token) {
-        $user = User::withTrashed()->where('token', '=', $token)->get();
+    public static function Token($token)
+    {
+        $user = self::withTrashed()->where('token', '=', $token)->get();
         if ($user):
-            foreach ($user AS $users):
+            foreach ($user as $users):
                 return $users;
-            endforeach;
+        endforeach;
         endif;
 
         return false;
@@ -132,21 +140,21 @@ use SoftDeletes;
 
     /* validacion de los campos del usuario */
 
-    public function isValid($data) {
+    public function isValid($data)
+    {
         $rules = ['email' => 'required|unique:users',
             'name' => 'required',
             'last' => 'required',
             'password' => 'required|min:8|alpha_dash',
-            'type_users_id' => 'required'];
+            'type_users_id' => 'required', ];
 
         if ($this->exists) {
-            $rules['email'] .= ',email,' . $this->id;
-            $rules['password'] .= ',password,' . $this->id;
+            $rules['email'] .= ',email,'.$this->id;
+            $rules['password'] .= ',password,'.$this->id;
         }
 
         $validator = \Validator::make($data, $rules);
         if ($validator->fails()) {
-
             return true;
         }
 
@@ -155,21 +163,20 @@ use SoftDeletes;
         return false;
     }
 
-    public function setPasswordAttribute($value) {
-
+    public function setPasswordAttribute($value)
+    {
         if (!empty($value)):
             $this->attributes['password'] = \Hash::make($value);
         endif;
     }
 
-    public function is($type) {
-
+    public function is($type)
+    {
         return $this->typeUsers->id === $type;
     }
 
-    public function admin() {
-
+    public function admin()
+    {
         return $this->typeUsers->id === 1;
     }
-
 }

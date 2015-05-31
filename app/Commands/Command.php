@@ -1,7 +1,8 @@
-<?php namespace Mep\Commands;
+<?php
 
-abstract class Command {
+namespace Mep\Commands;
 
-	//
-
+abstract class Command
+{
+    //
 }
