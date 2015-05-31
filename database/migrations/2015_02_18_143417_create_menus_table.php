@@ -14,7 +14,6 @@ class CreateMenusTable extends Migration {
 	{
 	Schema::create('menus', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('route',60)->unique();
             $table->string('name',80)->unique();
             $table->string('url',150)->unique();
             $table->engine = 'InnoDB';
