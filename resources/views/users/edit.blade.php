@@ -91,7 +91,7 @@
 				<div class="form-mep">
 					<label for="supplier">Proveedor</label>
 					<select id="supplier" class="form-control">
-						<option value="0">Seleccione</option>
+						<option value="0">- - Seleccione - -</option>
 				      	@foreach($suppliers as $supplier)
 				      		@if(isset($user->suppliers->id) && $supplier->id == $user->suppliers->id)
 								<option value="{{$supplier->token}}" selected>{{mb_convert_case($supplier->name, MB_CASE_TITLE, 'utf-8')}}</option>
