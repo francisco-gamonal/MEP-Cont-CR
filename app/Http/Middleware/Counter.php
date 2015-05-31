@@ -1,10 +1,11 @@
-<?php namespace Mep\Http\Middleware;
+<?php
 
-class counter extends IsTypeGlobal {
+namespace Mep\Http\Middleware;
 
-    public function getType() {
+class Counter extends IsTypeGlobal
+{
+    public function getType()
+    {
         return 3;
     }
-
 }
-

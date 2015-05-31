@@ -2,23 +2,17 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
 use Mep\Models\Menu;
 use Mep\Models\Task;
-use Illuminate\Http\Request;
-use Input;
-use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
 
-class MenuController extends Controller {
-
+class MenuController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -27,9 +21,11 @@ class MenuController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         $menus = Menu::withTrashed()->get();
         $tasks = Task::all();
+
         return view('menus.index', compact('menus', 'tasks'));
     }
 
@@ -38,8 +34,10 @@ class MenuController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         $tasks = Task::all();
+
         return view('menus.create')->with('tasks', $tasks);
     }
 
@@ -47,29 +45,29 @@ class MenuController extends Controller {
      * Store a newly created resource in storage.
      *
      * @return Response
-     * 
      */
-    public function store() {
+    public function store()
+    {
         /* Capturamos los datos enviados por ajax */
         $menus = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $menus->nameMenu, 'url' => $menus->urlMenu);
         /* Declaramos las clases a utilizar */
-        $menu = new Menu;
+        $menu = new Menu();
         /* Validamos los datos para guardar tabla menu */
         if ($menu->isValid((array) $ValidationData)):
             $menu->name = strtoupper($ValidationData['name']);
-            $menu->url = strtoupper($ValidationData['url']);
-            $menu->save();
+        $menu->url = strtoupper($ValidationData['url']);
+        $menu->save();
             /* Traemos el id del ultimo registro guardado */
             $ultimoInsert = $menu->LastId();
-            $stateTasks = $menus->stateTasks;
+        $stateTasks = $menus->stateTasks;
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
                 $Relacion = Menu::find($ultimoInsert['id']);
-                $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
-            endfor;
+        $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
+        endfor;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -80,31 +78,37 @@ class MenuController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function show($id) {
-        
+    public function show($id)
+    {
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $menu = Menu::withTrashed()->find($id);
+
         return view('menus.edit', compact('menu'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update($id) {
+    public function update($id)
+    {
         /* Capturamos los datos enviados por ajax */
         $menus = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
@@ -115,22 +119,22 @@ class MenuController extends Controller {
         /* Validamos los datos para guardar tabla menu */
         if ($menu->isValid((array) $ValidationData)):
             $menu->name = strtoupper($ValidationData['name']);
-            $menu->url = strtoupper($ValidationData['url']);
-            $menu->save();
+        $menu->url = strtoupper($ValidationData['url']);
+        $menu->save();
             /* Traemos el id del ultimo registro guardado */
             $stateTasks = $menus->stateTasks;
             /* corremos las variables boleanas para Insertar a la tabla de relación */
             for ($i = 0; $i < count($stateTasks); $i++):
                 /* Comprobamos cuales estan habialitadas y esas las guardamos */
                 $Relacion = Menu::withTrashed()->find($menus->idMenu);
-                $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
-            endfor;
+        $Relacion->Tasks()->attach($menus->idTasks[$i], array('status' => $stateTasks[$i]));
+        endfor;
             /* Comprobamos si el usuario esta cambiando el estado del menu en editar */
             if (($menus->statusMenu) == false):
                 Menu::destroy($menus->idMenu);
                 /* Enviamos el mensaje de guardado correctamente */
                 return $this->exito('Los datos se Actualizaron con exito!!!');
-            endif;
+        endif;
             /* Activamos el menu segun la peticion del usuario */
             $menu->restore();
             /* Enviamos el mensaje de guardado correctamente */
@@ -143,10 +147,12 @@ class MenuController extends Controller {
     /**
      * Remove the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy() {
+    public function destroy()
+    {
         /* Capturamos los datos enviados por ajax */
         $menus = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
@@ -162,10 +168,12 @@ class MenuController extends Controller {
     /**
      * Restore the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function active() {
+    public function active()
+    {
         /* Capturamos los datos enviados por ajax */
         $menus = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
@@ -178,5 +186,4 @@ class MenuController extends Controller {
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
-
 }

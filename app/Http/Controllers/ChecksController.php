@@ -2,26 +2,26 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
 use Mep\Models\Check;
-use Illuminate\Http\Request;
 use Mep\Models\Voucher;
 use Mep\Models\Supplier;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
 use Mep\Models\Balance;
 
-class ChecksController extends Controller {
-
-    public function __construct() {
-         $this->middleware('auth');
+class ChecksController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
-    public function budget($token) {
+    public function budget($token)
+    {
         $spreadsheets = Spreadsheet::Token($token);
         $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budget_id);
         $budget = view('checks.budget', compact('balanceBudget'));
+
         return $budget;
     }
 
@@ -30,8 +30,10 @@ class ChecksController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         $checks = Check::withTrashed()->get();
+
         return view('checks.index', compact('checks'));
     }
 
@@ -40,11 +42,13 @@ class ChecksController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
+
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
@@ -53,7 +57,8 @@ class ChecksController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function store()
+    {
         /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
         /* Consulta por token de school */
@@ -70,21 +75,20 @@ class ChecksController extends Controller {
         $ValidationData['balance_budget_id'] = $balanceBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
-        $check = new Check;
+        $check = new Check();
         /* Validamos los datos para guardar tabla menu */
         if ($check->isValid($ValidationData)):
             $check->fill($ValidationData);
-            $check->save();
+        $check->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idCheck = $check->LastId();
             /* Actualizacion de la table balance */
             BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
-                Check::withTrashed()->find($idCheck->id)->restore();
-            else:
+                Check::withTrashed()->find($idCheck->id)->restore(); else:
                 Check::destroy($idCheck->id);
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -95,41 +99,50 @@ class ChecksController extends Controller {
     /**
      * Display the specified resource.
      * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
-     * via ajax o directo a la vista
-     * @param  int  $budgetsId
+     * via ajax o directo a la vista.
+     *
+     * @param int $budgetsId
+     *
      * @return string
      */
-    private function ArregloSelectCuenta($budgetsId) {
+    private function ArregloSelectCuenta($budgetsId)
+    {
         $balancebudgets = BalanceBudget::where('budget_id', '=', $budgetsId)->get();
-        foreach ($balancebudgets AS $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets'=>$balanceBudgets->id,'id' => $balanceBudgets->token,
-                'value' => $balanceBudgets->catalogs->p . '-' . $balanceBudgets->catalogs->g . '-' . $balanceBudgets->catalogs->sp . ' || ' . $balanceBudgets->catalogs->name . ' || ' . $balanceBudgets->typeBudgets->name);
+        foreach ($balancebudgets as $balanceBudgets):
+            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id,'id' => $balanceBudgets->token,
+                'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
         endforeach;
+
         return $balanceBudget;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function edit($token) {
+    public function edit($token)
+    {
         $check = Check::Token($token);
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
         $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
+
         return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update() {
+    public function update()
+    {
         /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
         /* Consulta por token de school */
@@ -150,16 +163,15 @@ class ChecksController extends Controller {
         /* Validamos los datos para guardar tabla menu */
         if ($check->isValid($ValidationData)):
             $check->fill($ValidationData);
-            $check->save();
+        $check->save();
             /* Actualizacion de la table balance */
             $searchBalance = Balance::withTrashed()->where('check_id', '=', $check->id)->get();
-            BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
+        BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
-                Check::Token($checks->token)->restore();
-            else:
+                Check::Token($checks->token)->restore(); else:
                 Check::Token($checks->token)->delete();
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -170,10 +182,12 @@ class ChecksController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy($token) {
+    public function destroy($token)
+    {
         /* les damos eliminacion pasavida */
         $data = Check::Token($token);
         BalanceController::desactivar('check_id', $data->id);
@@ -190,10 +204,12 @@ class ChecksController extends Controller {
     /**
      * Restore the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function active($token) {
+    public function active($token)
+    {
         /* les quitamos la eliminacion pasavida */
         $data = Check::Token($token);
         BalanceController::active('check_id', $data->id);
@@ -205,5 +221,4 @@ class ChecksController extends Controller {
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
-
 }

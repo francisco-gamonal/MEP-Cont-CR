@@ -1,10 +1,11 @@
-<?php namespace Mep\Http\Middleware;
+<?php
 
+namespace Mep\Http\Middleware;
 
-class director extends IsTypeGlobal {
-
-    public function getType() {
+class Director extends IsTypeGlobal
+{
+    public function getType()
+    {
         return 4;
     }
-
 }

@@ -6,12 +6,13 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Session\Store;
 
-abstract class IsTypeGlobal {
-
+abstract class IsTypeGlobal
+{
     private $auth;
     private $session;
 
-    public function __construct(Guard $auth, Store $session) {
+    public function __construct(Guard $auth, Store $session)
+    {
         $this->auth = $auth;
         $this->session = $session;
     }
@@ -21,23 +22,25 @@ abstract class IsTypeGlobal {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         /**/
         if (!$this->auth->user()->is($this->getType())) {
             /**/
-            
+
             /**/
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->to('/inicio')->with('error','No tiene Permisos para esa opcion');
+                return redirect()->to('/inicio')->with('error', 'No tiene Permisos para esa opcion');
             }
         }
+
         return $next($request);
     }
-
 }

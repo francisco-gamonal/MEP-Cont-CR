@@ -2,22 +2,16 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
 use Mep\Models\TypeUser;
-use Illuminate\Http\Request;
-use Input;
-use Illuminate\Validation;
 use Illuminate\Support\Facades\Response;
 
-class TypeUsersController extends Controller {
-
+class TypeUsersController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -26,8 +20,10 @@ class TypeUsersController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         $typeUsers = TypeUser::withTrashed()->get();
+
         return view('typeUsers.index', compact('typeUsers'));
     }
 
@@ -36,7 +32,8 @@ class TypeUsersController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         return view('typeUsers.create');
     }
 
@@ -45,25 +42,25 @@ class TypeUsersController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function store()
+    {
         /* Capturamos los datos enviados por ajax */
         $typeUser = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
-        $typeUsers = new TypeUser;
+        $typeUsers = new TypeUser();
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
             $typeUsers->name = strtoupper($ValidationData['name']);
-            $typeUsers->save();
+        $typeUsers->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $newType = $typeUsers->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($typeUser->statusTypeUser == true):
-                TypeUser::withTrashed()->find($newType->id)->restore();
-            else:
+                TypeUser::withTrashed()->find($newType->id)->restore(); else:
                 TypeUser::destroy($newType->id);
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -74,31 +71,38 @@ class TypeUsersController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $typeUser = TypeUser::withTrashed()->find($id);
+
         return view('typeUsers.edit', compact('typeUser'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update($id) {
+    public function update($id)
+    {
         /* Capturamos los datos enviados por ajax */
         $typeUser = $this->convertionObjeto();
         /* Creamos un array para cambiar nombres de parametros */
@@ -108,13 +112,12 @@ class TypeUsersController extends Controller {
         /* Validamos los datos para guardar tabla menu */
         if ($typeUsers->isValid((array) $ValidationData)):
             $typeUsers->name = strtoupper($ValidationData['name']);
-            $typeUsers->save();
+        $typeUsers->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($typeUser->statusTypeUser == true):
-                TypeUser::withTrashed()->find($typeUser->idTypeUser)->restore();
-            else:
+                TypeUser::withTrashed()->find($typeUser->idTypeUser)->restore(); else:
                 TypeUser::destroy($typeUser->idTypeUser);
-            endif;
+        endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -125,10 +128,12 @@ class TypeUsersController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy() {
+    public function destroy()
+    {
         /* Capturamos los datos enviados por ajax */
         $TypeUser = $this->convertionObjeto();
         /* les damos eliminacion pasavida */
@@ -144,10 +149,12 @@ class TypeUsersController extends Controller {
     /**
      * Restore the specified typeuser from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function active() {
+    public function active()
+    {
         /* Capturamos los datos enviados por ajax */
         $TypeUser = $this->convertionObjeto();
         /* les quitamos la eliminacion pasavida */
@@ -160,5 +167,4 @@ class TypeUsersController extends Controller {
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
     }
-
 }

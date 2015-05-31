@@ -1,40 +1,44 @@
-<?php namespace Mep\Models;
+<?php
+
+namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Catalog extends Model {
 
+class Catalog extends Model
+{
     use SoftDeletes;
-
 
     // Don't forget to fill this array
     protected $fillable = ['c', 'sc', 'g', 'sg', 'p', 'sp', 'r', 'sr', 'f', 'name', 'type','group_id','token'];
 
-    public function groups() {
-
-        return $this->belongsTo('Mep\Models\Group','group_id','id');
+    public function groups()
+    {
+        return $this->belongsTo('Mep\Models\Group', 'group_id', 'id');
     }
 
-    public function LastId() {
-        return Catalog::all()->last();
+    public function LastId()
+    {
+        return self::all()->last();
     }
 
-    public static function Token($token) {
-        $groups = Catalog::withTrashed()->where('token', '=', $token)->get();
+    public static function Token($token)
+    {
+        $groups = self::withTrashed()->where('token', '=', $token)->get();
         if ($groups):
-            foreach ($groups AS $group):
+            foreach ($groups as $group):
                 return $group;
-            endforeach;
+        endforeach;
         endif;
 
         return false;
     }
 
-    public function isValid($data) {
+    public function isValid($data)
+    {
         $rules = ['name' => 'required',
             'type' => 'required',
-            'group_id' => 'required'];
+            'group_id' => 'required', ];
 
         $validator = \Validator::make($data, $rules);
         if ($validator->passes()) {
@@ -45,8 +49,8 @@ class Catalog extends Model {
 
         return false;
     }
-    public function codeCuenta(){
+    public function codeCuenta()
+    {
         return $this->p.'-'.$this->g.'-'.$this->sp;
-        
     }
 }
