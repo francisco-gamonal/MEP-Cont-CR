@@ -27,18 +27,6 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="statusMenu">Estado del Menú</label>
-					<div class="row">
-						@if($menu->deleted_at)
-				      		<input id="statusMenu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
-				      	@else
-							<input id="statusMenu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
-				      	@endif
-			      	</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
 					<label for="nameMenu">Nombre del Menú</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-tag"></i></span>
@@ -53,6 +41,18 @@
 						<span class="input-group-addon"><i class="fa fa-bars"></i></span>
 				      	<input id="urlMenu" class="form-control" type="text" value="{{strtolower($menu->url)}}">
 					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="statusMenu">Estado del Menú</label>
+					<div class="row">
+						@if($menu->deleted_at)
+				      		<input id="statusMenu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
+				      	@else
+							<input id="statusMenu" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+				      	@endif
+			      	</div>
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-12 text-center">

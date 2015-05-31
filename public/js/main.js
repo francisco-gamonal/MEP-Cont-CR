@@ -1,8 +1,8 @@
 var server        = "";
 var pathname      = document.location.pathname;
-var pathnameArray = pathname.split("/");
+var pathnameArray = pathname.split("public/");
 
-server =  pathnameArray.length > 0 ? pathnameArray[0]+"/" : "";
+server =  pathnameArray.length > 0 ? pathnameArray[0]+"public/" : "";
 
 /**
  * @param  {[string]} selector [id table]
@@ -161,8 +161,18 @@ $(function(){
 	
 	//Equals height
 	$('.form-user .col-sm-6').matchHeight();
-	$('.form-role .col-sm-6 fieldset').matchHeight();
 	$('.form-spreadsheet .col-sm-6').matchHeight();
+
+	var urlEditRole = pathnameArray[1].split('/');
+	if(urlEditRole[1] == 'editar-role'){
+		$(".menu-role").each(function(index){
+		  	if($(this).find('div.row').length == 0){
+		    	$(this).remove();
+		  	}
+		  	$('.form-role .col-sm-6 fieldset').matchHeight();
+		});	
+	}
+	
 
 	//Event menu expand
 	$('.submenu').on('click', function(e){
