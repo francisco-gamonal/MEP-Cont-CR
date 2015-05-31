@@ -495,7 +495,7 @@ $(function(){
 	 */
 
 	var urlUser = pathnameArray[1].split('/');
-	if(urlUser[1] === 'crear-usuario' || urlUser[1] === 'editar-usuario'){
+	if(urlUser[1] === 'crear-usuarios' || urlUser[1] === 'editar-usuarios'){
 		localStorage.clear();
 		if(urlUser[1] === 'crear-usuario'){
 			var prefetch = '../json/schools.json';
