@@ -18,7 +18,7 @@ class School extends Model
     }
     public function budgets()
     {
-        return $this->hasMany('Mep\Models\Budget', 'schools_id', 'id');
+        return $this->hasMany('Mep\Models\Budget', 'school_id', 'id');
     }
     public function LastId()
     {

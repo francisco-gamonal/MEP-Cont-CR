@@ -210,7 +210,7 @@ class BudgetsController extends Controller
                     ->where('year', $year)
                     ->sum('amount');
             if ($amount > 0) {
-                $groups[$catalog->groups_id] = Group::find($catalog->groups_id);
+                $groups[$catalog->group_id] = Group::find($catalog->group_id);
                 $catalog->amount = $amount;
                 $catalogsBudget[] = $catalog;
             }
@@ -218,7 +218,7 @@ class BudgetsController extends Controller
         foreach ($groups as $group) {
             $totGroup = 0;
             foreach ($catalogsBudget as $catalog) {
-                if ($group->id == $catalog->groups_id) {
+                if ($group->id == $catalog->group_id) {
                     $totGroup += $catalog->amount;
                 }
             }
