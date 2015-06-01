@@ -105,6 +105,20 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
+				<label for="simulationBalanceBudget">Simulación de Saldo de Presupuesto</label>
+				<select id="simulationBalanceBudget" class="form-control">
+					@if($balanceBudget->simulation == "true")
+						<option value="v" selected>Si</option>
+						<option value="f">No</option>
+					@else
+						<option value="v">Si</option>
+						<option value="f" selected>No</option>
+					@endif
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
 				<label for="statusBalanceBudget">Estado del Presupuesto</label>
 				<div class="row">
 					@if($balanceBudget->deleted_at)

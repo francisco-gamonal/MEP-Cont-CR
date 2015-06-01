@@ -1126,7 +1126,7 @@ $(function(){
 		data.catalogsBalanceBudget    = $('#catalogsBalanceBudget').val();
 		data.budgetBalanceBudget      = $('#budgetBalanceBudget').val();
 		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
-		//data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
+		data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
 		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
