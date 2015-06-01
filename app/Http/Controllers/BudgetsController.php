@@ -293,9 +293,9 @@ class BudgetsController extends Controller
         $total = 0;
         foreach ($budget->typeBudgets as $typeBudget) {
             $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
-            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id));
+            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id), 2);
         }
-        $dataTypeBudget['subtotal'] = number_format($total);
+        $dataTypeBudget['subtotal'] = number_format($total, 2);
 
         return $dataTypeBudget;
     }
