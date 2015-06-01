@@ -29,10 +29,10 @@
 			<tr>
 				<td colspan="10" style="font-weight:bold;font-size:13px;">{{$group->code}}.- {{$group->name}}</td>
 				<td></td>
-				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{number_format($group->total)}}</td>
+				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{number_format($group->total, 2)}}</td>
 			</tr>
 			@foreach($catalogsBudget as $catalog)
-				@if($group->id == $catalog->groups_id)
+				@if($group->id == $catalog->group_id)
 					@if($catalog->type == 'egresos')
 						<tr>
 							<td style="text-align:center;">{{$catalog->p}}</td>
@@ -45,7 +45,7 @@
 							<td style="text-align:center;">&nbsp;</td>
 							<td style="text-align:center;">&nbsp;</td>
 							<td style="padding-left:0.5em;">{{$catalog->name}}</td>
-							<td style="text-align:center;">{{number_format($catalog->amount)}}</td>
+							<td style="text-align:center;">{{number_format($catalog->amount, 2)}}</td>
 							<?php $totOut += $catalog->amount; ?>
 							<td></td>
 						</tr>
@@ -61,8 +61,8 @@
 	@endforeach
 	<tr style="background:rgb(250, 192, 192);">
 		<td colspan="10" style="font-weight:bold; font-size:13px; text-align:right; padding-right:.5em;">TOTAL EGRESOS</td>
-		<td style="text-align:center;">{{number_format($totOut)}}</td>
-		<td style="font-weight:bold; text-align:center;">{{number_format($totOut)}}</td>
+		<td style="text-align:center;">{{number_format($totOut, 2)}}</td>
+		<td style="font-weight:bold; text-align:center;">{{number_format($totOut, 2)}}</td>
 	</tr>
 </table>
 <br>

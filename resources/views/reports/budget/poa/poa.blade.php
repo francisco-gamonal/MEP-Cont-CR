@@ -21,11 +21,11 @@
 		<td style="text-align:center;">{{$balanceBudget->goals}}</td>
 		<td style="text-align:center;">{{$balanceBudget->catalogs->codeCuenta()}}</td>
 		<td style="text-align:center;">{{$balanceBudget->budgets->name}}</td>
-		<td style="text-align:center;">{{number_format($balanceBudget->amount)}}</td>
+		<td style="text-align:center;">{{number_format($balanceBudget->amount, 2)}}</td>
 	</tr>
 	@endforeach
 	<tr>
 		<th colspan="6" style="text-align:right; padding-right:1em;">TOTAL PRESUPUESTO {{$balanceBudgets[0]->budgets->name}}</th>
-		<th style="text-align:center;">{{number_format($totalBalanceBudgets)}}</th>
+		<th style="text-align:center;">{{number_format($totalBalanceBudgets, 2)}}</th>
 	</tr>
 </table>

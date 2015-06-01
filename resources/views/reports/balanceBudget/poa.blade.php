@@ -20,10 +20,10 @@
 		<td style="text-align:center;">{{$balanceBudget->goals}}</td>
 		<td style="text-align:center;">{{$balanceBudget->catalogs->codeCuenta()}}</td>
 		<td style="text-align:center;">{{$balanceBudget->budgets->name}}</td>
-		<td style="text-align:center;">{{number_format($balanceBudget->amount)}}</td>
+		<td style="text-align:center;">{{number_format($balanceBudget->amount, 2)}}</td>
 	</tr>
 	<tr>
 		<th colspan="6" style="text-align:right; padding-right:1em;">TOTAL PRESUPUESTO {{$balanceBudget->budgets->name}}</th>
-		<th style="text-align:center;">{{number_format($balanceBudget->amount)}}</th>
+		<th style="text-align:center;">{{number_format($balanceBudget->amount, 2)}}</th>
 	</tr>
 </table>

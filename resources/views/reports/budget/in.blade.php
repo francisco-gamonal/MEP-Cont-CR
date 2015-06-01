@@ -80,12 +80,12 @@
 		@foreach($budget->typeBudgets as $typeBudget)
 			<?php $tot += $typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'ingresos'); ?>
 			@if($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'ingresos') > 0)
-				<td style="text-align:center;">{{number_format($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'ingresos'))}}</td>
+				<td style="text-align:center;">{{number_format($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'ingresos'),2)}}</td>
 			@else
 				<td></td>
 			@endif
 		@endforeach
 		<td></td>
-		<td style="font-weight:bold; text-align:center;">{{number_format($tot)}}</td>
+		<td style="font-weight:bold; text-align:center;">{{number_format($tot, 2)}}</td>
 	</tr>
 </table>

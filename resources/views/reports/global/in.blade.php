@@ -4,7 +4,7 @@
 <table border="1" style="font-size:12px;" width="100%;">
 	<tr>
 		<th style="text-align:center;" colspan="9">Códigos</th>
-		<th style="text-align:center;" width="260">Descripción</th>
+		<th style="text-align:center;" width="250">Descripción</th>
 		<th style="text-align:center;">Monto</th>
 		<th style="text-align:center;">Total</th>
 	</tr>
@@ -28,10 +28,10 @@
 			<tr>
 				<td colspan="10" style="font-weight:bold;font-size:13px;">{{$group->code}}.- {{$group->name}}</td>
 				<td></td>
-				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{number_format($group->total)}}</td>
+				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{number_format($group->total, 2)}}</td>
 			</tr>
 			@foreach($catalogsBudget as $catalog)
-				@if($group->id == $catalog->groups_id)
+				@if($group->id == $catalog->group_id)
 					@if($catalog->type == 'ingresos')
 						<tr>
 							<td style="text-align:center;">{{$catalog->c}}</td>
@@ -44,7 +44,7 @@
 							<td style="text-align:center;">{{$catalog->sr}}</td>
 							<td style="text-align:center;">{{$catalog->f}}</td>
 							<td style="padding-left:0.5em;">{{$catalog->name}}</td>
-							<td style="text-align:center;">{{number_format($catalog->amount)}}</td>
+							<td style="text-align:center;">{{number_format($catalog->amount, 2)}}</td>
 							<?php $totIn += $catalog->amount; ?>
 							<td></td>
 						</tr>
@@ -60,7 +60,7 @@
 	@endforeach
 	<tr style="background:rgb(250, 192, 192);">
 		<td colspan="10" style="font-weight:bold; font-size:13px; text-align:right; padding-right:.5em;">TOTAL INGRESOS</td>
-		<td style="text-align:center;">{{number_format($totIn)}}</td>
-		<td style="font-weight:bold; text-align:center;">{{number_format($totIn)}}</td>
+		<td style="text-align:center;">{{number_format($totIn, 2)}}</td>
+		<td style="font-weight:bold; text-align:center;">{{number_format($totIn, 2)}}</td>
 	</tr>
 </table>
