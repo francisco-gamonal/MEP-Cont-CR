@@ -1221,7 +1221,7 @@ class ExcelController extends Controller
          * */
         $countFinal = count($content);
 
-        $foots = $this->generalFootExcel();
+        $foots = $this->generalFootExcel($school);
         foreach ($foots as $foot):
             $content[] = $foot;
         endforeach;
@@ -1350,18 +1350,18 @@ class ExcelController extends Controller
         })->export('xls');
     }
 
-    private function generalFootExcel()
+    private function generalFootExcel($school)
     {
         $foot = array(
             array('', ''),
             array('', ''),
             array('', '', '', '', '', '', '', '', '', '', '( Uso de la Regional)'),
             array('', ''),
-            array('', 'MARITZA Sanchez Gutierrez ced 6 158434'),
+            array('', $school->president),
             array('', 'Presidente(a) de La Junta', '', '', '', '', '', '', '', '', '', '________________'),
             array('', 'Nombre, cédula y firma', '', '', '', '', '', '', '', '', 'Fecha de Recibido'),
             array('', ''),
-            array('', 'Grettel Roman Ceciliano 6 300 310'),
+            array('', $school->secretary),
             array('', 'Secretario(a) de La Junta'),
             array('', 'Nombre, cédula y firma', '', '', '', '', '', '', '', '', '', '________________'),
             array('', '', '', '', '', '', '', '', '', 'Recibido por'),
