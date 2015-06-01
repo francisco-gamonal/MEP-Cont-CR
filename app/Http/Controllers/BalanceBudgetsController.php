@@ -161,11 +161,7 @@ class BalanceBudgetsController extends Controller
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
         $balanceBudget->save();
-            /**/
-            $budget = Budget::find($ValidationData['budget_id']);
-        if ($budget->typeBudgets()->id == $ValidationData['type_budget_id']):
-                $budget->typeBudgets()->attach($ValidationData['type_budget_id']);
-        endif;
+        
 
             /**/
             $searchBalance = Balance::withTrashed()->where('balance_budget_id', '=', $balanceBudget->id)->get();
