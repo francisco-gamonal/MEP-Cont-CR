@@ -1393,13 +1393,13 @@ class ExcelController extends Controller
         $Total = 0;
         foreach ($groups as $group):
             if ($group->type == 'egresos'):
-                $content[] = array($group->code.' - '.$group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+                $content[] = array($group->code.' - '.$group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total,2));
         $amount = 0;
         foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->group_id):
                         if ($catalog->type == 'egresos'):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                                $catalog->name, number_format($catalog->amount), );
+                                $catalog->name, number_format($catalog->amount,2), );
 
         $amount += $catalog->amount;
         endif;
@@ -1408,7 +1408,7 @@ class ExcelController extends Controller
         $Total += $amount;
         endif;
         endforeach;
-        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total));
+        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total,2));
 
         return $content;
     }
@@ -1427,12 +1427,12 @@ class ExcelController extends Controller
         foreach ($groups as $group):
             if ($group->type == 'ingresos'):
                 $amount = 0;
-        $content[] = array($group->code.' - '.$group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total));
+        $content[] = array($group->code.' - '.$group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total,2));
         foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->group_id):
                         if ($catalog->type == 'ingresos'):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                                $catalog->name, number_format($catalog->amount), );
+                                $catalog->name, number_format($catalog->amount,2), );
 
         $amount += $catalog->amount;
         endif;
@@ -1441,7 +1441,7 @@ class ExcelController extends Controller
         $Total += $amount;
         endif;
         endforeach;
-        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total));
+        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total,2));
 
         return $content;
     }
