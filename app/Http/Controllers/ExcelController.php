@@ -787,22 +787,22 @@ class ExcelController extends Controller
         $countTypeBudget = count($typeBudget);
         switch ($countTypeBudget):
             case 1:
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0), number_format($paso1, 0), number_format($paso1, 0));
+                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2), number_format($paso1, 2), number_format($paso1, 2));
         break;
         case 2:
                 $paso2 = $this->balancePeriodForTypeBudget($budget, $typeBudget[1], $type);
         $subTotal = $paso1 + $paso2;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                 $paso2 = $this->balancePeriodForTypeBudget($budget, $typeBudget[1], $type);
         $paso3 = $this->balancePeriodForTypeBudget($budget, $typeBudget[2], $type);
         $subTotal = $paso1 + $paso2 + $paso3;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                 $paso2 = $this->balancePeriodForTypeBudget($budget, $typeBudget[1], $type);
@@ -810,8 +810,8 @@ class ExcelController extends Controller
         $paso4 = $this->balancePeriodForTypeBudget($budget, $typeBudget[3], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                 $paso2 = $this->balancePeriodForTypeBudget($budget, $typeBudget[1], $type);
@@ -820,9 +820,9 @@ class ExcelController extends Controller
         $paso5 = $this->balancePeriodForTypeBudget($budget, $typeBudget[4], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0),
-                    number_format($paso5, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
+                    number_format($paso5, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                 $paso2 = $this->balancePeriodForTypeBudget($budget, $typeBudget[1], $type);
@@ -832,9 +832,9 @@ class ExcelController extends Controller
         $paso6 = $this->balancePeriodForTypeBudget($budget, $typeBudget[5], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0),
-                    number_format($paso5, 0), number_format($paso6, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
+                    number_format($paso5, 2), number_format($paso6, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
     }
@@ -857,37 +857,37 @@ class ExcelController extends Controller
                 $ArregloCuentasDetalle = $this->detailsPeriodIncomeAccounts($group, $budget, $type);
         switch ($countTypeBudget):
                     case 1:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 2:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 3:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 4:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 5:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 6:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
@@ -927,38 +927,38 @@ class ExcelController extends Controller
         switch ($countTypeBudget):
                     case 1:
 
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 2:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 3:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
 
         break;
         case 4:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 5:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 6:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
@@ -1033,7 +1033,7 @@ class ExcelController extends Controller
                     return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 0), number_format($paso1, 0), );
+                        , '', '', number_format($paso1, 2), number_format($paso1, 2), );
         break;
         case 2:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1045,7 +1045,7 @@ class ExcelController extends Controller
 
         return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                     $paso2 = $this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
@@ -1053,7 +1053,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1062,7 +1062,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1072,7 +1072,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1083,7 +1083,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
         endforeach;
@@ -1119,7 +1119,7 @@ class ExcelController extends Controller
                     return array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 0), number_format($paso1, 0), );
+                        , '', '', number_format($paso1, 2), number_format($paso1, 2), );
         break;
         case 2:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1131,7 +1131,7 @@ class ExcelController extends Controller
 
         return array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                     $paso2 = $this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
@@ -1139,7 +1139,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1148,7 +1148,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1158,7 +1158,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                     $paso2 = ($this->balancePeriodTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1169,7 +1169,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
         endforeach;
@@ -1686,22 +1686,22 @@ class ExcelController extends Controller
         $countTypeBudget = count($typeBudget);
         switch ($countTypeBudget):
             case 1:
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0), number_format($paso1, 0), number_format($paso1, 0));
+                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2), number_format($paso1, 2), number_format($paso1, 2));
         break;
         case 2:
                 $paso2 = $this->balanceForTypeBudget($budget, $typeBudget[1], $type);
         $subTotal = $paso1 + $paso2;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                 $paso2 = $this->balanceForTypeBudget($budget, $typeBudget[1], $type);
         $paso3 = $this->balanceForTypeBudget($budget, $typeBudget[2], $type);
         $subTotal = $paso1 + $paso2 + $paso3;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                 $paso2 = $this->balanceForTypeBudget($budget, $typeBudget[1], $type);
@@ -1709,8 +1709,8 @@ class ExcelController extends Controller
         $paso4 = $this->balanceForTypeBudget($budget, $typeBudget[3], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                 $paso2 = $this->balanceForTypeBudget($budget, $typeBudget[1], $type);
@@ -1719,9 +1719,9 @@ class ExcelController extends Controller
         $paso5 = $this->balanceForTypeBudget($budget, $typeBudget[4], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0),
-                    number_format($paso5, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
+                    number_format($paso5, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                 $paso2 = $this->balanceForTypeBudget($budget, $typeBudget[1], $type);
@@ -1731,9 +1731,9 @@ class ExcelController extends Controller
         $paso6 = $this->balanceForTypeBudget($budget, $typeBudget[5], $type);
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
 
-        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 0),
-                    number_format($paso2, 0), number_format($paso3, 0), number_format($paso4, 0),
-                    number_format($paso5, 0), number_format($paso6, 0), number_format($subTotal, 0), number_format($subTotal, 0), );
+        return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
+                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
+                    number_format($paso5, 2), number_format($paso6, 2), number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
     }
@@ -1756,37 +1756,37 @@ class ExcelController extends Controller
                 $ArregloCuentasDetalle = $this->detailsIncomeAccounts($group, $budget, $type);
         switch ($countTypeBudget):
                     case 1:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 2:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 3:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 4:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 5:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 6:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
@@ -1826,38 +1826,38 @@ class ExcelController extends Controller
         switch ($countTypeBudget):
                     case 1:
 
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 2:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 3:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
 
         break;
         case 4:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 5:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
         break;
         case 6:
-                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 0));
+                        $ingresos[] = array($group->code.'. '.$group->name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', number_format($groupBalanceBudget, 2));
         foreach ($ArregloCuentasDetalle as $detalle):
                             $ingresos[] = $detalle;
         endforeach;
@@ -1932,7 +1932,7 @@ class ExcelController extends Controller
                     return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 0), number_format($paso1, 0), );
+                        , '', '', number_format($paso1, 2), number_format($paso1, 2), );
         break;
         case 2:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1944,7 +1944,7 @@ class ExcelController extends Controller
 
         return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                     $paso2 = $this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
@@ -1952,7 +1952,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1961,7 +1961,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1971,7 +1971,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -1982,7 +1982,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
         endforeach;
@@ -2018,7 +2018,7 @@ class ExcelController extends Controller
                     return array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 0), number_format($paso1, 0), );
+                        , '', '', number_format($paso1, 2), number_format($paso1, 2), );
         break;
         case 2:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -2030,7 +2030,7 @@ class ExcelController extends Controller
 
         return array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 3:
                     $paso2 = $this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
@@ -2038,7 +2038,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 4:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -2047,7 +2047,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
         $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 5:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -2057,7 +2057,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         case 6:
                     $paso2 = ($this->balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
@@ -2068,7 +2068,7 @@ class ExcelController extends Controller
         $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
         $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 0), number_format($subTotal, 0), );
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2), );
         break;
         endswitch;
         endforeach;
