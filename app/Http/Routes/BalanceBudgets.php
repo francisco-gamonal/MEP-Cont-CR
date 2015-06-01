@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 /*
  * Rutas de Tipos de Usuarios
  */
-Route::get('saldo-de-presupuestos', 'BalanceBudgetsController@index');
 Route::get('saldo-de-presupuestos/ver-saldo-de-presupuestos', ['as' => 'ver-saldo-de-presupuestos', 'uses' => 'BalanceBudgetsController@index']);
 Route::get('saldo-de-presupuestos/registrar-saldo-de-presupuesto', ['as' => 'registrar-saldo-de-presupuesto', 'uses' => 'BalanceBudgetsController@create']);
 Route::post('saldo-de-presupuestos/save-saldo-de-presupuestos', 'BalanceBudgetsController@store');
