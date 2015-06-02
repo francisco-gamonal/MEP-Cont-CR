@@ -322,7 +322,7 @@ class TransfersController extends Controller
         /* obtenemos dos datos del spreadsheet mediante token recuperamos el id */
         $spreadsheet = Spreadsheet::Token($data['spreadsheet']);
         unset($data['spreadsheet']);
-        $data['spreadsheets_id'] = $spreadsheet->id;
+        $data['spreadsheet_id'] = $spreadsheet->id;
 
         /* Asignacion de valores a la simulacion */
         if ($data['simulation'] == 'v'):
