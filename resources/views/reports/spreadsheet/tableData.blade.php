@@ -16,9 +16,9 @@
 	@endforeach
 	<tr style="font-weight:bold;">
 		<td colspan="5" style="text-align:right; padding-right:1em;">TOTALES</td>
-		<td style="text-align:center;">{{$totalAmount}}</td>
-		<td style="text-align:center;">{{$totalRetention}}</td>
-		<td style="text-align:center;">{{$totalCancelar}}</td>
+		<td style="text-align:center;">{{number_format($totalAmount, 2)}}</td>
+		<td style="text-align:center;">{{number_format($totalRetention, 2)}}</td>
+		<td style="text-align:center;">{{number_format($totalCancelar, 2)}}</td>
 		<td></td>
 		<td></td>
 		<td></td>

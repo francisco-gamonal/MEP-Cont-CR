@@ -39,7 +39,6 @@
                                 <th>Cuenta</th>
                                 <th>Fecha</th>
                                 <th>Monto</th>
-                                <th>Estado</th>
                                 <th>Reporte</th>
                                 <th>Edición</th>
                             </tr>
@@ -51,13 +50,6 @@
                                 	<td class="text-center">{{$transfer['value']}}</td>
 	                                <td class="text-center">{{$transfer['date']}}</td>
 	                                <td class="text-center">{{$transfer['amount']}}</td>
-	                                <td class="text-center">
-	                                	@if($transfer['deleted_at'])
-											<span>Inactivo</span>
-	                                	@else
-											<span>Activo</span>
-	                                	@endif
-	                                </td>
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('reporte-transferencias', $transfer['token'])}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 	                                	<a href="{{route('reporte-transfers-excel', $transfer['token'])}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
