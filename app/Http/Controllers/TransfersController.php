@@ -41,7 +41,7 @@ class TransfersController extends Controller
     public function create()
     {
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
+        $balanceBudgets = $this->arregloSelectCuenta('budget_id', $spreadsheets[0]->budget_id);
 
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
