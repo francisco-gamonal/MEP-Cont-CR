@@ -14,6 +14,9 @@ abstract class Controller extends BaseController
     use DispatchesCommands,
         ValidatesRequests;
 
+    public function __construct() {
+         set_time_limit(0);
+    }
     /* Con estos methodos enviamos los mensajes de exito en cualquier controlador */
 
     public function exito($data)

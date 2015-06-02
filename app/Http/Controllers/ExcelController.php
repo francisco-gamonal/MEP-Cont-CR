@@ -531,7 +531,7 @@ class ExcelController extends Controller
 
     private function contentSpreadsheet($spreadsheet)
     {
-        $checks = Check::where('spreadsheets_id', $spreadsheet->id)->get();
+        $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
         $balanceTotal = 0;
         $totalAmount = 0;
         $totalRetention = 0;
@@ -560,16 +560,16 @@ class ExcelController extends Controller
     }
 
     private function headerSpreadsheet($spreadsheet)
-    {
+    {      
         $header = array(
             array('MINISTERIO DE EDUCACION PUBLICA'),
             array('DIRECCION REGIONAL DE EDUCACION DE AGUIRRE'),
             array('OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
             array(''),
             array('FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
-            array('PLANILLA DE PAGO N. 71- 2011  FECHA  28  de Diciembre   del 2011', '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
-            array('Junta: Administrativa CTP de Matapalo'),
-            array('Cédula Jurídica 3-008-056599'),
+            array('PLANILLA DE PAGO N. '.$spreadsheet->number.'-'.$spreadsheet->year.'  FECHA  '.$spreadsheet->date, '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
+            array('Junta: '.$spreadsheet->budgets->schools->name),
+            array('Cédula Jurídica '. $spreadsheet->budgets->schools->charter),
             array(''),
             array(''),
             array('Información presupuestaria', '', 'Información del pago', '', '', '', '', '', '# Cheques', ''),
