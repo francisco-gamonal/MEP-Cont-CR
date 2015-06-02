@@ -119,9 +119,9 @@ class TransfersController extends Controller
         $transfers = Transfer::where('token', '=', $token)->get();
 
         foreach ($transfers as $transfer):
-            $checks = Check::where('spreadsheets_id', '<', $transfer->spreadsheets_id)->sum('amount');
-        $codeInTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budgets_id', $transfer->balance_budgets_id)->where('type', 'entrada')->sum('amount');
-        $codeOutTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budgets_id', $transfer->balance_budgets_id)->where('type', 'salida')->sum('amount');
+            $checks = Check::where('spreadsheet_id', '<', $transfer->spreadsheets_id)->sum('amount');
+        $codeInTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budget_id', $transfer->balance_budget_id)->where('type', 'entrada')->sum('amount');
+        $codeOutTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budget_id', $transfer->balance_budget_id)->where('type', 'salida')->sum('amount');
 
         $balanceLast = ($transfer->balanceBudgets->amount + $codeInTransfer) - ($checks + $codeOutTransfer);
 
@@ -172,7 +172,7 @@ class TransfersController extends Controller
                 if ($transferQuery->isValid($dataTransfer)):
                     $transferQuery->fill($dataTransfer);
             $transferQuery->save();
-            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
+            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']);
             endif;
             endforeach;
 
@@ -268,7 +268,7 @@ class TransfersController extends Controller
 
     private function balanceSaveData($amount, $type, $code, $balanceBudget)
     {
-        BalanceController::saveBalanceTransfers($amount, $type, 'false', ['transfers_code' => 'transfers_code', 'transfers_balance_budgets_id' => 'transfers_balance_budgets_id'], ['transfers_code' => $code, 'transfers_balance_budgets_id' => $balanceBudget], 'false');
+        BalanceController::saveBalanceTransfers($amount, $type, 'false', ['transfer_code' => 'transfer_code', 'transfers_balance_budget_id' => 'transfers_balance_budget_id'], ['transfers_code' => $code, 'transfers_balance_budgets_id' => $balanceBudget], 'false');
     }
 
     /**
@@ -284,8 +284,8 @@ class TransfersController extends Controller
         $amount = 0;
         foreach ($DataTransfers as $transfers):
             if ($transfers->type == 'entrada'):
-                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount); else:
-                $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budgets_id, $transfers->amount);
+                $balanceBudgetIn = $this->dataBalanceBudget($transfers->balance_budget_id, $transfers->amount); else:
+                $balanceBudgetOut[] = $this->dataBalanceBudget($transfers->balance_budget_id, $transfers->amount);
         endif;
         $amount += $transfers->amount;
 
@@ -301,7 +301,7 @@ class TransfersController extends Controller
             'spreadsheets' => $transfers->spreadsheets->number.'-'.$transfers->spreadsheets->year,
             'tokenSpreadsheets' => $transfers->spreadsheets->token, );
         $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta('budgets_id', $spreadsheets[0]->budgets_id);
+        $balanceBudgets = $this->arregloSelectCuenta('budget_id', $spreadsheets[0]->budget_id);
 
         return view('transfers.edit', compact('transfer', 'spreadsheets', 'balanceBudgets'));
     }
@@ -346,16 +346,16 @@ class TransfersController extends Controller
             /* Comprobamos cuales estan habialitadas y esas las guardamos */
             $balanceBudget = BalanceBudget::Token($data['outBalanceBudget'][$i]);
         $data['amount'] = $data['amountBalanceBudget'][$i];
-        $data['balance_budgets_id'] = $balanceBudget->id;
+        $data['balance_budget_id'] = $balanceBudget->id;
         $data['type'] = 'salida';
 
         $Transfers[] = ['amount' => $data['amount'],
-                'balance_budgets_id' => $data['balance_budgets_id'],
+                'balance_budget_id' => $data['balance_budget_id'],
                 'code' => $data['code'],
                 'date' => $data['date'],
                 'token' => $data['token'],
                 'simulation' => $data['simulation'],
-                'spreadsheets_id' => $data['spreadsheets_id'],
+                'spreadsheet_id' => $data['spreadsheet_id'],
                 'type' => $data['type'], ];
         $amount += $data['amount'];
 
@@ -363,15 +363,15 @@ class TransfersController extends Controller
         /* Comprobamos cuales estan habialitadas y esas las guardamos */
         $balanceBudget = BalanceBudget::Token($data['inBalanceBudget']);
         $data['amount'] = $amount;
-        $data['balance_budgets_id'] = $balanceBudget->id;
+        $data['balance_budget_id'] = $balanceBudget->id;
         $data['type'] = 'entrada';
         $Transfers[] = ['amount' => $data['amount'],
-            'balance_budgets_id' => $data['balance_budgets_id'],
+            'balance_budget_id' => $data['balance_budget_id'],
             'code' => $data['code'],
             'date' => $data['date'],
             'token' => $data['token'],
             'simulation' => $data['simulation'],
-            'spreadsheets_id' => $data['spreadsheets_id'],
+            'spreadsheet_id' => $data['spreadsheet_id'],
             'type' => $data['type'], ];
 
         return $Transfers;
@@ -404,18 +404,18 @@ class TransfersController extends Controller
 
                 if ($transferQuery->isValid($dataTransfer)):
 
-                    $transferVerify = Transfer::where('code', $dataTransfer['code'])->where('balance_budgets_id', $dataTransfer['balance_budgets_id'])->get();
+                    $transferVerify = Transfer::where('code', $dataTransfer['code'])->where('balance_budget_id', $dataTransfer['balance_budget_id'])->get();
             if (($transferVerify->count() == 1)):
 
                         DB::table('transfers')
                                 ->where('code', $dataTransfer['code'])
-                                ->where('balance_budgets_id', $dataTransfer['balance_budgets_id'])
+                                ->where('balance_budget_id', $dataTransfer['balance_budget_id'])
                                 ->update($dataTransfer);
-            BalanceController::updateBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']); else:
+            BalanceController::updateBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']); else:
                         $queryTransfer = new Transfer();
             $queryTransfer->fill($dataTransfer);
             $queryTransfer->save();
-            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budgets_id']);
+            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']);
             endif;
             endif;
             endforeach;
@@ -447,7 +447,7 @@ class TransfersController extends Controller
     {
         /* les damos eliminacion pasavida */
         $data = Transfer::Token($token);
-        BalanceController::desactivar('transfers_id', $data->id);
+        BalanceController::desactivar('transfer_id', $data->id);
         if ($data):
 
             $data->delete();
@@ -469,7 +469,7 @@ class TransfersController extends Controller
     {
         /* les quitamos la eliminacion pasavida */
         $data = Transfer::Token($token);
-        BalanceController::active('transfers_id', $data->id);
+        BalanceController::active('transfer_id', $data->id);
         if ($data):
             $data->restore();
             /* si todo sale bien enviamos el mensaje de exito */
@@ -486,7 +486,7 @@ class TransfersController extends Controller
         $aumento = 0;
         $rebajo = 0;
         foreach ($transfers as $index => $transfer):
-            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheets_id);
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id);
 
         if ($transfer->type == 'salida'):
                 $balanceTotal = $balance - $transfer->amount;
