@@ -3,13 +3,12 @@
 namespace Mep\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
 class Transfer extends Model
 {
-    use SoftDeletes;
+
 
     // Don't forget to fill this array
     protected $fillable = ['amount', 'type', 'date', 'simulation', 'token', 'code', 'balance_budget_id', 'spreadsheet_id'];
