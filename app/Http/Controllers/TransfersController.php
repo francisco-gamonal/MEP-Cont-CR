@@ -119,7 +119,7 @@ class TransfersController extends Controller
         $transfers = Transfer::where('token', '=', $token)->get();
 
         foreach ($transfers as $transfer):
-            $checks = Check::where('spreadsheet_id', '<', $transfer->spreadsheets_id)->sum('amount');
+            $checks = Check::where('spreadsheet_id', '<', $transfer->spreadsheet_id)->sum('amount');
         $codeInTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budget_id', $transfer->balance_budget_id)->where('type', 'entrada')->sum('amount');
         $codeOutTransfer = Transfer::where('code', '<', $transfer->code)->where('balance_budget_id', $transfer->balance_budget_id)->where('type', 'salida')->sum('amount');
 

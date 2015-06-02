@@ -182,27 +182,42 @@ class SpreadsheetsController extends Controller
     public function report($token)
     {
         $spreadsheet = Spreadsheet::Token($token);
-        $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
-        $balanceTotal = 0;
-        $totalAmount = 0;
-        $totalCancelar = 0;
+        $checks      = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+        $balanceTotal   = 0;
+        $totalAmount    = 0;
+        $totalCancelar  = 0;
         $totalRetention = 0;
+        $count = 0;
         foreach ($checks as $index => $check):
-            if ($index == 0) {
-                $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
+            $id = $check->balanceBudgets->id;
+            if ($count == 0) {
+                $idT = $check->balanceBudgets->id;
+                $balanceInicial = $balance;
+                $balanceTotal = $balanceInicial - $check->amount;
+                $count++;
             } else {
-                $balance = $balance;
+
+                if ($idT != $id):
+                    $balanceInicial = $balance;
+                    $balanceTotal = $balanceInicial - $check->amount;
+                    $count++;
+                else:
+                    $count == 0;
+                    $balanceInicial = $balanceTotal;
+                    $balanceTotal = $balanceInicial - $check->amount;
+                endif;
             }
-        $balanceTotal = $balance - $check->amount;
-        $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                $balance, $check->bill, $check->supplier->name, $check->concept,
-                $check->amount, $check->retention, $check->cancelarAmount(), $check->ckbill,
-                $check->ckretention, $check->record, $balanceTotal,
+
+            $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
+                number_format($balanceInicial, 2), $check->bill, $check->supplier->name, $check->concept,
+                number_format($check->amount, 2), number_format($check->retention, 2), number_format($check->cancelarAmount(), 2), $check->ckbill,
+                $check->ckretention, $check->record, number_format($balanceTotal, 2),
             );
-        $balance = $balanceTotal;
-        $totalAmount += $check->amount;
-        $totalRetention += $check->retention;
-        $totalCancelar += $check->cancelarAmount();
+
+            $totalAmount += $check->amount;
+            $totalRetention += $check->retention;
+            $totalCancelar += $check->cancelarAmount();
         endforeach;
 
         $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'spreadsheet' ,'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
