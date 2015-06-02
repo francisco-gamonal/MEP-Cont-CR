@@ -205,7 +205,7 @@ class SpreadsheetsController extends Controller
         $totalCancelar += $check->cancelarAmount();
         endforeach;
 
-        $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
+        $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'spreadsheet' ,'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
 
         return $pdf->stream('Reporte.pdf');
     }

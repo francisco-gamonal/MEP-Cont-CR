@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 /*
  * Rutas de Tipos de Usuarios
  */
-Route::get('planillas', 'SpreadsheetsController@index');
 Route::get('planillas/ver-planillas', ['as' => 'ver-planillas', 'uses' => 'SpreadsheetsController@index']);
 Route::get('planillas/registrar-planilla', ['as' => 'registrar-planilla', 'uses' => 'SpreadsheetsController@create']);
 Route::post('planillas/save-planillas', 'SpreadsheetsController@store');

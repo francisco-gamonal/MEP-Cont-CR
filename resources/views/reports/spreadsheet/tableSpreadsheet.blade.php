@@ -2,14 +2,14 @@
 <table border="1" style="font-size:12px;" width="100%;">
 	<tr>
 		<th style="text-align:center;" colspan="8">
-			PLANILLA DE PAGO N. 68-2011 FECHA 20 de Ditciembre del 2011
+			PLANILLA DE PAGO N° {{$spreadsheet->number}}-{{$spreadsheet->year}} FECHA {{$spreadsheet->date}}
 			<br>
-			Cédula Jurídica 3-008-056599
+			Cédula Jurídica {{$spreadsheet->budgets->schools->charter}}
 		</th>
 		<th style="text-align:center;" colspan="4">
 			PROGRAMA:
 			<br>
-			Ley 6746
+			{{$spreadsheet->budgets->name}}
 		</th>
 	</tr>
 </table>
