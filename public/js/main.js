@@ -1371,6 +1371,8 @@ $(function(){
 		var url;
 		var outBalanceBudgetTransfer    = [];
 		var amountBalanceBudgetTransfer = [];
+		var dateTransfer = new Date($('#dateTransfer').val());
+		dateTransfer = dateTransfer.toISOString().substr(0, 10);
 		url = $(this).data('url');
 		url = url + '/update-' + url;
 		$(".outBalanceBudgetTransfer").each(function(index,value){
@@ -1380,7 +1382,7 @@ $(function(){
 		    amountBalanceBudgetTransfer[index] = $(this).val();
 		});
 		data.token                       = $('#codeTransfer').data('token');
-		data.dateTransfer                = $('#dateTransfer').val();
+		data.dateTransfer                = dateTransfer;
 		data.simulationTransfer          = $('#simulationTransfer').val();
 		data.spreadsheetTransfer         = $('#spreadsheetTransfer').val();
 		data.inBalanceBudgetTransfer     = $('#inBalanceBudgetTransfer').val();
