@@ -65,18 +65,18 @@
 							<tr>
 								<th class="text-center">{{$transfer['code']}}</th>
 								<th class="text-center">{{$transfer['name']}}</th>
-								<th class="text-center">{{$transfer['balanceLast']}}</th>
+								<th class="text-center">{{number_format($transfer['balanceLast'], 2)}}</th>
 								@if($transfer['type'] == 'salida')
-									<th class="text-center">{{$transfer['amount']}}</th>
+									<th class="text-center">{{number_format($transfer['amount'], 2)}}</th>
 								@else
 									<th class="text-center">-</th>
 								@endif
 								@if($transfer['type'] == 'entrada')
-									<th class="text-center">{{$transfer['amount']}}</th>
+									<th class="text-center">{{number_format($transfer['amount'], 2)}}</th>
 								@else
 									<th class="text-center">-</th>
 								@endif
-								<th class="text-center">{{$transfer['balanceNew']}}</th>
+								<th class="text-center">{{number_format($transfer['balanceNew'], 2)}}</th>
 							</tr>
                     	@endforeach
                     </tbody>
