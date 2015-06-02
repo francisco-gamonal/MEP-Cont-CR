@@ -345,7 +345,7 @@ class ExcelController extends Controller {
         $rebajo = 0;
 
         foreach ($transfers as $index => $transfer):
-
+           
             $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id);
 
             if ($transfer->type == 'salida'):

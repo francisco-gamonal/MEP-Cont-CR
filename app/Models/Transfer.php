@@ -16,12 +16,12 @@ class Transfer extends Model
 
     public function spreadsheets()
     {
-        return $this->belongsTo('Mep\Models\Spreadsheet');
+        return $this->belongsTo('Mep\Models\Spreadsheet', 'spreadsheet_id', 'id');
     }
 
     public function balanceBudgets()
     {
-        return $this->belongsTo('Mep\Models\BalanceBudget');
+        return $this->belongsTo('Mep\Models\BalanceBudget' , 'balance_budget_id', 'id');
     }
 
     public function balances()
