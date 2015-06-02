@@ -57,6 +57,9 @@
 	                                <td class="text-center edit-row">
 	                                	<a href="{{route('view-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>
 										<a href="{{route('edit-transferencia', $transfer['token'])}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
+										<a id="deleteTransfer" data-url="transferencias" href="#">
+											<i class="fa fa-trash-o"></i>
+										</a>
 	                                </td>
 	                            </tr>
                             @endforeach
