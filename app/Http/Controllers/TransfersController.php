@@ -140,7 +140,7 @@ class TransfersController extends Controller
                 'balanceLast' => $balanceLast,
                 'balanceNew' => $balanceNew,
                 'code' => $transfer->balanceBudgets->catalogs->p.'-'.$transfer->balanceBudgets->catalogs->g.'-'.$transfer->balanceBudgets->catalogs->sp,
-                'name' => $transfer->balanceBudgets->catalogs->name, );
+                'name' => $transfer->balanceBudgets->catalogs->name.' - '.$transfer->balanceBudgets->typeBudgets->name, );
 
         endforeach;
 
