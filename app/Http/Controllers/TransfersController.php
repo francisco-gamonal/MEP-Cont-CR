@@ -325,53 +325,55 @@ class TransfersController extends Controller
      */
     public function update()
     {
+         
+        try {
+             DB::beginTransaction();
         $transfers = $this->convertionObjeto();
         $balanceBudgets = Transfer::where('token',$transfers->token)->get();
          foreach($balanceBudgets AS $balanceBudget):
             $transferVerify = Transfer::where('balance_budget_id', $balanceBudget->balance_budget_id)->where('code', $balanceBudget->code)->delete();
      
          endforeach;
-   
-      
-        /* Capturamos los datos enviados por ajax */
-       
-        try {
-            DB::beginTransaction();
-            /* Separamos los parametros quitandole Transfer */
-            $ValidationData = $this->CreacionArray($transfers, 'Transfer');
-            /* Generamos el arreglo para cada una de las filas a guardar */
-            $transfer = $this->dataUpdateSaveTransfer($ValidationData, 'edit');
-            /* Recorremos el arreglo para poder actualizar los datos */
-
-            foreach ($transfer as $dataTransfer):
-                /* Buscamos por el token las filas guardadas */
-                $transferQuery = Transfer::Token($dataTransfer['token']);
-
-                /* Comprobamos que recibimos todos los parametros requeridos */
-
-                if ($transferQuery->isValid($dataTransfer)):
-
-                    $transferVerify = Transfer::where('code', $dataTransfer['code'])->where('balance_budget_id', $dataTransfer['balance_budget_id'])->get();
-            if (($transferVerify->count() == 1)):
-
-                        DB::table('transfers')
-                                ->where('code', $dataTransfer['code'])
-                                ->where('balance_budget_id', $dataTransfer['balance_budget_id'])
-                                ->update($dataTransfer);
-            BalanceController::updateBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']); else:
-                        $queryTransfer = new Transfer();
-            $queryTransfer->fill($dataTransfer);
-            $queryTransfer->save();
-            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']);
-            endif;
-            endif;
-            endforeach;
-
-            if ($transferQuery['errors']) {
-                DB::rollback();
-
-                return $this->errores($transferQuery['errors']);
-            }
+        $this->store();
+//      
+//        /* Capturamos los datos enviados por ajax */
+//      
+//           
+//            /* Separamos los parametros quitandole Transfer */
+//            $ValidationData = $this->CreacionArray($transfers, 'Transfer');
+//            /* Generamos el arreglo para cada una de las filas a guardar */
+//            $transfer = $this->dataUpdateSaveTransfer($ValidationData, 'edit');
+//            /* Recorremos el arreglo para poder actualizar los datos */
+//
+//            foreach ($transfer as $dataTransfer):
+//                /* Buscamos por el token las filas guardadas */
+//                $transferQuery = Transfer::Token($dataTransfer['token']);
+//
+//                /* Comprobamos que recibimos todos los parametros requeridos */
+//
+//                if ($transferQuery->isValid($dataTransfer)):
+//
+//                    $transferVerify = Transfer::where('code', $dataTransfer['code'])->where('balance_budget_id', $dataTransfer['balance_budget_id'])->get();
+//            if (($transferVerify->count() == 1)):
+//
+//                        DB::table('transfers')
+//                                ->where('code', $dataTransfer['code'])
+//                                ->where('balance_budget_id', $dataTransfer['balance_budget_id'])
+//                                ->update($dataTransfer);
+//            BalanceController::updateBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']); else:
+//                        $queryTransfer = new Transfer();
+//            $queryTransfer->fill($dataTransfer);
+//            $queryTransfer->save();
+//            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']);
+//            endif;
+//            endif;
+//            endforeach;
+//
+//            if ($transferQuery['errors']) {
+//                DB::rollback();
+//
+//                return $this->errores($transferQuery['errors']);
+//            }
             DB::commit();
 
             return $this->exito('Los datos se guardaron con exito!!!');
