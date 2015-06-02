@@ -78,14 +78,15 @@ class TransfersController extends Controller
     private function ArregloIndexCuenta($campo, $budgetsId)
     {
         $transfers = Transfer::where($campo, '=', $budgetsId)->get();
+        $balanceBudget=array();
         for ($i = 0; $i < count($transfers); $i++):
-            $balanceBudgets = BalanceBudget::find($transfers[$i]->balance_budgets_id);
+            $balanceBudgets = BalanceBudget::find($transfers[$i]->balance_budget_id);
         $balanceBudget[] = array('token' => $transfers[$i]->token, 'amount' => $transfers[$i]->amount, 'code' => $transfers[$i]->code, 'date' => $transfers[$i]->date, 'deleted_at' => $transfers[$i]->deleted_at,
                 'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
         endfor;
-        $balanceBudgets = $balanceBudget;
+       // $balanceBudgets = $balanceBudget;
 
-        return $balanceBudgets;
+        return $balanceBudget;
     }
 
     /**
