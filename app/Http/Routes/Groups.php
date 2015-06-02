@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 /*
  *  Rutas de Grupos
  */
-Route::get('grupos', 'GroupsController@index');
 Route::get('grupos/ver-grupos-de-cuentas', ['as' => 'ver-grupos', 'uses' => 'GroupsController@index']);
 Route::get('grupos/crear-grupos-de-cuentas', ['as' => 'registrar-grupo', 'uses' => 'GroupsController@create']);
 Route::post('grupos/save-grupos', 'GroupsController@store');

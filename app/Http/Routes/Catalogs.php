@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 /*
  *  Rutas de Grupos
  */
-Route::get('catalogos', 'CatalogsController@index');
 Route::get('catalogo/ver-catalogo', ['as' => 'ver-catalogos', 'uses' => 'CatalogsController@index']);
 Route::get('catalogos/registrar-catalogo', ['as' => 'registrar-catalogo', 'uses' => 'CatalogsController@create']);
 Route::post('catalogos/save-catalogos', 'CatalogsController@store');

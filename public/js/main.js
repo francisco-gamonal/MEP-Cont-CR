@@ -316,7 +316,7 @@ $(function(){
 	$(document).on('click', '#activeMenu', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu  = $(this).parent().parent().find('.iglesia_number').text();
+		var idMenu  = $(this).parent().parent().find('.menu_number').text();
 		url         = $(this).data('url');
 		url         = url + '/active-' + url + '/' + idMenu;
 		data.idMenu = idMenu;
@@ -332,7 +332,7 @@ $(function(){
 	$(document).on('click', '#deleteMenu', function(e){
 		e.preventDefault();
 		var url;
-		var idMenu  = $(this).parent().parent().find('.iglesia_number').text();
+		var idMenu  = $(this).parent().parent().find('.menu_number').text();
 		url         = $(this).data('url');
 		url         = url + '/delete-' + url + '/' + idMenu;
 		data.idMenu = idMenu;

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 /*
  *  Rutas de Menu
  */
-Route::get('menu', 'MenuController@index');
 Route::get('menu/ver-menu', ['as' => 'ver-menu', 'uses' => 'MenuController@index']);
 Route::get('menu/crear-menu', ['as' => 'registrar-menu', 'uses' => 'MenuController@create']);
 Route::post('menu/save-menu', 'MenuController@store');
