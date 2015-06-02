@@ -334,7 +334,7 @@ class TransfersController extends Controller
    
       
         /* Capturamos los datos enviados por ajax */
-        $transfers = $this->convertionObjeto();
+       
         try {
             DB::beginTransaction();
             /* Separamos los parametros quitandole Transfer */
@@ -393,8 +393,7 @@ class TransfersController extends Controller
     public function destroy($token)
     {
         /* les damos eliminacion pasavida */
-        $data = Transfer::Token($token);
-        BalanceController::desactivar('transfer_id', $data->id);
+        $data = Transfer::where('token',$token);
         if ($data):
 
             $data->delete();
@@ -405,26 +404,7 @@ class TransfersController extends Controller
         return $this->errores($data->errors);
     }
 
-    /**
-     * Restore the specified typeuser from storage.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function active($token)
-    {
-        /* les quitamos la eliminacion pasavida */
-        $data = Transfer::Token($token);
-        BalanceController::active('transfer_id', $data->id);
-        if ($data):
-            $data->restore();
-            /* si todo sale bien enviamos el mensaje de exito */
-            return $this->exito('Se Activo con exito!!!');
-        endif;
-        /* si hay algun error  los enviamos de regreso */
-        return $this->errores($data->errors);
-    }
+
 
     public function report($token)
     {
