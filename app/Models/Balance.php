@@ -39,17 +39,34 @@ class Balance extends Model {
         endforeach;
     }
 
-    public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer) {
+    public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer, $codeTransfers, $type) {
         $balanceBudget = self::where('balance_budget_id', $id)->sum('amount', 2);
 
         /**/
-
-        $transfersEntrada = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
-                        ->where('transfers.balance_budget_id', $id)->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
+        if($type=='transfers'):
+            $transfersEntrada = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
+                        ->where('transfers.balance_budget_id', $id)
+                        ->where('transfers.code','<' ,$codeTransfers)
+                        ->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
 
         /**/
         $transfersSalida = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
-                        ->where('transfers.balance_budget_id', $id)->where('transfers.type', 'salida')->sum('transfers.amount', 2);
+                        ->where('transfers.balance_budget_id', $id)
+                        ->where('transfers.code','<' ,$codeTransfers)
+                        ->where('transfers.type', 'salida')->sum('transfers.amount', 2);
+        elseif($type=='spreadsheet'):
+            $transfersEntrada = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
+                        ->where('transfers.balance_budget_id', $id)
+                        ->where('transfers.code','<=' ,$codeTransfers)
+                        ->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
+
+        /**/
+        $transfersSalida = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
+                        ->where('transfers.balance_budget_id', $id)
+                        ->where('transfers.code','<=' ,$codeTransfers)
+                        ->where('transfers.type', 'salida')->sum('transfers.amount', 2);
+        endif;
+        
         /**/
         $checkIn = Check::where('spreadsheet_id', '<', $spreadsheet->id)
                         ->where('balance_budget_id', $id)->sum('amount', 2);

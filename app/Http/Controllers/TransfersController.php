@@ -18,6 +18,8 @@ class TransfersController extends Controller
      */
     public function __construct()
     {
+        set_time_limit(0);
+        
         $this->middleware('auth');
     }
 
@@ -415,8 +417,9 @@ class TransfersController extends Controller
         $aumento = 0;
         $rebajo = 0;
         foreach ($transfers as $index => $transfer):
-            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id);
-
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id,$transfer->code,'transfers');
+        
+        
         if ($transfer->type == 'salida'):
                 $balanceTotal = $balance - $transfer->amount;
         $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, $transfer->amount, '', $balanceTotal);
