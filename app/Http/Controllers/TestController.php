@@ -5,6 +5,8 @@ namespace Mep\Http\Controllers;
 
 use Mep\Models\User;
 use Mep\Models\BalanceBudget;
+use Mep\Models\Transfer;
+use Mep\Models\Spreadsheet;
 use Illuminate\Contracts\Auth\Guard;
 use DOMPDF;
 
@@ -30,9 +32,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        $user = \Auth::user()->typeUsers->name; //\Auth::user();
-
-        echo json_encode($user);
+        $spreadsheet = Spreadsheet::find(1);
+        echo json_encode($spreadsheet->transfers);die;
+        $transfer = Transfer::first();
     }
 
     private function amountTypeBudget($budget, $catalog)

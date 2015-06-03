@@ -39,17 +39,25 @@ class Balance extends Model {
         endforeach;
     }
 
-    public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer) {
+    public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer, $codeTransfer) {
         $balanceBudget = self::where('balance_budget_id', $id)->sum('amount', 2);
 
         /**/
 
-        $transfersEntrada = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
-                        ->where('transfers.balance_budget_id', $id)->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
+        $transfersEntrada = self::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
+                        ->where('transfer_balance_budget_id', $id)->where('balance.type', 'entrada')
+                        ->where('transfer_code', '<', $codeTransfer)
+                        ->join('transfers', 'transfers.code', '=', 'balance.transfer_code')
+                        ->sum('balance.amount', 2);
+
+        echo json_encode($transfersEntrada);die;
 
         /**/
-        $transfersSalida = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
-                        ->where('transfers.balance_budget_id', $id)->where('transfers.type', 'salida')->sum('transfers.amount', 2);
+        $transfersSalida = self::where('spreadsheet_id', '<=', $spreadsheet->id)
+                        ->where('balance_budget_id', $id)->where('type', 'salida')
+                        ->where('code', '<', $codeTransfer)
+                        ->sum('amount', 2);
+
         /**/
         $checkIn = Check::where('spreadsheet_id', '<', $spreadsheet->id)
                         ->where('balance_budget_id', $id)->sum('amount', 2);
@@ -61,6 +69,7 @@ class Balance extends Model {
             $checks = self::join('checks', 'checks.id', '=', 'balances.check_id')->where('spreadsheet_id', '<', $checkTransfer)
                             ->where('balances.balance_budget_id', $id)->where('date', $spreadsheet->date)->sum('balances.amount', 2);
         endif;
+
         $balance = ($balanceBudget + $transfersEntrada) - ($checks + $transfersSalida + $checkIn);
 
         return $balance;

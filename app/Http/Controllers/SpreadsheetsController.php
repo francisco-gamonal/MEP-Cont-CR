@@ -182,6 +182,7 @@ class SpreadsheetsController extends Controller
     public function report($token)
     {
         $spreadsheet = Spreadsheet::Token($token);
+        $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
         $checks      = Check::where('spreadsheet_id', $spreadsheet->id)->get();
         $balanceTotal   = 0;
         $totalAmount    = 0;
@@ -189,7 +190,7 @@ class SpreadsheetsController extends Controller
         $totalRetention = 0;
         $count = 0;
         foreach ($checks as $index => $check):
-            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer);
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
                 $idT = $check->balanceBudgets->id;
