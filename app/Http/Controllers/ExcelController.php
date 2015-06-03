@@ -346,7 +346,7 @@ class ExcelController extends Controller {
 
         foreach ($transfers as $index => $transfer):
            
-            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id);
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id, $transfer->code);
 
             if ($transfer->type == 'salida'):
                 $balanceTotal = $balance - $transfer->amount;
@@ -519,7 +519,7 @@ class ExcelController extends Controller {
         $balanceInicial = 0;
         $count = 0;
         foreach ($checks as $index => $check):
-            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null);
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, null);
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
                 $idT = $check->balanceBudgets->id;

@@ -17,6 +17,10 @@ class Spreadsheet extends Model
         return $this->belongsTo('Mep\Models\Budget', 'budget_id', 'id');
     }
 
+    public function transfers(){
+        return $this->hasMany('Mep\Models\Transfer', 'spreadsheet_id', 'id');
+    }
+
     public function LastId()
     {
         return self::all()->last();

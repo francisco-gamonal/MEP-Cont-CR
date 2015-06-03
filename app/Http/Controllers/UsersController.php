@@ -8,6 +8,7 @@ use Mep\Models\TypeUser;
 use Mep\Models\School;
 use Mep\Models\Menu;
 use Illuminate\Support\Facades\Response;
+use \DB;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
 
@@ -76,8 +77,8 @@ class UsersController extends Controller
         $user->last = strtoupper($Validation['last']);
         $user->email = strtoupper($Validation['email']);
         $user->password = Hash::make($Validation['password']);
-        $user->type_users_id = ($Validation['type_users_id']);
-        $user->suppliers_id = ($Validation['suppliers_id']);
+        $user->type_user_id = ($Validation['type_user_id']);
+        $user->supplier_id = ($Validation['supplier_id']);
         $user->token = ($Validation['token']);
         $user->save();
 
@@ -147,15 +148,18 @@ class UsersController extends Controller
         $Menus = $roles->roles;
         $menu = user::withTrashed()->find($roles->idUser);
         $menu->Tasks()->detach();
+        //echo json_encode($Menus);die;
         foreach ($Menus as $idMenu => $value):
-         if ($idMenu > 0):
-             $statusTask = $value->statusTasks;
-        for ($e = 0; $e < count($statusTask); $e++):
-               /* Comprobamos cuales estan habialitadas y esas las guardamos */
-                $Relacion = user::find($roles->idUser);
-        $Relacion->tasks()->attach($value->idTasks[$e], array('menu_id' => $idMenu, 'status' => $value->statusTasks[$e]));
-        endfor;
-        endif;
+            if(!empty($value)){
+                if ($idMenu > 0):
+                $statusTask = $value->statusTasks;
+                for ($e = 0; $e < count($statusTask); $e++):
+                       /* Comprobamos cuales estan habialitadas y esas las guardamos */
+                        $Relacion = user::find($roles->idUser);
+                    $Relacion->tasks()->attach($value->idTasks[$e], array('menu_id' => $idMenu, 'status' => $value->statusTasks[$e]));       
+                endfor;
+            endif;
+            }
         endforeach;
 
         return $this->exito('Los datos se guardaron con exito!!!');
@@ -181,8 +185,8 @@ class UsersController extends Controller
             'last' => $users->lastNameUser,
             'email' => $users->emailUser,
             'password' => $users->passwordUser,
-            'type_users_id' => $users->idTypeUser,
-            'suppliers_id' => $supplier['id'], );
+            'type_user_id' => $users->idTypeUser,
+            'supplier_id' => $supplier['id'], );
 
         $user = User::withTrashed()->findOrFail($id);
         /* Validamos los datos para guardar tabla menu */
@@ -266,8 +270,8 @@ class UsersController extends Controller
                 'last' => $user->lastNameUser,
                 'email' => $user->emailUser,
                 'password' => ($user->passwordUser),
-                'type_users_id' => $user->idTypeUser,
-                'suppliers_id' => $supplier['id'],
+                'type_user_id' => $user->idTypeUser,
+                'supplier_id' => $supplier['id'],
                 'token' => Crypt::encrypt($user->emailUser), );
 
         return $users;
@@ -277,8 +281,8 @@ class UsersController extends Controller
             'last' => $user->lastNameUser,
             'email' => $user->emailUser,
             'password' => ($user->passwordUser),
-            'type_users_id' => $user->idTypeUser,
-            'suppliers_id' => null,
+            'type_user_id' => $user->idTypeUser,
+            'supplier_id' => null,
             'token' => Crypt::encrypt($user->emailUser), );
 
         return $users;
@@ -294,8 +298,8 @@ class UsersController extends Controller
         $suppliers->last = strtoupper($Datos['name']);
         $suppliers->email = strtoupper($Datos['email']);
         $suppliers->password = Crypt::encrypt($Datos['password']);
-        $suppliers->type_users_id = ($Datos['type_users_id']);
-        $suppliers->suppliers_id = ($Datos['suppliers_id']);
+        $suppliers->type_user_id = ($Datos['type_user_id']);
+        $suppliers->supplier_id = ($Datos['supplier_id']);
         $suppliers->token = ($Datos['token']);
         $suppliers->save();
 
