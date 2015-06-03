@@ -345,9 +345,7 @@ class ExcelController extends Controller {
         $rebajo = 0;
 
         foreach ($transfers as $index => $transfer):
-           
-            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id, $transfer->code);
-
+            $balance = Balance::BalanceInicialTotal($transfer->balanceBudgets->id, null, $transfer->spreadsheets, $transfer->spreadsheet_id, $transfer->code, 'transfers');
             if ($transfer->type == 'salida'):
                 $balanceTotal = $balance - $transfer->amount;
                 $content[] = array($transfer->balanceBudgets->catalogs->codeCuenta(), $transfer->balanceBudgets->catalogs->name, $balance, $transfer->amount, '', $balanceTotal);
@@ -511,7 +509,10 @@ class ExcelController extends Controller {
     }
 
     private function contentSpreadsheet($spreadsheet) {
+       
         $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+        $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers) - 1]->code;
+       
         $balanceTotal = 0;
         $totalAmount = 0;
         $totalRetention = 0;
@@ -519,7 +520,7 @@ class ExcelController extends Controller {
         $balanceInicial = 0;
         $count = 0;
         foreach ($checks as $index => $check):
-            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, null);
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer, 'spreadsheet');
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
                 $idT = $check->balanceBudgets->id;
