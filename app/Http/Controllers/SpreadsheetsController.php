@@ -190,7 +190,7 @@ class SpreadsheetsController extends Controller
         $totalRetention = 0;
         $count = 0;
         foreach ($checks as $index => $check):
-            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer);
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer,'spreadsheet');
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
                 $idT = $check->balanceBudgets->id;
