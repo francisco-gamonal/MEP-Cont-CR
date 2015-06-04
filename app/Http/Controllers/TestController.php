@@ -32,9 +32,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        foreach (\Auth::user()->menus as $menu) {
-            echo $menu;
-        }
+        $spreadsheet = Spreadsheet::find(1);
+        echo json_encode($spreadsheet->transfers);die;
+        $transfer = Transfer::first();
     }
 
     private function amountTypeBudget($budget, $catalog)

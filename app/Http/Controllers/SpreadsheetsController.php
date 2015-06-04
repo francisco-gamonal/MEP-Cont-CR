@@ -182,11 +182,12 @@ class SpreadsheetsController extends Controller
     public function report($token)
     {
         $spreadsheet = Spreadsheet::Token($token);
-        if(count($spreadsheet->transfers)>0):
-            $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
-        else: 
-            $lastTransfer = "";
-        endif;
+
+if(count($spreadsheet->transfers)>0):
+        $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
+else: 
+ $lastTransfer = "";
+endif;
         $checks      = Check::where('spreadsheet_id', $spreadsheet->id)->get();
         $balanceTotal   = 0;
         $totalAmount    = 0;
