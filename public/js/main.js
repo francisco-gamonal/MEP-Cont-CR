@@ -1,8 +1,8 @@
 var server        = "";
 var pathname      = document.location.pathname;
-var pathnameArray = pathname.split("/");
+var pathnameArray = pathname.split("/public/");
 
-server =  pathnameArray.length > 0 ? pathnameArray[0]+"/" : "";
+server =  pathnameArray.length > 0 ? pathnameArray[0] + '/public/' : '/';
 
 /**
  * @param  {[string]} selector [id table]
@@ -634,8 +634,9 @@ $(function(){
 		data.codeSchool       = $('#codeSchool').val();
 		data.ffinancingSchool = $('#ffinancingSchool').val();
 		data.presidentSchool  = $('#presidentSchool').val();
+		data.directorSchool   = $('#directorSchool').val();
+		data.counterSchool    = $('#counterSchool').val();
 		data.secretarySchool  = $('#secretarySchool').val();
-		data.accountSchool    = $('#accountSchool').val();
 		data.titleOneSchool   = $('#titleOneSchool').val();
 		data.titleTwoSchool   = $('#titleTwoSchool').val();
 		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');

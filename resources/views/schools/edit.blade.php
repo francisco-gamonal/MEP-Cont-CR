@@ -21,7 +21,7 @@
 					<label for="idSchool">Id de la Institución</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa fa-key"></i></span>
-				      	<input id="idSchool" class="form-control" type="text" value="{{$school->id}}">
+				      	<input id="idSchool" class="form-control" type="text" value="{{$school->id}}" disabled>
 					</div>
 				</div>
 			</div>
@@ -81,19 +81,28 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="secretarySchool">Secretaria de la Institución</label>
+					<label for="directorSchool">Director de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-female"></i></span>
-				      	<input id="secretarySchool" class="form-control" type="text" value="{{mb_convert_case($school->secretary, MB_CASE_TITLE, 'utf-8')}}">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+				      	<input id="directorSchool" class="form-control" type="text" value="{{mb_convert_case($school->director, MB_CASE_TITLE, 'utf-8')}}">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="accountSchool">Cuenta de la Institución</label>
+					<label for="counterSchool">Contador de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-				      	<input id="accountSchool" class="form-control" type="number" value="{{$school->account}}">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+				      	<input id="counterSchool" class="form-control" type="text" value="{{mb_convert_case($school->counter, MB_CASE_TITLE, 'utf-8')}}">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="secretarySchool">Secretaria de la Institución</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-female"></i></span>
+				      	<input id="secretarySchool" class="form-control" type="text" value="{{mb_convert_case($school->secretary, MB_CASE_TITLE, 'utf-8')}}">
 					</div>
 				</div>
 			</div>

@@ -72,19 +72,28 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="secretarySchool">Secretaria de la Institución</label>
+					<label for="directorSchool">Director de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-female"></i></span>
-				      	<input id="secretarySchool" class="form-control" type="text">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+				      	<input id="directorSchool" class="form-control" type="text">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="accountSchool">Cuenta de la Institución</label>
+					<label for="counterSchool">Contador de la Institución</label>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-				      	<input id="accountSchool" class="form-control" type="number">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+				      	<input id="counterSchool" class="form-control" type="text">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="secretarySchool">Secretaria de la Institución</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-female"></i></span>
+				      	<input id="secretarySchool" class="form-control" type="text">
 					</div>
 				</div>
 			</div>

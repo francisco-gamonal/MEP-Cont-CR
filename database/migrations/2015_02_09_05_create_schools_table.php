@@ -19,8 +19,9 @@ class CreateSchoolsTable extends Migration {
         $table->string('code',20);
         $table->string('ffinancing',150);
         $table->string('president',150);
+        $table->string('director',150);
+        $table->string('counter',150);
         $table->string('secretary',150);
-        $table->string('account',150);
         $table->string('titleOne',200);
         $table->string('titleTwo',200);
         $table->string('token')->unique();
