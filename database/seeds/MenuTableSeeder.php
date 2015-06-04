@@ -32,8 +32,8 @@ class MenuTableSeeder extends Seeder {
          ]);
            \DB::table('menus')->insert([
             'id' => 4,
-            'name' => 'TIPO DE PRESUPUESTOS',
-            'url' => '/TIPO-DE-PRESUPUESTOS'
+            'name' => 'TIPOS DE PRESUPUESTOS',
+            'url' => '/TIPOS-DE-PRESUPUESTOS'
          ]);
            \DB::table('menus')->insert([
             'id' => 5,

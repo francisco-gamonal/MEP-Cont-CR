@@ -7,11 +7,11 @@ class SuppliersTableSeeder extends Seeder {
     public function run() {
         \DB::table('suppliers')->insert([
             'id' => 1,
-            'name' => 'Stephanie Robles Ortega',
             'charter' => '1-11320-776',
-            'token' => sha1(md5(uniqid('1-11320-776',true))),
+            'name' => 'Stephanie Robles Ortega',
             'phone' => '27852529',
-            'email' => 'roblesteph@hotmail.com'
+            'email' => 'roblesteph@hotmail.com',
+            'token' => sha1(md5(uniqid('1-11320-776',true)))
         ]);
     }
 
