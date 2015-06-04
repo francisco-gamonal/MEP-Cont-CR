@@ -18,32 +18,38 @@ class MenuTableSeeder extends Seeder {
          \DB::table('menus')->insert([
             'id' => 1,
             'name' => 'MENU',
-            'url' => '/MENU'
+            'url' => '/MENU',
+            'icon_font' => 'fa fa-bars'
          ]);
          \DB::table('menus')->insert([
             'id' => 2,
             'name' => 'USUARIOS',
-            'url' => '/USUARIOS'
+            'url' => '/USUARIOS',
+            'icon_font' => 'fa fa-users'
          ]);
            \DB::table('menus')->insert([
             'id' => 3,
             'name' => 'PRESUPUESTOS',
-            'url' => '/PRESUPUESTOS'
+            'url' => '/PRESUPUESTOS',
+            'icon_font' => 'fa fa-list-alt'
          ]);
            \DB::table('menus')->insert([
             'id' => 4,
             'name' => 'TIPOS DE PRESUPUESTOS',
-            'url' => '/TIPOS-DE-PRESUPUESTOS'
+            'url' => '/TIPOS-DE-PRESUPUESTOS',
+            'icon_font' => 'glyphicon glyphicon-th-large'
          ]);
            \DB::table('menus')->insert([
             'id' => 5,
             'name' => 'CATALOGOS',
-            'url' => '/CATALOGOS'
+            'url' => '/CATALOGOS',
+            'icon_font' => 'fa fa-barcode'
          ]);
            \DB::table('menus')->insert([
             'id' => 6,
             'name' => 'GRUPOS DE CUENTAS',
-            'url' => '/GRUPOS-DE-CUENTAS'
+            'url' => '/GRUPOS-DE-CUENTAS',
+            'icon_font' => 'fa fa-files-o'
          ]);
     }
 }

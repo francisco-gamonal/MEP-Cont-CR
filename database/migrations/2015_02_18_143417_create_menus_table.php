@@ -16,6 +16,7 @@ class CreateMenusTable extends Migration {
             $table->increments('id');
             $table->string('name',80)->unique();
             $table->string('url',150)->unique();
+            $table->string('icon_font', 50);
             $table->engine = 'InnoDB';
             $table->timestamps();
             $table->softDeletes();

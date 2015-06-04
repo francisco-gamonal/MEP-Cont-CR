@@ -9,7 +9,7 @@ class Menu extends Model
 {
     use SoftDeletes;
     // Don't forget to fill this array
-    protected $fillable = ['name', 'url'];
+    protected $fillable = ['name', 'url', 'icon_font'];
 
     public function Tasks()
     {
