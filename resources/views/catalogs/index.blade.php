@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Catálogos</strong></h5>
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-catalogo')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-catalogos')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -67,7 +67,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-catalog', $catalog->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-catalogos', $catalog->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
