@@ -23,14 +23,36 @@ class HtmlBuilder extends CollectiveHtmlBuilder
     {
         $temp = null;
         $Menu = array();
-        $tempData = array();
         foreach (\Auth::user()->menus as $menu) {
             if ($temp != $menu->id) {
                 $temp = $menu->id;
-                $Menu[$menu->route] = ['url' => $menu->url,'name' => $menu->name,'id' => $menu->id,'tasks' => $menu->tasksActive()->select('name', 'id')->get()];
+                if(count($menu->tasksActive($menu->pivot->user_id)->select('name', 'id')->get()) > 0){
+                    $Menu[] = [ 'id' => $menu->id,
+                                'url' => $menu->url,
+                                'name' => $menu->name,
+                                'tasks' => $menu->tasksActive($menu->pivot->user_id)->select('name', 'id')->get(),
+                                'currentRoute' => $this->currentRoute()];
+                }
             }
         }
-
         return $Menu;
+    }
+
+    private function currentRoute(){
+        $currentRouteName = explode("-", \Route::currentRouteName());
+        if( count($currentRouteName) > 1){
+            $route = $currentRouteName[1];
+            if( count($currentRouteName) > 2){
+                $route = null;
+                foreach ($currentRouteName as $key => $value) {
+                    if($key != 0){
+                        $route .= $value.'-';
+                    }
+                }
+                $route = substr($route, 0, -1);
+            }
+            return $route;
+        }
+        return 'inicio';
     }
 }

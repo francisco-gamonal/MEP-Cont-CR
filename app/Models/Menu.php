@@ -16,14 +16,14 @@ class Menu extends Model
         return $this->belongsToMany('Mep\Models\Task')->withPivot('status');
     }
 
-    public function tasksActive()
-    {
-        return $this->belongsToMany('Mep\Models\Task', 'task_user')->wherePivot('status', 1);
-    }
-
     public function LastId()
     {
         return self::all()->last();
+    }
+
+    public function tasksActive($user)
+    {
+        return $this->belongsToMany('Mep\Models\Task', 'task_user')->wherePivot('status', 1)->wherePivot('user_id', $user);
     }
 
     public function isValid($data)

@@ -32,9 +32,42 @@ class TestController extends Controller
      */
     public function index()
     {
-        $spreadsheet = Spreadsheet::find(1);
-        echo json_encode($spreadsheet->transfers);die;
-        $transfer = Transfer::first();
+        $menus = \Html::menu();
+        foreach ($menus as $key => $value) {
+            foreach ($value['tasks'] as $task) {
+                 echo $task['name'];
+             }
+        }die;
+        $temp     = null;
+        $tempKey  = array();
+        $tempData = array();
+        foreach (\Auth::user()->menus as $menu) {
+            //echo json_encode($menu->pivot);die;
+            //$a[] = $menu->tasksActive;
+            //echo json_encode($menu->tasksActive);
+            if($temp != $menu->id){
+                //echo $menu->name.'<br>';
+                $temp = $menu->id;
+                /*if($menu->id == 1){
+                    echo json_encode($menu->tasksActive);die;
+                }*/
+                if(count($menu->tasksActive($menu->pivot->user_id)->select('name')->get()) > 0)
+                    $tempKey[$menu->name] = $menu->tasksActive($menu->pivot->user_id)->select('name')->get();
+                //echo json_encode($tempKey);die;
+            }
+            /*if($menu->pivot->status == 1){
+                $task = Task::find($menu->pivot->task_id);
+                $tempData[] = $task->name;
+                //echo $task->name.'<br>';
+            }*/
+        }
+        foreach ($tempKey as $key => $task) {
+            echo $key;
+            foreach ($task as $value) {
+                echo '<br>'.$value->name;
+            }
+            echo '<br>';
+        }
     }
 
     private function amountTypeBudget($budget, $catalog)
