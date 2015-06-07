@@ -20,7 +20,7 @@ var dataTable = function(selector, list){
         	"sLengthMenu": "_MENU_ registros por página",
         	"sInfoFiltered": " - filtrada de _MAX_ registros",
             "sSearch": "Buscar: ",
-            "sZeroRecords": "No hay " + list,
+            "sZeroRecords": "No existen, " + list,
             "sInfoEmpty": " ",
             "sInfo": 'Mostrando _END_ de _TOTAL_',
             "oPaginate": {
