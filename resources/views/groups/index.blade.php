@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Grupos</strong></h5>		
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-grupo')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-grupos-de-cuentas')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -55,15 +55,15 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($group->deleted_at)
-	                                			<a id="activeGroup" data-url="grupos" href="#">
+	                                			<a id="activeGroup" data-url="grupos-de-cuentas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteGroup" data-url="grupos" href="#">
+	                                			<a id="deleteGroup" data-url="grupos-de-cuentas" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-group', $group->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-grupos-de-cuentas', $group->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
