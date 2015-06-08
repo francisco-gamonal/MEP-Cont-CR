@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Http\Controllers;
+namespace Mep\Http\Controllers\Report;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,8 +32,8 @@ class TransferExcelController  extends ReportExcel{
         foreach ($firms as $firm):
             $content[] = $firm;
         endforeach;
-        Excel::create('Transfers-', function ($excel) use ($content, $file) {
-            $excel->sheet('Cuadro Transfers-', function ($sheet) use ($content, $file) {
+        Excel::create('Transferencia-', function ($excel) use ($content, $file) {
+            $excel->sheet('Cuadro Transferencia-', function ($sheet) use ($content, $file) {
                 $sheet->mergeCells('A1:M1');
                 $sheet->mergeCells('A2:M2');
                 $sheet->mergeCells('A3:M3');

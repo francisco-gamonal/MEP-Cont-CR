@@ -1,17 +1,14 @@
 <?php
 
-namespace Mep\Http\Controllers;
+namespace Mep\Http\Controllers\Report;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
-use Mep\Models\Spreadsheet;
-use Mep\Models\Check;
 use Mep\Models\School;
 use Mep\Models\Group;
 use Mep\Models\Balance;
-use Mep\Models\Transfer;
 use Illuminate\Support\Facades\DB;
 use Mep\Http\Controllers\ReportExcel;
 
@@ -75,8 +72,8 @@ class BudgetInitialController extends ReportExcel {
             $arrangement = $this->headerInicialTable($budget);
             /* Libreria de excel */
            
-            Excel::create('Filename', function ($excel) use ($school, $arrangement, $budget, $BalanceBudgets, $cuenta) {
-                $excel->sheet('Sheetname', function ($sheet) use ($school, $arrangement, $budget, $BalanceBudgets, $cuenta) {
+            Excel::create('Presupuesto', function ($excel) use ($school, $arrangement, $budget, $BalanceBudgets, $cuenta) {
+                $excel->sheet('Presupuesto', function ($sheet) use ($school, $arrangement, $budget, $BalanceBudgets, $cuenta) {
                     $letraColumna = $arrangement['letras'];
                     $count = count($cuenta);
                     $countFinal = count($BalanceBudgets);
@@ -129,73 +126,7 @@ class BudgetInitialController extends ReportExcel {
         }
     }
 
-    /**
-     * Con este methodo generamos los totales de cada cuadro
-     * para los archivos de excel.
-     *
-     * @param type $budget
-     * @param type $type
-     *
-     * @return type
-     */
-    private function saldoTypeBudget($budget, $type) {
-        $typeBudget = $this->forTypeBudget($budget);
-        $paso1 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[0], $type);
-        $countTypeBudget = count($typeBudget);
-        switch ($countTypeBudget):
-            case 1:
-                    
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2), number_format($paso1, 2), number_format($paso1, 2));
-                break;
-            case 2:
-                $paso2 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[1], $type);
-                $subTotal = $paso1 + $paso2;
-
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
-                    number_format($paso2, 2), number_format($subTotal, 2), number_format($subTotal, 2),);
-                break;
-            case 3:
-                $paso2 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[1], $type);
-                $paso3 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[2], $type);
-                $subTotal = $paso1 + $paso2 + $paso3;
-
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
-                    number_format($paso2, 2), number_format($paso3, 2), number_format($subTotal, 2), number_format($subTotal, 2),);
-                break;
-            case 4:
-                $paso2 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[1], $type);
-                $paso3 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[2], $type);
-                $paso4 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[3], $type);
-                $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
-
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
-                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2), number_format($subTotal, 2), number_format($subTotal, 2),);
-                break;
-            case 5:
-                $paso2 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[1], $type);
-                $paso3 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[2], $type);
-                $paso4 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[3], $type);
-                $paso5 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[4], $type);
-                $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
-
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
-                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
-                    number_format($paso5, 2), number_format($subTotal, 2), number_format($subTotal, 2),);
-                break;
-            case 6:
-                $paso2 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[1], $type);
-                $paso3 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[2], $type);
-                $paso4 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[3], $type);
-                $paso5 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[4], $type);
-                $paso6 = BalanceBudget::balanceForTypeBudget($budget, $typeBudget[5], $type);
-                $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
-
-                return array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($paso1, 2),
-                    number_format($paso2, 2), number_format($paso3, 2), number_format($paso4, 2),
-                    number_format($paso5, 2), number_format($paso6, 2), number_format($subTotal, 2), number_format($subTotal, 2),);
-                break;
-        endswitch;
-    }
+   
 
     /**
      * Con este methodo generamos las cuentas de ingresos para
@@ -331,22 +262,6 @@ class BudgetInitialController extends ReportExcel {
     }
 
   
-
-    /**
-     * Conseguimos los id de los tipos de presupuestos
-     * ligados a un presupuesto.
-     *
-     * @param type $budget
-     *
-     * @return type
-     */
-    private function forTypeBudget($budget) {
-        for ($i = 0; $i < count($budget->typeBudgets); $i++):
-            $typeBudget[] = ($budget->typeBudgets[$i]->id);
-        endfor;
-
-        return $typeBudget;
-    }
 
     /**
      * Con este methodo generamos el array de las cuentas de detalle.

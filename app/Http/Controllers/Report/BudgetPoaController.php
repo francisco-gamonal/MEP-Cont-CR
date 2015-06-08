@@ -1,5 +1,5 @@
 <?php
-            namespace Mep\Http\Controllers;
+           namespace Mep\Http\Controllers\Report;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,8 +23,8 @@ class BudgetPoaController extends ReportExcel {
     public function excelPoaBudget($token) {
         $Budget = Budget::Token($token);
         $content = $this->CreateArrayPoaBudget($Budget);
-        Excel::create('Transfers-', function ($excel) use ($content) {
-            $excel->sheet('Cuadro Transfers-', function ($sheet) use ($content) {
+        Excel::create('POA-', function ($excel) use ($content) {
+            $excel->sheet('Cuadro POA-', function ($sheet) use ($content) {
                 $sheet->mergeCells('A1:G1');
                 $sheet->setBorder('A1:G1', 'thin');
                 $sheet->mergeCells('A2:G2');
