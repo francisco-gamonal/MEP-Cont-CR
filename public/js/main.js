@@ -150,6 +150,9 @@ var ajaxForm = function (url, type, data){
 };
 
 $(function(){
+	NProgress.set(0.3);
+	NProgress.set(0.7);
+	NProgress.set(0.9);
 	//setup Ajax
 	$.ajaxSetup({
 	    headers: {
@@ -1413,4 +1416,12 @@ $(function(){
 	dataTable('#table_spreadsheets', 'planillas');
 	dataTable('#table_checks', 'cheques');
 	dataTable('#table_transfers', 'transferencias');
+});
+
+window.onbeforeunload = function() {
+	NProgress.start();
+};
+
+$(window).load(function(){
+	NProgress.done();
 });

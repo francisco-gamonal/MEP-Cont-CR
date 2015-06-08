@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="{{ asset('css/plugin/dataTables.bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/plugin/bootstrap-switch.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/plugin/bootstrap-tagsinput.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/plugin/nprogress.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/main.css') }}">
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,6 +44,7 @@
 	<script src="{{ asset('js/plugin/dataTables.bootstrap.min.js') }}"></script>
 	<script src="{{ asset('js/plugin/typeahead.bundle.js') }}"></script>
     <script src="{{ asset('js/plugin/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset('js/plugin/nprogress.js') }}"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>
