@@ -1,7 +1,7 @@
-<?php namespace Mep\Http\Controllers;
+<?php namespace Mep\Http\Controllers\Report;
 
 use Mep\Http\Requests;
-use Mep\Http\Controllers\Controller;
+use Mep\Http\Controllers\ReportExcel;
 use Mep\Models\School;
 use Mep\Models\Catalog;
 use Mep\Models\Budget;
@@ -9,7 +9,7 @@ use Mep\Models\Group;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
-class BudgetGlobalController extends Controller {
+class BudgetGlobalController extends ReportExcel {
 
 	
     /**
@@ -59,8 +59,8 @@ class BudgetGlobalController extends Controller {
         /**/
         $header = $this->headerGeneralExcel($school);
         /* Libreria de excel */
-        Excel::create('Filename', function ($excel) use ($header, $content, $cuenta, $countFinal) {
-            $excel->sheet('Sheetname', function ($sheet) use ($header, $content, $cuenta, $countFinal) {
+        Excel::create('Presupuesto Global', function ($excel) use ($header, $content, $cuenta, $countFinal) {
+            $excel->sheet('Presupuesto Global', function ($sheet) use ($header, $content, $cuenta, $countFinal) {
                 $letraColumna = 'L';
                 $count = count($cuenta);
                 $countEgreso = 2 + $count;
@@ -302,6 +302,10 @@ class BudgetGlobalController extends Controller {
         );
 
         return $header;
+    }
+
+    protected function Header($budget) {
+        
     }
 
     /**
