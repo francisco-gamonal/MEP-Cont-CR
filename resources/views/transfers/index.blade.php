@@ -23,7 +23,7 @@
 						<h5><strong>Lista de Transferencias</strong></h5>
 					</div>
 					<div class="col-sm-6">
-						<a href="{{route('registrar-transferencia')}}" class="btn btn-info pull-right">
+						<a href="{{route('crear-transferencias')}}" class="btn btn-info pull-right">
 							<span class="glyphicon glyphicon-plus"></span>
 							<span>Nuevo</span>
 						</a>
@@ -55,8 +55,8 @@
 	                                	<a href="{{route('reporte-transfers-excel', $transfer['token'])}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
-	                                	<a href="{{route('view-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>
-										<a href="{{route('edit-transferencia', $transfer['token'])}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
+	                                	<a href="{{route('ver-detalle-transferencia', $transfer['token'])}}"><i class="fa fa-eye"></i></a>
+										<a href="{{route('editar-transferencias', $transfer['token'])}}"><i class="fa fa-pencil-square-o" target="_blank"></i></a>
 										<a id="deleteTransfer" data-url="transferencias" href="#">
 											<i class="fa fa-trash-o"></i>
 										</a>

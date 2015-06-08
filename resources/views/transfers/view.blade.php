@@ -86,7 +86,7 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-transferencias')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a class="btn btn-success" href="{{route('edit-transferencia', $transfers[0]['tokenTransfer'])}}">Editar Transferencia</a>
+		<a class="btn btn-success" href="{{route('editar-transferencias', $transfers[0]['tokenTransfer'])}}">Editar Transferencia</a>
 	</div>
 </div>
 @stop
