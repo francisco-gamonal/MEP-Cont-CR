@@ -38,13 +38,13 @@ class Balance extends Model {
 
         endforeach;
     }
-    public static function BalanceBudgetActual($budget_id,$id){
-        $balanceBudget = BalanceBudget::where('budget_id', $budget_id)->sum('amount', 2);
+    public static function BalanceBudgetActual($id){
+        $balanceBudget = BalanceBudget::where('id', $id)->sum('amount', 2);
         $transferSalida = Transfer::where('balance_budget_id',$id)->where('transfers.type', 'salida')->sum('amount', 2);
         $transferEntrada = Transfer::where('balance_budget_id',$id)->where('transfers.type', 'entrada')->sum('amount', 2);
         $check = Check::where('balance_budget_id',$id)->sum('amount', 2);
         $balance = ($balanceBudget+$transferEntrada) - ($transferSalida+$check);
-        return $balance;
+        return $balanceBudget;
     }
 
     public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer, $codeTransfers, $type) {
