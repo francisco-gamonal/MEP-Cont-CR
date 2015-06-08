@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Usuarios</strong></h5>
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-usuario')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-usuarios')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -79,7 +79,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-usuario', $user->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-usuarios', $user->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

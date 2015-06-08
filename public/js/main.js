@@ -497,7 +497,7 @@ $(function(){
 	var urlUser = pathnameArray[1].split('/');
 	if(urlUser[1] === 'crear-usuarios' || urlUser[1] === 'editar-usuarios'){
 		localStorage.clear();
-		if(urlUser[1] === 'crear-usuario'){
+		if(urlUser[1] === 'crear-usuarios'){
 			var prefetch = '../json/schools.json';
 		}else {
 			var prefetch = '../../json/schools.json';
@@ -521,7 +521,7 @@ $(function(){
 			}
 	    });
 
-	    if(urlUser[1] === 'editar-usuario'){
+	    if(urlUser[1] === 'editar-usuarios'){
 			if($("#hdnSchools").attr('data-id').length === 1){
 				var value = $("#hdnSchools").attr('data-id');
 				var text  = $("#hdnSchools").attr('data-name');
@@ -767,7 +767,6 @@ $(function(){
 		e.preventDefault();
 		var url;
 		var token = $(this).parent().parent().find('.group_code').data('token');
-		console.log(token);
 		url       = $(this).data('url');
 		url       = url + '/active-' + url + '/' + token;
 		data.token = token;
