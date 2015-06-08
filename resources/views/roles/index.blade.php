@@ -56,7 +56,7 @@
 		                                	@endif
 	                                	</td>
 		                                <td class="text-center edit-row">
-											<a href="{{route('edit-role', $user->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-roles', $user->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
