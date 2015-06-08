@@ -82,7 +82,12 @@ var removeActive = function (element) {
  * @param  {[string]} message [message for before ajax]
  * @return {[message]}        [blockUI response with message]
  */
-var loadingUI = function (message){
+var loadingUI = function (message, img){
+	if(img){
+		var msg = '<h2><img style="margin-right: 30px" src="' + server + 'img/spiffygif.gif" >' + message + '</h2>';
+	}else{
+		var msg = '<h2>' + message + '</h2>';
+	}
     $.blockUI({ css: {
         border: 'none',
         padding: '15px',
@@ -91,7 +96,7 @@ var loadingUI = function (message){
         '-moz-border-radius': '10px',
         opacity: 0.5,
         color: '#fff'
-    }, message: '<h2><img style="margin-right: 30px" src="' + server + 'img/spiffygif.gif" >' + message + '</h2>'});
+    }, message: msg});
 };
 
 /**
@@ -128,9 +133,9 @@ var ajaxForm = function (url, type, data){
 	var message;
 	var path = server + url;
 	if(type == 'post'){
-		message = 'Registrando';
+		message = 'Registrando Datos';
 	}else{
-		message = 'Actualizando';
+		message = 'Actualizando Registros';
 	}
 	//console.log(path,type,data);return;
 	return $.ajax({
@@ -139,7 +144,7 @@ var ajaxForm = function (url, type, data){
 			    data: {data: JSON.stringify(data)},
 			    datatype: 'json',
 			    beforeSend: function(){
-		    		loadingUI(message);
+		    		loadingUI(message, 'img');
 			    },
 			    error:function(){
 			    	$.unblockUI();
@@ -1420,8 +1425,10 @@ $(function(){
 
 window.onbeforeunload = function() {
 	NProgress.start();
+	loadingUI('Cargando página...');
 };
 
 $(window).load(function(){
 	NProgress.done();
+	//responseUI('Listo');
 });
