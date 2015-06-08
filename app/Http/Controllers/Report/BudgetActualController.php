@@ -7,10 +7,12 @@ namespace Mep\Http\Controllers\Report;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 use Maatwebsite\Excel\Facades\Excel;
 use Mep\Http\Controllers\ReportExcel;
 use Mep\Models\Budget;
 use Mep\Models\BalanceBudget;
+use Mep\Models\Balance;
 
 /**
  * Description of BudgetActualController
@@ -158,9 +160,6 @@ class BudgetActualController extends ReportExcel {
         return $arrangement;
     }
 
- 
-
- 
     /**
      * Con este methodo generamos los totales de cada cuadro
      * para los archivos de excel.
@@ -359,7 +358,6 @@ class BudgetActualController extends ReportExcel {
         return $ingresos;
     }
 
-   
     /**
      * Con este methodo generamos el array de las cuentas de detalle.
      *
@@ -371,72 +369,72 @@ class BudgetActualController extends ReportExcel {
     private function detailsPeriodIncomeAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+        $catalogBalanceBudget = BalanceBudget::select('balance_budgets.id','catalogs.c','catalogs.sc','catalogs.sg','catalogs.sr','catalogs.f','catalogs.r','catalogs.p','catalogs.g','catalogs.sp','catalogs.name')
+                        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
                         ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget as $catalog):
             $typeBudget = $this->forTypeBudget($budget);
-        dd($catalog);
-            $paso1 = BalanceBudget::BalanceBudgetActual($budget->id,$catalog->blanceBudgets->id);
+            $paso1 = Balance::BalanceBudgetActual($catalog->id);
 
             switch ($countTypeBudget):
                 case 1:
-                    return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
+                    $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 2), number_format($paso1, 2),);
+                        , number_format($paso1, 2));
                     break;
                 case 2:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso6 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2;
 
-                    return array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
+                    $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, number_format($subTotal, 2));
                     break;
                 case 3:
-                    $paso2 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
-                    $paso3 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]);
+                    $paso2 = Balance::BalanceBudgetActual($catalog->id);
+                    $paso3 = Balance::BalanceBudgetActual($catalog->id);
                     $subTotal = $paso1 + $paso2 + $paso3;
                     $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2));
                     break;
                 case 4:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
                     $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2));
                     break;
                 case 5:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
                     $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2));
                     break;
                 case 6:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]);
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = Balance::BalanceBudgetActual($catalog->id);
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso6 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
                     $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2));
                     break;
             endswitch;
         endforeach;
@@ -457,71 +455,71 @@ class BudgetActualController extends ReportExcel {
     private function detailsPeriodEgresosAccounts($group, $budget, $type) {
         $countTypeBudget = $budget->typeBudgets->count();
 
-        $catalogBalanceBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+        $catalogBalanceBudget = BalanceBudget::select('balance_budgets.id','catalogs.p','catalogs.g','catalogs.sp','catalogs.name')
+                        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
                         ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->get();
 
         foreach ($catalogBalanceBudget as $catalog):
             $typeBudget = $this->forTypeBudget($budget);
-            $paso1 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[0]);
-
+            $paso1 = Balance::BalanceBudgetActual($catalog->id);
             switch ($countTypeBudget):
                 case 1:
-                    return array($catalog->p, $catalog->g, $catalog->sp, '',
+                    $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
                         $catalog->name, $paso1
-                        , '', '', number_format($paso1, 2), number_format($paso1, 2),);
+                        , number_format($paso1, 2));
                     break;
                 case 2:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso6 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2;
 
-                    return array($catalog->p, $catalog->g, $catalog->sp, '',
+                    $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, '', number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, number_format($subTotal, 2));
                     break;
                 case 3:
-                    $paso2 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]);
-                    $paso3 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]);
+                    $paso2 = Balance::BalanceBudgetActual($catalog->id);
+                    $paso3 = Balance::BalanceBudgetActual($catalog->id);
                     $subTotal = $paso1 + $paso2 + $paso3;
                     $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, number_format($subTotal, 2));
                     break;
                 case 4:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4;
                     $details[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
                         $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, number_format($subTotal, 2));
                     break;
                 case 5:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5;
                     $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, number_format($subTotal, 2));
                     break;
                 case 6:
-                    $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]);
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
+                    $paso2 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso3 = Balance::BalanceBudgetActual($catalog->id);
+                    $paso4 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso5 = (Balance::BalanceBudgetActual($catalog->id));
+                    $paso6 = (Balance::BalanceBudgetActual($catalog->id));
                     $subTotal = $paso1 + $paso2 + $paso3 + $paso4 + $paso5 + $paso6;
                     $details[] = array($catalog->p, $catalog->g, $catalog->sp, '',
                         '', '', '', '', '',
-                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2), number_format($subTotal, 2),);
+                        $catalog->name, $paso1, $paso2, $paso3, $paso4, $paso5, $paso6, number_format($subTotal, 2));
                     break;
             endswitch;
         endforeach;
