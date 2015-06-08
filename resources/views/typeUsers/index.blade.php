@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Tipos de Usuarios</strong></h5>
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-tipo-de-usuario')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-tipos-de-usuarios')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -63,7 +63,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-tipo-de-usuario', $typeUser->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-tipos-de-usuarios', $typeUser->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
