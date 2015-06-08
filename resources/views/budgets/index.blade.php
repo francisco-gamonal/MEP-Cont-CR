@@ -23,7 +23,7 @@
 						<h5><strong>Lista de Presupuestos</strong></h5>		
 					</div>
 					<div class="col-sm-6">
-						<a href="{{route('registrar-presupuesto')}}" class="btn btn-info pull-right">
+						<a href="{{route('crear-presupuestos')}}" class="btn btn-info pull-right">
 							<span class="glyphicon glyphicon-plus"></span>
 							<span>Nuevo</span>
 						</a>
@@ -88,7 +88,7 @@
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif
-										<a href="{{route('edit-presupuesto', $budget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+										<a href="{{route('editar-presupuestos', $budget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach
