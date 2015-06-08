@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Proveedores</strong></h5>
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-proveedor')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-proveedores')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -68,7 +68,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-proveedor', $supplier->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-proveedores', $supplier->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach
