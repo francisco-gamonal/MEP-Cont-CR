@@ -10,9 +10,11 @@
 				</a>
 				<ul class="nav" style='{{ ($menu['currentRoute'] != "inicio") ? ($menu['currentRoute'] == strtolower(substr($menu['url'],1)) ? "display:block" : "display:none" ) : "" }}'>
 				@foreach($menu['tasks'] as $task)
+					@if(strtolower($task['name']) == 'ver' || strtolower($task['name']) == 'crear')
 					<li class="{{ ($menu['currentRoute'] != "inicio") ? ( (Route::currentRouteName() == strtolower($task['name']).'-'.$menu['currentRoute']) ? "active-menu" : ""): "" }}">
 						<a href="{{ url(''.strtolower($menu['url']).'/'.strtolower($task['name']).'-'.strtolower(substr($menu['url'],1)))}}">{{$task['name']}}</a>
 					</li>
+					@endif
 				@endforeach
 				</ul>
 			</li>

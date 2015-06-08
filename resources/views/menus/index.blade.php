@@ -23,7 +23,7 @@
 							<h5><strong>Lista de Menú</strong></h5>		
 						</div>
 						<div class="col-sm-6">
-							<a href="{{route('registrar-menu')}}" class="btn btn-info pull-right">
+							<a href="{{route('crear-menu')}}" class="btn btn-info pull-right">
 								<span class="glyphicon glyphicon-plus"></span>
 								<span>Nuevo</span>
 							</a>
@@ -75,7 +75,7 @@
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif
-											<a href="{{route('edit-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="{{route('editar-menu', $menu->id)}}"><i class="fa fa-pencil-square-o"></i></a>
 		                                </td>
 		                            </tr>
 	                            @endforeach

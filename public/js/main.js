@@ -20,7 +20,7 @@ var dataTable = function(selector, list){
         	"sLengthMenu": "_MENU_ registros por página",
         	"sInfoFiltered": " - filtrada de _MAX_ registros",
             "sSearch": "Buscar: ",
-            "sZeroRecords": "No hay " + list,
+            "sZeroRecords": "No existen, " + list,
             "sInfoEmpty": " ",
             "sInfo": 'Mostrando _END_ de _TOTAL_',
             "oPaginate": {
@@ -164,7 +164,7 @@ $(function(){
 	$('.form-spreadsheet .col-sm-6').matchHeight();
 
 	var urlEditRole = pathnameArray[1].split('/');
-	if(urlEditRole[1] == 'editar-role'){
+	if(urlEditRole[1] == 'editar-roles'){
 		$(".menu-role").each(function(index){
 		  	if($(this).find('div.row').length == 0){
 		    	$(this).remove();
@@ -247,7 +247,7 @@ $(function(){
 	$(document).off('change', '#spreadsheetCheck');
 	$(document).on('change', '#spreadsheetCheck', function(){
 		var token = $(this).val();
-		var url   = server + 'cheques/registrar-cheque/' + token;
+		var url   = server + 'cheques/crear-cheques/' + token;
 		$('#balanceBudgetCheck').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);

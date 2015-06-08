@@ -16,7 +16,10 @@ class Catalog extends Model
     {
         return $this->belongsTo('Mep\Models\Group', 'group_id', 'id');
     }
-
+    public function blanceBudgets()
+    {
+        return $this->hasMany('Mep\Models\BalanceBudget', 'catalog_id', 'id');
+    }
     public function LastId()
     {
         return self::all()->last();

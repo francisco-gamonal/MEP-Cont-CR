@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('roles/ver-roles',['as'=>'ver-roles','uses'=>'UsersController@indexRole']);
-Route::get('roles/userNoTasks/{id}', 'UsersController@userRoleNoTasks');
-Route::get('roles/editar-role/{id}',['as'=>'edit-role','uses'=>'UsersController@editRole']);
+Route::get('roles/editar-roles/{id}',['as'=>'editar-roles','uses'=>'UsersController@editRole']);
 Route::put('roles/update-roles','UsersController@updateRole');
 
 /**

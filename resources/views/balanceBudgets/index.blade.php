@@ -23,7 +23,7 @@
 						<h5><strong>Lista de Saldos de Presupuestos</strong></h5>
 					</div>
 					<div class="col-sm-6">
-						<a href="{{route('registrar-saldo-de-presupuesto')}}" class="btn btn-info pull-right">
+						<a href="{{route('crear-saldo-de-presupuestos')}}" class="btn btn-info pull-right">
 							<span class="glyphicon glyphicon-plus"></span>
 							<span>Nuevo</span>
 						</a>
@@ -80,7 +80,7 @@
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif
-										<a href="{{route('edit-saldo-de-presupuesto', $balanceBudget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+										<a href="{{route('editar-saldo-de-presupuestos', $balanceBudget->token)}}"><i class="fa fa-pencil-square-o"></i></a>
 	                                </td>
 	                            </tr>
                             @endforeach

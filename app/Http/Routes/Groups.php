@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Route;
 /*
  *  Rutas de Grupos
  */
-Route::get('grupos-de-cuentas/ver-grupos-de-cuentas', ['as' => 'ver-grupos', 'uses' => 'GroupsController@index']);
-Route::get('grupos-de-cuentas/crear-grupos-de-cuentas', ['as' => 'registrar-grupo', 'uses' => 'GroupsController@create']);
-Route::post('grupos/save-grupos', 'GroupsController@store');
-Route::get('grupos/editar-grupo/{token}', ['as' => 'edit-group', 'uses' => 'GroupsController@edit']);
-Route::delete('grupos/delete-grupos/{code}', ['as' => 'delete-grupo', 'uses' => 'GroupsController@destroy']);
-Route::patch('grupos/active-grupos/{code}', ['as' => 'active-grupo', 'uses' => 'GroupsController@active']);
-Route::put('grupos/update-grupos', 'GroupsController@update');
+Route::get('grupos-de-cuentas/ver-grupos-de-cuentas', ['as' => 'ver-grupos-de-cuentas', 'uses' => 'GroupsController@index']);
+Route::get('grupos-de-cuentas/crear-grupos-de-cuentas', ['as' => 'crear-grupos-de-cuentas', 'uses' => 'GroupsController@create']);
+Route::post('grupos-de-cuentas/save-grupos-de-cuentas', 'GroupsController@store');
+Route::get('grupos-de-cuentas/editar-grupos-de-cuentas/{token}', ['as' => 'editar-grupos-de-cuentas', 'uses' => 'GroupsController@edit']);
+Route::delete('grupos-de-cuentas/delete-grupos-de-cuentas/{code}', ['as' => 'delete-grupos-de-cuentas', 'uses' => 'GroupsController@destroy']);
+Route::patch('grupos-de-cuentas/active-grupos-de-cuentas/{code}', ['as' => 'active-grupos-de-cuentas', 'uses' => 'GroupsController@active']);
+Route::put('grupos-de-cuentas/update-grupos-de-cuentas', 'GroupsController@update');
 /*
  * Fin Rutas Menu
 */

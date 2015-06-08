@@ -53,8 +53,8 @@ class BudgetActualController extends ReportExcel {
      *
      * @return Response
      */
-    public function budgetPeriodExcel() {
-        $budget = Budget::find(1);
+    public function budgetPeriodExcel($token) {
+        $budget = Budget::Token($token);
         $school = $budget->schools;
         /* Con esta variable obtendremos el numero de filas de los egresos
          * para ponerle borde a la tabla
@@ -378,7 +378,8 @@ class BudgetActualController extends ReportExcel {
 
         foreach ($catalogBalanceBudget as $catalog):
             $typeBudget = $this->forTypeBudget($budget);
-            $paso1 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[0]);
+        dd($catalog);
+            $paso1 = BalanceBudget::BalanceBudgetActual($budget->id,$catalog->blanceBudgets->id);
 
             switch ($countTypeBudget):
                 case 1:
