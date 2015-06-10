@@ -640,7 +640,6 @@ $(function(){
 		data.charterSchool    = $('#charterSchool').val();
 		data.circuitSchool    = $('#circuitSchool').val();
 		data.codeSchool       = $('#codeSchool').val();
-		data.ffinancingSchool = $('#ffinancingSchool').val();
 		data.presidentSchool  = $('#presidentSchool').val();
 		data.directorSchool   = $('#directorSchool').val();
 		data.counterSchool    = $('#counterSchool').val();
@@ -668,7 +667,6 @@ $(function(){
 		data.charterSchool    = $('#charterSchool').val();
 		data.circuitSchool    = $('#circuitSchool').val();
 		data.codeSchool       = $('#codeSchool').val();
-		data.ffinancingSchool = $('#ffinancingSchool').val();
 		data.presidentSchool  = $('#presidentSchool').val();
 		data.secretarySchool  = $('#secretarySchool').val();
 		data.accountSchool    = $('#accountSchool').val();
@@ -998,6 +996,7 @@ $(function(){
 		data.nameBudget        = $('#nameBudget').val();
 		data.sourceBudget      = $('#sourceBudget').val();
 		data.descriptionBudget = $('#descriptionBudget').val();
+		data.ffinancingBudget  = $('#ffinancingBudget').val();
 		data.yearBudget        = $('#yearBudget').val();
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();
@@ -1050,6 +1049,7 @@ $(function(){
 		data.nameBudget        = $('#nameBudget').val();
 		data.sourceBudget      = $('#sourceBudget').val();
 		data.descriptionBudget = $('#descriptionBudget').val();
+		data.ffinancingBudget  = $('#ffinancingBudget').val();
 		data.yearBudget        = $('#yearBudget').val();
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();

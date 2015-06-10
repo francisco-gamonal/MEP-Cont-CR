@@ -44,6 +44,15 @@
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
+					<label for="ffinancingBudget">Financiamiento del Presupuesto</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				      	<input id="ffinancingBudget" class="form-control" type="text" value="{{$budget->ffinancing}}">
+					</div>
+				</div>
+			</div>
+		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="yearBudget">Año del Presupuesto</label>
 				<div class="input-group">
