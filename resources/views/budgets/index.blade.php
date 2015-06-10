@@ -76,8 +76,8 @@
 										<a href="{{route('reporte-presupuesto-excel', $budget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
-	                                    <a href="" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-	                                    <a href="{{route('reporte-presupuesto-actual', $budget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+	                                    <a><i class="fa fa-file-pdf-o"></i></a>
+	                                    <a><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
 										<a href="{{route('reporte-poa-presupuestos', $budget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
