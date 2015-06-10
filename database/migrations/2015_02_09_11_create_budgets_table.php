@@ -13,9 +13,9 @@ class CreateBudgetsTable extends Migration {
     public function up() {
         Schema::create('budgets', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name',80);
-            $table->string('source',150);
-            $table->string('description', 200);
+            $table->string('name', 80);
+            $table->string('source', 150);
+            $table->string('ffinancing', 150);
             $table->string('year', 4);
             $table->enum('type', ['ordinario', 'extraordinario']);
             $table->string('global', 1);

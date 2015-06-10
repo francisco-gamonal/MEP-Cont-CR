@@ -43,8 +43,9 @@ class Balance extends Model {
         $transferSalida = Transfer::where('balance_budget_id',$id)->where('transfers.type', 'salida')->sum('amount', 2);
         $transferEntrada = Transfer::where('balance_budget_id',$id)->where('transfers.type', 'entrada')->sum('amount', 2);
         $check = Check::where('balance_budget_id',$id)->sum('amount', 2);
-        $balance = ($balanceBudget+$transferEntrada) - ($transferSalida+$check);
-        return $balanceBudget;
+        
+       // $balance = ($balanceBudget+$transferEntrada) - ($transferSalida+$check);
+        return $check;
     }
 
     public static function BalanceInicialTotal($id, $check, $spreadsheet, $checkTransfer, $codeTransfers, $type) {

@@ -10,7 +10,7 @@ class School extends Model
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['name', 'charter', 'circuit', 'code', 'ffinancing', 'president', 'director', 'counter', 'secretary','token', 'titleOne', 'titleTwo'];
+    protected $fillable = ['name', 'charter', 'circuit', 'code',  'president', 'director', 'counter', 'secretary','token', 'titleOne', 'titleTwo'];
 
     public function users()
     {
@@ -44,7 +44,6 @@ class School extends Model
             'charter' => 'required|unique:schools',
             'circuit' => 'required',
             'code' => 'required',
-            'ffinancing' => 'required',
             'president' => 'required',
             'director' => 'required',
             'counter' => 'required',
