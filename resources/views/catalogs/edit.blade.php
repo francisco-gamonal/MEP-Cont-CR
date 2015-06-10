@@ -161,7 +161,7 @@
 				<label for="groupCatalog">Grupo del Catálogo</label>
 				<select id="groupCatalog" class="form-control">
 					@foreach($groups as $group)
-						@if($group->id == $catalog->groups_id)
+						@if($group->id == $catalog->group_id)
 							<option value="{{$group->token}}" selected>{{mb_convert_case($group->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@else
 							<option value="{{$group->token}}">{{mb_convert_case($group->name, MB_CASE_TITLE, 'utf-8')}}</option>

@@ -116,7 +116,7 @@
 				<label for="balanceBudgetCheck">Número de Cuenta</label>
 				<select id="balanceBudgetCheck" class="form-control">
 					@foreach($balanceBudgets as $balanceBudget)
-						@if($balanceBudget['idBalanceBudgets'] == $check->balance_budgets_id)
+						@if($balanceBudget['idBalanceBudgets'] == $check->balance_budget_id)
 							<option value="{{$balanceBudget['id']}}" selected>{{$balanceBudget['value']}}</option>
 						@else
 							<option value="{{$balanceBudget['id']}}">{{$balanceBudget['value']}}</option>
@@ -130,7 +130,7 @@
 				<label for="supplierCheck">Proveedor</label>
 				<select id="supplierCheck" class="form-control">
 					@foreach($suppliers as $supplier)
-						@if($supplier->id == $check->suppliers_id)
+						@if($supplier->id == $check->supplier_id)
 							<option value="{{$supplier->token}}" selected>{{$supplier->name}}</option>
 						@else
 							<option value="{{$supplier->token}}">{{$supplier->name}}</option>

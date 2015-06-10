@@ -25,7 +25,7 @@
 					</div>
 				</div>
 			</div>
-			<div>
+			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
 					<label for="nameSchool">Nombre de la Institución</label>
 					<div class="input-group">

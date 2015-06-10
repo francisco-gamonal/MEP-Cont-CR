@@ -66,7 +66,7 @@
 				<label for="catalogsBalanceBudget">Catálogo del Saldo de Presupuesto</label>
 				<select id="catalogsBalanceBudget" class="form-control">
 					@foreach($catalogs as $catalog)
-						@if($catalog->id == $balanceBudget->catalogs_id)
+						@if($catalog->id == $balanceBudget->catalog_id)
 							<option value="{{$catalog->token}}" selected>{{mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@else
 							<option value="{{$catalog->token}}">{{mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</option>
@@ -80,10 +80,10 @@
 				<label for="budgetBalanceBudget">Presupuesto del Saldo de Presupuesto</label>
 				<select id="budgetBalanceBudget" class="form-control">
 					@foreach($budgets as $budget)
-						@if($budget->id == $balanceBudget->budgets_id)
-							<option value="{{$budget->token}}" selected>{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+						@if($budget->id == $balanceBudget->budget_id)
+							<option value="{{$budget->token}}" selected>{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schools->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@else
-							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schools->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@endif
 					@endforeach
 				</select>
@@ -94,7 +94,7 @@
 				<label for="typeBudgetBalanceBudget">Tipo de Presupuesto del Saldo de Presupuesto</label>
 				<select id="typeBudgetBalanceBudget" class="form-control">
 					@foreach($typeBudgets as $typeBudget)
-						@if($typeBudget->id == $balanceBudget->types_budgets_id)
+						@if($typeBudget->id == $balanceBudget->type_budget_id)
 							<option value="{{$typeBudget->token}}" selected>{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@else
 							<option value="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>

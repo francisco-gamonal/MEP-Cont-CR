@@ -76,7 +76,7 @@
 					<label for="budgetBalanceBudget">Presupuesto</label>
 					<select id="budgetBalanceBudget" class="form-control">
 						@foreach($budgets as $budget)
-							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schools->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@endforeach
 					</select>
 				</div>

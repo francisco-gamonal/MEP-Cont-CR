@@ -57,7 +57,7 @@
 	                                <td class="text-center balanceBudget_operational">{{mb_convert_case($balanceBudget->operational, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center balanceBudget_goals">{{mb_convert_case($balanceBudget->goals, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center balanceBudget_catalog">{{mb_convert_case($balanceBudget->catalogs->name, MB_CASE_TITLE, 'utf-8')}}</td>
-	                                <td class="text-center balanceBudget_budget">{{mb_convert_case($balanceBudget->budgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
+	                                <td class="text-center balanceBudget_budget">{{mb_convert_case($balanceBudget->budgets->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($balanceBudget->budgets->schools->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center balanceBudget_typeBudget">{{mb_convert_case($balanceBudget->typeBudgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center">
 	                                	@if($balanceBudget->deleted_at)
