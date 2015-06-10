@@ -10,7 +10,7 @@ class Budget extends Model
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['name', 'source', 'description', 'year', 'type', 'global','school_id','token'];
+    protected $fillable = ['name', 'source', 'ffinancing' ,'year', 'type', 'global','school_id','token'];
 
     public function schools()
     {
@@ -50,8 +50,8 @@ class Budget extends Model
         $rules = ['type' => 'required',
         'name' => 'required',
         'source' => 'required',
-        'description' => 'required',
-        'year' => 'required',
+        'ffinancing' => 'required',
+         'year' => 'required',
         'global' => 'required',
         'token' => 'required',
         'school_id' => 'required', ];

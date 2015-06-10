@@ -17,7 +17,6 @@ class CreateSchoolsTable extends Migration {
         $table->string('charter',60);
         $table->string('circuit',20);
         $table->string('code',20);
-        $table->string('ffinancing',150);
         $table->string('president',150);
         $table->string('director',150);
         $table->string('counter',150);
