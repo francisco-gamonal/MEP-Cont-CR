@@ -33,7 +33,7 @@ class BudgetInitialController extends ReportExcel {
             array('CIRCUITO ' . $school->circuit . '   CÓDIGO  ' . $school->code),
             array(''),
             array('RELACIÓN DE INGRESOS Y GASTOS'),
-            array($budget->schools->ffinancing),
+            array('FUENTE DE FINANCIAMIENTO: '.$budget->ffinancing),
             array('(Del 01 de enero al 31 de diciembre del ' . $budget->year . ')'),
             array('(Veinti tres millones ochocientos  ochenta y cinco  mil novecientos  setenta y siete con 87/100)'),
             array(''),
