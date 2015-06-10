@@ -38,7 +38,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <!-- <th>Source</th> -->
-                                <th>Descripción</th>
+                                <th>Fuente Financimiento</th>
                                 <th>Año</th>
                                 <th>Tipo</th>
                                 <th>Global</th>
@@ -55,7 +55,7 @@
 	                            <tr>
 	                                <td class="text-center budget_name" data-token="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <!-- <td class="text-center budget_source">{{mb_convert_case($budget->source, MB_CASE_TITLE, 'utf-8')}}</td> -->
-	                                <td class="text-center budget_description">{{mb_convert_case($budget->description, MB_CASE_TITLE, 'utf-8')}}</td>
+	                                <td class="text-center budget_description">{{mb_convert_case($budget->ffinancing, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_year">{{$budget->year}}</td>
 	                                <td class="text-center budget_type">{{mb_convert_case($budget->type, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_global edit-row">

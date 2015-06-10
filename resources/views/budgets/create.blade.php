@@ -36,15 +36,6 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="descriptionBudget">Descripción del Presupuesto</label>
-					<div class="input-group">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"></span></span>
-				      	<input id="descriptionBudget" class="form-control" type="text">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
 					<label for="ffinancingBudget">Financiamiento del Presupuesto</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-usd"></i></span>
