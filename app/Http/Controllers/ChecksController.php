@@ -13,6 +13,7 @@ class ChecksController extends Controller
 {
     public function __construct()
     {
+        set_time_limit(0);
         $this->middleware('auth');
     }
 

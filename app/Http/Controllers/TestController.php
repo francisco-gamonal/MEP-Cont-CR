@@ -10,11 +10,7 @@ use Mep\Models\Spreadsheet;
 use Illuminate\Contracts\Auth\Guard;
 use DOMPDF;
 
-// disable DOMPDF's internal autoloader if you are using Composer
-define('DOMPDF_ENABLE_AUTOLOAD', false);
 
-// include DOMPDF's default configuration
-require_once '../vendor/dompdf/dompdf/dompdf_config.inc.php';
 
 class TestController extends Controller
 {
@@ -32,42 +28,10 @@ class TestController extends Controller
      */
     public function index()
     {
-        $menus = \Html::menu();
-        foreach ($menus as $key => $value) {
-            foreach ($value['tasks'] as $task) {
-                 echo $task['name'];
-             }
-        }die;
-        $temp     = null;
-        $tempKey  = array();
-        $tempData = array();
-        foreach (\Auth::user()->menus as $menu) {
-            //echo json_encode($menu->pivot);die;
-            //$a[] = $menu->tasksActive;
-            //echo json_encode($menu->tasksActive);
-            if($temp != $menu->id){
-                //echo $menu->name.'<br>';
-                $temp = $menu->id;
-                /*if($menu->id == 1){
-                    echo json_encode($menu->tasksActive);die;
-                }*/
-                if(count($menu->tasksActive($menu->pivot->user_id)->select('name')->get()) > 0)
-                    $tempKey[$menu->name] = $menu->tasksActive($menu->pivot->user_id)->select('name')->get();
-                //echo json_encode($tempKey);die;
-            }
-            /*if($menu->pivot->status == 1){
-                $task = Task::find($menu->pivot->task_id);
-                $tempData[] = $task->name;
-                //echo $task->name.'<br>';
-            }*/
-        }
-        foreach ($tempKey as $key => $task) {
-            echo $key;
-            foreach ($task as $value) {
-                echo '<br>'.$value->name;
-            }
-            echo '<br>';
-        }
+       
+      $school = \Mep\Models\Budget::schoolBudget(2);
+      
+      echo $school->name;
     }
 
     private function amountTypeBudget($budget, $catalog)

@@ -32,6 +32,11 @@ class Budget extends Model
     {
         return self::all()->last();
     }
+    public static function schoolBudget($id){
+        $school = Budget::find($id);
+        
+        return $school->schools;
+    }
 
     public static function Token($token)
     {

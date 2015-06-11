@@ -109,7 +109,11 @@ return [
             'phone'=>'Telefono',
             'password'=>'Contraseña',
             'Record'=>'Acta y Acuerdo',
-            'Source'=>'Fuente'
+            'Source'=>'Fuente',
+            'counter'=>'contador',
+            'title'=>'titulo',
+            'one'=>'uno',
+            'two'=>'dos'
         ],
 
 ];
