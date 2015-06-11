@@ -102,7 +102,7 @@
 				<label for="spreadsheetCheck">Planilla</label>
 				<select id="spreadsheetCheck" class="form-control">
 					@foreach($spreadsheets as $spreadsheet)
-						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}}</option>
+						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</option>
 					@endforeach
 				</select>
 			</div>

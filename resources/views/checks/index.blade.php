@@ -55,7 +55,7 @@
 	                                <td class="text-center">{{$check->supplier->name}}</td>
 	                                <td class="text-center">{{$check->bill}}</td>
 	                                <td class="text-center">{{$check->numberSpreadsheet()}}</td>
-	                                <td class="text-center">{{$check->spreadsheets->budgets->name}}</td>
+	                                <td class="text-center">{{$check->spreadsheets->budgets->name}} - {{$check->spreadsheets->budgets->schoolBudget($check->spreadsheets->budget_id)->name}}</td>
 	                                <td class="text-center">
 	                                	@if($check->deleted_at)
 											<span>Inactivo</span>

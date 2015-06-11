@@ -103,9 +103,9 @@
 				<select id="spreadsheetCheck" class="form-control" data-url="editar-cheque">
 					@foreach($spreadsheets as $spreadsheet)
 						@if($spreadsheet->id == $check->spreadsheets_id)
-							<option value="{{$spreadsheet->token}}" selected>{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}}</option>
+							<option value="{{$spreadsheet->token}}" selected>{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</option>
 						@else
-							<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}}</option>
+							<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</option>
 						@endif
 					@endforeach
 				</select>

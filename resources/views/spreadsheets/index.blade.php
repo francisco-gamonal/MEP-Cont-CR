@@ -51,7 +51,7 @@
 		                                <td class="text-center">{{$spreadsheet->number}}</td>
 		                                <td class="text-center">{{$spreadsheet->year}}</td>
 		                                <td class="text-center">{{$spreadsheet->date}}</td>
-		                                <td class="text-center">{{$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budgets->id)->name}}</td>
+		                                <td class="text-center">{{$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</td>
 		                                <td class="text-center">
 		                                	@if($spreadsheet->deleted_at)
 												<span>Inactivo</span>
