@@ -108,7 +108,8 @@ return [
             'email'=>'Correo Electronico',
             'phone'=>'Telefono',
             'password'=>'Contraseña',
-            'Record'=>'Acta y Acuerdo'
+            'Record'=>'Acta y Acuerdo',
+            'Source'=>'Fuente'
         ],
 
 ];
