@@ -48,10 +48,10 @@
 					<label for="budgetSpreadsheets">Presupuesto del Saldo de Presupuesto</label>
 					<select id="budgetSpreadsheets" class="form-control">
 						@foreach($budgets as $budget)
-							@if($budget->id == $spreadsheet->budgets_id)
-								<option value="{{$budget->token}}" selected>{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							@if($budget->id == $spreadsheet->budget_id)
+								<option value="{{$budget->token}}" selected>{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schoolBudget($budget->id)->name, MB_CASE_TITLE, 'utf-8')}}</option>
 							@else
-								<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+								<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schoolBudget($budget->id)->name, MB_CASE_TITLE, 'utf-8')}}</option>
 							@endif
 						@endforeach
 					</select>

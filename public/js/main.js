@@ -1,8 +1,14 @@
 var server        = "";
 var pathname      = document.location.pathname;
-var pathnameArray = pathname.split("/public/");
+var pathnameArray = pathname.split("/");
 
-server =  pathnameArray.length > 0 ? pathnameArray[0] + '/public/' : '/';
+$.each(pathnameArray, function(index, value){
+	server = '/';
+	if(value == 'public'){
+		server = '/MEP-Cont-CR/public/';
+		return false;
+	}
+});
 
 /**
  * @param  {[string]} selector [id table]
@@ -171,12 +177,10 @@ $(function(){
 	$('.form-user .col-sm-6').matchHeight();
 	$('.form-spreadsheet .col-sm-6').matchHeight();
 
-	if(pathnameArray.length > 0){
-		var urlEditRole = pathnameArray[1].split('/');
-		urlEditRole = urlEditRole[1];
+	if(server == '/'){
+		var urlEditRole = pathname.split('/')[2];
 	}else{
-		var pathArray = document.location.pathname.split('/');
-		urlEditRole = pathArray[2];
+		var urlEditRole = pathname.split(server)[1].split('/')[1];
 	}
 	if(urlEditRole == 'editar-roles'){
 		$(".menu-role").each(function(index){
@@ -506,12 +510,10 @@ $(function(){
 	/**
 	 * User
 	 */
-	if(pathnameArray.length > 0){
-		var urlUser = pathnameArray[1].split('/');
-		urlUser = urlUser[1];
+	if(server == '/'){
+		var urlUser = pathname.split('/')[2];
 	}else{
-		var pathArray = document.location.pathname.split('/');
-		urlUser = pathArray[2];
+		var urlUser = pathname.split(server)[1].split('/')[1];
 	}
 	if(urlUser === 'crear-usuarios' || urlUser === 'editar-usuarios'){
 		localStorage.clear();
