@@ -171,8 +171,14 @@ $(function(){
 	$('.form-user .col-sm-6').matchHeight();
 	$('.form-spreadsheet .col-sm-6').matchHeight();
 
-	var urlEditRole = pathnameArray[1].split('/');
-	if(urlEditRole[1] == 'editar-roles'){
+	if(pathnameArray.length > 0){
+		var urlEditRole = pathnameArray[1].split('/');
+		urlEditRole = urlEditRole[1];
+	}else{
+		var pathArray = document.location.pathname.split('/');
+		urlEditRole = pathArray[2];
+	}
+	if(urlEditRole == 'editar-roles'){
 		$(".menu-role").each(function(index){
 		  	if($(this).find('div.row').length == 0){
 		    	$(this).remove();
@@ -180,7 +186,6 @@ $(function(){
 		  	$('.form-role .col-sm-6 fieldset').matchHeight();
 		});	
 	}
-	
 
 	//Event menu expand
 	$('.submenu').on('click', function(e){
@@ -501,9 +506,14 @@ $(function(){
 	/**
 	 * User
 	 */
-
-	var urlUser = pathnameArray[1].split('/');
-	if(urlUser[1] === 'crear-usuarios' || urlUser[1] === 'editar-usuarios'){
+	if(pathnameArray.length > 0){
+		var urlUser = pathnameArray[1].split('/');
+		urlUser = urlUser[1];
+	}else{
+		var pathArray = document.location.pathname.split('/');
+		urlUser = pathArray[2];
+	}
+	if(urlUser === 'crear-usuarios' || urlUser === 'editar-usuarios'){
 		localStorage.clear();
 		if(urlUser[1] === 'crear-usuarios'){
 			var prefetch = '../json/schools.json';
