@@ -79,7 +79,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-6">
+		<!-- <div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="dateCheck">Fecha del Cheque</label>
 				<div class="input-group">
@@ -87,8 +87,8 @@
 			      	<input id="dateCheck" class="form-control" type="date">
 				</div>
 			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
+		</div> -->
+		<!-- <div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="voucherCheck">Factura de Respaldo</label>
 				<div class="input-group">
@@ -96,13 +96,13 @@
 			      	<input id="voucherCheck" class="form-control" type="text">
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="spreadsheetCheck">Planilla</label>
 				<select id="spreadsheetCheck" class="form-control">
 					@foreach($spreadsheets as $spreadsheet)
-						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</option>
+						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}} - {{mb_convert_case($spreadsheet->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</option>
 					@endforeach
 				</select>
 			</div>

@@ -49,7 +49,7 @@
                         <tbody>
                         	@foreach($checks as $check)
 	                            <tr>
-	                                <td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->codeCuentaCatalog()}}</td>
+	                                <td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->codeCuentaCatalog()}} - {{mb_convert_case($check->spreadsheets->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center">{{$check->amount}}</td>
 	                                <td class="text-center">{{$check->date}}</td>
 	                                <td class="text-center">{{$check->supplier->name}}</td>
