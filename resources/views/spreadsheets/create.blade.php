@@ -45,6 +45,16 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
+					<label for="typeBudgetSpreadsheets">Tipo de Presupuesto</label>
+					<select id="typeBudgetSpreadsheets" class="form-control">
+						@foreach($typeBudgets as $typeBudget)
+							<option value="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6">
+				<div class="form-mep">
 					<label for="budgetSpreadsheets">Presupuesto del Saldo de Presupuesto</label>
 					<select id="budgetSpreadsheets" class="form-control">
 						@foreach($budgets as $budget)

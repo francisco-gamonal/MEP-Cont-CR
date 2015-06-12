@@ -1169,11 +1169,12 @@ $(function(){
 		var url;
 		url = $(this).data('url');
 		url = url + '/save-' + url;
-		data.numberSpreadsheets = $('#numberSpreadsheets').val();
-		data.yearSpreadsheets   = $('#yearSpreadsheets').val();
-		data.dateSpreadsheets   = $('#dateSpreadsheets').val();
-		data.budgetSpreadsheets = $('#budgetSpreadsheets').val();
-		data.statusSpreadsheets = $('#statusSpreadsheets').bootstrapSwitch('state');
+		data.numberSpreadsheets     = $('#numberSpreadsheets').val();
+		data.yearSpreadsheets       = $('#yearSpreadsheets').val();
+		data.dateSpreadsheets       = $('#dateSpreadsheets').val();
+		data.budgetSpreadsheets     = $('#budgetSpreadsheets').val();
+		data.typeBudgetSpreadsheets = $('#typeBudgetSpreadsheets').val();
+		data.statusSpreadsheets     = $('#statusSpreadsheets').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
 			messageAjax(data);
@@ -1217,12 +1218,13 @@ $(function(){
 		var url;
 		url = $(this).data('url');
 		url = url + '/update-' + url;
-		data.token              = $('#numberSpreadsheets').data('token');
-		data.numberSpreadsheets = $('#numberSpreadsheets').val();
-		data.yearSpreadsheets   = $('#yearSpreadsheets').val();
-		data.dateSpreadsheets   = $('#dateSpreadsheets').val();
-		data.budgetSpreadsheets = $('#budgetSpreadsheets').val();
-		data.statusSpreadsheets = $('#statusSpreadsheets').bootstrapSwitch('state');
+		data.token                  = $('#numberSpreadsheets').data('token');
+		data.numberSpreadsheets     = $('#numberSpreadsheets').val();
+		data.yearSpreadsheets       = $('#yearSpreadsheets').val();
+		data.dateSpreadsheets       = $('#dateSpreadsheets').val();
+		data.budgetSpreadsheets     = $('#budgetSpreadsheets').val();
+		data.typeBudgetSpreadsheets = $('#typeBudgetSpreadsheets').val();
+		data.statusSpreadsheets     = $('#statusSpreadsheets').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {
 			messageAjax(data);

@@ -38,6 +38,7 @@
 	                                <th>Número</th>
 	                                <th>Año</th>
 	                                <th>Fecha</th>
+	                                <th>Tipo de Presupuesto</th>
 	                                <th>Presupuesto</th>
 	                                <th>Estado</th>
 	                                <th>Reporte</th>
@@ -51,6 +52,7 @@
 		                                <td class="text-center">{{$spreadsheet->number}}</td>
 		                                <td class="text-center">{{$spreadsheet->year}}</td>
 		                                <td class="text-center">{{$spreadsheet->date}}</td>
+		                                <td class="text-center">{{mb_convert_case($spreadsheet->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
 		                                <td class="text-center">{{$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}}</td>
 		                                <td class="text-center">
 		                                	@if($spreadsheet->deleted_at)
