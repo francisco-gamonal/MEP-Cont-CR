@@ -79,7 +79,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-6">
+		<!--<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="dateCheck">Fecha del Cheque</label>
 				<div class="input-group">
@@ -96,7 +96,7 @@
 			      	<input id="voucherCheck" class="form-control" type="text" value="{{$check->vouchers_id}}">
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="spreadsheetCheck">Planilla</label>
