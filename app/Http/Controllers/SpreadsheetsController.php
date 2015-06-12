@@ -54,7 +54,7 @@ class SpreadsheetsController extends Controller
         $spreadsheets = $this->convertionObjeto();
         /* Consulta por token de school */
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
-        $typeBudget = TypeBudget::Token($spreadsheets->typebudgetSpreadsheets);
+        $typeBudget = TypeBudget::Token($spreadsheets->typeBudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
@@ -122,7 +122,7 @@ class SpreadsheetsController extends Controller
         $spreadsheets = $this->convertionObjeto();
 
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
-        $typeBudget = TypeBudget::Token($spreadsheets->typebudgetSpreadsheets);
+        $typeBudget = TypeBudget::Token($spreadsheets->typeBudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
