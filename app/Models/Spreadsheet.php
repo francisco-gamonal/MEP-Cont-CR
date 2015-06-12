@@ -16,7 +16,10 @@ class Spreadsheet extends Model
     {
         return $this->belongsTo('Mep\Models\Budget', 'budget_id', 'id');
     }
-
+    public function typebudgets()
+    {
+        return $this->belongsTo('Mep\Models\TypeBudget', 'type_budget_id', 'id');
+    }
     public function transfers(){
         return $this->hasMany('Mep\Models\Transfer', 'spreadsheet_id', 'id');
     }
