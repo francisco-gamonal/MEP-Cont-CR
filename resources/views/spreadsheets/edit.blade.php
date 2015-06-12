@@ -49,9 +49,9 @@
 					<select id="typeBudgetSpreadsheets" class="form-control">
 						@foreach($typeBudgets as $typeBudget)
 							@if($typeBudget->id == $spreadsheet->type_budget_id)
-								<option value="{{$typeBudget->token}}" checked>{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+								<option value="{{$typeBudget->token}}" selected>{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
 							@else
-								<option value="{{$typeBudget->token}}" checked>{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+								<option value="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
 							@endif
 						@endforeach
 					</select>
