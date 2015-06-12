@@ -15,4 +15,10 @@
 		<p style="margin:0;text-align:center;">Aprobado por: _________________________________</p>
 		<p style="margin:0;text-align:center;">Nombre, firma, cédula y sello del Tesorero - Contador.</p>
 	</div>
+    <br><br><br>
+        <div style="display:inline-block; vertical-align:middle; width:100%; padding-top:2em;">
+		<p style="margin:0;text-align:center;">Visto bueno por: _________________________________</p>
+		<p style="margin:0;text-align:center;">Nombre, firma, cédula del Docente.</p>
+		<p style="margin:0;text-align:center;">Programa: ________________________</p>
+	</div>
 </div>

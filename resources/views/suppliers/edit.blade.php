@@ -69,7 +69,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-proveedores')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="updateSupplier" data-url="proveedores" class="btn btn-success">Actualizar Menú</a>
+			<a href="#" id="updateSupplier" data-url="proveedores" class="btn btn-success">Actualizar Proveedor</a>
 		</div>
 		@endforeach
 	</div>

@@ -17,6 +17,8 @@ class CreateSpreadsheetsTable extends Migration {
             $table->string('year', 4);
             $table->date('date');
             $table->enum('simulation',['true','false']);
+            $table->integer('type_budget_id')->unsigned()->index();
+            $table->foreign('type_budget_id')->references('id')->on('type_budgets')->onDelete('no action');
             $table->integer('budget_id')->unsigned()->index();
             $table->foreign('budget_id')->references('id')->on('budgets')->onDelete('no action');
             $table->string('token')->unique();

@@ -7,6 +7,7 @@ use Mep\Models\Balance;
 use Mep\Models\Budget;
 use Mep\Models\Check;
 use Mep\Models\Spreadsheet;
+use Mep\Models\TypeBudget;
 
 class SpreadsheetsController extends Controller
 {
@@ -38,8 +39,8 @@ class SpreadsheetsController extends Controller
     public function create()
     {
         $budgets = Budget::all();
-
-        return view('spreadsheets.create', compact('budgets'));
+        $typeBudgets= TypeBudget::all();
+        return view('spreadsheets.create', compact('budgets','typeBudgets'));
     }
 
     /**
@@ -53,10 +54,12 @@ class SpreadsheetsController extends Controller
         $spreadsheets = $this->convertionObjeto();
         /* Consulta por token de school */
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
+        $typeBudget = TypeBudget::Token($spreadsheets->typebudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
         $ValidationData['budget_id'] = $budget->id;
+        $ValidationData['type_budget_id'] = $typeBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = new Spreadsheet();
@@ -101,8 +104,9 @@ class SpreadsheetsController extends Controller
     {
         $spreadsheet = Spreadsheet::Token($token);
         $budgets = Budget::all();
-
-        return view('spreadsheets.edit', compact('budgets', 'spreadsheet'));
+        $typeBudgets= TypeBudget::all();
+        
+        return view('spreadsheets.edit', compact('budgets', 'spreadsheet','typeBudgets'));
     }
 
     /**
@@ -118,10 +122,12 @@ class SpreadsheetsController extends Controller
         $spreadsheets = $this->convertionObjeto();
 
         $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
+        $typeBudget = TypeBudget::Token($spreadsheets->typebudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
         /* Asignacion de id de school */
         $ValidationData['budget_id'] = $budget->id;
+        $ValidationData['type_budget_id'] = $typeBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
         $spreadsheet = Spreadsheet::Token($spreadsheets->token);
@@ -216,7 +222,7 @@ endif;
             }
 
             $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                number_format($balanceInicial, 2), $check->bill, $check->supplier->name, $check->concept,
+                number_format($balanceInicial, 2), $check->bill, $check->supplier->name. ' '.$check->supplier->charter, $check->concept,
                 number_format($check->amount, 2), number_format($check->retention, 2), number_format($check->cancelarAmount(), 2), $check->ckbill,
                 $check->ckretention, $check->record, number_format($balanceTotal, 2),
             );

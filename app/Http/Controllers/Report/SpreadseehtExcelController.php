@@ -129,6 +129,10 @@ class SpreadseehtExcelController extends ReportExcel {
             array('Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
             array('Nombre, firma, cédula  del Presidente(a) ó', '', '', '', '', 'Nombre, firma, cédula  y sello del Tesorero-'),
             array('Vicepresidente(a)', '', '', '', '', 'Contador'),
+            array(''),
+            array('', '', 'Visto bueno por: ___________________________', '', '', ''),
+            array('', '', 'Nombre, firma, cédula  del Deldocente', '', '', ''),
+            array('', '', 'Programa: _______________________', '', '', '')
         );
 
         return $firm;
@@ -172,7 +176,7 @@ class SpreadseehtExcelController extends ReportExcel {
             }
 
             $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                number_format($balanceInicial, 2), $check->bill, $check->supplier->name, $check->concept,
+                number_format($balanceInicial, 2), $check->bill, $check->supplier->name. ' '.$check->supplier->charter, $check->concept,
                 number_format($check->amount, 2), number_format($check->retention, 2), number_format($check->cancelarAmount(), 2), $check->ckbill,
                 $check->ckretention, $check->record, number_format($balanceTotal, 2),
             );

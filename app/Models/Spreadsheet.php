@@ -10,7 +10,7 @@ class Spreadsheet extends Model
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['number', 'year', 'date', 'simulation', 'budget_id', 'token'];
+    protected $fillable = ['number', 'year', 'date', 'simulation', 'budget_id','type_budget_id', 'token'];
 
     public function budgets()
     {
@@ -45,6 +45,7 @@ class Spreadsheet extends Model
             'date' => 'required',
             'simulation' => 'required',
             'token' => 'required',
+            'type_budget_id' => 'required',
             'budget_id' => 'required', ];
 
         $validator = \Validator::make($data, $rules);
