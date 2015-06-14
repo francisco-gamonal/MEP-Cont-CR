@@ -51,6 +51,10 @@ var messageAjax = function(data, href) {
 		if(href){
 			//console.log(href);
 			box = bootbox.alert('<p>Para mostrar el reporte presione <a class="reportShow" href="'+href+'"" target="_blank">aquí.</a></p>');
+			setTimeout(function() {
+				box.modal('hide');
+				window.location.href = href;
+			}, 5000);
 			return false;
 		}
 		bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
@@ -59,10 +63,14 @@ var messageAjax = function(data, href) {
 	}
 	else{
 		var errors = data.errors;
-		var error = "";
-		for (var element in errors){
-			if(errors.hasOwnProperty(element)){
-				error += errors[element] + '<br>';
+		var error  = "";
+		if($.type(errors) === 'string'){
+			error = data.errors;
+		}else{
+			for (var element in errors){
+				if(errors.hasOwnProperty(element)){
+					error += errors[element] + '<br>';
+				}
 			}
 		}
 		bootbox.alert('<p class="error-ajax">'+error+'</p>');
