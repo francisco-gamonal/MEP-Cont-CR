@@ -43,10 +43,16 @@ var dataTable = function(selector, list){
  * @param  {[json]} data [description messages error after request]
  * @return {[alert]}     [errors in alert]
  */
-var messageAjax = function(data) {
-	console.log(data.errors);
+var box;
+var messageAjax = function(data, href) {
+	//console.log(data.errors);
 	$.unblockUI();
 	if(data.success){
+		if(href){
+			//console.log(href);
+			box = bootbox.alert('<p>Para mostrar el reporte presione <a class="reportShow" href="'+href+'"" target="_blank">aquí.</a></p>');
+			return false;
+		}
 		bootbox.alert('<p class="success-ajax">'+data.message+'</p>', function(){
 			location.reload();
 		});
@@ -135,13 +141,17 @@ var responseUI = function (message,color){
  * @param  {[json]} data [description]
  * @return {[type]}      [description]
  */
-var ajaxForm = function (url, type, data){
+var ajaxForm = function (url, type, data, msg){
 	var message;
 	var path = server + url;
-	if(type == 'post'){
-		message = 'Registrando Datos';
+	if(msg){
+		message = msg
 	}else{
-		message = 'Actualizando Registros';
+		if(type == 'post'){
+		message = 'Registrando Datos';
+		}else{
+			message = 'Actualizando Registros';
+		}	
 	}
 	//console.log(path,type,data);return;
 	return $.ajax({
@@ -270,6 +280,27 @@ $(function(){
 		  	$("#balanceBudgetCheck").html(data);
 			$('#balanceBudgetCheck').prop('disabled', false);
 		});
+	});
+
+	//Ajax Validate all Reports
+	$(document).off('click', '.validateReport');
+	$(document).on('click', '.validateReport', function(e){
+		e.preventDefault();
+		var url;
+		var href = $(this).attr('href');
+		url = $(this).data('url');
+		url = url + '/validate-report-' + url;
+		data.token = $(this).parent().parent().find('.budget_name').attr('data-token');
+		ajaxForm(url, 'post', data, 'Validando Reporte')
+		.done( function(data) {
+			messageAjax(data, href);
+		});
+	});
+
+	//Close Bootbox;
+	$(document).off('click', '.reportShow');
+	$(document).on('click', '.reportShow', function(){
+		box.modal('hide');
 	});
 
 	/**

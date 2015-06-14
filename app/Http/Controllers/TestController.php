@@ -9,7 +9,8 @@ use Mep\Models\Transfer;
 use Mep\Models\Spreadsheet;
 use Illuminate\Contracts\Auth\Guard;
 use DOMPDF;
-
+use Input;
+use Illuminate\Support\Facades\Response;
 
 
 class TestController extends Controller
@@ -19,6 +20,15 @@ class TestController extends Controller
     public function __construct(Guard $auth)
     {
         $this->middleware('auth');
+    }
+
+    public function validateReportBudget()
+    {
+        $data = Input::get('data');
+        return Response::json([
+                    'success' => true,
+                    'message' => $data,
+        ]);
     }
 
     /**

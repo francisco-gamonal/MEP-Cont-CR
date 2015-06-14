@@ -72,8 +72,8 @@
 	                                	@endif
 	                                </td>
 	                                <td class="text-center edit-row">
-										<a href="{{route('report-presupuestos', $budget->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-										<a href="{{route('reporte-presupuesto-excel', $budget->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+										<a class="validateReport" href="{{route('report-presupuestos', $budget->token)}}" target="_blank" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+										<a class="validateReport" href="{{route('reporte-presupuesto-excel', $budget->token)}}" target="_blank" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
 	                                    <a><i class="fa fa-file-pdf-o"></i></a>
