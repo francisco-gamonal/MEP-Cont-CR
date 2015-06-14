@@ -8,7 +8,7 @@ use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
 
-class BudgetsController extends Controller
+class BudgetsController extends validatorController
 {
     /**
      * Create a new controller instance.
@@ -77,18 +77,6 @@ class BudgetsController extends Controller
         endif;
         /* Enviamos el mensaje de error */
         return $this->errores($budget->errors);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -317,4 +305,18 @@ class BudgetsController extends Controller
 
         return $amountBalanceBudget;
     }
+
+    public function reportValidation($id) {
+        return BalanceBudget::where('budget_id',$id);
+    }
+
+    public function valitation($token) {
+        
+        return $this->valitationReport($token);
+    }
+
+    public function tableValidation($token) {
+       return Budget::Token($token);
+    }
+
 }

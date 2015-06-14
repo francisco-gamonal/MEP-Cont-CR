@@ -287,11 +287,12 @@ $(function(){
 	$(document).on('click', '.validateReport', function(e){
 		e.preventDefault();
 		var url;
-		var href = $(this).attr('href');
+		var href  = $(this).attr('href');
+		var token = $(this).parent().parent().find('.budget_name').attr('data-token');
 		url = $(this).data('url');
-		url = url + '/validate-report-' + url;
-		data.token = $(this).parent().parent().find('.budget_name').attr('data-token');
-		ajaxForm(url, 'post', data, 'Validando Reporte')
+		url = url + '/validacion/' + token;
+		data.token = token;
+		ajaxForm(url, 'get', data, 'Validando Reporte')
 		.done( function(data) {
 			messageAjax(data, href);
 		});

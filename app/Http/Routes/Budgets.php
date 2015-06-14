@@ -19,7 +19,8 @@ Route::get('presupuestos/reporte-global/{token}/{global}/{year}', ['as' => 'repo
 Route::get('presupuestos/reporte/{token}', ['as' => 'report-presupuestos', 'uses' => 'BudgetsController@report']);
 Route::get('presupuestos/reporte-poa/{token}', ['as' => 'reporte-poa-presupuestos', 'uses' => 'BudgetsController@poaReport']);
 
-Route::post('presupuestos/validate-report-presupuestos', 'TestController@validateReportBudget');
+//Route::get('presupuestos/validate-report-presupuestos/{token}', ['as' => 'validacion-presupuestos', 'uses' => 'BudgetsController@valitation']);
+Route::get('presupuestos/validacion/{token}', ['as' => 'validacion-presupuestos', 'uses' => 'BudgetsController@valitation']);
 /*
  * Fin Rutas de Tipos de Usuarios
  */

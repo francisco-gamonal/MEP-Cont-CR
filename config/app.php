@@ -129,6 +129,7 @@ return [
         'Mep\Providers\EventServiceProvider',
         'Mep\Providers\RouteServiceProvider',
         'Mep\Providers\HtmlServiceProvider',
+        'Mep\Providers\ConversorLetrasProvider',
         //   'Mep\Providers\MenuServiceProvider',
         /* New */
         'Maatwebsite\Excel\ExcelServiceProvider',

@@ -76,7 +76,6 @@ class Check extends Model
             'amount' => 'required',
             'ckbill' => 'required',
             'record' => 'required',
-            'date' => 'required',
             'simulation' => 'required',
             'balance_budget_id' => 'required',
             'spreadsheet_id' => 'required',
