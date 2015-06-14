@@ -9,7 +9,7 @@ use Mep\Models\Transfer;
 use Mep\Models\Spreadsheet;
 use Illuminate\Contracts\Auth\Guard;
 use DOMPDF;
-
+use Mep\Http\Controllers\validatorController;
 
 
 class TestController extends Controller
@@ -29,9 +29,9 @@ class TestController extends Controller
     public function index()
     {
        
-      $school = \Mep\Models\Budget::schoolBudget(2);
       
-      echo $school->name;
+      
+      echo validatorController::convertion(3434);
     }
 
     private function amountTypeBudget($budget, $catalog)
