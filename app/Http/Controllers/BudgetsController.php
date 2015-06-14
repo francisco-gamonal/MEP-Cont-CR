@@ -8,16 +8,15 @@ use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
 
-class BudgetsController extends validatorController
-{
+class BudgetsController extends validatorController {
+
     /**
      * Create a new controller instance.
      */
-    public function __construct()
-    {
+    public function __construct() {
         set_time_limit(0);
         $this->middleware('auth');
-     //   $this->middleware('admin',['only'=>'index']);
+        //   $this->middleware('admin',['only'=>'index']);
     }
 
     /**
@@ -25,8 +24,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         $budgets = Budget::withTrashed()->get();
 
         return view('budgets.index', compact('budgets'));
@@ -37,8 +35,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         $schools = School::all();
 
         return view('budgets.create', compact('schools'));
@@ -49,8 +46,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function store()
-    {
+    public function store() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
         /* Consulta por token de school */
@@ -64,14 +60,15 @@ class BudgetsController extends validatorController
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
-        $budget->save();
+            $budget->save();
             /* Traemos el id del tipo de usuario que se acaba de */
             $idBudget = $budget->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::withTrashed()->find($idBudget->id)->restore(); else:
+                Budget::withTrashed()->find($idBudget->id)->restore();
+            else:
                 Budget::destroy($idBudget->id);
-        endif;
+            endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -86,8 +83,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function edit($token)
-    {
+    public function edit($token) {
         $budget = Budget::Token($token);
         $schools = School::all();
 
@@ -101,8 +97,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function update()
-    {
+    public function update() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
 
@@ -116,12 +111,13 @@ class BudgetsController extends validatorController
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
-        $budget->save();
+            $budget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::Token($budgets->token)->restore(); else:
+                Budget::Token($budgets->token)->restore();
+            else:
                 Budget::Token($budgets->token)->delete();
-        endif;
+            endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
         endif;
@@ -136,8 +132,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function destroy($token)
-    {
+    public function destroy($token) {
         /* les damos eliminacion pasavida */
         $data = Budget::Token($token)->delete();
         if ($data):
@@ -155,8 +150,7 @@ class BudgetsController extends validatorController
      *
      * @return Response
      */
-    public function active($token)
-    {
+    public function active($token) {
         /* les quitamos la eliminacion pasavida */
         $data = Budget::Token($token)->restore();
         if ($data):
@@ -167,8 +161,7 @@ class BudgetsController extends validatorController
         return $this->errores($data->errors);
     }
 
-    public function poaReport($token)
-    {
+    public function poaReport($token) {
         $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $totalBalanceBudgets = BalanceBudget::where('budget_id', $budget->id)->sum('amount');
@@ -186,8 +179,7 @@ class BudgetsController extends validatorController
      *
      * @return [type] [description]
      */
-    public function globalReport($token, $global, $year)
-    {
+    public function globalReport($token, $global, $year) {
         $school = School::Token($token);
         $catalogs = Catalog::all();
         foreach ($catalogs as $catalog) {
@@ -228,8 +220,7 @@ class BudgetsController extends validatorController
      *
      * @return [type] view
      */
-    public function report($token)
-    {
+    public function report($token) {
         $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
@@ -247,8 +238,7 @@ class BudgetsController extends validatorController
      *
      * @return [type] [description]
      */
-    private function catalogsBudget($budget, $balanceBudgets)
-    {
+    private function catalogsBudget($budget, $balanceBudgets) {
         foreach ($balanceBudgets as $catalog) {
             $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c,
                 'sc' => $catalog->catalogs->sc,
@@ -262,7 +252,7 @@ class BudgetsController extends validatorController
                 'name' => $catalog->catalogs->name,
                 'type' => $catalog->catalogs->type,
                 'group_id' => $catalog->catalogs->group_id,
-                'typeBudget' => $this->amountTypeBudget($budget, $catalog, null), );
+                'typeBudget' => $this->amountTypeBudget($budget, $catalog, null),);
         }
 
         return $typeBudget;
@@ -276,8 +266,7 @@ class BudgetsController extends validatorController
      *
      * @return [type] [description]
      */
-    private function amountTypeBudget($budget, $catalog)
-    {
+    private function amountTypeBudget($budget, $catalog) {
         $total = 0;
         foreach ($budget->typeBudgets as $typeBudget) {
             $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
@@ -297,8 +286,7 @@ class BudgetsController extends validatorController
      *
      * @return [type] [description]
      */
-    private function balanceTypeBudget($budget, $catalog, $type)
-    {
+    private function balanceTypeBudget($budget, $catalog, $type) {
         $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
                         ->where('balance_budgets.catalog_id', $catalog)
                         ->where('balance_budgets.type_budget_id', $type)->sum('amount');
@@ -306,17 +294,21 @@ class BudgetsController extends validatorController
         return $amountBalanceBudget;
     }
 
+    public function convertLetters($number) {
+        return $this->convertir_a_letras($number);
+    }
+
     public function reportValidation($id) {
-        return BalanceBudget::where('budget_id',$id);
+        return BalanceBudget::where('budget_id', $id);
     }
 
     public function valitation($token) {
-        
+
         return $this->valitationReport($token);
     }
 
     public function tableValidation($token) {
-       return Budget::Token($token);
+        return Budget::Token($token);
     }
 
 }

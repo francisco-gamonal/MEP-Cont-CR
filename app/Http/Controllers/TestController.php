@@ -13,7 +13,7 @@ use Input;
 use Illuminate\Support\Facades\Response;
 use Mep\Http\Controllers\validatorController;
 
-class TestController extends Controller
+class TestController extends validatorController
 {
     protected $auth;
 
@@ -41,7 +41,7 @@ class TestController extends Controller
        
       
       
-      echo validatorController::convertion(3434);
+      echo $this->convertir_a_letras(999999999.99);
     }
 
     private function amountTypeBudget($budget, $catalog)
@@ -129,4 +129,17 @@ class TestController extends Controller
     {
         //
     }
+
+    public function reportValidation($token) {
+        
+    }
+
+    public function tableValidation($token) {
+        
+    }
+
+    public function valitation($token) {
+        
+    }
+
 }
