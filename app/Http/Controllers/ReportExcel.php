@@ -13,7 +13,7 @@ use Mep\Models\BalanceBudget;
  *
  * @author Anwar Sarmiento
  */
-abstract class ReportExcel extends Controller {
+abstract class ReportExcel extends validatorController {
 
     //put your code here
 

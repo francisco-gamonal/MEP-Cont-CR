@@ -1,4 +1,6 @@
-<?php namespace Mep\Http\Controllers\Report;
+<?php
+
+namespace Mep\Http\Controllers\Report;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\ReportExcel;
@@ -11,7 +13,10 @@ use Illuminate\Http\Request;
 
 class BudgetGlobalController extends ReportExcel {
 
-	
+    public function __construct() {
+        set_time_limit(0);
+    }
+
     /**
      * ***************** Inicia el codigo para el archivo de Excel General **********************.
      */
@@ -57,7 +62,7 @@ class BudgetGlobalController extends ReportExcel {
           crear los rangos de celdas */
         $cuenta = $this->generalInExcel($groups, $catalogsBudget, $school);
         /**/
-        $header = $this->headerGeneralExcel($school);
+        $header = $this->headerGeneralExcel($school,$groups, $catalogsBudget);
         /* Libreria de excel */
         Excel::create('Presupuesto Global', function ($excel) use ($header, $content, $cuenta, $countFinal) {
             $excel->sheet('Presupuesto Global', function ($sheet) use ($header, $content, $cuenta, $countFinal) {
@@ -216,26 +221,10 @@ class BudgetGlobalController extends ReportExcel {
         $content[] = array('EGRESOS');
         $content[] = array('Códigos', '', '', '', '', '', '', '', '', 'Descripción', 'Monto', 'Total');
         $content[] = array('P', 'G', 'SP', '', '', '', '', '', '');
-        $Total = 0;
-        foreach ($groups as $group):
-            if ($group->type == 'egresos'):
-                $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total, 2));
-                $amount = 0;
-                foreach ($catalogsBudget as $catalog):
-                    if ($group->id == $catalog->group_id):
-                        if ($catalog->type == 'egresos'):
-                            $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
-                                $catalog->name, number_format($catalog->amount, 2),);
-
-                            $amount += $catalog->amount;
-                        endif;
-                    endif;
-                endforeach;
-                $Total += $amount;
-            endif;
+        $detaills = $this->generalDetaillAccount($groups, $catalogsBudget, 'egresos');
+        foreach ($detaills AS $detaill):
+            $content[] = $detaill;
         endforeach;
-        $content[] = array('', '', '', '', '', '', '', '', '', 'TOTAL', number_format($Total, 2));
-
         return $content;
     }
 
@@ -247,15 +236,38 @@ class BudgetGlobalController extends ReportExcel {
      * @return type.
      */
     private function generalInExcel($groups, $catalogsBudget, $school) {
-        $content = $this->headerGeneralExcel($school);
+        $content = $this->headerGeneralExcel($school,$groups, $catalogsBudget);
+
+        $detaills = $this->generalDetaillAccount($groups, $catalogsBudget, 'ingresos');
+        foreach ($detaills AS $detaill):
+            $content[] = $detaill;
+        endforeach;
+
+        return $content;
+    }
+
+    private function generalDetaillAmount($groups, $catalogsBudget, $type) {
         $Total = 0;
         foreach ($groups as $group):
-            if ($group->type == 'ingresos'):
+            if ($group->type == $type):
+
+                $Total += $group->total;
+
+            endif;
+        endforeach;
+
+        return $Total;
+    }
+
+    private function generalDetaillAccount($groups, $catalogsBudget, $type) {
+        $Total = 0;
+        foreach ($groups as $group):
+            if ($group->type == $type):
                 $amount = 0;
                 $content[] = array($group->code . ' - ' . $group->name, '', '', '', '', '', '', '', '', '', '', number_format($group->total, 2));
                 foreach ($catalogsBudget as $catalog):
                     if ($group->id == $catalog->group_id):
-                        if ($catalog->type == 'ingresos'):
+                        if ($catalog->type == $type):
                             $content[] = array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg, $catalog->p, $catalog->sp, $catalog->r, $catalog->sr, $catalog->f,
                                 $catalog->name, number_format($catalog->amount, 2),);
 
@@ -279,7 +291,8 @@ class BudgetGlobalController extends ReportExcel {
      *
      * @return array
      */
-    private function headerGeneralExcel($school) {
+    private function headerGeneralExcel($school,$groups, $catalogsBudget) {
+$balance = $this->generalDetaillAmount($groups, $catalogsBudget, 'ingresos');
         $header = array(
             array(''),
             array('MINISTERIO DE EDUCACIÓN PÚBLICA'),
@@ -290,7 +303,7 @@ class BudgetGlobalController extends ReportExcel {
             array('PRESUPUESTO ORDINARIO PARA EL EJERCICIO ECONÓMICO ' . $school->budgets[0]->year),
             array(''),
             array('(Del 01 de enero al 31 de diciembre del ' . $school->budgets[0]->year . ')'),
-            array('(Veinti tres millones ochocientos  ochenta y cinco  mil novecientos  setenta y siete con 87/100)'),
+            array('('.$this->convertir_a_letras($balance).')'),
             array('Transcripción del acuerdo de Junta de aprobación presupuestaria: '),
             array('Este proyecto de presupuesto fue aprobado en la sesión número _________, realizada el día ___, del mes de ______________, del'),
             array('año  ' . $school->budgets[0]->year . '. Todo lo anterior consta en el acta N. ___, artículo N. ___.'),
@@ -308,8 +321,19 @@ class BudgetGlobalController extends ReportExcel {
         
     }
 
+    public function reportValidation($token) {
+        
+    }
+
+    public function tableValidation($token) {
+        
+    }
+
+    public function valitation($token) {
+        
+    }
+
     /**
      * ***************** Finaliza el codigo para el archivo de Excel General presupuesto **********************.
      */
-
 }

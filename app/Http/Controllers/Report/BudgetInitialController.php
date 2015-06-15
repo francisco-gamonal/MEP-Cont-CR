@@ -25,6 +25,7 @@ class BudgetInitialController extends ReportExcel {
     protected function Header($budget) {
         $school = $budget->schools;
         $arrangement = $this->headerInicialTable($budget);
+        $balance = BalanceBudget::balanceForType($budget, 'ingresos');
         $subHeader = array(
             array(''),
             array('MINISTERIO DE EDUCACIÓN PÚBLICA'),
@@ -35,7 +36,7 @@ class BudgetInitialController extends ReportExcel {
             array('RELACIÓN DE INGRESOS Y GASTOS'),
             array('FUENTE DE FINANCIAMIENTO: '.$budget->ffinancing),
             array('(Del 01 de enero al 31 de diciembre del ' . $budget->year . ')'),
-            array('(Veinti tres millones ochocientos  ochenta y cinco  mil novecientos  setenta y siete con 87/100)'),
+            array('('.$this->convertLetters($balance).' )'),
             array(''),
             array('INGRESOS'),
             $arrangement['typeBudget'],
@@ -282,7 +283,7 @@ class BudgetInitialController extends ReportExcel {
         foreach ($catalogBalanceBudget as $catalog):
             $typeBudget = $this->forTypeBudget($budget);
             $paso1 = BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[0]);
-
+           // echo json_encode($typeBudget[1]); die;
             switch ($countTypeBudget):
                 case 1:
                     $details[] =  array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
@@ -292,10 +293,6 @@ class BudgetInitialController extends ReportExcel {
                     break;
                 case 2:
                     $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
                     $subTotal = $paso1 + $paso2;
 
                     $details[] =  array($catalog->c, $catalog->sc, $catalog->g, $catalog->sg,
@@ -376,10 +373,6 @@ class BudgetInitialController extends ReportExcel {
                     break;
                 case 2:
                     $paso2 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[1]));
-                    $paso3 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[2]));
-                    $paso4 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[3]));
-                    $paso5 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[4]));
-                    $paso6 = (BalanceBudget::balanceTypeBudget($budget->id, $catalog->id, $typeBudget[5]));
                     $subTotal = $paso1 + $paso2;
 
                     $details[] =  array($catalog->p, $catalog->g, $catalog->sp, '',
@@ -432,4 +425,18 @@ class BudgetInitialController extends ReportExcel {
         return $string;
     }
 
+    public function reportValidation($token) {
+        
+    }
+
+    public function tableValidation($token) {
+        
+    }
+
+    public function valitation($token) {
+        
+    }
+    public function convertLetters($number) {
+        return $this->convertir_a_letras($number);
+    }
 }
