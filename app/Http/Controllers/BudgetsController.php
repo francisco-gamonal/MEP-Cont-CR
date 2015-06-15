@@ -208,7 +208,8 @@ class BudgetsController extends validatorController {
         if ($count >= 18):
             $top = 125;
         endif;
-        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups', 'school', 'global', 'year', 'top'));
+        $balance = $this->convertLetters(BalanceBudget::balanceForGlobal($global, 'ingresos'));
+        $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups','balance' , 'school', 'global', 'year', 'top'));
 
         return $pdf->stream('Reporte.pdf');
     }
@@ -224,7 +225,8 @@ class BudgetsController extends validatorController {
         $budget = Budget::Token($token);
         $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
-        $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget'))
+        $balance = $this->convertLetters(BalanceBudget::balanceForType($budget, 'ingresos'));
+        $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget','balance'))
                 ->setOrientation('landscape');
 
         return $pdf->stream('Reporte.pdf');

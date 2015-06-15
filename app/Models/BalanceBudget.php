@@ -77,7 +77,33 @@ class BalanceBudget extends Model {
 
         return false;
     }
-
+/**
+     * Obtenemos el total del monto por grupo de cuentas para el Presupuesto.
+     *
+     * @param type $budget
+     * @param type $group
+     *
+     * @return type
+     */
+    public static function balanceForType($budget,  $type) {
+        return self::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.type', $type)->sum('amount');
+    }
+    /**
+     * Obtenemos el total del monto por grupo de cuentas para el Presupuesto.
+     *
+     * @param type $budget
+     * @param type $group
+     *
+     * @return type
+     */
+    public static function balanceForGlobal($global,  $type) {
+        return self::join('budgets', 'budgets.id', '=', 'balance_budgets.budget_id')
+                        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('budgets.global', $global)
+                        ->where('catalogs.type', $type)->sum('amount');
+    }
     /**
      * Obtenemos el total del monto por grupo de cuentas para el Presupuesto.
      *
