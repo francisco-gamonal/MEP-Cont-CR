@@ -195,20 +195,30 @@ class BudgetsController extends validatorController {
                 $catalogsBudget[] = $catalog;
             }
         }
+       
+       
         foreach ($groups as $group) {
             $totGroup = 0;
+             $total=0;
             foreach ($catalogsBudget as $catalog) {
                 if ($group->id == $catalog->group_id) {
                     $totGroup += $catalog->amount;
                 }
+              
+                if($catalog->type =='ingresos'):
+                    $total +=$catalog->amount;
+                endif;
             }
             $group->total = $totGroup;
+            
+           
         }
+        
         $count = count($catalogsBudget) + count($groups) + 6;
         if ($count >= 18):
             $top = 125;
         endif;
-        $balance = $this->convertLetters(BalanceBudget::balanceForGlobal($global, 'ingresos'));
+        $balance = $this->convertLetters($total);
         $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups','balance' , 'school', 'global', 'year', 'top'));
 
         return $pdf->stream('Reporte.pdf');
