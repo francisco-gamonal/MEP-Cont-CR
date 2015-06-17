@@ -95,7 +95,7 @@ abstract class validatorController extends Controller {
 
         $parcial = 0;
         $car = 0;
-
+        $num_letra='';    
 
         while (substr($importe_parcial, 0, 1) == 0 &&
         substr($importe_parcial, 0, 1) != "") {
