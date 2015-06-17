@@ -219,6 +219,7 @@ class BudgetsController extends validatorController {
             $top = 125;
         endif;
         $balance = $this->convertLetters($total);
+        
         $pdf = \PDF::loadView('reports.global.content', compact('catalogsBudget', 'groups','balance' , 'school', 'global', 'year', 'top'));
 
         return $pdf->stream('Reporte.pdf');
