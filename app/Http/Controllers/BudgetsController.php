@@ -188,6 +188,7 @@ class BudgetsController extends validatorController {
                     ->where('global', $global)
                     ->where('catalog_id', $catalog->id)
                     ->where('year', $year)
+                    ->where('balance_budgets.deleted_at', NULL)
                     ->sum('amount');
             if ($amount > 0) {
                 $groups[$catalog->group_id] = Group::find($catalog->group_id);
