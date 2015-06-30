@@ -174,7 +174,8 @@ class TransfersController extends Controller
                 if ($transferQuery->isValid($dataTransfer)):
                     $transferQuery->fill($dataTransfer);
             $transferQuery->save();
-            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id']);
+                echo json_encode($transferQuery->balanceBudgets); die;
+            BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id'],'');
             endif;
             endforeach;
 

@@ -3,6 +3,8 @@
 namespace Mep\Http\Controllers;
 
 
+use Mep\Models\Balance;
+use Mep\Models\Budget;
 use Mep\Models\User;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Transfer;
@@ -19,6 +21,7 @@ class TestController extends validatorController
 
     public function __construct(Guard $auth)
     {
+        set_time_limit(0);
         $this->middleware('auth');
     }
 
@@ -26,8 +29,8 @@ class TestController extends validatorController
     {
         $data = Input::get('data');
         return Response::json([
-                    'success' => true,
-                    'message' => $data,
+            'success' => true,
+            'message' => $data,
         ]);
     }
 
@@ -38,12 +41,22 @@ class TestController extends validatorController
      */
     public function index()
     {
-       
-      
-      
-      echo $this->convertir_a_letras(999999999.99);
-    }
 
+
+
+        echo $this->BudgetBalance();
+    }
+    private function BudgetBalance(){
+        $budgets = Budget::all();
+        foreach($budgets AS $budget):
+            $balances=  Balance::withTrashed()->select('balances.id')
+                ->join('checks','checks.id','=','balances.check_id')
+                ->join('balance_budgets','balance_budgets.id','=','checks.balance_budget_id')->where('balance_budgets.budget_id',$budget->id)->get();
+            foreach($balances AS $balance):
+                Balance::withTrashed()->where('id',$balance->id)->update(['budget_id'=>$budget->id]);
+            endforeach;
+        endforeach;
+    }
     private function amountTypeBudget($budget, $catalog)
     {
         foreach ($budget->typeBudgets as $typeBudget) {
@@ -56,8 +69,8 @@ class TestController extends validatorController
     private function balanceTypeBudget($budget, $catalog, $type)
     {
         $amountBalanceBudget = BalanceBudget::where('balance_budgets.budgets_id', $budget)
-                        ->where('balance_budgets.catalogs_id', $catalog)
-                        ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
+            ->where('balance_budgets.catalogs_id', $catalog)
+            ->where('balance_budgets.types_budgets_id', $type)->sum('amount');
 
         return $amountBalanceBudget;
     }
@@ -131,15 +144,15 @@ class TestController extends validatorController
     }
 
     public function reportValidation($token) {
-        
+
     }
 
     public function tableValidation($token) {
-        
+
     }
 
     public function valitation($token) {
-        
+
     }
 
 }

@@ -14,9 +14,9 @@ class BalanceController extends Controller
         $this->middleware('auth');
     }
 
-    public static function saveBalance($amount, $type, $simulation, $table, $id, $status)
+    public static function saveBalance($amount, $type, $simulation, $table, $id, $status, $budget)
     {
-        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation, $table => $id);
+        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation, $table => $id,'budget_id'=>$budget);
 
         $balance = new Balance();
         /* Validamos los datos para guardar tabla menu */
@@ -31,11 +31,11 @@ class BalanceController extends Controller
         endif;
     }
 
-    public static function saveBalanceTransfers($amount, $type, $simulation, $id, $balanceBudget)
+    public static function saveBalanceTransfers($amount, $type, $simulation, $id, $balanceBudget, $budget)
     {
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation,
             'transfer_balance_budget_id' => $balanceBudget,
-            'transfer_code' => $id, );
+            'transfer_code' => $id,'budget_id'=>$budget );
 
         $balance = new Balance();
         /* Validamos los datos para guardar tabla menu */
@@ -45,11 +45,11 @@ class BalanceController extends Controller
         endif;
     }
 
-    public static function updateBalanceTransfers($amount, $type, $simulation, $id, $balanceBudget)
+    public static function updateBalanceTransfers($amount, $type, $simulation, $id, $balanceBudget,$budget)
     {
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation,
             'transfer_balance_budget_id' => $balanceBudget,
-            'transfer_code' => $id, );
+            'transfer_code' => $id,'budget_id'=>$budget );
         $balanceId = Balance::where('transfer_balance_budget_id', $balanceBudget)->where('transfer_code', $id)->get();
         $balance = Balance::find($balanceId[0]->id);
         /* Validamos los datos para guardar tabla menu */
@@ -60,9 +60,9 @@ class BalanceController extends Controller
         endif;
     }
 
-    public static function editBalance($amount, $type, $simulation, $id, $status)
+    public static function editBalance($amount, $type, $simulation, $id, $status,$budget)
     {
-        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation);
+        $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation,'budget_id'=>$budget);
 
         $balance = Balance::withTrashed()->find($id);
         /* Validamos los datos para guardar tabla menu */

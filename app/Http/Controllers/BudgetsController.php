@@ -2,6 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
+use Mep\Models\Balance;
 use Mep\Models\Budget;
 use Mep\Models\School;
 use Mep\Models\BalanceBudget;
@@ -244,6 +245,16 @@ class BudgetsController extends validatorController {
         return $pdf->stream('Reporte.pdf');
     }
 
+    public function reportActual($token){
+        $budget = Budget::Token($token);
+        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
+        $catalogsBudget = $this->catalogsActualBudget($budget, $balanceBudgets, null);
+        $balance = $this->convertLetters(BalanceBudget::balanceForType($budget, 'ingresos'));
+        $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget','balance'))
+            ->setOrientation('landscape');
+
+        return $pdf->stream('Reporte.pdf');
+    }
     /**
      * [catalogsBudget description].
      *
@@ -271,7 +282,33 @@ class BudgetsController extends validatorController {
 
         return $typeBudget;
     }
+    /**
+     * [catalogsBudget description].
+     *
+     * @param [type] $budget         [description]
+     * @param [type] $balanceBudgets [description]
+     *
+     * @return [type] [description]
+     */
+    private function catalogsActualBudget($budget, $balanceBudgets) {
+        foreach ($balanceBudgets as $catalog) {
+            $typeBudget[$catalog->catalogs->id] = array('c' => $catalog->catalogs->c,
+                'sc' => $catalog->catalogs->sc,
+                'g' => $catalog->catalogs->g,
+                'sg' => $catalog->catalogs->sg,
+                'p' => $catalog->catalogs->p,
+                'sp' => $catalog->catalogs->sp,
+                'r' => $catalog->catalogs->r,
+                'sr' => $catalog->catalogs->sr,
+                'f' => $catalog->catalogs->f,
+                'name' => $catalog->catalogs->name,
+                'type' => $catalog->catalogs->type,
+                'group_id' => $catalog->catalogs->group_id,
+                'typeBudget' => $this->amountActualTypeBudget($budget, $catalog, null),);
+        }
 
+        return $typeBudget;
+    }
     /**
      * [amountTypeBudget description].
      *
@@ -290,7 +327,24 @@ class BudgetsController extends validatorController {
 
         return $dataTypeBudget;
     }
+    /**
+     * [amountTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     *
+     * @return [type] [description]
+     */
+    private function amountActualTypeBudget($budget, $catalog) {
+        $total = 0;
+        foreach ($budget->typeBudgets as $typeBudget) {
+            $total += $this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
+            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id), 2);
+        }
+        $dataTypeBudget['subtotal'] = number_format($total, 2);
 
+        return $dataTypeBudget;
+    }
     /**
      * [balanceTypeBudget description].
      *
@@ -308,6 +362,32 @@ class BudgetsController extends validatorController {
         return $amountBalanceBudget;
     }
 
+    /**
+     * [balanceTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     * @param [type] $type    [description]
+     *
+     * @return [type] [description]
+     */
+    private function balanceActualTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = Balance::join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
+            ->where('balances.budget_id', $budget)
+            ->where('balance_budgets.catalog_id', $catalog)
+            ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
+        $check = $this->CheckActualTypeBudget($budget, $catalog, $type);
+        return $amountBalanceBudget-$check;
+    }
+    private function CheckActualTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = Balance::join('checks','checks.id','=','balances.check_id')
+            ->join('balance_budgets','balance_budgets.id','=','checks.balance_budget_id')
+            ->where('balances.budget_id', $budget)
+            ->where('balance_budgets.catalog_id', $catalog)
+            ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
+
+        return $amountBalanceBudget;
+    }
     public function convertLetters($number) {
         return $this->convertir_a_letras($number);
     }

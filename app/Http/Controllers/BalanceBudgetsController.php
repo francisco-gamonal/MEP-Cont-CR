@@ -94,7 +94,7 @@ class BalanceBudgetsController extends Controller
             /* fin relacion */
 
             //,'simulation'=>$balanceBudgets->simulation
-            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budget_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget);
+            BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budget_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget,$budget->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore(); else:
@@ -166,7 +166,7 @@ class BalanceBudgetsController extends Controller
 
             /**/
             $searchBalance = Balance::withTrashed()->where('balance_budget_id', '=', $balanceBudget->id)->get();
-        BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', $searchBalance[0]->id, $balanceBudgets->statusBalanceBudget);
+        BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', $searchBalance[0]->id, $balanceBudgets->statusBalanceBudget,$budget->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
                 BalanceBudget::Token($balanceBudgets->token)->restore(); else:

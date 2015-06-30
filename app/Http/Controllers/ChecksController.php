@@ -84,7 +84,7 @@ class ChecksController extends Controller
             /* Traemos el id del tipo de usuario que se acaba de */
             $idCheck = $check->LastId();
             /* Actualizacion de la table balance */
-            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck);
+            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck,$balanceBudget->budgets->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
                 Check::withTrashed()->find($idCheck->id)->restore(); else:
@@ -167,7 +167,7 @@ class ChecksController extends Controller
         $check->save();
             /* Actualizacion de la table balance */
             $searchBalance = Balance::withTrashed()->where('check_id', '=', $check->id)->get();
-        BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck);
+        BalanceController::editBalance($checks->amountCheck, 'salida', 'false', $searchBalance[0]->id, $checks->statusCheck,$balanceBudget->budgets->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($checks->statusCheck == true):
                 Check::Token($checks->token)->restore(); else:

@@ -76,8 +76,8 @@
 										<a class="validateReport" href="{{route('reporte-presupuesto-excel', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
-	                                    <a><i class="fa fa-file-pdf-o"></i></a>
-	                                    <a><i class="fa fa-file-excel-o"></i></a>
+	                                    <a href="{{route('actual-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+	                                    <a href="{{route('reporte-presupuesto-actual', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
 										<a class="validateReport" href="{{route('reporte-poa-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
