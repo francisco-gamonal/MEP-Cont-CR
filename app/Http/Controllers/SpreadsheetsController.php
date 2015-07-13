@@ -190,47 +190,58 @@ class SpreadsheetsController extends Controller
     {
         $spreadsheet = Spreadsheet::Token($token);
 
-if(count($spreadsheet->transfers)>0):
-        $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
-else: 
- $lastTransfer = "";
-endif;
-        $checks      = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+        if(count($spreadsheet->transfers)>0):
+            $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
+        else: 
+            $lastTransfer = "";
+        endif;
+
+        $checks         = Check::where('spreadsheet_id', $spreadsheet->id)->orderBy('balance_budget_id', 'asc')->get();
         $balanceTotal   = 0;
         $totalAmount    = 0;
         $totalCancelar  = 0;
         $totalRetention = 0;
-        $count = 0;
+        $count          = 0;
+
         foreach ($checks as $index => $check):
             $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer,'spreadsheet');
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
-                $idT = $check->balanceBudgets->id;
+                $idT            = $check->balanceBudgets->id;
                 $balanceInicial = $balance;
-                $balanceTotal = $balanceInicial - $check->amount;
+                $balanceTotal   = $balanceInicial - $check->amount;
                 $count++;
             } else {
-
                 if ($idT != $id):
                     $balanceInicial = $balance;
-                    $balanceTotal = $balanceInicial - $check->amount;
+                    $balanceTotal   = $balanceInicial - $check->amount;
+                    $idT            = $check->balanceBudgets->id;
                     $count++;
                 else:
-                    $count == 0;
                     $balanceInicial = $balanceTotal;
-                    $balanceTotal = $balanceInicial - $check->amount;
+                    $balanceTotal   = $balanceInicial - $check->amount;
+                    $count++;
                 endif;
             }
+            
+            $content[] = array(
+                            $check->balanceBudgets->catalogs->codeCuenta(),
+                            number_format($balanceInicial, 2),
+                            $check->bill,
+                            $check->supplier->name. ' '.$check->supplier->charter,
+                            $check->concept,
+                            number_format($check->amount, 2),
+                            number_format($check->retention, 2),
+                            number_format($check->cancelarAmount(), 2),
+                            $check->ckbill,
+                            $check->ckretention,
+                            $check->record,
+                            number_format($balanceTotal, 2)
+                        );
 
-            $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                number_format($balanceInicial, 2), $check->bill, $check->supplier->name. ' '.$check->supplier->charter, $check->concept,
-                number_format($check->amount, 2), number_format($check->retention, 2), number_format($check->cancelarAmount(), 2), $check->ckbill,
-                $check->ckretention, $check->record, number_format($balanceTotal, 2),
-            );
-
-            $totalAmount += $check->amount;
+            $totalAmount    += $check->amount;
             $totalRetention += $check->retention;
-            $totalCancelar += $check->cancelarAmount();
+            $totalCancelar  += $check->cancelarAmount();
         endforeach;
 
         $pdf = \PDF::loadView('reports.spreadsheet.content', compact('content', 'spreadsheet' ,'totalAmount', 'totalCancelar', 'totalRetention'))->setOrientation('landscape');
