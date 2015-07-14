@@ -10,7 +10,7 @@ class Balance extends Model {
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['type', 'amount', 'simulation', 'balance_budget_id', 'check_id', 'transfer_code', 'transfer_balance_budget_id'];
+    protected $fillable = ['type', 'amount', 'simulation', 'budget_id','balance_budget_id', 'check_id', 'transfer_code', 'transfer_balance_budget_id'];
 
     public function checks() {
         return $this->belongsTo('Mep\Models\Check', 'check_id', 'id');

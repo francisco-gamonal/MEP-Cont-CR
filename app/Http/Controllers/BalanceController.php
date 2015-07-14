@@ -17,6 +17,7 @@ class BalanceController extends Controller
     public static function saveBalance($amount, $type, $simulation, $table, $id, $status, $budget)
     {
         $ValidationData = array('type' => $type, 'amount' => $amount, 'simulation' => $simulation, $table => $id,'budget_id'=>$budget);
+    //    echo json_encode($ValidationData); die;
 
         $balance = new Balance();
         /* Validamos los datos para guardar tabla menu */
@@ -25,8 +26,9 @@ class BalanceController extends Controller
         $balance->save();
 
         if ($status == true):
-                self::Desactivar('balance_budget_id', $id); else:
-                self::active('balance_budget_id', $id);
+            self::active('balance_budget_id', $id);
+        else:
+            self::Desactivar('balance_budget_id', $id);
         endif;
         endif;
     }
@@ -70,7 +72,8 @@ class BalanceController extends Controller
             $balance->fill($ValidationData);
         $balance->save();
         if ($status == true):
-                Balance::withTrashed()->find($id)->restore(); else:
+                Balance::withTrashed()->find($id)->restore();
+        else:
                 Balance::destroy($id);
         endif;
         endif;

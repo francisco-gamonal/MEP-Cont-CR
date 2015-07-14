@@ -8,6 +8,8 @@ use Mep\Models\Supplier;
 use Mep\Models\BalanceBudget;
 use Mep\Models\Spreadsheet;
 use Mep\Models\Balance;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ChecksController extends Controller
 {
@@ -62,39 +64,49 @@ class ChecksController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
-        /* Consulta por token de school */
-        // $voucher = Voucher::Token($checks->voucherCheck);
-        $supplier = Supplier::Token($checks->supplierCheck);
-        $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
-        $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
-        /* Creamos un array para cambiar nombres de parametros */
-        $ValidationData = $this->CreacionArray($checks, 'Check');
-        /* Asignacion de id de school */
-        //   $ValidationData['vouchers_id'] = $voucher->id;
-        $ValidationData['supplier_id'] = $supplier->id;
-        $ValidationData['spreadsheet_id'] = $spreadsheet->id;
-        $ValidationData['balance_budget_id'] = $balanceBudget->id;
-        $ValidationData['simulation'] = 'false';
-        /* Declaramos las clases a utilizar */
-        $check = new Check();
-        /* Validamos los datos para guardar tabla menu */
-        if ($check->isValid($ValidationData)):
-            $check->fill($ValidationData);
-        $check->save();
-            /* Traemos el id del tipo de usuario que se acaba de */
-            $idCheck = $check->LastId();
-            /* Actualizacion de la table balance */
-            BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck,$balanceBudget->budgets->id);
-            /* Comprobamos si viene activado o no para guardarlo de esa manera */
-            if ($checks->statusCheck == true):
-                Check::withTrashed()->find($idCheck->id)->restore(); else:
-                Check::destroy($idCheck->id);
-        endif;
-            /* Enviamos el mensaje de guardado correctamente */
-            return $this->exito('Los datos se guardaron con exito!!!');
-        endif;
-        /* Enviamos el mensaje de error */
-        return $this->errores($check->errors);
+        try {
+
+            /* Consulta por token de school */
+            // $voucher = Voucher::Token($checks->voucherCheck);
+            $supplier = Supplier::Token($checks->supplierCheck);
+            $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
+            $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
+            /* Creamos un array para cambiar nombres de parametros */
+            $ValidationData = $this->CreacionArray($checks, 'Check');
+            /* Asignacion de id de school */
+            //   $ValidationData['vouchers_id'] = $voucher->id;
+            $ValidationData['supplier_id'] = $supplier->id;
+            $ValidationData['spreadsheet_id'] = $spreadsheet->id;
+            $ValidationData['balance_budget_id'] = $balanceBudget->id;
+            $ValidationData['simulation'] = 'false';
+            /* Declaramos las clases a utilizar */
+            DB::beginTransaction();
+            $check = new Check();
+            /* Validamos los datos para guardar tabla menu */
+            if ($check->isValid($ValidationData)):
+                $check->fill($ValidationData);
+                $check->save();
+                /* Traemos el id del tipo de usuario que se acaba de */
+                $idCheck = $check->LastId();
+                /* Actualizacion de la table balance */
+                BalanceController::saveBalance($checks->amountCheck, 'salida', 'false', 'check_id', $idCheck->id, $checks->statusCheck, $balanceBudget->budgets->id);
+                /* Comprobamos si viene activado o no para guardarlo de esa manera */
+                if ($checks->statusCheck == true):
+                    Check::withTrashed()->find($idCheck->id)->restore();
+                else:
+                    Check::destroy($idCheck->id);
+                endif;
+                DB::commit();
+                /* Enviamos el mensaje de guardado correctamente */
+                return $this->exito('Los datos se guardaron con exito!!!');
+            endif;
+            DB::rollback();
+            /* Enviamos el mensaje de error */
+            return $this->errores($check->errors);
+        }catch (Exception $e) {
+            \Log::error($e);
+            return $this->errores(array('checks' => 'Verificar la información del cheque, si no contactarse con soporte de la applicación'));
+        }
     }
 
     /**

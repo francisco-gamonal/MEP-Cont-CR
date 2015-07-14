@@ -72,7 +72,8 @@ class SpreadsheetsController extends Controller
             $idSpreadsheet = $spreadsheet->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($spreadsheets->statusSpreadsheets == true):
-                Spreadsheet::withTrashed()->find($idSpreadsheet->id)->restore(); else:
+                Spreadsheet::withTrashed()->find($idSpreadsheet->id)->restore();
+            else:
                 Spreadsheet::destroy($idSpreadsheet->id);
         endif;
             /* Enviamos el mensaje de guardado correctamente */
