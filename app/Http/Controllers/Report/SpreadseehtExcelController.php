@@ -17,10 +17,10 @@ use Mep\Models\Balance;
  * @author Anwar Sarmiento
  */
 class SpreadseehtExcelController extends ReportExcel {
-  
-   
 
-      /**
+
+
+    /**
      * **************************************inicio Excel de cuadro planilla *************************************.
      */
     public function excelSpreadsheet($token) {
@@ -102,16 +102,16 @@ class SpreadseehtExcelController extends ReportExcel {
                 $sheet->setBorder('B15:M' . $content, 'thin');
                 $sheet->setBorder('G' . $Content . ':I' . $Content, 'thin');
 
-                $sheet->fromArray($spreadsheets, null, 'B1', true, false);
+                $sheet->fromArray($spreadsheets, null, 'A1', true, false);
             });
         })->export('xls');
     }
 
     private function CreateArraySpreadsheet($spreadsheet) {
         $spreadsheets = $this->headerSpreadsheet($spreadsheet);
-       
+
         $spreadsheet = $this->contentSpreadsheet($spreadsheet);
-        
+
         foreach ($spreadsheet as $value):
             $spreadsheets[] = $value;
         endforeach;
@@ -123,98 +123,108 @@ class SpreadseehtExcelController extends ReportExcel {
         $firm = array(
             array(''),
             array(''),
-            array('Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
-            array('Nombre, firma, cédula  del Secretario (a)y sello de Junta', '', '', '', '', 'Nombre, firma, cédula y sello   del Director (a)'),
+            array('','Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
+            array('','Nombre, firma, cédula  del Secretario (a)y sello de Junta', '', '', '', '', 'Nombre, firma, cédula y sello   del Director (a)'),
             array(''),
-            array('Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
-            array('Nombre, firma, cédula  del Presidente(a) ó', '', '', '', '', 'Nombre, firma, cédula  y sello del Tesorero-'),
-            array('Vicepresidente(a)', '', '', '', '', 'Contador'),
+            array('','Aprobado por:_________________________', '', '', '', '', 'Revisado por:___________________________'),
+            array('','Nombre, firma, cédula  del Presidente(a) ó', '', '', '', '', 'Nombre, firma, cédula  y sello del Tesorero-'),
+            array('','Vicepresidente(a)', '', '', '', '', 'Contador'),
             array(''),
-            array('', '', 'Visto bueno por: ___________________________', '', '', ''),
-            array('', '', 'Nombre, firma, cédula  del Deldocente', '', '', ''),
-            array('', '', 'Programa: _______________________', '', '', '')
+            array('','', '', 'Visto bueno por: ___________________________', '', '', ''),
+            array('','', '', 'Nombre, firma, cédula  del Deldocente', '', '', ''),
+            array('','', '', 'Programa: _______________________', '', '', '')
         );
 
         return $firm;
     }
 
     private function contentSpreadsheet($spreadsheet) {
-       
-        $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+
         if(count($spreadsheet->transfers)>0):
-            $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers) - 1]->code;
+            $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;
         else:
             $lastTransfer = "";
         endif;
-        
-       
-        $balanceTotal = 0;
-        $totalAmount = 0;
+
+        $checks         = Check::where('spreadsheet_id', $spreadsheet->id)->orderBy('balance_budget_id', 'asc')->get();
+        $balanceTotal   = 0;
+        $totalAmount    = 0;
+        $totalCancelar  = 0;
         $totalRetention = 0;
-        $totalCancelar = 0;
-        $balanceInicial = 0;
-        $count = 0;
+        $count          = 0;
+        $i=0;
         foreach ($checks as $index => $check):
-            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer, 'spreadsheet');
+            $i++;
+            $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer,'spreadsheet');
             $id = $check->balanceBudgets->id;
             if ($count == 0) {
-                $idT = $check->balanceBudgets->id;
+                $idT            = $check->balanceBudgets->id;
                 $balanceInicial = $balance;
-                $balanceTotal = $balanceInicial - $check->amount;
+                $balanceTotal   = $balanceInicial - $check->amount;
                 $count++;
             } else {
-
                 if ($idT != $id):
                     $balanceInicial = $balance;
-                    $balanceTotal = $balanceInicial - $check->amount;
+                    $balanceTotal   = $balanceInicial - $check->amount;
+                    $idT            = $check->balanceBudgets->id;
                     $count++;
                 else:
-                    $count == 0;
                     $balanceInicial = $balanceTotal;
-                    $balanceTotal = $balanceInicial - $check->amount;
+                    $balanceTotal   = $balanceInicial - $check->amount;
+                    $count++;
                 endif;
             }
 
-            $content[] = array($check->balanceBudgets->catalogs->codeCuenta(),
-                number_format($balanceInicial, 2), $check->bill, $check->supplier->name. ' '.$check->supplier->charter, $check->concept,
-                number_format($check->amount, 2), number_format($check->retention, 2), number_format($check->cancelarAmount(), 2), $check->ckbill,
-                $check->ckretention, $check->record, number_format($balanceTotal, 2),
+            $content[] = array(
+                $i,
+                $check->balanceBudgets->catalogs->codeCuenta(),
+                number_format($balanceInicial, 2),
+                $check->bill,
+                $check->supplier->name. ' '.$check->supplier->charter,
+                $check->concept,
+                number_format($check->amount, 2),
+                number_format($check->retention, 2),
+                number_format($check->cancelarAmount(), 2),
+                $check->ckbill,
+                $check->ckretention,
+                $check->record,
+                number_format($balanceTotal, 2)
             );
 
-            $totalAmount += $check->amount;
+            $totalAmount    += $check->amount;
             $totalRetention += $check->retention;
-            $totalCancelar += $check->cancelarAmount();
+            $totalCancelar  += $check->cancelarAmount();
         endforeach;
-        $content[] = array('', '', '', '', '', number_format($totalAmount, 2), number_format($totalRetention, 2), number_format($totalCancelar, 2), '', '', '', '');
+        $content[] = array('','', '', '', '', '', number_format($totalAmount, 2), number_format($totalRetention, 2), number_format($totalCancelar, 2), '', '', '', '');
 
         return $content;
     }
 
     private function headerSpreadsheet($spreadsheet) {
         $header = array(
-            array('MINISTERIO DE EDUCACION PUBLICA'),
-            array('DIRECCION REGIONAL DE EDUCACION DE AGUIRRE'),
-            array('OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
+            array('','MINISTERIO DE EDUCACION PUBLICA'),
+            array('','DIRECCION REGIONAL DE EDUCACION DE AGUIRRE'),
+            array('','OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
             array(''),
-            array('FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
-            array('PLANILLA DE PAGO N. ' . $spreadsheet->number . '-' . $spreadsheet->year . '  FECHA  ' . $spreadsheet->date, '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
-            array('Junta: ' . $spreadsheet->budgets->schools->name),
-            array('Cédula Jurídica ' . $spreadsheet->budgets->schools->charter),
+            array('','FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
+            array('','PLANILLA DE PAGO N. ' . $spreadsheet->number . '-' . $spreadsheet->year . '  FECHA  ' . $spreadsheet->date, '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
+            array('','Junta: ' . $spreadsheet->budgets->schools->name),
+            array('','Cédula Jurídica ' . $spreadsheet->budgets->schools->charter),
             array(''),
             array(''),
-            array('Información presupuestaria', '', 'Información del pago', '', '', '', '', '', '# Cheques', ''),
+            array('','Información presupuestaria', '', 'Información del pago', '', '', '', '', '', '# Cheques', ''),
             array(''),
-            array('Codigo', 'Saldo presupuestario', '# Factura', 'Nombre del Proveedor', 'Concepto', 'Monto', 'Retención', 'Monto a Cancelar', 'Pago ck', 'Pago Retención', 'Acta N. / Acuerdo N.', 'Saldo Presupuestario Final'),
+            array('','Codigo', 'Saldo presupuestario', '# Factura', 'Nombre del Proveedor', 'Concepto', 'Monto', 'Retención', 'Monto a Cancelar', 'Pago ck', 'Pago Retención', 'Acta N. / Acuerdo N.', 'Saldo Presupuestario Final'),
             array(''),
         );
 
         return $header;
     }
 
-  
+
 
     protected function Header($budget) {
-        
+
     }
 
 }
