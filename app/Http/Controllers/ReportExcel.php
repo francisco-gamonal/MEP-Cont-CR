@@ -8,12 +8,13 @@ namespace Mep\Http\Controllers;
  * and open the template in the editor.
  */
 use Mep\Models\BalanceBudget;
+use Mep\Http\Controllers\validatorController;
 /**
  * Description of ReportExcel
  *
  * @author Anwar Sarmiento
  */
-abstract class ReportExcel extends validatorController {
+abstract class ReportExcel extends validatorController{
 
     //put your code here
 
@@ -160,5 +161,11 @@ abstract class ReportExcel extends validatorController {
                 break;
         endswitch;
     }
+    public function reportValidation($token){
 
+    }
+
+    public function valitation($token){}
+
+    public function tableValidation($token){}
 }
