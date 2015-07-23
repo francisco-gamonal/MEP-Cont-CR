@@ -66,7 +66,7 @@
 					<label for="catalogsBalanceBudget">Catálogo del Saldo de Presupuesto</label>
 					<select id="catalogsBalanceBudget" class="form-control">
 						@foreach($catalogs as $catalog)
-							<option value="{{$catalog->token}}">{{mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							<option value="{{$catalog->token}}">{{($catalog->codeCuenta()).' '. mb_convert_case($catalog->name, MB_CASE_TITLE, 'utf-8')}}</option>
 						@endforeach
 					</select>
 				</div>

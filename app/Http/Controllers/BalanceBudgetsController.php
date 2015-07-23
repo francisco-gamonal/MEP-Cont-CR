@@ -38,7 +38,7 @@ class BalanceBudgetsController extends Controller
      */
     public function create()
     {
-        $catalogs = Catalog::all();
+        $catalogs = Catalog::orderBy('p','ASC')->get();
         $typeBudgets = TypeBudget::all();
         $budgets = Budget::all();
 
