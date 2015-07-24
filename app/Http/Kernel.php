@@ -30,9 +30,7 @@ class Kernel extends HttpKernel
         'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
         'guest' => 'Mep\Http\Middleware\RedirectIfAuthenticated',
         'super_admin' => 'Mep\Http\Middleware\SuperAdmin',
-        'admin' => 'Mep\Http\Middleware\Administrator',
-        'counter' => 'Mep\Http\Middleware\Counter',
-        'director' => 'Mep\Http\Middleware\Director',
-        'president' => 'Mep\Http\Middleware\President',
+        'sessionOff' => 'Mep\Http\Middleware\VerifictSession',
+        'userSchool' => 'Mep\Http\Middleware\VerifictSchool',
     ];
 }

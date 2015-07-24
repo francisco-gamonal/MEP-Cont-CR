@@ -35,7 +35,7 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone' => 'UTC',
+    'timezone' => 'America/Tegucigalpa',
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
@@ -134,6 +134,7 @@ return [
         /* New */
         'Maatwebsite\Excel\ExcelServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
+        'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
         
     ],
     /*

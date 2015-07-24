@@ -72,18 +72,6 @@ class SchoolsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
@@ -216,5 +204,24 @@ class SchoolsController extends Controller
                 or die('Error al abrir fichero de salida');
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
         fclose($fh);
+    }
+        public function listSchools(){
+        $schools = currentUser()->schools;
+
+        return view('schools/list',compact('schools'));
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function routeUser(){
+        $schools = $this->convertionObjeto();
+        $school = $this->schoolsRepository->token($schools->token);
+        if($school):
+            schoolSession($school);
+            return $this->exito('');
+            endif;
+        return $this->errores('No tiene permisos para ingresar a esta institución');
     }
 }
