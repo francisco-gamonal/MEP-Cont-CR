@@ -1,6 +1,6 @@
 <?php
 
-namespace AccountHon\Repositories;
+namespace Mep\Repositories;
 
     /*
      * To change this license header, choose License Headers in Project Properties.
@@ -59,10 +59,12 @@ abstract class BaseRepository {
         return $this->newQuery()->findOrFail($id);
     }
 
+    public function withTrashedSchoolOrderBy($data, $type) {
+        return $this->newQuery()->withTrashed()->where('school_id', userSchool()->id)->orderBy($data, $type)->get();
+    }
     public function withTrashedOrderBy($data, $type) {
         return $this->newQuery()->withTrashed()->orderBy($data, $type)->get();
     }
-
     public function onlyTrashedFind($id) {
         return $this->newQuery()->onlyTrashed()->find($id);
     }
@@ -86,7 +88,9 @@ abstract class BaseRepository {
     public function all() {
         return $this->newQuery()->get();
     }
-
+    public function allSchool() {
+        return $this->newQuery()->where('school_id', userSchool()->id)->get();
+    }
     public function detach(){
         return $this->detach();
     }

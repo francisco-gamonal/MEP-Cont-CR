@@ -9,15 +9,26 @@ use Mep\Models\Check;
 use Mep\Models\Spreadsheet;
 use Mep\Models\TypeBudget;
 
+use Mep\Repositories\SpreadsheetRepository;
+use Mep\Repositories\BudgetRepository;
+
 class SpreadsheetsController extends Controller
 {
+    private $spreadsheetRepository;
+
+    private $budgetRepository;
     /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(
+        SpreadsheetRepository $spreadsheetRepository,
+        BudgetRepository $budgetRepository
+        )
     {
         set_time_limit(0);
         $this->middleware('auth');
+        $this->spreadsheetRepository = $spreadsheetRepository;
+        $this->budgetRepository = $budgetRepository;
     }
 
     /**
@@ -27,7 +38,7 @@ class SpreadsheetsController extends Controller
      */
     public function index()
     {
-        $spreadsheets = Spreadsheet::withTrashed()->get();
+        $spreadsheets = $this->spreadsheetRepository->withTrashedSchoolOrderBy();
 
         return view('spreadsheets.index', compact('spreadsheets'));
     }
@@ -39,7 +50,7 @@ class SpreadsheetsController extends Controller
      */
     public function create()
     {
-        $budgets = Budget::all();
+        $budgets = $this->budgetRepository->getModel()->all();
         $typeBudgets= TypeBudget::all();
         return view('spreadsheets.create', compact('budgets','typeBudgets'));
     }
@@ -54,7 +65,7 @@ class SpreadsheetsController extends Controller
         /* Capturamos los datos enviados por ajax */
         $spreadsheets = $this->convertionObjeto();
         /* Consulta por token de school */
-        $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
+        $budget = $this->budgetRepository->token($spreadsheets->budgetSpreadsheets);
         $typeBudget = TypeBudget::Token($spreadsheets->typeBudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
@@ -63,7 +74,7 @@ class SpreadsheetsController extends Controller
         $ValidationData['type_budget_id'] = $typeBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = $this->spreadsheetRepository->getModel();
         /* Validamos los datos para guardar tabla menu */
         if ($spreadsheet->isValid($ValidationData)):
             $spreadsheet->fill($ValidationData);
@@ -72,9 +83,9 @@ class SpreadsheetsController extends Controller
             $idSpreadsheet = $spreadsheet->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($spreadsheets->statusSpreadsheets == true):
-                Spreadsheet::withTrashed()->find($idSpreadsheet->id)->restore();
+                $this->spreadsheetRepository->find($idSpreadsheet->id)->restore();
             else:
-                Spreadsheet::destroy($idSpreadsheet->id);
+                $this->spreadsheetRepository->destroy($idSpreadsheet->id);
         endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -83,17 +94,6 @@ class SpreadsheetsController extends Controller
         return $this->errores($spreadsheet->errors);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,8 +104,8 @@ class SpreadsheetsController extends Controller
      */
     public function edit($token)
     {
-        $spreadsheet = Spreadsheet::Token($token);
-        $budgets = Budget::all();
+        $spreadsheet = $this->spreadsheetRepository->token($token);
+        $budgets = $this->budgetRepository->all();
         $typeBudgets= TypeBudget::all();
         
         return view('spreadsheets.edit', compact('budgets', 'spreadsheet','typeBudgets'));
@@ -123,7 +123,7 @@ class SpreadsheetsController extends Controller
         /* Capturamos los datos enviados por ajax */
         $spreadsheets = $this->convertionObjeto();
 
-        $budget = Budget::Token($spreadsheets->budgetSpreadsheets);
+        $budget = $this->budgetRepository->token($spreadsheets->budgetSpreadsheets);
         $typeBudget = TypeBudget::Token($spreadsheets->typeBudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($spreadsheets, 'Spreadsheets');
@@ -132,15 +132,15 @@ class SpreadsheetsController extends Controller
         $ValidationData['type_budget_id'] = $typeBudget->id;
         $ValidationData['simulation'] = 'false';
         /* Declaramos las clases a utilizar */
-        $spreadsheet = Spreadsheet::Token($spreadsheets->token);
+        $spreadsheet = $this->spreadsheetRepository->token($spreadsheets->token);
         /* Validamos los datos para guardar tabla menu */
         if ($spreadsheet->isValid($ValidationData)):
             $spreadsheet->fill($ValidationData);
         $spreadsheet->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($spreadsheets->statusSpreadsheets == true):
-                Spreadsheet::Token($spreadsheets->token)->restore(); else:
-                Spreadsheet::Token($spreadsheets->token)->delete();
+                $this->spreadsheetRepository->token($spreadsheets->token)->restore(); else:
+                $this->spreadsheetRepository->token($spreadsheets->token)->delete();
         endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -159,7 +159,7 @@ class SpreadsheetsController extends Controller
     public function destroy($token)
     {
         /* les damos eliminacion pasavida */
-        $data = Spreadsheet::Token($token)->delete();
+        $data = $this->spreadsheetRepository->token($token)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -178,7 +178,7 @@ class SpreadsheetsController extends Controller
     public function active($token)
     {
         /* les quitamos la eliminacion pasavida */
-        $data = Spreadsheet::Token($token)->restore();
+        $data = $this->spreadsheetRepository->token($token)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
@@ -189,7 +189,7 @@ class SpreadsheetsController extends Controller
 
     public function report($token)
     {
-        $spreadsheet = Spreadsheet::Token($token);
+        $spreadsheet = $this->spreadsheetRepository->token($token);
 
         if(count($spreadsheet->transfers)>0):
             $lastTransfer = $spreadsheet->transfers[count($spreadsheet->transfers)-1]->code;

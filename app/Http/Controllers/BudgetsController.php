@@ -9,15 +9,25 @@ use Mep\Models\BalanceBudget;
 use Mep\Models\Catalog;
 use Mep\Models\Group;
 
+use Mep\Repositories\BudgetRepository;
+use Mep\Repositories\BalanceBudgetRepository;
+
 class BudgetsController extends validatorController {
 
+private $budgetRepository;
+
+private $balanceBudgetRepository;
     /**
      * Create a new controller instance.
      */
-    public function __construct() {
+    public function __construct(
+        BudgetRepository $budgetRepository,
+        BalanceBudgetRepository $balanceBudgetRepository
+        ) {
         set_time_limit(0);
         $this->middleware('auth');
-        //   $this->middleware('admin',['only'=>'index']);
+        $this->budgetRepository = $budgetRepository;
+        $this->balanceBudgetRepository = $balanceBudgetRepository;
     }
 
     /**
@@ -26,8 +36,7 @@ class BudgetsController extends validatorController {
      * @return Response
      */
     public function index() {
-        $budgets = Budget::withTrashed()->get();
-
+        $budgets = $this->budgetRepository->withTrashedSchoolOrderBy('name','ASC');
         return view('budgets.index', compact('budgets'));
     }
 
@@ -37,9 +46,8 @@ class BudgetsController extends validatorController {
      * @return Response
      */
     public function create() {
-        $schools = School::all();
-
-        return view('budgets.create', compact('schools'));
+       
+        return view('budgets.create');
     }
 
     /**
@@ -50,14 +58,13 @@ class BudgetsController extends validatorController {
     public function store() {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
-        /* Consulta por token de school */
-        $school = School::Token($budgets->schoolBudget);
+        
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
         /* Asignacion de id de school */
-        $ValidationData['school_id'] = $school->id;
+        $ValidationData['school_id'] = userSchool()->id;
         /* Declaramos las clases a utilizar */
-        $budget = new Budget();
+        $budget = new $this->budgetRepository->getModel();
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
@@ -66,9 +73,9 @@ class BudgetsController extends validatorController {
             $idBudget = $budget->LastId();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::withTrashed()->find($idBudget->id)->restore();
+                $this->budgetRepository->find($idBudget->id)->restore();
             else:
-                Budget::destroy($idBudget->id);
+                $this->budgetRepository->destroy($idBudget->id);
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -85,10 +92,8 @@ class BudgetsController extends validatorController {
      * @return Response
      */
     public function edit($token) {
-        $budget = Budget::Token($token);
-        $schools = School::all();
-
-        return view('budgets.edit', compact('schools', 'budget'));
+        $budget = $this->budgetRepository->token($token);
+        return view('budgets.edit', compact('budget'));
     }
 
     /**
@@ -102,22 +107,26 @@ class BudgetsController extends validatorController {
         /* Capturamos los datos enviados por ajax */
         $budgets = $this->convertionObjeto();
 
-        $school = School::Token($budgets->schoolBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($budgets, 'Budget');
-
-        $ValidationData['school_id'] = $school->id;
+        $ValidationData['school_id'] = userSchool()->id;
+        
         /* Declaramos las clases a utilizar */
-        $budget = Budget::Token($budgets->token);
+        $budget = $this->budgetRepository->token($budgets->token);
+
+        if($budget->school_id):
+            $ValidationData['school_id'] = $budget->school_id;
+         endif;
+
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
             $budget->save();
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($budgets->statusBudget == true):
-                Budget::Token($budgets->token)->restore();
+                $this->budgetRepository->token($budgets->token)->restore();
             else:
-                Budget::Token($budgets->token)->delete();
+                $this->budgetRepository->token($budgets->token)->delete();
             endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -135,7 +144,7 @@ class BudgetsController extends validatorController {
      */
     public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = Budget::Token($token)->delete();
+        $data = $this->budgetRepository->token($token)->delete();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
@@ -153,7 +162,7 @@ class BudgetsController extends validatorController {
      */
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = Budget::Token($token)->restore();
+        $data = $this->budgetRepository->token($token)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
@@ -163,9 +172,9 @@ class BudgetsController extends validatorController {
     }
 
     public function poaReport($token) {
-        $budget = Budget::Token($token);
-        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
-        $totalBalanceBudgets = BalanceBudget::where('budget_id', $budget->id)->sum('amount');
+        $budget = $this->budgetRepository->token($token);
+        $balanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->get();
+        $totalBalanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->sum('amount');
         $pdf = \PDF::loadView('reports.budget.poa.content', compact('balanceBudgets', 'totalBalanceBudgets'))->setOrientation('landscape');
 
         return $pdf->stream('Poa.pdf');
@@ -184,7 +193,7 @@ class BudgetsController extends validatorController {
         $school = School::Token($token);
         $catalogs = Catalog::all();
         foreach ($catalogs as $catalog) {
-            $amount = Budget::join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budget_id')
+            $amount = $this->budgetRepository->getModel()->join('balance_budgets', 'budgets.id', '=', 'balance_budgets.budget_id')
                     ->where('school_id', $school->id)
                     ->where('global', $global)
                     ->where('catalog_id', $catalog->id)
@@ -235,10 +244,10 @@ class BudgetsController extends validatorController {
      * @return [type] view
      */
     public function report($token) {
-        $budget = Budget::Token($token);
-        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
+        $budget = $this->budgetRepository->token($token);
+        $balanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsBudget($budget, $balanceBudgets, null);
-        $balance = $this->convertLetters(BalanceBudget::balanceForType($budget, 'ingresos'));
+        $balance = $this->convertLetters($this->balanceBudgetRepository->getModel()->balanceForType($budget, 'ingresos'));
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget','balance'))
                 ->setOrientation('landscape');
 
@@ -246,10 +255,10 @@ class BudgetsController extends validatorController {
     }
 
     public function reportActual($token){
-        $budget = Budget::Token($token);
-        $balanceBudgets = BalanceBudget::where('budget_id', $budget->id)->get();
+        $budget = $this->budgetRepository->token($token);
+        $balanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->get();
         $catalogsBudget = $this->catalogsActualBudget($budget, $balanceBudgets, null);
-        $balance = $this->convertLetters(BalanceBudget::balanceForType($budget, 'ingresos'));
+        $balance = $this->convertLetters($this->balanceBudgetRepository->getModel()->balanceForType($budget, 'ingresos'));
         $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget','balance'))
             ->setOrientation('landscape');
 
@@ -355,7 +364,7 @@ class BudgetsController extends validatorController {
      * @return [type] [description]
      */
     private function balanceTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = BalanceBudget::where('balance_budgets.budget_id', $budget)
+        $amountBalanceBudget = $this->balanceBudgetRepository->getModel()->where('balance_budgets.budget_id', $budget)
                         ->where('balance_budgets.catalog_id', $catalog)
                         ->where('balance_budgets.type_budget_id', $type)->sum('amount');
 
@@ -372,7 +381,7 @@ class BudgetsController extends validatorController {
      * @return [type] [description]
      */
     private function balanceActualTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = Balance::join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
+        $amountBalanceBudget = $this->budgetRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
             ->where('balances.budget_id', $budget)
             ->where('balance_budgets.catalog_id', $catalog)
             ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
@@ -380,7 +389,7 @@ class BudgetsController extends validatorController {
         return $amountBalanceBudget-$check;
     }
     private function CheckActualTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = Balance::join('checks','checks.id','=','balances.check_id')
+        $amountBalanceBudget = $this->budgetRepository->getModel()->join('checks','checks.id','=','balances.check_id')
             ->join('balance_budgets','balance_budgets.id','=','checks.balance_budget_id')
             ->where('balances.budget_id', $budget)
             ->where('balance_budgets.catalog_id', $catalog)
@@ -393,7 +402,7 @@ class BudgetsController extends validatorController {
     }
 
     public function reportValidation($id) {
-        return BalanceBudget::where('budget_id', $id);
+        return $this->balanceBudgetRepository->getModel()->where('budget_id', $id);
     }
 
     public function valitation($token) {
@@ -402,7 +411,7 @@ class BudgetsController extends validatorController {
     }
 
     public function tableValidation($token) {
-        return Budget::Token($token);
+        return $this->budgetRepository->token($token);
     }
 
 }

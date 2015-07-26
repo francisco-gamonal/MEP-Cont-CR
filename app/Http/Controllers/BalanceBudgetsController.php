@@ -3,6 +3,8 @@
 namespace Mep\Http\Controllers;
 
 use Mep\Models\BalanceBudget;
+use Mep\Repositories\BalanceBudgetRepository;
+use Mep\Repositories\BudgetRepository;
 use Mep\Models\Catalog;
 use Mep\Models\TypeBudget;
 use Mep\Models\Budget;
@@ -10,13 +12,24 @@ use Mep\Models\Balance;
 
 class BalanceBudgetsController extends Controller
 {
+    private $balanceBudgetRepository;
+
+
+    private $budgetRepository;
     /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(
+        BalanceBudgetRepository $balanceBudgetRepository,
+        BudgetRepository $budgetRepository
+        )
     {
          set_time_limit(0);
         $this->middleware('auth');
+        $this->budgetRepository = $budgetRepository;
+        $this->balanceBudgetRepository = $balanceBudgetRepository; 
+
+
     }
 
     /**
@@ -26,7 +39,7 @@ class BalanceBudgetsController extends Controller
      */
     public function index()
     {
-        $balanceBudgets = BalanceBudget::withTrashed()->get();
+        $balanceBudgets = $this->balanceBudgetRepository->withTrashedSchoolOrderBy('budget_id','ASC');
 
         return view('balanceBudgets.index', compact('balanceBudgets'));
     }
@@ -40,7 +53,7 @@ class BalanceBudgetsController extends Controller
     {
         $catalogs = Catalog::orderBy('p','ASC')->get();
         $typeBudgets = TypeBudget::all();
-        $budgets = Budget::all();
+        $budgets = $this->budgetRepository->allSchool();
 
         return view('balanceBudgets.create', compact('budgets', 'catalogs', 'typeBudgets'));
     }
@@ -56,7 +69,7 @@ class BalanceBudgetsController extends Controller
         $balanceBudgets = $this->convertionObjeto();
 
         $catalog = Catalog::Token($balanceBudgets->catalogsBalanceBudget);
-        $budget = Budget::Token($balanceBudgets->budgetBalanceBudget);
+        $budget =  $this->budgetRepository->token($balanceBudgets->budgetBalanceBudget);
         $typeBudget = TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
 
         /* Creamos un array para cambiar nombres de parametros */
@@ -66,7 +79,7 @@ class BalanceBudgetsController extends Controller
         $ValidationData['type_budget_id'] = $typeBudget->id;
 
         /* Declaramos las clases a utilizar */
-        $balanceBudget = new BalanceBudget();
+        $balanceBudget = new $this->balanceBudgetRepository->getModel();
         /* Validamos los datos para guardar tabla menu */
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
@@ -97,8 +110,8 @@ class BalanceBudgetsController extends Controller
             BalanceController::saveBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', 'balance_budget_id', $idBalanceBudget->id, $balanceBudgets->statusBalanceBudget,$budget->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
-                BalanceBudget::withTrashed()->find($idBalanceBudget->id)->restore(); else:
-                BalanceBudget::destroy($idBalanceBudget->id);
+                $this->balanceBudgetRepository->find($idBalanceBudget->id)->restore(); else:
+                $this->balanceBudgetRepository->destroy($idBalanceBudget->id);
         endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
@@ -128,8 +141,8 @@ class BalanceBudgetsController extends Controller
      */
     public function edit($token)
     {
-        $balanceBudget = BalanceBudget::Token($token);
-        $budgets = Budget::all();
+        $balanceBudget =  $this->balanceBudgetRepository->token($token);
+        $budgets =  $this->budgetRepository->allSchool();
         $catalogs = Catalog::all();
         $typeBudgets = TypeBudget::all();
 
@@ -149,7 +162,7 @@ class BalanceBudgetsController extends Controller
         $balanceBudgets = $this->convertionObjeto();
 
         $catalog = Catalog::Token($balanceBudgets->catalogsBalanceBudget);
-        $budget = Budget::Token($balanceBudgets->budgetBalanceBudget);
+        $budget =  $this->budgetRepository->token($balanceBudgets->budgetBalanceBudget);
         $typeBudget = TypeBudget::Token($balanceBudgets->typeBudgetBalanceBudget);
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = $this->CreacionArray($balanceBudgets, 'BalanceBudget');
@@ -157,7 +170,7 @@ class BalanceBudgetsController extends Controller
         $ValidationData['budget_id'] = $budget->id;
         $ValidationData['type_budget_id'] = $typeBudget->id;
         /* Declaramos las clases a utilizar */
-        $balanceBudget = BalanceBudget::Token($balanceBudgets->token);
+        $balanceBudget =  $this->balanceBudgetRepository->token($balanceBudgets->token);
         /* Validamos los datos para guardar tabla menu */
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);
@@ -169,8 +182,9 @@ class BalanceBudgetsController extends Controller
         BalanceController::editBalance($balanceBudgets->amountBalanceBudget, 'entrada', 'false', $searchBalance[0]->id, $balanceBudgets->statusBalanceBudget,$budget->id);
             /* Comprobamos si viene activado o no para guardarlo de esa manera */
             if ($balanceBudgets->statusBalanceBudget == true):
-                BalanceBudget::Token($balanceBudgets->token)->restore(); else:
-                BalanceBudget::Token($balanceBudgets->token)->delete();
+                $this->balanceBudgetRepository->token($balanceBudgets->token)->restore(); 
+            else:
+                $this->balanceBudgetRepository->token($balanceBudgets->token)->delete();
         endif;
             /* Enviamos el mensaje de guardado correctamente */
             return $this->exito('Los datos se guardaron con exito!!!');
