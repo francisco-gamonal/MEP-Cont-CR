@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 /*
  *  Rutas de Menu
  */
-Route::get('menu/ver-menu', ['as' => 'ver-menu', 'uses' => 'MenuController@index']);
-Route::get('menu/crear-menu', ['as' => 'crear-menu', 'uses' => 'MenuController@create']);
+Route::get('menu/ver', ['as' => 'ver-menu', 'uses' => 'MenuController@index']);
+Route::get('menu/crear', ['as' => 'crear-menu', 'uses' => 'MenuController@create']);
 Route::post('menu/save-menu', 'MenuController@store');
 Route::get('menu/editar-menu/{id}', ['as' => 'editar-menu', 'uses' => 'MenuController@edit']);
 Route::delete('menu/delete-menu/{id}', ['as' => 'delete-menu', 'uses' => 'MenuController@destroy']);

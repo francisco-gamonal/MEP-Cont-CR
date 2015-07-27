@@ -246,3 +246,54 @@ ul
 .unCheckAll:hover
     cursor pointer
     text-decoration none
+
+.Menu
+    background bg_nav
+    color bg_content
+    height 100%
+    overflow auto
+    position fixed
+    top 0px
+    width 220px
+    &-icon-menu
+        font-size .75em
+        margin-right 0
+        top .45em
+    &-logo
+        background-color bg_content
+        border-right 1px solid #ccc
+        padding 1em
+        a img
+            width 80%
+    &-list
+        .nav
+            li
+                a
+                    color color_border_bottom
+                    font-size .85em
+                a:hover
+                    background-color bg_nav_hover
+                    color white
+                a:focus
+                    background-color bg_nav_hover
+                    color white
+                    font-weight bold
+            li.active
+                border-left 4px solid color_border_nav
+                background bg_nav_hover
+                a
+                    padding-left 0.8em
+            .submenu
+                .nav
+                    display none
+                    li
+                        a
+                            padding 0.4em 0 .4em 3em
+                    li:last-child
+                        margin-bottom .5em
+                    .active-menu
+                        a
+                            color white
+                            font-weight bold
+    &-option
+        padding-left .5em

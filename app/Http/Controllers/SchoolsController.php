@@ -205,10 +205,12 @@ class SchoolsController extends Controller
         fwrite($fh, json_encode($dataJson, JSON_UNESCAPED_UNICODE));
         fclose($fh);
     }
-        public function listSchools(){
+    
+    public function listSchools(){
+        
         $schools = currentUser()->schools;
-
         return view('schools/list',compact('schools'));
+    
     }
 
     /**
@@ -217,11 +219,11 @@ class SchoolsController extends Controller
      */
     public function routeUser(){
         $schools = $this->convertionObjeto();
-        $school = $this->schoolsRepository->token($schools->token);
-        if($school):
-            schoolSession($school);
+        $school = School::where('token', $schools->token)->get();
+        if( !$school->isEmpty() ):
+            schoolSession($school[0]);
             return $this->exito('');
-            endif;
+        endif;
         return $this->errores('No tiene permisos para ingresar a esta institución');
     }
 }

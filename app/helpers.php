@@ -8,7 +8,7 @@
 
 function currentUser()
 {
-    return auth()->user();
+    return Auth::user();
 }
 
 function convertTitle($string){
@@ -23,7 +23,6 @@ function schoolSession($school){
 }
 
 function userSchool(){
-
     return \Session::get('school');
 }
 

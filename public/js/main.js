@@ -11,6 +11,14 @@ $.each(pathnameArray, function(index, value){
 });
 
 /**
+ * [exists description]
+ * @return {[type]} [description]
+ */
+jQuery.fn.exists = function() {
+	return this.length>0;
+}
+
+/**
  * @param  {[string]} selector [id table]
  * @param  {[string]} list [comment the table]
  * @return {[dataTable]}   [table with options dataTable]
@@ -230,9 +238,17 @@ $(function(){
 	});
 
 	//Switch Checkbox
-	$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
-	$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
-	$(".role-checkbox").bootstrapSwitch({size:'small'});
+	if( $("[name='task-checkbox']").exists() ){
+		$("[name='task-checkbox']").bootstrapSwitch({size:'normal'});
+	}
+
+	if ( $("[name='status-checkbox']").exists() ) {
+		$("[name='status-checkbox']").bootstrapSwitch({size:'normal'});
+	}
+
+	if ( $(".role-checkbox").exists() ) {
+		$(".role-checkbox").bootstrapSwitch({size:'small'});
+	}
 
 	//Events
 	$(document).off('click', '.form-role .checkAll');
@@ -287,6 +303,24 @@ $(function(){
 		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);
 			$('#balanceBudgetCheck').prop('disabled', false);
+		});
+	});
+
+	//Redirect School
+	$(document).off("click", ".routeSchool");
+	$(document).on("click", ".routeSchool", function(e){
+		e.preventDefault();
+		var token  = $(this).data('token');
+		var url    = 'route-institucion';
+		data.token = token;
+		ajaxForm(url, 'post', data, 'Redirigiendo...')
+		.done(function (data) {
+			$.unblockUI();
+			if(data.success){
+				window.location.href = server + 'institucion/inst/';
+			}else{
+				bootbox.alert(data.errores);
+			}
 		});
 	});
 

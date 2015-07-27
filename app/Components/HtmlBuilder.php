@@ -21,6 +21,7 @@ class HtmlBuilder extends CollectiveHtmlBuilder
 
     public function menu()
     {
+
         $temp = null;
         $Menu = array();
         foreach (\Auth::user()->menus as $menu) {
@@ -28,10 +29,12 @@ class HtmlBuilder extends CollectiveHtmlBuilder
                 $temp = $menu->id;
                 if(count($menu->tasksActive($menu->pivot->user_id)->select('name', 'id')->get()) > 0){
                     $Menu[] = [ 'id' => $menu->id,
-                                'url' => $menu->url,
-                                'name' => $menu->name,
-                                'tasks' => $menu->tasksActive($menu->pivot->user_id)->select('name', 'id')->get(),
-                                'currentRoute' => $this->currentRoute()];
+                        'url' => $menu->url,
+                        'name' => $menu->name,
+                        'icon_font' => $menu->icon_font,
+                        'tasks' => $menu->tasksActive($menu->pivot->user_id)->select('name', 'id')->get(),
+                        'currentRoute' => $this->currentRoute()
+                    ];
                 }
             }
         }

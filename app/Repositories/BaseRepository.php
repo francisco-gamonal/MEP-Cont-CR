@@ -50,9 +50,6 @@ abstract class BaseRepository {
     }
 
     public function whereDuo($dataOne,$id,$dataTwo, $idTwo){
-        return $this->newQuery()->where($dataOne, $id)->where($dataTwo, $idTwo)->get();
-    }
-    public function whereDuo($dataOne,$id,$dataTwo, $idTwo){
         return $this->newQuery()->where($dataOne, $id)->where($dataTwo, $idTwo)->where('school_id', userSchool()->id)->get();
     }
     public function findOrFail($id) {

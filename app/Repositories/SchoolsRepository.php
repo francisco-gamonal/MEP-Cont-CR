@@ -1,7 +1,7 @@
 <?php
 namespace Mep\Repositories;
 
-use Mep\Entities\School;
+use Mep\Models\School;
 /**
 * 
 */

@@ -38,6 +38,17 @@ class AuthController extends Controller
 
     public function redirectPath()
     {
-        return '/inicio';
+        return '/institucion';
     }
+
+    /**
+     * [getLogout description]
+     * @return [type] [description]
+     */
+    public function getLogout(){
+        \Session::forget('school');
+        \Auth::logout();
+        return redirect('/');
+    }
+
 }

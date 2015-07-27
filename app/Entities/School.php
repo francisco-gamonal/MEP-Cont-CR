@@ -5,7 +5,7 @@ namespace Mep\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class School extends Entity
+class School extends Model
 {
     use SoftDeletes;
 
