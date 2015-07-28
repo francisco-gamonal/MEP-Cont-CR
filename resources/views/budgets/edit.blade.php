@@ -77,20 +77,6 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="schoolBudget">Institución del Presupuesto</label>
-				<select id="schoolBudget" class="form-control">
-					@foreach($schools as $school)
-						@if($budget->schools->id == $school->id)
-							<option value="{{$school->token}}" selected>{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</option>
-						@else
-							<option value="{{$school->token}}">{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</option>
-						@endif
-					@endforeach
-				</select>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
 				<label for="statusBudget">Estado del Presupuesto</label>
 				<div class="row">
 					@if($budget->deleted_at)

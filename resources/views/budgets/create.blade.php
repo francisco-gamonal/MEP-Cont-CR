@@ -72,16 +72,6 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="schoolBudget">Institución del Presupuesto</label>
-					<select id="schoolBudget" class="form-control">
-						@foreach($schools as $school)
-							<option value="{{$school->token}}">{{mb_convert_case($school->name, MB_CASE_TITLE, 'utf-8')}}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
 					<label for="statusBudget">Estado del Presupuesto</label>
 					<div class="row">
 			      		<input id="statusBudget" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>

@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('presupuestos/ver', ['as' => 'ver-presupuestos', 'uses' => 'BudgetsController@index']);
 Route::get('presupuestos/crear', ['as' => 'crear-presupuestos', 'uses' => 'BudgetsController@create']);
-Route::post('presupuestos/save-presupuestos', 'BudgetsController@store');
-Route::get('presupuestos/editar-presupuesto/{token}', ['as' => 'editar-presupuestos', 'uses' => 'BudgetsController@edit']);
-Route::delete('presupuestos/delete-presupuestos/{token}', ['as' => 'delete-presupuesto', 'uses' => 'BudgetsController@destroy']);
-Route::patch('presupuestos/active-presupuestos/{token}', ['as' => 'active-presupuesto', 'uses' => 'BudgetsController@active']);
-Route::put('presupuestos/update-presupuestos', 'BudgetsController@update');
+Route::post('presupuestos/save', 'BudgetsController@store');
+Route::get('presupuestos/editar/{token}', ['as' => 'editar-presupuestos', 'uses' => 'BudgetsController@edit']);
+Route::delete('presupuestos/delete/{token}', ['as' => 'delete-presupuesto', 'uses' => 'BudgetsController@destroy']);
+Route::patch('presupuestos/active/{token}', ['as' => 'active-presupuesto', 'uses' => 'BudgetsController@active']);
+Route::put('presupuestos/update', 'BudgetsController@update');
 
 Route::get('presupuestos/reporte-global/{token}/{global}/{year}', ['as' => 'report-global-presupuestos', 'uses' => 'BudgetsController@globalReport']);
 Route::get('presupuestos/reporte/{token}', ['as' => 'report-presupuestos', 'uses' => 'BudgetsController@report']);
