@@ -1,11 +1,10 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Supplier extends Model
+class Supplier extends Entity
 {
     use SoftDeletes;
 

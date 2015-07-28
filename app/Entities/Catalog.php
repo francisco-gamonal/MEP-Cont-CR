@@ -1,11 +1,11 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Catalog extends Model
+class Catalog extends Entity
 {
     use SoftDeletes;
 

@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-    <h1>Contacte al soporte tecnico para que le ayude</h1>
+    <h1>Debe contactar a soporte tecnico para que le ayuden con esta situación</h1>
 
 @endsection
 

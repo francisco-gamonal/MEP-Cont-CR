@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-    <h1>Contacte al soporte tecnico para que le ayude</h1>
+<h1>Debe Verificar la información ya que la vista que desea ver no se puede mostrar en estos momentos</h1>
 
 @endsection
 

@@ -37,7 +37,7 @@ class ChecksController extends Controller
 
     public function budget($token)
     {
-        $spreadsheets = Spreadsheet::Token($token);
+        $spreadsheets = $this->spreadsheetRepository->token($token);
         $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budget_id);
         $budget = view('checks.budget', compact('balanceBudget'));
 

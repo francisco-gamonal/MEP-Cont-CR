@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Entities
+namespace Mep\Entities;
 
 
 use Illuminate\Database\Eloquent\SoftDeletes;

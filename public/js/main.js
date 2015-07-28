@@ -299,7 +299,7 @@ $(function(){
 	$(document).off('change', '#spreadsheetCheck');
 	$(document).on('change', '#spreadsheetCheck', function(){
 		var token = $(this).val();
-		var url   = server + 'cheques/crear-cheques/' + token;
+		var url   = server + 'cheques/crear/' + token;
 		$('#balanceBudgetCheck').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);
