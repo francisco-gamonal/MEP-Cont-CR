@@ -11,12 +11,28 @@ use Mep\Models\Balance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use Mep\Repositories\CheckRepository;
+use Mep\Repositories\SpreadsheetRepository;
+use Mep\Repositories\BudgetRepository;
+
+
 class ChecksController extends Controller
 {
-    public function __construct()
+    private $checkRepository;
+    private $budgetRepository;
+    private $spreadsheetRepository;
+
+    public function __construct(
+        CheckRepository $checkRepository,
+        BudgetRepository $budgetRepository,
+        SpreadsheetRepository $spreadsheetRepository
+        )
     {
         set_time_limit(0);
         $this->middleware('auth');
+        $this->checkRepository = $checkRepository;
+        $this->budgetRepository = $budgetRepository;
+        $this->spreadsheetRepository = $spreadsheetRepository;
     }
 
     public function budget($token)
@@ -35,7 +51,8 @@ class ChecksController extends Controller
      */
     public function index()
     {
-        $checks = Check::withTrashed()->get();
+        $spreadsheet = $this->spreadsheetRepository->spreadsheetListsSchool('id');
+        $checks = $this->checkRepository->whereOnlyOneIn('spreadsheet_id',$spreadsheet,'updated_at','DESC'); 
 
         return view('checks.index', compact('checks'));
     }
@@ -49,7 +66,8 @@ class ChecksController extends Controller
     {
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
-        $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
+        $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
+        echo json_encode($spreadsheets); die;
         $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
 
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));

@@ -40,7 +40,7 @@
                                 <th>Fecha</th>
                                 <th>Proveedor</th>
                                 <th>N° de Cheque</th>
-                                <th>Planilla</th>
+                                <th>Planilla</th> 
                                 <th>Presupuesto</th>
                                 <th>Estado</th>
                                 <th>Edición</th>
@@ -51,7 +51,7 @@
 	                            <tr>
 	                                <td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->codeCuentaCatalog()}} - {{mb_convert_case($check->spreadsheets->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center">{{$check->amount}}</td>
-	                                <td class="text-center">{{$check->date}}</td>
+	                                <td class="text-center">{{$check->spreadsheets->date}}</td>
 	                                <td class="text-center">{{$check->supplier->name}}</td>
 	                                <td class="text-center">{{$check->bill}}</td>
 	                                <td class="text-center">{{$check->numberSpreadsheet()}}</td>

@@ -135,6 +135,7 @@ return [
         'Maatwebsite\Excel\ExcelServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
         'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
+        'Barryvdh\Debugbar\ServiceProvider',
         
     ],
     /*
@@ -186,5 +187,6 @@ return [
         'PDF' => 'Barryvdh\DomPDF\Facade',
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
     ],
 ];
