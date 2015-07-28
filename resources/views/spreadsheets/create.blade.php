@@ -15,66 +15,72 @@
 
 @section('content')
 	<div class="paddingWrapper">
-		<section class="row form-spreadsheet">
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="numberSpreadsheets">Número de Planilla</label>
-					<div class="input-group">
-						<span class="input-group-addon">#</span>
-				      	<input id="numberSpreadsheets" class="form-control" type="number">
+		@if(isset($error))
+			<h3 class="text-center">{{ $error }}</h3>
+		@else
+			<section class="row form-spreadsheet">
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="numberSpreadsheets">Número de Planilla</label>
+						<div class="input-group">
+							<span class="input-group-addon">#</span>
+					      	<input id="numberSpreadsheets" class="form-control" type="number">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="yearSpreadsheets">Año de Planilla</label>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-				      	<input id="yearSpreadsheets" class="form-control" type="number">
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="yearSpreadsheets">Año de Planilla</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					      	<input id="yearSpreadsheets" class="form-control" type="number">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="dateSpreadsheets">Fecha de Planilla</label>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-				      	<input id="dateSpreadsheets" class="form-control" type="date">
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="dateSpreadsheets">Fecha de Planilla</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					      	<input id="dateSpreadsheets" class="form-control" type="date">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="typeBudgetSpreadsheets">Tipo de Presupuesto</label>
-					<select id="typeBudgetSpreadsheets" class="form-control">
-						@foreach($typeBudgets as $typeBudget)
-							<option value="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
-						@endforeach
-					</select>
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="typeBudgetSpreadsheets">Tipo de Presupuesto</label>
+						<select id="typeBudgetSpreadsheets" class="form-control">
+							@foreach($typeBudgets as $typeBudget)
+								<option value="{{$typeBudget->token}}">{{mb_convert_case($typeBudget->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							@endforeach
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="budgetSpreadsheets">Presupuesto del Saldo de Presupuesto</label>
-					<select id="budgetSpreadsheets" class="form-control">
-						@foreach($budgets as $budget)
-							<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schoolBudget($budget->id)->name, MB_CASE_TITLE, 'utf-8')}}</option>
-						@endforeach
-					</select>
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="budgetSpreadsheets">Presupuesto del Saldo de Presupuesto</label>
+						<select id="budgetSpreadsheets" class="form-control">
+							@foreach($budgets as $budget)
+								<option value="{{$budget->token}}">{{mb_convert_case($budget->name, MB_CASE_TITLE, 'utf-8')}} - {{mb_convert_case($budget->schoolBudget($budget->id)->name, MB_CASE_TITLE, 'utf-8')}}</option>
+							@endforeach
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6">
-				<div class="form-mep">
-					<label for="statusSpreadsheets">Estado del Proveedor</label>
-					<div class="row">
-			      		<input id="statusSpreadsheets" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
-			      	</div>
+				<div class="col-sm-6 col-md-6">
+					<div class="form-mep">
+						<label for="statusSpreadsheets">Estado del Proveedor</label>
+						<div class="row">
+				      		<input id="statusSpreadsheets" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado" checked>
+				      	</div>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		@endif
 		<div class="row text-center">
 			<a href="{{route('ver-planillas')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+			@if(!isset($error))
 			<a href="#" id="saveSpreadsheets" data-url="institucion/inst/planillas" class="btn btn-success">Grabar Planilla</a>
+			@endif
 		</div>
 	</div>
 @stop

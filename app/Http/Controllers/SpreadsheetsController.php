@@ -39,7 +39,6 @@ class SpreadsheetsController extends Controller
     public function index()
     {
         $listBudget   = $this->budgetRepository->lists('id');
-        dd($listBudget);
         $spreadsheets = $this->spreadsheetRepository->newQuery()->whereIn('budget_id', $listBudget)->get();
         return view('spreadsheets.index', compact('spreadsheets'));
     }
@@ -51,8 +50,14 @@ class SpreadsheetsController extends Controller
      */
     public function create()
     {
-        $budgets = $this->budgetRepository->getModel()->all();
-        $typeBudgets= TypeBudget::all();
+        $budgets     = $this->budgetRepository->whereId('school_id', userSchool()->id, 'id');
+        $typeBudgets = TypeBudget::all();
+
+        if($budgets->isEmpty()){
+            $error = "Necesitas registrar presupuestos para registrar planillas.";
+            return view('spreadsheets.create', compact('error'));
+        }
+
         return view('spreadsheets.create', compact('budgets','typeBudgets'));
     }
 
