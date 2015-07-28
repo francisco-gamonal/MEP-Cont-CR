@@ -585,7 +585,7 @@ $(function(){
 	 * User
 	 */
 	if(server == '/'){
-		var urlUser = pathname.split('/')[2];
+		var urlUser = pathname.split('/')[2]+'-'+pathname.split('/')[1];
 	}else{
 		var urlUser = pathname.split(server)[1].split('/')[1];
 	}
