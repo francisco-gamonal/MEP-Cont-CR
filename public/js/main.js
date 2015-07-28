@@ -585,19 +585,15 @@ $(function(){
 	/**
 	 * User
 	 */
-	if(server == '/'){
-		var urlUser = pathname.split('/')[2]+'-'+pathname.split('/')[1];
-	}else{
-		var urlUser = pathname.split(server)[1].split('/')[1];
-	}
+	var urlUser = pathname.split('/')[2] + '-' + pathname.split('/')[1];
 	if(urlUser === 'crear-usuarios' || urlUser === 'editar-usuarios'){
 		localStorage.clear();
-		if(urlUser[1] === 'crear-usuarios'){
+		if(urlUser === 'crear-usuarios'){
 			var prefetch = '../json/schools.json';
 		}else {
 			var prefetch = '../../json/schools.json';
 		}
-		
+		console.log(prefetch);
 		var schools = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -616,7 +612,7 @@ $(function(){
 			}
 	    });
 
-	    if(urlUser[1] === 'editar-usuarios'){
+	    if(urlUser === 'editar-usuarios'){
 			if($("#hdnSchools").attr('data-id').length === 1){
 				var value = $("#hdnSchools").attr('data-id');
 				var text  = $("#hdnSchools").attr('data-name');
