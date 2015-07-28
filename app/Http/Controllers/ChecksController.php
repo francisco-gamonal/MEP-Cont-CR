@@ -67,7 +67,6 @@ class ChecksController extends Controller
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
-        echo json_encode($spreadsheets); die;
         $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
 
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
