@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
  *  Rutas de Privilegios
  */
 
-Route::get('roles/ver-roles',['as'=>'ver-roles','uses'=>'UsersController@indexRole']);
-Route::get('roles/crear-roles',['as'=>'crear-roles','uses'=>'UsersController@indexRole']);
-Route::get('roles/editar-roles/{id}',['as'=>'editar-roles','uses'=>'UsersController@editRole']);
-Route::put('roles/update-roles','UsersController@updateRole');
+Route::get('roles/ver',['as'=>'ver-roles','uses'=>'UsersController@indexRole']);
+Route::get('roles/crear',['as'=>'crear-roles','uses'=>'UsersController@indexRole']);
+Route::get('roles/editar/{id}',['as'=>'editar-roles','uses'=>'UsersController@editRole']);
+Route::put('roles/update','UsersController@updateRole');
 
 /**
  * Fin Rutas de Privilegios
