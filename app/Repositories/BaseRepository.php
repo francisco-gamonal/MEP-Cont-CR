@@ -109,7 +109,9 @@ abstract class BaseRepository {
             ->whereBetween($filter, array($array[0], $array[1]))
             ->lists($keyList);
     }
-
+    public function whereOnlyOneIn($column1, $array,$data, $type){
+        return $this->newQuery()->whereIn($column1, $array)->orderBy($data, $type)->get();
+    }
     public function whereIn($column1, $filter, $column2, $array){
         return $this->newQuery()->where($column1, $filter)->whereIn($column2, $array)->get();
     }

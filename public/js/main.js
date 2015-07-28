@@ -1083,7 +1083,6 @@ $(function(){
 		data.yearBudget        = $('#yearBudget').val();
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();
-		data.schoolBudget      = $('#schoolBudget').val();
 		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
 		.done( function (data) {
@@ -1136,7 +1135,6 @@ $(function(){
 		data.yearBudget        = $('#yearBudget').val();
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();
-		data.schoolBudget      = $('#schoolBudget').val();
 		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
 		ajaxForm(url,'put',data)
 		.done( function (data) {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities
 
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Check extends Model
+class Check extends Entity
 {
     use SoftDeletes;
 
@@ -19,17 +19,17 @@ class Check extends Model
 
     public function balanceBudgets()
     {
-        return $this->belongsTo('Mep\Models\BalanceBudget', 'balance_budget_id', 'id');
+        return $this->belongsTo(BalanceBudget::getClass(), 'balance_budget_id', 'id');
     }
 
     public function spreadsheets()
     {
-        return $this->belongsTo('Mep\Models\Spreadsheet', 'spreadsheet_id', 'id');
+        return $this->belongsTo(Spreadsheet::getClass(), 'spreadsheet_id', 'id');
     }
 
     public function supplier()
     {
-        return $this->HasOne('Mep\Models\Supplier', 'id', 'supplier_id');
+        return $this->HasOne(Supplier::getClass(), 'id', 'supplier_id');
     }
 
     public function LastId()
