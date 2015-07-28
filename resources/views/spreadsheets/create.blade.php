@@ -74,7 +74,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-planillas')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="saveSpreadsheets" data-url="planillas" class="btn btn-success">Grabar Planilla</a>
+			<a href="#" id="saveSpreadsheets" data-url="institucion/inst/planillas" class="btn btn-success">Grabar Planilla</a>
 		</div>
 	</div>
 @stop

@@ -67,11 +67,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($spreadsheet->deleted_at)
-	                                			<a id="activeSpreadsheet" data-url="planillas" href="#">
+	                                			<a id="activeSpreadsheet" data-url="institucion/inst/planillas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteSpreadsheet" data-url="planillas" href="#">
+	                                			<a id="deleteSpreadsheet" data-url="institucion/inst/planillas" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

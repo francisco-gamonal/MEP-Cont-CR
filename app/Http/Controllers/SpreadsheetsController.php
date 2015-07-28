@@ -38,8 +38,9 @@ class SpreadsheetsController extends Controller
      */
     public function index()
     {
-        $spreadsheets = $this->spreadsheetRepository->withTrashedSchoolOrderBy();
-
+        $listBudget   = $this->budgetRepository->lists('id');
+        dd($listBudget);
+        $spreadsheets = $this->spreadsheetRepository->newQuery()->whereIn('budget_id', $listBudget)->get();
         return view('spreadsheets.index', compact('spreadsheets'));
     }
 
