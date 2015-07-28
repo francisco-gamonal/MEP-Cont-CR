@@ -60,11 +60,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($supplier->deleted_at)
-	                                			<a id="activeSupplier" data-url="proveedores" href="#">
+	                                			<a id="activeSupplier" data-url="institucion/inst/proveedores" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteSupplier" data-url="proveedores" href="#">
+	                                			<a id="deleteSupplier" data-url="institucion/inst/proveedores" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

@@ -63,7 +63,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-proveedores')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="saveSupplier" data-url="proveedores" class="btn btn-success">Grabar Proveedor</a>
+			<a href="#" id="saveSupplier" data-url="institucion/inst/proveedores" class="btn btn-success">Grabar Proveedor</a>
 		</div>
 	</div>
 @stop
