@@ -11,9 +11,9 @@ Route::get('institucion/ver', ['as' => 'ver-institucion', 'uses' => 'SchoolsCont
 Route::get('institucion/crear', ['as' => 'crear-institucion', 'uses' => 'SchoolsController@create']);
 Route::post('institucion/save', 'SchoolsController@store');
 Route::get('institucion/editar/{id}', ['as' => 'editar-institucion', 'uses' => 'SchoolsController@edit']);
-Route::delete('institucion/delete-institucion/{id}', ['as' => 'delete-institucion', 'uses' => 'SchoolsController@destroy']);
-Route::patch('institucion/active-institucion/{id}', ['as' => 'active-institucion', 'uses' => 'SchoolsController@active']);
-Route::put('institucion/update-institucion/{id}', 'SchoolsController@update');
+Route::delete('institucion/delete/{id}', ['as' => 'delete-institucion', 'uses' => 'SchoolsController@destroy']);
+Route::patch('institucion/active/{id}', ['as' => 'active-institucion', 'uses' => 'SchoolsController@active']);
+Route::put('institucion/update/{id}', 'SchoolsController@update');
 /*
  * Fin Rutas de Instituciones
 */
