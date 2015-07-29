@@ -983,7 +983,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = 'institucion/inst/'+url + '/save';
+		url = 'institucion/inst/'+url + '/save'; 
 		data.cCatalog      = $('#cCatalog').val();
 		data.scCatalog     = $('#scCatalog').val();
 		data.gCatalog      = $('#gCatalog').val();
