@@ -60,8 +60,8 @@
 	                                <td class="text-center budget_type">{{mb_convert_case($budget->type, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center budget_global edit-row">
 	                                	{{mb_convert_case($budget->global, MB_CASE_TITLE, 'utf-8')}}
-										<a class="validateReport" href="{{route('report-global-presupuestos', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
-										<a class="validateReport" href="{{route('reporte-presupuesto-ordinario-excel', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
+										<a class="validateReport" href="{{route('report-global-presupuestos', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+										<a class="validateReport" href="{{route('reporte-presupuesto-ordinario-excel', $budget->schools->token)}}/{{$budget->global}}/{{$budget->year}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center budget_school">{{mb_convert_case($budget->schools->name, MB_CASE_TITLE, 'utf-8')}}</td>
 	                                <td class="text-center">
@@ -72,24 +72,24 @@
 	                                	@endif
 	                                </td>
 	                                <td class="text-center edit-row">
-										<a class="validateReport" href="{{route('report-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
-										<a class="validateReport" href="{{route('reporte-presupuesto-excel', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
+										<a class="validateReport" href="{{route('report-presupuestos', $budget->token)}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+										<a class="validateReport" href="{{route('reporte-presupuesto-excel', $budget->token)}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
-	                                    <a href="{{route('actual-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
-	                                    <a data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
+	                                    <a href="{{route('actual-presupuestos', $budget->token)}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+	                                    <a data-url="institucion/inst/presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
-										<a class="validateReport" href="{{route('reporte-poa-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-pdf-o"></i></a>
-                                        <a class="validateReport" href="{{route('reporte-presupuestos', $budget->token)}}" data-url="presupuestos"><i class="fa fa-file-excel-o"></i></a>
+										<a class="validateReport" href="{{route('reporte-poa-presupuestos', $budget->token)}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-pdf-o"></i></a>
+                                        <a class="validateReport" href="{{route('reporte-presupuestos', $budget->token)}}" data-url="institucion/inst/presupuestos"><i class="fa fa-file-excel-o"></i></a>
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($budget->deleted_at)
-                                			<a id="activeBudget" data-url="presupuestos" href="#">
+                                			<a id="activeBudget" data-url="institucion/inst/presupuestos" href="#">
                                 				<i class="fa fa-check-square-o"></i>
                             				</a>
                                 		@else
-                                			<a id="deleteBudget" data-url="presupuestos" href="#">
+                                			<a id="deleteBudget" data-url="institucion/inst/presupuestos" href="#">
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif

@@ -162,7 +162,7 @@ private $balanceBudgetRepository;
      */
     public function active($token) {
         /* les quitamos la eliminacion pasavida */
-        $data = $this->budgetRepository->token($token)->restore();
+        $data = $this->budgetRepository->token($token, true)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');
