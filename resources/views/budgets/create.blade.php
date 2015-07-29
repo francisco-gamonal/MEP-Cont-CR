@@ -81,7 +81,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="saveBudget" data-url="presupuestos" class="btn btn-success">Grabar Presupuesto</a>
+			<a href="#" id="saveBudget" data-url="institucion/inst/presupuestos" class="btn btn-success">Grabar Presupuesto</a>
 		</div>
 	</div>
 @stop

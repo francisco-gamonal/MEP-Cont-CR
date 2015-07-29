@@ -64,7 +64,7 @@ private $balanceBudgetRepository;
         /* Asignacion de id de school */
         $ValidationData['school_id'] = userSchool()->id;
         /* Declaramos las clases a utilizar */
-        $budget = new $this->budgetRepository->getModel();
+        $budget = $this->budgetRepository->getModel();
         /* Validamos los datos para guardar tabla menu */
         if ($budget->isValid($ValidationData)):
             $budget->fill($ValidationData);
