@@ -72,11 +72,11 @@
 	                                </td>
 	                                <td class="text-center edit-row">
                                 		@if($balanceBudget->deleted_at)
-                                			<a id="activeBalanceBudget" data-url="saldo-de-presupuestos" href="#">
+                                			<a id="activeBalanceBudget" data-url="institucion/inst/saldo-de-presupuestos" href="#">
                                 				<i class="fa fa-check-square-o"></i>
                             				</a>
                                 		@else
-                                			<a id="deleteBalanceBudget" data-url="saldo-de-presupuestos" href="#">
+                                			<a id="deleteBalanceBudget" data-url="institucion/inst/saldo-de-presupuestos" href="#">
 												<i class="fa fa-trash-o"></i>
 											</a>
                                 		@endif
