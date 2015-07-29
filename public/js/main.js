@@ -299,7 +299,7 @@ $(function(){
 	$(document).off('change', '#spreadsheetCheck');
 	$(document).on('change', '#spreadsheetCheck', function(){
 		var token = $(this).val();
-		var url   = server + 'cheques/crear/' + token;
+		var url   = server + 'institucion/inst/cheques/crear/' + token;
 		$('#balanceBudgetCheck').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#balanceBudgetCheck").html(data);
@@ -1314,7 +1314,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = url + '/save';
+		url = 'institucion/inst/'+url + '/save';
 		data.billCheck          = $('#billCheck').val();
 		data.conceptCheck       = $('#conceptCheck').val();
 		data.amountCheck        = $('#amountCheck').val();
@@ -1341,7 +1341,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
 		url       = $(this).data('url');
-		url       = url + '/active/' + token;
+		url       = 'institucion/inst/' + url + '/active/' + token;
 		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -1356,7 +1356,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
 		url       = $(this).data('url');
-		url       = url + '/delete/' + token;
+		url       = 'institucion/inst/' + url + '/delete/' + token;
 		data.token = token;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
@@ -1370,7 +1370,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = url + '/update';
+		url = 'institucion/inst/' + url + '/update';
 		data.token 		        = $('#billCheck').data('token');
 		data.billCheck          = $('#billCheck').val();
 		data.conceptCheck       = $('#conceptCheck').val();

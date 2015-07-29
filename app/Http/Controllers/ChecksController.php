@@ -38,7 +38,7 @@ class ChecksController extends Controller
     public function budget($token)
     {
         $spreadsheets = $this->spreadsheetRepository->token($token);
-        $balanceBudget = $this->arregloSelectCuenta($spreadsheets->budget_id);
+        $balanceBudget = $this->arregloSelectCuenta($spreadsheets);
         $budget = view('checks.budget', compact('balanceBudget'));
 
         return $budget;
@@ -67,7 +67,7 @@ class ChecksController extends Controller
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
 
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
@@ -135,9 +135,11 @@ class ChecksController extends Controller
      *
      * @return string
      */
-    private function ArregloSelectCuenta($budgetsId)
+    private function ArregloSelectCuenta($budget)
     {
-        $balancebudgets = BalanceBudget::where('budget_id', '=', $budgetsId)->get();
+       
+        $balancebudgets = BalanceBudget::where('budget_id', '=', $budget->budget_id)->where('type_budget_id',$budget->type_budget_id)->get();
+        
         foreach ($balancebudgets as $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id,'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
