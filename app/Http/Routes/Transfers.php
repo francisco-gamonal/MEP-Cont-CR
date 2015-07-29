@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('transferencias/ver', ['as' => 'ver-transferencias', 'uses' => 'TransfersController@index']);
 Route::get('transferencias/crear', ['as' => 'crear-transferencias', 'uses' => 'TransfersController@create']);
+Route::get('transferencias/crear/{token}', 'ChecksController@budget');
 Route::post('transferencias/save', 'TransfersController@store');
 Route::get('transferencias/ver/{token}', ['as' => 'ver-detalle-transferencia', 'uses' => 'TransfersController@view']);
 Route::get('transferencias/editar/{token}', ['as' => 'editar-transferencias', 'uses' => 'TransfersController@edit']);

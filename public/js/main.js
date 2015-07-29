@@ -1402,15 +1402,17 @@ $(function(){
 	$(document).off('change', '#spreadsheetTransfer');
 	$(document).on('change', '#spreadsheetTransfer', function(){
 		var token = $(this).val();
-		var url   = server + 'institucion/inst/transfer/crear/' + token;
+		var url   = server + 'institucion/inst/transferencias/crear/' + token;
+		var clOut = $('.outBalanceBudgetTransfer').clone(true, true);
+		var clAmo = $('.amountBalanceBudgetTransfer').clone(true, true);
 		$('#inBalanceBudgetTransfer').prop('disabled', true);
-		$('#outBalanceBudgetTransfer').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#inBalanceBudgetTransfer").html(data);
 			$('#inBalanceBudgetTransfer').prop('disabled', false);
-		});$.get( url, function( data ) {
-		  	$("#outBalanceBudgetTransfer").html(data);
-			$('#outBalanceBudgetTransfer').prop('disabled', false);
+			$('.amountBalanceBudgetTransfer').remove();
+			$('.outBalanceBudgetTransfer').remove();
+			$('.outBalance .col-sm-9').html(clOut);
+			$('.outBalance .col-sm-3').html(clAmo);
 		});
 	});
 

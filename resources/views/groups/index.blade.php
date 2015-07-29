@@ -55,11 +55,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($group->deleted_at)
-	                                			<a id="activeGroup" data-url="grupos-de-cuentas" href="#">
+	                                			<a id="activeGroup" data-url="institucion/inst/grupos-de-cuentas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteGroup" data-url="grupos-de-cuentas" href="#">
+	                                			<a id="deleteGroup" data-url="institucion/inst/grupos-de-cuentas" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

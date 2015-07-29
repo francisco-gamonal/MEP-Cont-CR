@@ -45,7 +45,7 @@
 		</section>
 		<div class="row text-center">
 			<a href="{{route('ver-grupos-de-cuentas')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-			<a href="#" id="saveGroup" data-url="grupos-de-cuentas" class="btn btn-success">Grabar Grupo</a>
+			<a href="#" id="saveGroup" data-url="institucion/inst/grupos-de-cuentas" class="btn btn-success">Grabar Grupo</a>
 		</div>
 	</div>
 @stop
