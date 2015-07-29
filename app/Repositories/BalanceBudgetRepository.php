@@ -21,7 +21,7 @@ class BalanceBudgetRepository extends BaseRepository
 	}
 
 	public function balanceBudgetListsSchool($data){
-	return $this->newQuery->whereIn('budget_id', $this->budgetRepository->lists('id'))->lists($data);
+	return $this->getModel()->newQuery()->whereIn('budget_id', $this->budgetRepository->lists('id'))->lists($data);
 	}
 		public function balanceBudgetSchool(){
 	return $this->newQuery->whereIn('budget_id', $this->budgetRepository->lists('id'))->get();
