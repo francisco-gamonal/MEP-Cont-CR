@@ -39,7 +39,10 @@ class BalanceBudgetsController extends Controller
      */
     public function index()
     {
-        $balanceBudgets = $this->balanceBudgetRepository->withTrashedSchoolOrderBy('budget_id','ASC');
+        $list_type_budget = $this->budgetRepository->lists('id');
+        $balanceBudgets   = $this->balanceBudgetRepository->newQuery()
+                            ->whereIn('budget_id', $list_type_budget)->withTrashed()
+                            ->orderBy('budget_id', 'asc')->get();
 
         return view('balanceBudgets.index', compact('balanceBudgets'));
     }
@@ -79,7 +82,7 @@ class BalanceBudgetsController extends Controller
         $ValidationData['type_budget_id'] = $typeBudget->id;
 
         /* Declaramos las clases a utilizar */
-        $balanceBudget = new $this->balanceBudgetRepository->getModel();
+        $balanceBudget = $this->balanceBudgetRepository->getModel();
         /* Validamos los datos para guardar tabla menu */
         if ($balanceBudget->isValid($ValidationData)):
             $balanceBudget->fill($ValidationData);

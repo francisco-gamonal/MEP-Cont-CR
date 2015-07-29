@@ -20,7 +20,7 @@
 			<div class="form-mep">
 				<label for="amountBalanceBudget">Cantidad del Saldo de Presupuesto</label>
 				<div class="input-group">
-					<span class="input-group-addon">#</span>
+					<span class="input-group-addon"><i class="fa fa-usd"></i></span>
 			      	<input id="amountBalanceBudget" class="form-control" type="number" value="{{$balanceBudget->amount}}" data-token="{{$balanceBudget->token}}">
 				</div>
 			</div>
@@ -132,7 +132,7 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-saldo-de-presupuestos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a href="#" id="updateBalanceBudget" data-url="saldo-de-presupuestos" class="btn btn-success">Actualizar Saldo de Presupuesto</a>
+		<a href="#" id="updateBalanceBudget" data-url="institucion/inst/saldo-de-presupuestos" class="btn btn-success">Actualizar Saldo de Presupuesto</a>
 	</div>
 </div>
 @stop
