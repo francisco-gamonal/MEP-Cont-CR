@@ -983,7 +983,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = url + '/save';
+		url = 'institucion/inst/'+url + '/save';
 		data.cCatalog      = $('#cCatalog').val();
 		data.scCatalog     = $('#scCatalog').val();
 		data.gCatalog      = $('#gCatalog').val();
@@ -1010,7 +1010,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.catalog_name').data('token');
 		url       = $(this).data('url');
-		url       = url + '/active/' + token;
+		url       = 'institucion/inst/'+url + '/active/' + token;
 		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -1025,7 +1025,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.catalog_name').data('token');
 		url       = $(this).data('url');
-		url       = url + '/delete/' + token;
+		url       = 'institucion/inst/'+url + '/delete/' + token;
 		data.token = token;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
@@ -1039,7 +1039,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = url + '/update';
+		url = 'institucion/inst/'+url + '/update';
 		data.token         = $('#nameCatalog').data('token');
 		data.cCatalog      = $('#cCatalog').val();
 		data.scCatalog     = $('#scCatalog').val();
