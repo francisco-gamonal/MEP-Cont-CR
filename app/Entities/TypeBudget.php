@@ -1,11 +1,11 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TypeBudget extends Model
+class TypeBudget extends Entity
 {
     // Don't forget to fill this array
     protected $fillable = ['name','token'];

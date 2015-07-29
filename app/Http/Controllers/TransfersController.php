@@ -10,17 +10,27 @@ use Exception;
 use Log;
 use Mep\Models\Check;
 use Mep\Models\Balance;
+use Mep\Repositories\BalanceBudgetRepository;
+use Mep\Repositories\SpreadsheetRepository;
 
 class TransfersController extends Controller
 {
+    private $balanceBudgetRepository;
+    private $spreadsheetRepository;
+
     /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(
+        BalanceBudgetRepository $balanceBudgetRepository,
+        SpreadsheetRepository $spreadsheetRepository
+        )
     {
         set_time_limit(0);
         
         $this->middleware('auth');
+        $this->balanceBudgetRepository = $balanceBudgetRepository;
+        $this->spreadsheetRepository = $spreadsheetRepository;
     }
 
     /**
@@ -42,31 +52,12 @@ class TransfersController extends Controller
      */
     public function create()
     {
-        $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta('budget_id', $spreadsheets[0]->budget_id);
-
+        $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool();
+        $balanceBudgets = $this->balanceBudgetRepository->accountBlanceBudget($spreadsheets[0]);
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
 
-    /**
-     * Display the specified resource.
-     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
-     * via ajax o directo a la vista.
-     *
-     * @param int $budgetsId
-     *
-     * @return string
-     */
-    private function ArregloSelectCuenta($campo, $budgetsId)
-    {
-        $balancebudgets = BalanceBudget::where($campo, '=', $budgetsId)->get();
-        foreach ($balancebudgets as $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
-                'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
-        endforeach;
 
-        return $balanceBudget;
-    }
 
     /**
      * Display the specified resource.
@@ -79,6 +70,7 @@ class TransfersController extends Controller
      */
     private function ArregloIndexCuenta($campo, $budgetsId)
     {
+
         $transfers = Transfer::where($campo, $budgetsId)->get();
         $balanceBudget=array();
         for ($i = 0; $i < count($transfers); $i++):

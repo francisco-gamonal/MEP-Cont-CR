@@ -1397,6 +1397,23 @@ $(function(){
 	/**
 	 * Transfer
 	 */
+
+	 	//Ajax Select Number Account
+	$(document).off('change', '#spreadsheetTransfer');
+	$(document).on('change', '#spreadsheetTransfer', function(){
+		var token = $(this).val();
+		var url   = server + 'institucion/inst/transfer/crear/' + token;
+		$('#inBalanceBudgetTransfer').prop('disabled', true);
+		$('#outBalanceBudgetTransfer').prop('disabled', true);
+		$.get( url, function( data ) {
+		  	$("#inBalanceBudgetTransfer").html(data);
+			$('#inBalanceBudgetTransfer').prop('disabled', false);
+		});$.get( url, function( data ) {
+		  	$("#outBalanceBudgetTransfer").html(data);
+			$('#outBalanceBudgetTransfer').prop('disabled', false);
+		});
+	});
+
 	// Save Transfer
 	$(document).off('click', '#saveTransfer');
 	$(document).on('click', '#saveTransfer', function(e){
@@ -1405,7 +1422,7 @@ $(function(){
 		var outBalanceBudgetTransfer    = [];
 		var amountBalanceBudgetTransfer = [];
 		url = $(this).data('url');
-		url = url + '/save';
+		url = 'institucion/inst'+ url + '/save';
 		$(".outBalanceBudgetTransfer").each(function(index,value){
 		    outBalanceBudgetTransfer[index] = $(this).val();
 		});
@@ -1432,7 +1449,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.codeTransfer').data('token');
 		url       = $(this).data('url');
-		url       = url + '/active/' + token;
+		url       = 'institucion/inst'+url + '/active/' + token;
 		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -1447,7 +1464,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.codeTransfer').data('token');
 		url       = $(this).data('url');
-		url       = url + '/delete/' + token;
+		url       = 'institucion/inst'+url + '/delete/' + token;
 		data.token = token;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
@@ -1465,7 +1482,7 @@ $(function(){
 		var dateTransfer = new Date($('#dateTransfer').val());
 		dateTransfer = dateTransfer.toISOString().substr(0, 10);
 		url = $(this).data('url');
-		url = url + '/update';
+		url = 'institucion/inst'+url + '/update';
 		$(".outBalanceBudgetTransfer").each(function(index,value){
 		    outBalanceBudgetTransfer[index] = $(this).val();
 		});

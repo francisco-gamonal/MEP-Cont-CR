@@ -39,7 +39,7 @@
 				<label for="spreadsheetTransfer">Planilla</label>
 				<select id="spreadsheetTransfer" class="form-control">
 					@foreach($spreadsheets as $spreadsheet)
-						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}}</option>
+						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name.' '.$spreadsheet->typeBudgets->name}}</option>
 					@endforeach
 				</select>
 			</div>

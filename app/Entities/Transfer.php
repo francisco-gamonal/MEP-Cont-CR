@@ -1,12 +1,12 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
-class Transfer extends Model
+class Transfer extends Entity
 {
 
 
