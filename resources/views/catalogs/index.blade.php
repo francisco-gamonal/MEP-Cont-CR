@@ -59,11 +59,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($catalog->deleted_at)
-	                                			<a id="activeCatalog" data-url="catalogos" href="#">
+	                                			<a id="activeCatalog" data-url="catalogo" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteCatalog" data-url="catalogos" href="#">
+	                                			<a id="deleteCatalog" data-url="catalogo" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

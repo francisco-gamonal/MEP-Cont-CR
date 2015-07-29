@@ -185,7 +185,7 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-catalogos')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a href="#" id="updateCatalog" data-url="catalogos" class="btn btn-success">Actualizar Catálogo</a>
+		<a href="#" id="updateCatalog" data-url="catalogo" class="btn btn-success">Actualizar Catálogo</a>
 	</div>
 </div>
 @stop
