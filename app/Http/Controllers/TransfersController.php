@@ -79,7 +79,7 @@ class TransfersController extends Controller
      */
     private function ArregloIndexCuenta($campo, $budgetsId)
     {
-        $transfers = Transfer::where($campo, '=', $budgetsId)->get();
+        $transfers = Transfer::where($campo, $budgetsId)->get();
         $balanceBudget=array();
         for ($i = 0; $i < count($transfers); $i++):
             $balanceBudgets = BalanceBudget::find($transfers[$i]->balance_budget_id);

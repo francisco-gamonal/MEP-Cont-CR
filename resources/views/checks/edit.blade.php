@@ -15,7 +15,21 @@
 
 @section('content')
 <div class="paddingWrapper">
-	<section class="row">
+	<section class="row"> 
+			<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
+				<label for="supplierCheck">Proveedor</label>
+				<select id="supplierCheck" class="form-control">
+					@foreach($suppliers as $supplier)
+						@if($supplier->id == $check->supplier_id)
+							<option value="{{$supplier->token}}" selected>{{$supplier->name}}</option>
+						@else
+							<option value="{{$supplier->token}}">{{$supplier->name}}</option>
+						@endif
+					@endforeach
+				</select>
+			</div>
+		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="billCheck">N° de Factura</label>
@@ -125,20 +139,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="supplierCheck">Proveedor</label>
-				<select id="supplierCheck" class="form-control">
-					@foreach($suppliers as $supplier)
-						@if($supplier->id == $check->supplier_id)
-							<option value="{{$supplier->token}}" selected>{{$supplier->name}}</option>
-						@else
-							<option value="{{$supplier->token}}">{{$supplier->name}}</option>
-						@endif
-					@endforeach
-				</select>
-			</div>
-		</div>
+
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="statusCheck">Estado del Cheque</label>

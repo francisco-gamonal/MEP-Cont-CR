@@ -126,27 +126,7 @@ class ChecksController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
-     * via ajax o directo a la vista.
-     *
-     * @param int $budgetsId
-     *
-     * @return string
-     */
-    private function ArregloSelectCuenta($budget)
-    {
-       
-        $balancebudgets = BalanceBudget::where('budget_id', '=', $budget->budget_id)->where('type_budget_id',$budget->type_budget_id)->get();
-        
-        foreach ($balancebudgets as $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id,'id' => $balanceBudgets->token,
-                'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
-        endforeach;
 
-        return $balanceBudget;
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -157,12 +137,12 @@ class ChecksController extends Controller
      */
     public function edit($token)
     {
-        $check = Check::Token($token);
+        $check = $this->checkRepository->token($token);
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
-        $spreadsheets = Spreadsheet::orderBy('number', 'ASC')->orderBy('year', 'ASC')->get();
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]->budget_id);
-
+        $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
+        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
+      
         return view('checks.edit', compact('check', 'voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
 
@@ -252,5 +232,27 @@ class ChecksController extends Controller
         endif;
         /* si hay algun error  los enviamos de regreso */
         return $this->errores($data->errors);
+    }
+
+        /**
+     * Display the specified resource.
+     * Con este metodo creamos un arreglo para enviarlo a la vista asi formar el select
+     * via ajax o directo a la vista.
+     *
+     * @param int $budgetsId
+     *
+     * @return string
+     */
+    private function ArregloSelectCuenta($budget)
+    {
+        $balancebudgets = BalanceBudget::where('budget_id', '=', $budget->budget_id)->where('type_budget_id',$budget->type_budget_id)->get();
+           
+        foreach ($balancebudgets as $balanceBudgets):
+            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id,'id' => $balanceBudgets->token,
+                'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
+        endforeach;
+
+        
+        return $balanceBudget;
     }
 }
