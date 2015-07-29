@@ -1403,16 +1403,10 @@ $(function(){
 	$(document).on('change', '#spreadsheetTransfer', function(){
 		var token = $(this).val();
 		var url   = server + 'institucion/inst/transferencias/crear/' + token;
-		var clOut = $('.outBalanceBudgetTransfer').clone(true, true);
-		var clAmo = $('.amountBalanceBudgetTransfer').clone(true, true);
 		$('#inBalanceBudgetTransfer').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#inBalanceBudgetTransfer").html(data);
 			$('#inBalanceBudgetTransfer').prop('disabled', false);
-			$('.amountBalanceBudgetTransfer').remove();
-			$('.outBalanceBudgetTransfer').remove();
-			$('.outBalance .col-sm-9').html(clOut);
-			$('.outBalance .col-sm-3').html(clAmo);
 		});
 	});
 
