@@ -1397,16 +1397,19 @@ $(function(){
 	/**
 	 * Transfer
 	 */
-
-	 	//Ajax Select Number Account
+	 
+ 	//Ajax Select Number Account
 	$(document).off('change', '#spreadsheetTransfer');
 	$(document).on('change', '#spreadsheetTransfer', function(){
 		var token = $(this).val();
 		var url   = server + 'institucion/inst/transferencias/crear/' + token;
 		$('#inBalanceBudgetTransfer').prop('disabled', true);
+		$('.outBalanceBudgetTransfer').prop('disabled', true);
 		$.get( url, function( data ) {
 		  	$("#inBalanceBudgetTransfer").html(data);
 			$('#inBalanceBudgetTransfer').prop('disabled', false);
+			$(".outBalanceBudgetTransfer").html(data);
+			$('.outBalanceBudgetTransfer').prop('disabled', false);
 		});
 	});
 
