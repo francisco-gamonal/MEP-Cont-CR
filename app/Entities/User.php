@@ -44,7 +44,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function typeUsers()
     {
-        return $this->belongsTo('Mep\Models\TypeUser', 'type_user_id', 'id');
+        return $this->belongsTo('Mep\Entities\TypeUser', 'type_user_id', 'id');
     }
 
     /* Relacion con la tabla Supplier */

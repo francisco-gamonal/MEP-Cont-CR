@@ -36,7 +36,7 @@
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-mep">
-					<label for="statusTypeUser">Estado del Menú</label>
+					<label for="statusTypeUser">Estado del Tipo de Usuario</label>
 					<div class="row">
 						@if($typeUser->deleted_at)
 				      		<input id="statusTypeUser" type="checkbox" name="status-checkbox" data-on-text="Activado" data-off-text="Desactivado" data-on-color="info" data-off-color="danger" data-label-text="Estado">
