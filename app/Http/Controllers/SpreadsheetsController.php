@@ -39,7 +39,7 @@ class SpreadsheetsController extends Controller
     public function index()
     {
         $listBudget   = $this->budgetRepository->lists('id');
-        $spreadsheets = $this->spreadsheetRepository->newQuery()->whereIn('budget_id', $listBudget)->get();
+        $spreadsheets = $this->spreadsheetRepository->newQuery()->withTrashed()->whereIn('budget_id', $listBudget)->get();
         return view('spreadsheets.index', compact('spreadsheets'));
     }
 
@@ -110,9 +110,9 @@ class SpreadsheetsController extends Controller
      */
     public function edit($token)
     {
-        $spreadsheet = $this->spreadsheetRepository->token($token);
-        $budgets = $this->budgetRepository->all();
-        $typeBudgets= TypeBudget::all();
+        $spreadsheet = $this->spreadsheetRepository->token($token, true);
+        $budgets     = $this->budgetRepository->whereId('school_id', userSchool()->id, 'id');
+        $typeBudgets = TypeBudget::all();
         
         return view('spreadsheets.edit', compact('budgets', 'spreadsheet','typeBudgets'));
     }
@@ -183,8 +183,8 @@ class SpreadsheetsController extends Controller
      */
     public function active($token)
     {
-        /* les quitamos la eliminacion pasavida */
-        $data = $this->spreadsheetRepository->token($token)->restore();
+        /* les quitamos la eliminacion pasiva */
+        $data = $this->spreadsheetRepository->token($token, true)->restore();
         if ($data):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se Activo con exito!!!');

@@ -25,8 +25,13 @@ abstract class BaseRepository {
 
     }
 
-    public function token($token) {
-        $consults = $this->newQuery()->where('token', $token)->get();
+    public function token($token, $trashed = false) {
+        if($trashed){
+            $consults = $this->newQuery()->withTrashed()->where('token', $token)->get();
+        }else{
+            $consults = $this->newQuery()->where('token', $token)->get();
+        }
+
         if ($consults):
             foreach ($consults as $consult):
                 return $consult;
