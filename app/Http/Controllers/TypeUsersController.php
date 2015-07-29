@@ -106,10 +106,10 @@ class TypeUsersController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $typeUser = $this->convertionObjeto();
-        /* Buscamos si el tipo de usuario ya se esta usando.*/
+        /* Buscamos si el tipo de usuario ya esta siendo usado.*/
         $users = User::where('type_user_id', $typeUser->idTypeUser)->get();
         if(!$users->isEmpty()){
-            return $this->errores('El tipo de usuario ya se esta usando, no puede pasarlo a Inactivo.');
+            return $this->errores('El tipo de usuario ya esta siendo usado, no puede pasarlo a Inactivo.');
         }
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
@@ -142,10 +142,10 @@ class TypeUsersController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $TypeUser = $this->convertionObjeto();
-        /* Buscamos si el tipo de usuario ya se esta usando.*/
-        $users = User::where('type_user_id', $TypeUser->idTypeUser)->get();
+        /* Buscamos si el tipo de usuario ya esta siendo usado.*/
+        $users = User::where('supplier_id', $TypeUser->idTypeUser)->get();
         if(!$users->isEmpty()){
-            return $this->errores('El tipo de usuario ya se esta usando, no puede pasarlo a Inactivo.');
+            return $this->errores('El tipo de usuario ya esta siendo usado, no puede pasarlo a Inactivo.');
         }
         /* les damos eliminacion pasavida */
         $data = TypeUser::destroy($TypeUser->idTypeUser);
