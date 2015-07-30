@@ -2,11 +2,11 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\User;
-use Mep\Models\Supplier;
-use Mep\Models\TypeUser;
-use Mep\Models\School;
-use Mep\Models\Menu;
+use Mep\Entities\User;
+use Mep\Entities\Supplier;
+use Mep\Entities\TypeUser;
+use Mep\Entities\School;
+use Mep\Entities\Menu;
 use Illuminate\Support\Facades\Response;
 use \DB;
 use Crypt;

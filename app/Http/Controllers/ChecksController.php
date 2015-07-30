@@ -2,12 +2,12 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Check;
-use Mep\Models\Voucher;
-use Mep\Models\Supplier;
-use Mep\Models\BalanceBudget;
-use Mep\Models\Spreadsheet;
-use Mep\Models\Balance;
+use Mep\Entities\Check;
+use Mep\Entities\Voucher;
+use Mep\Entities\Supplier;
+use Mep\Entities\BalanceBudget;
+use Mep\Entities\Spreadsheet;
+use Mep\Entities\Balance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -67,7 +67,13 @@ class ChecksController extends Controller
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
-        $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
+       
+        if($spreadsheets == false):
+           $balanceBudgets = [['value'=>'No hay Planillas creadas','id'=>'']];  
+       else:
+          $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
+        endif;
+        
 
         return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
@@ -86,8 +92,17 @@ class ChecksController extends Controller
             /* Consulta por token de school */
             // $voucher = Voucher::Token($checks->voucherCheck);
             $supplier = Supplier::Token($checks->supplierCheck);
+            if($supplier==false):
+                return $this->errores(['supplier'=>'No se encontro el Proveedor']);
+            endif;
             $spreadsheet = Spreadsheet::Token($checks->spreadsheetCheck);
+            if($spreadsheet==false):
+                return $this->errores(['spreadsheet'=>'No se encontro la Planilla']);
+            endif;
             $balanceBudget = BalanceBudget::Token($checks->balanceBudgetCheck);
+            if($balanceBudget==false):
+                return $this->errores(['balanceBudget'=>'No se encontro la Cuenta de catalogo']);
+            endif;
             /* Creamos un array para cambiar nombres de parametros */
             $ValidationData = $this->CreacionArray($checks, 'Check');
             /* Asignacion de id de school */
@@ -243,16 +258,19 @@ class ChecksController extends Controller
      *
      * @return string
      */
-    private function ArregloSelectCuenta($budget)
+    private function ArregloSelectCuenta($spreadsheet)
     {
-        $balancebudgets = BalanceBudget::where('budget_id', '=', $budget->budget_id)->where('type_budget_id',$budget->type_budget_id)->get();
-           
-        foreach ($balancebudgets as $balanceBudgets):
-            $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id,'id' => $balanceBudgets->token,
-                'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
-        endforeach;
 
+        $BalanceBudgets = BalanceBudget::where('budget_id', '=', $spreadsheet->budget_id)->where('type_budget_id',$spreadsheet->type_budget_id)->get();
+        if(count($BalanceBudgets)>0):
+        foreach ($BalanceBudgets as $Budgets):
+            $Balance[] = array('idBalanceBudgets' => $Budgets->id,'id' => $Budgets->token,
+                'value' => $Budgets->catalogs->p.'-'.$Budgets->catalogs->g.'-'.$Budgets->catalogs->sp.' || '.$Budgets->catalogs->name.' || '.$Budgets->typeBudgets->name, );
+        endforeach;
+        return $Balance;
+        endif;
         
-        return $balanceBudget;
+        return [['idBalanceBudgets' => '','id' => '',
+                        'value' => 'No existen cuentas en el presupuesto']];
     }
 }

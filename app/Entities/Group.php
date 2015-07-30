@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -2,7 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\TypeUser;
+use Mep\Entities\TypeUser;
 use Illuminate\Support\Facades\Response;
 
 class TypeUsersController extends Controller

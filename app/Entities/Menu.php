@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +13,7 @@ class Menu extends Model
 
     public function Tasks()
     {
-        return $this->belongsToMany('Mep\Models\Task')->withPivot('status');
+        return $this->belongsToMany('Mep\Entities\Task')->withPivot('status');
     }
 
     public function LastId()
@@ -23,7 +23,7 @@ class Menu extends Model
 
     public function tasksActive($user)
     {
-        return $this->belongsToMany('Mep\Models\Task', 'task_user')->wherePivot('status', 1)->wherePivot('user_id', $user);
+        return $this->belongsToMany('Mep\Entities\Task', 'task_user')->wherePivot('status', 1)->wherePivot('user_id', $user);
     }
 
     public function isValid($data)

@@ -3,7 +3,7 @@
 namespace Mep\Http\Controllers;
 
 
-use Mep\Models\Supplier;
+use Mep\Entities\Supplier;
 use Illuminate\Support\Facades\Response;
 use Crypt;
 

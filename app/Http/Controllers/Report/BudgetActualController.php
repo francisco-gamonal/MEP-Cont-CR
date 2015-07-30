@@ -10,9 +10,9 @@ namespace Mep\Http\Controllers\Report;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Mep\Http\Controllers\ReportExcel;
-use Mep\Models\Budget;
-use Mep\Models\BalanceBudget;
-use Mep\Models\Balance;
+use Mep\Entities\Budget;
+use Mep\Entities\BalanceBudget;
+use Mep\Entities\Balance;
 
 /**
  * Description of BudgetActualController

@@ -14,7 +14,7 @@ class Check extends Entity
 
     public function voucher()
     {
-        return $this->HasOne('Mep\Models\Vouchers');
+        return $this->HasOne('Mep\Entities\Vouchers');
     }
 
     public function balanceBudgets()

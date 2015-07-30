@@ -1,10 +1,10 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bank extends Model
+class Bank extends Entity
 {
     use SoftDeletingTrait;
 

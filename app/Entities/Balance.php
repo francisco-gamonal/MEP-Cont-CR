@@ -1,11 +1,11 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Balance extends Model {
+class Balance extends Entity {
 
     use SoftDeletes;
 
@@ -13,15 +13,15 @@ class Balance extends Model {
     protected $fillable = ['type', 'amount', 'simulation', 'budget_id','balance_budget_id', 'check_id', 'transfer_code', 'transfer_balance_budget_id'];
 
     public function checks() {
-        return $this->belongsTo('Mep\Models\Check', 'check_id', 'id');
+        return $this->belongsTo(Check::getClass(), 'check_id', 'id');
     }
 
     public function balanceBudgets() {
-        return $this->belongsTo('Mep\Models\BalanceBudget', 'balance_budget_id', 'id');
+        return $this->belongsTo(BalanceBudget::getClass(), 'balance_budget_id', 'id');
     }
 
     public function transfers() {
-        return $this->belongsTo('Mep\Models\Transfer');
+        return $this->belongsTo(Transfer::getClass());
     }
 
     public function balanceLast($type, $amount) {

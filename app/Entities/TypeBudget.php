@@ -21,7 +21,7 @@ class TypeBudget extends Entity
 
     public function budgets()
     {
-        return $this->belongsToMany('Mep\Models\Budget');
+        return $this->belongsToMany('Mep\Entities\Budget');
     }
 
     public static function Token($token)

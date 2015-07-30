@@ -1,15 +1,15 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Entity implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable,
         CanResetPassword;
@@ -44,31 +44,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function typeUsers()
     {
-        return $this->belongsTo('Mep\Models\TypeUser', 'type_user_id', 'id');
+        return $this->belongsTo('Mep\Entities\TypeUser', 'type_user_id', 'id');
     }
 
     /* Relacion con la tabla Supplier */
 
     public function suppliers()
     {
-        return $this->belongsTo('Mep\Models\Supplier');
+        return $this->belongsTo('Mep\Entities\Supplier');
     }
 
     public function tasks()
     {
-        return $this->belongsToMany('Mep\Models\Task')->withPivot('status', 'menu_id');
+        return $this->belongsToMany('Mep\Entities\Task')->withPivot('status', 'menu_id');
     }
 
     public function menus()
     {
-        return $this->belongsToMany('Mep\Models\Menu', 'task_user')->withPivot('status', 'task_id');
+        return $this->belongsToMany('Mep\Entities\Menu', 'task_user')->withPivot('status', 'task_id');
     }
 
     /* Relacion con la tabla schools */
 
     public function schools()
     {
-        return $this->belongsToMany('Mep\Models\School');
+        return $this->belongsToMany('Mep\Entities\School');
     }
 
     /**

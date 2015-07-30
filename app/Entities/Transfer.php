@@ -15,17 +15,17 @@ class Transfer extends Entity
 
     public function spreadsheets()
     {
-        return $this->belongsTo('Mep\Models\Spreadsheet', 'spreadsheet_id', 'id');
+        return $this->belongsTo('Mep\Entities\Spreadsheet', 'spreadsheet_id', 'id');
     }
 
     public function balanceBudgets()
     {
-        return $this->belongsTo('Mep\Models\BalanceBudget' , 'balance_budget_id', 'id');
+        return $this->belongsTo('Mep\Entities\BalanceBudget' , 'balance_budget_id', 'id');
     }
 
     public function balances()
     {
-        return $this->belongsTo('Mep\Models\Balance');
+        return $this->belongsTo('Mep\Entities\Balance');
     }
 
     /* obtencion del id del ultimo usuario agregado */

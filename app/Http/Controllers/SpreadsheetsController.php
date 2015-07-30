@@ -3,11 +3,11 @@
 namespace Mep\Http\Controllers;
 
 
-use Mep\Models\Balance;
-use Mep\Models\Budget;
-use Mep\Models\Check;
-use Mep\Models\Spreadsheet;
-use Mep\Models\TypeBudget;
+use Mep\Entities\Balance;
+use Mep\Entities\Budget;
+use Mep\Entities\Check;
+use Mep\Entities\Spreadsheet;
+use Mep\Entities\TypeBudget;
 
 use Mep\Repositories\SpreadsheetRepository;
 use Mep\Repositories\BudgetRepository;

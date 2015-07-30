@@ -3,12 +3,12 @@
 namespace Mep\Http\Controllers\Report;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Mep\Models\Budget;
-use Mep\Models\BalanceBudget;
-use Mep\Models\Catalog;
-use Mep\Models\School;
-use Mep\Models\Group;
-use Mep\Models\Balance;
+use Mep\Entities\Budget;
+use Mep\Entities\BalanceBudget;
+use Mep\Entities\Catalog;
+use Mep\Entities\School;
+use Mep\Entities\Group;
+use Mep\Entities\Balance;
 use Illuminate\Support\Facades\DB;
 use Mep\Http\Controllers\ReportExcel;
 

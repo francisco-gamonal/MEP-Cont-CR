@@ -2,14 +2,14 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Transfer;
-use Mep\Models\Spreadsheet;
-use Mep\Models\BalanceBudget;
+use Mep\Entities\Transfer;
+use Mep\Entities\Spreadsheet;
+use Mep\Entities\BalanceBudget;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Log;
-use Mep\Models\Check;
-use Mep\Models\Balance;
+use Mep\Entities\Check;
+use Mep\Entities\Balance;
 use Mep\Repositories\BalanceBudgetRepository;
 use Mep\Repositories\SpreadsheetRepository;
 use Mep\Repositories\TransfersRepository;

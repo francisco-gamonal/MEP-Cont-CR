@@ -7,10 +7,10 @@ namespace Mep\Http\Controllers\Report;
  */
 use Maatwebsite\Excel\Facades\Excel;
 use Mep\Http\Controllers\ReportExcel;
-use Mep\Models\Spreadsheet;
-use Mep\Models\Check;
-use Mep\Models\Budget;
-use Mep\Models\Balance;
+use Mep\Entities\Spreadsheet;
+use Mep\Entities\Check;
+use Mep\Entities\Budget;
+use Mep\Entities\Balance;
 /**
  * Description of SpreadseehtExcelController
  *

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 
-class Voucher extends Model
+
+class Voucher extends Entity
 {
     //    use SoftDeletingTrait;
     // Add your validation rules here

@@ -3,12 +3,12 @@
 namespace Mep\Http\Controllers;
 
 
-use Mep\Models\Balance;
-use Mep\Models\Budget;
-use Mep\Models\User;
-use Mep\Models\BalanceBudget;
-use Mep\Models\Transfer;
-use Mep\Models\Spreadsheet;
+use Mep\Entities\Balance;
+use Mep\Entities\Budget;
+use Mep\Entities\User;
+use Mep\Entities\BalanceBudget;
+use Mep\Entities\Transfer;
+use Mep\Entities\Spreadsheet;
 use Illuminate\Contracts\Auth\Guard;
 use DOMPDF;
 use Input;

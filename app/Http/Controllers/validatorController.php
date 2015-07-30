@@ -4,7 +4,7 @@ namespace Mep\Http\Controllers;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\Controller;
-use Mep\Models\Budget;
+use Mep\Entities\Budget;
 use Illuminate\Http\Request;
 
 abstract class validatorController extends Controller {

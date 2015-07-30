@@ -2,7 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\School;
+use Mep\Entities\School;
 use Illuminate\Support\Facades\Response;
 
 class SchoolsController extends Controller

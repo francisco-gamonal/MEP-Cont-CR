@@ -7,7 +7,7 @@ namespace Mep\Http\Controllers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-use Mep\Models\BalanceBudget;
+use Mep\Entities\BalanceBudget;
 use Mep\Http\Controllers\validatorController;
 /**
  * Description of ReportExcel

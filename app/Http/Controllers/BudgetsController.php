@@ -2,12 +2,12 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Balance;
-use Mep\Models\Budget;
-use Mep\Models\School;
-use Mep\Models\BalanceBudget;
-use Mep\Models\Catalog;
-use Mep\Models\Group;
+use Mep\Entities\Balance;
+use Mep\Entities\Budget;
+use Mep\Entities\School;
+use Mep\Entities\BalanceBudget;
+use Mep\Entities\Catalog;
+use Mep\Entities\Group;
 
 use Mep\Repositories\BudgetRepository;
 use Mep\Repositories\BalanceBudgetRepository;

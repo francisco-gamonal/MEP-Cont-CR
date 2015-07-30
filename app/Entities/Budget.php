@@ -14,19 +14,19 @@ class Budget extends Entity
 
     public function schools()
     {
-        return $this->belongsTo('Mep\Models\School', 'school_id', 'id');
+        return $this->belongsTo(School::getClass(), 'school_id', 'id');
     }
     public function balanceBudgets()
     {
-        return $this->hasMany('Mep\Models\BalanceBudget', 'budget_id', 'id');
+        return $this->hasMany(BalanceBudget::getClass(), 'budget_id', 'id');
     }
     public function groups()
     {
-        return $this->belongsToMany('Mep\Models\Group');
+        return $this->belongsToMany(Group::getClass());
     }
     public function typeBudgets()
     {
-        return $this->belongsToMany('Mep\Models\TypeBudget')->orderBy('id', 'asc');
+        return $this->belongsToMany(TypeBudget::getClass())->orderBy('id', 'asc');
     }
     public function LastId()
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Mep\models\User;
+use Mep\Entities\User;
 
 class TypeUser extends Model
 {

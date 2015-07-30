@@ -8,9 +8,9 @@ namespace Mep\Http\Controllers\Report;
  */
 use Maatwebsite\Excel\Facades\Excel;
 use Mep\Http\Controllers\ReportExcel;
-use Mep\Models\Transfer;
-use Mep\Models\Balance;
-use Mep\Models\Spreadsheet;
+use Mep\Entities\Transfer;
+use Mep\Entities\Balance;
+use Mep\Entities\Spreadsheet;
 
 /**
  * Description of TransferExcelController
