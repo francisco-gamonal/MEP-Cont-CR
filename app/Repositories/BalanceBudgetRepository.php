@@ -39,7 +39,9 @@ class BalanceBudgetRepository extends BaseRepository
      */
     public function accountBlanceBudget($spreadSheet)
     {
-        $balancebudgets = $this->getModel()->newQuery()->where('budget_id',  $spreadSheet->budget_id)
+        //dd($spreadSheet);
+        //echo 'budget_id '.$spreadSheet->budget_id.' type_budget_id '.$spreadSheet->type_budget_id;die;
+        $balancebudgets = $this->getModel()->newQuery()->where('budget_id', $spreadSheet->budget_id)
         ->where('type_budget_id',  $spreadSheet->type_budget_id)
         ->get();
         dd($balancebudgets);
