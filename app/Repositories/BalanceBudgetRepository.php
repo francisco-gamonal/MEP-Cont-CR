@@ -39,16 +39,13 @@ class BalanceBudgetRepository extends BaseRepository
      */
     public function accountBlanceBudget($spreadSheet)
     {
-        //dd($spreadSheet);
-        //echo 'budget_id '.$spreadSheet->budget_id.' type_budget_id '.$spreadSheet->type_budget_id;die;
         $balancebudgets = $this->getModel()->newQuery()->where('budget_id', $spreadSheet->budget_id)
-        ->where('type_budget_id',  $spreadSheet->type_budget_id)
+        ->where('type_budget_id', $spreadSheet->type_budget_id)
         ->get();
-        dd($balancebudgets);
+        
         if($balancebudgets->isEmpty()){
             return false;
         }
-        dd("pase el if");
 
         foreach ($balancebudgets as $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,

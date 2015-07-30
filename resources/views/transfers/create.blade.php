@@ -87,7 +87,7 @@
 	<br>
 	<div class="row text-center">
 		<a href="{{route('ver-transferencias')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a href="#" id="saveTransfer" data-url="transferencias" class="btn btn-success">Grabar Transferencia</a>
+		<a href="#" id="saveTransfer" data-url="institucion/inst/transferencias" class="btn btn-success">Grabar Transferencia</a>
 	</div>
 </div>
 @stop

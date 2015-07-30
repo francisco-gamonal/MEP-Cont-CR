@@ -101,10 +101,6 @@ class TransfersController extends Controller
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
 
-
-
-
-
     /**
      * Display the specified resource.
      *
@@ -171,6 +167,7 @@ class TransfersController extends Controller
     public function store()
     {
         /**/
+        dd("OK");
         $transfers = $this->convertionObjeto();
         try {
             DB::beginTransaction();
@@ -183,7 +180,7 @@ class TransfersController extends Controller
 
             foreach ($transfer as $dataTransfer):
                 /* Buscamos por el token las filas guardadas */
-                $transferQuery = new Transfer();
+                $transferQuery = new Transfer;
                 /* Comprobamos que recibimos todos los parametros requeridos */
                 if ($transferQuery->isValid($dataTransfer)):
                     $transferQuery->fill($dataTransfer);

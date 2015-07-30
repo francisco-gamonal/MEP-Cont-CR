@@ -1421,7 +1421,7 @@ $(function(){
 		var outBalanceBudgetTransfer    = [];
 		var amountBalanceBudgetTransfer = [];
 		url = $(this).data('url');
-		url = 'institucion/inst'+ url + '/save';
+		url = url + '/save';
 		$(".outBalanceBudgetTransfer").each(function(index,value){
 		    outBalanceBudgetTransfer[index] = $(this).val();
 		});
