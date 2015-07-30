@@ -10,7 +10,6 @@ use Mep\Entities\Check;
 use Mep\Entities\Spreadsheet;
 use Mep\Entities\TypeBudget;
 
-use Mep\Repositories\SpreadsheetRepository;
 
 use Mep\Repositories\BudgetRepository;
 use Mep\Repositories\SpreadsheetRepository;
