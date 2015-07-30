@@ -24,11 +24,16 @@ class SpreadsheetRepository extends BaseRepository
 	public function spreadsheetSchool()
 	{
 		
-      	return $this->newQuery()->whereIn('budget_id', $this->budgetRepository->lists('id'))
+      	$spreadsheet = $this->newQuery()->whereIn('budget_id', $this->budgetRepository->lists('id'))
       	->orderBy('year', 'DESC')
       	->orderBy('budget_id', 'ASC')
       	->orderBy('type_budget_id', 'ASC')
       	->orderBy('number', 'ASC')->get();
+      	if(count($spreadsheet)>0):
+      		return $spreadsheet;
+      	endif;
+
+      		return false;
     }	
     
     public function spreadsheetListsSchool($keyList)

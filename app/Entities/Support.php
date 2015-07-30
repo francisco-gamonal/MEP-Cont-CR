@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 

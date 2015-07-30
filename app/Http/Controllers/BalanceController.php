@@ -2,7 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Balance;
+use Mep\Entities\Balance;
 
 class BalanceController extends Controller
 {

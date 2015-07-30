@@ -1,11 +1,11 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class School extends Model
+class School extends Entity
 {
     use SoftDeletes;
 
@@ -14,11 +14,11 @@ class School extends Model
 
     public function users()
     {
-        return $this->belongsToMany('Mep\Models\User');
+        return $this->belongsToMany(User::getClass());
     }
     public function budgets()
     {
-        return $this->hasMany('Mep\Models\Budget', 'school_id', 'id');
+        return $this->hasMany(Budget::getClass(), 'school_id', 'id');
     }
     public function LastId()
     {

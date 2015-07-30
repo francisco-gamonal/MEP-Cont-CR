@@ -2,8 +2,8 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Catalog;
-use Mep\Models\Group;
+use Mep\Entities\Catalog;
+use Mep\Entities\Group;
 
 class CatalogsController extends Controller
 {

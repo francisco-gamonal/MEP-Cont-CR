@@ -4,10 +4,10 @@ namespace Mep\Http\Controllers\Report;
 
 use Mep\Http\Requests;
 use Mep\Http\Controllers\ReportExcel;
-use Mep\Models\School;
-use Mep\Models\Catalog;
-use Mep\Models\Budget;
-use Mep\Models\Group;
+use Mep\Entities\School;
+use Mep\Entities\Catalog;
+use Mep\Entities\Budget;
+use Mep\Entities\Group;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 

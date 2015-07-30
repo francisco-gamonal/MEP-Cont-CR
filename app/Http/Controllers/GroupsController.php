@@ -2,7 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Group;
+use Mep\Entities\Group;
 
 class GroupsController extends Controller
 {

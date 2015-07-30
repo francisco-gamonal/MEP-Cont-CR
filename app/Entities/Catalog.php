@@ -14,11 +14,11 @@ class Catalog extends Entity
 
     public function groups()
     {
-        return $this->belongsTo('Mep\Models\Group', 'group_id', 'id');
+        return $this->belongsTo('Mep\Entities\Group', 'group_id', 'id');
     }
     public function blanceBudgets()
     {
-        return $this->hasMany('Mep\Models\BalanceBudget', 'catalog_id', 'id');
+        return $this->hasMany('Mep\Entities\BalanceBudget', 'catalog_id', 'id');
     }
     public function LastId()
     {

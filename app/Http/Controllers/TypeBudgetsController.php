@@ -2,7 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\TypeBudget;
+use Mep\Entities\TypeBudget;
 use Crypt;
 
 class TypeBudgetsController extends Controller

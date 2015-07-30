@@ -14,14 +14,14 @@ class Spreadsheet extends Entity
 
     public function budgets()
     {
-        return $this->belongsTo('Mep\Models\Budget', 'budget_id', 'id');
+        return $this->belongsTo('Mep\Entities\Budget', 'budget_id', 'id');
     }
     public function typebudgets()
     {
-        return $this->belongsTo('Mep\Models\TypeBudget', 'type_budget_id', 'id');
+        return $this->belongsTo('Mep\Entities\TypeBudget', 'type_budget_id', 'id');
     }
     public function transfers(){
-        return $this->hasMany('Mep\Models\Transfer', 'spreadsheet_id', 'id');
+        return $this->hasMany('Mep\Entities\Transfer', 'spreadsheet_id', 'id');
     }
 
     public function LastId()

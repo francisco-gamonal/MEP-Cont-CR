@@ -2,8 +2,8 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\Menu;
-use Mep\Models\Task;
+use Mep\Entities\Menu;
+use Mep\Entities\Task;
 use Illuminate\Support\Facades\Response;
 
 class MenuController extends Controller

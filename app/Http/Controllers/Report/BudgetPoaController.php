@@ -6,8 +6,8 @@
  * and open the template in the editor.
  */
 use Mep\Http\Controllers\ReportExcel;
-use Mep\Models\Budget;
-use Mep\Models\BalanceBudget;
+use Mep\Entities\Budget;
+use Mep\Entities\BalanceBudget;
 use Maatwebsite\Excel\Facades\Excel;
 /**
  * Description of BudgetPoaController

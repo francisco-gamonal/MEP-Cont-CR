@@ -1,6 +1,6 @@
 <?php
 
-namespace Mep\Models;
+namespace Mep\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,11 +18,11 @@ class Task extends Model
 
     public function Users()
     {
-        return $this->belongsToMany('Mep\Models\User')->withPivot('status');
+        return $this->belongsToMany('Mep\Entities\User')->withPivot('status');
     }
     public function menus()
     {
-        return $this->belongsToMany('Mep\Models\Menu');
+        return $this->belongsToMany('Mep\Entities\Menu');
     }
     public static function urlMenu($id)
     {

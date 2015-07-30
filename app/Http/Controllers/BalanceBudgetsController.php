@@ -2,13 +2,13 @@
 
 namespace Mep\Http\Controllers;
 
-use Mep\Models\BalanceBudget;
+use Mep\Entities\BalanceBudget;
 use Mep\Repositories\BalanceBudgetRepository;
 use Mep\Repositories\BudgetRepository;
-use Mep\Models\Catalog;
-use Mep\Models\TypeBudget;
-use Mep\Models\Budget;
-use Mep\Models\Balance;
+use Mep\Entities\Catalog;
+use Mep\Entities\TypeBudget;
+use Mep\Entities\Budget;
+use Mep\Entities\Balance;
 
 class BalanceBudgetsController extends Controller
 {
@@ -80,6 +80,7 @@ class BalanceBudgetsController extends Controller
         $ValidationData['catalog_id'] = $catalog->id;
         $ValidationData['budget_id'] = $budget->id;
         $ValidationData['type_budget_id'] = $typeBudget->id;
+        $ValidationData['simulation'] = 'false';
 
         /* Declaramos las clases a utilizar */
         $balanceBudget = $this->balanceBudgetRepository->getModel();
