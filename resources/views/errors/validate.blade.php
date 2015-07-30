@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.mep')
 
 @section('page')
 	<aside class="page"> 
@@ -19,7 +19,9 @@
 	        <h3 class="control-label bg-danger" style="padding: 1em;">{{ $error }}</h3>
 	    </div>
 		<div class="row text-center">
-			<button class="btn btn-default" onclick="history.go(-1);"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+			@if(!$page == 'planillas' )
+				<button class="btn btn-default" onclick="history.go(-1);"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
+			@endif
 		</div>
 	</div>
 @endsection
