@@ -3,6 +3,7 @@
 namespace Mep\Http\Controllers;
 
 
+
 use Mep\Entities\Balance;
 use Mep\Entities\Budget;
 use Mep\Entities\Check;
@@ -10,7 +11,9 @@ use Mep\Entities\Spreadsheet;
 use Mep\Entities\TypeBudget;
 
 use Mep\Repositories\SpreadsheetRepository;
+
 use Mep\Repositories\BudgetRepository;
+use Mep\Repositories\SpreadsheetRepository;
 
 class SpreadsheetsController extends Controller
 {
@@ -128,7 +131,16 @@ class SpreadsheetsController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $spreadsheets = $this->convertionObjeto();
-
+        if($spreadsheets->statusSpreadsheets != true){
+            $spreadsheet  = $this->spreadsheetRepository->token($spreadsheets->token);
+            if($spreadsheet){
+                /* Buscamos si la planilla ya esta siendo usada.*/
+                $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+                if(!$checks->isEmpty()){
+                    return $this->errores('La planilla ya tiene cheques registrados, no puede pasarlo a Inactivo.');
+                }
+            }
+        }
         $budget = $this->budgetRepository->token($spreadsheets->budgetSpreadsheets);
         $typeBudget = TypeBudget::Token($spreadsheets->typeBudgetSpreadsheets);
         /* Creamos un array para cambiar nombres de parametros */
@@ -164,9 +176,14 @@ class SpreadsheetsController extends Controller
      */
     public function destroy($token)
     {
+        $spreadsheet = $this->spreadsheetRepository->token($token);
+        /* Buscamos si la planilla ya esta siendo usada.*/
+        $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
+        if(!$checks->isEmpty()){
+            return $this->errores('La planilla ya tiene cheques registrados, no puede pasarlo a Inactivo.');
+        }
         /* les damos eliminacion pasavida */
-        $data = $this->spreadsheetRepository->token($token)->delete();
-        if ($data):
+        if ($spreadsheet->delete()):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
@@ -209,6 +226,13 @@ class SpreadsheetsController extends Controller
         $totalCancelar  = 0;
         $totalRetention = 0;
         $count          = 0;
+
+        if( $checks->isEmpty() ){
+            $error = "Debe generar cheques para obtener el reporte";
+            $page = "Planillas";
+            $task = "Reporte";
+            return view('errors.validate', compact('error', 'page', 'task'));
+        }
 
         foreach ($checks as $index => $check):
             $balance = Balance::BalanceInicialTotal($check->balanceBudgets->id, $check->id, $spreadsheet, null, $lastTransfer,'spreadsheet');

@@ -3,9 +3,13 @@
 namespace Mep\Http\Controllers;
 
 
-use Mep\Entities\Supplier;
-use Illuminate\Support\Facades\Response;
+
+
 use Crypt;
+use Illuminate\Support\Facades\Response;
+use Mep\Entities\Check;
+use Mep\Entities\Supplier;
+use Mep\Entities\User;
 
 class SupplierController extends Controller
 {
@@ -112,6 +116,17 @@ class SupplierController extends Controller
         $ValidationData = $this->CreacionArray($supplier, 'Supplier');
         /* Declaramos las clases a utilizar */
         $suppliers = Supplier::Token($ValidationData['token']);
+        
+        if ($supplier->statusSupplier != true) {
+            /* Buscamos si el Proveedor ya se esta siendo usado.*/
+            $users  = User::where('supplier_id', $suppliers->id)->get();
+            $checks = Check::where('supplier_id', $suppliers->id)->get();
+            if(!$users->isEmpty()){
+                return $this->errores('El proveedor ya esta siendo usado, no puede pasarlo a Inactivo.');
+            }elseif(!$checks->isEmpty()){
+                return $this->errores('El proveedor ya esta siendo usado, no puede pasarlo a Inactivo.');
+            }
+        }
         /* Validamos los datos para guardar tabla menu */
         if ($suppliers->isValid($ValidationData)):
             $suppliers->fill($ValidationData);
@@ -139,9 +154,17 @@ class SupplierController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $suppliers = $this->convertionObjeto();
+        $supplier = Supplier::token($suppliers->tokenSupplier);
+        /* Buscamos si el Proveedor ya se esta siendo usado.*/
+        $users  = User::where('supplier_id', $supplier->id)->get();
+        $checks = Check::where('supplier_id', $supplier->id)->get();
+        if(!$users->isEmpty()){
+            return $this->errores('El proveedor ya esta siendo usado, no puede pasarlo a Inactivo.');
+        }elseif(!$checks->isEmpty()){
+            return $this->errores('El proveedor ya esta siendo usado, no puede pasarlo a Inactivo.');
+        }
         /* les damos eliminacion pasavida */
-        $data = Supplier::token($suppliers->tokenSupplier)->delete();
-        if ($data):
+        if ( $supplier->delete() ):
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;

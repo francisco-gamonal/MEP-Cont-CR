@@ -31,7 +31,6 @@ abstract class BaseRepository {
         }else{
             $consults = $this->newQuery()->where('token', $token)->get();
         }
-
         if ($consults):
             foreach ($consults as $consult):
                 return $consult;

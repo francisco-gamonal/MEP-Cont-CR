@@ -2,8 +2,12 @@
 
 namespace Mep\Http\Controllers;
 
+
 use Mep\Entities\TypeUser;
+
 use Illuminate\Support\Facades\Response;
+
+use Mep\Entities\User;
 
 class TypeUsersController extends Controller
 {
@@ -105,6 +109,11 @@ class TypeUsersController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $typeUser = $this->convertionObjeto();
+        /* Buscamos si el tipo de usuario ya esta siendo usado.*/
+        $users = User::where('type_user_id', $typeUser->idTypeUser)->get();
+        if(!$users->isEmpty()){
+            return $this->errores('El tipo de usuario ya esta siendo usado, no puede pasarlo a Inactivo.');
+        }
         /* Creamos un array para cambiar nombres de parametros */
         $ValidationData = array('name' => $typeUser->nameTypeUser);
         /* Declaramos las clases a utilizar */
@@ -136,6 +145,11 @@ class TypeUsersController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $TypeUser = $this->convertionObjeto();
+        /* Buscamos si el tipo de usuario ya esta siendo usado.*/
+        $users = User::where('supplier_id', $TypeUser->idTypeUser)->get();
+        if(!$users->isEmpty()){
+            return $this->errores('El tipo de usuario ya esta siendo usado, no puede pasarlo a Inactivo.');
+        }
         /* les damos eliminacion pasavida */
         $data = TypeUser::destroy($TypeUser->idTypeUser);
         if ($data):

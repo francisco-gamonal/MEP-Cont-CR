@@ -13,7 +13,7 @@ Route::post('presupuestos/save', 'BudgetsController@store');
 Route::get('presupuestos/editar/{token}', ['as' => 'editar-presupuestos', 'uses' => 'BudgetsController@edit']);
 Route::delete('presupuestos/delete/{token}', ['as' => 'delete-presupuesto', 'uses' => 'BudgetsController@destroy']);
 Route::patch('presupuestos/active/{token}', ['as' => 'active-presupuesto', 'uses' => 'BudgetsController@active']);
-Route::put('presupuestos/update/{token}', 'BudgetsController@update');
+Route::put('presupuestos/update', 'BudgetsController@update');
 
 Route::get('presupuestos/reporte-global/{token}/{global}/{year}', ['as' => 'report-global-presupuestos', 'uses' => 'BudgetsController@globalReport']);
 Route::get('presupuestos/reporte/{token}', ['as' => 'report-presupuestos', 'uses' => 'BudgetsController@report']);

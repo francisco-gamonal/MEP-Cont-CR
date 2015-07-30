@@ -62,8 +62,12 @@
 		                                	@endif
 		                                </td>
 		                                <td class="text-center edit-row">
-											<a href="{{route('report-planilla', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-											<a href="{{route('reporte-planilla-excel', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+		                                	@if($spreadsheet->deleted_at)
+												-
+		                                	@else
+												<a href="{{route('report-planilla', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+												<a href="{{route('reporte-planilla-excel', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+											@endif
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($spreadsheet->deleted_at)

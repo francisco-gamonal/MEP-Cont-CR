@@ -2,10 +2,12 @@
 
 namespace Mep\Http\Controllers\Auth;
 
-use Mep\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Mep\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -46,8 +48,8 @@ class AuthController extends Controller
      * @return [type] [description]
      */
     public function getLogout(){
-        \Session::forget('school');
-        \Auth::logout();
+        Session::forget('school');
+        Auth::logout();
         return redirect('/');
     }
 
