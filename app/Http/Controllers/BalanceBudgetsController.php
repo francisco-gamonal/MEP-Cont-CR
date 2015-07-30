@@ -5,6 +5,7 @@ namespace Mep\Http\Controllers;
 use Mep\Entities\BalanceBudget;
 use Mep\Repositories\BalanceBudgetRepository;
 use Mep\Repositories\BudgetRepository;
+use Mep\Repositories\CheckRepository;
 use Mep\Entities\Catalog;
 use Mep\Entities\TypeBudget;
 use Mep\Entities\Budget;
@@ -16,18 +17,22 @@ class BalanceBudgetsController extends Controller
 
 
     private $budgetRepository;
+
+    private $checkRepository;
     /**
      * Create a new controller instance.
      */
     public function __construct(
         BalanceBudgetRepository $balanceBudgetRepository,
-        BudgetRepository $budgetRepository
+        BudgetRepository $budgetRepository,
+        CheckRepository $checkRepository
         )
     {
          set_time_limit(0);
         $this->middleware('auth');
         $this->budgetRepository = $budgetRepository;
         $this->balanceBudgetRepository = $balanceBudgetRepository; 
+        $this->checkRepository = $checkRepository; 
 
 
     }
@@ -125,18 +130,6 @@ class BalanceBudgetsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
@@ -206,9 +199,14 @@ class BalanceBudgetsController extends Controller
      */
     public function destroy($token)
     {
+         $balanceBudget = BalanceBudget::Token($token);
+        $checks = $this->checkRepository->getModel()->where('balance_budget_id', $balanceBudget->id)->get();
+        if(!$checks->isEmpty()){
+            return $this->errores('La Cuenta del Presupuesto ya tiene cheques registrados, no puede pasarlo a Inactivo.');
+        }
         /* les damos eliminacion pasavida */
-        $data = BalanceBudget::Token($token);
-        BalanceController::desactivar('balance_budget_id', $data->id);
+       
+       $data= BalanceController::desactivar('balance_budget_id', $balanceBudget->id);
         if ($data):
 
             $data->delete();

@@ -144,8 +144,14 @@ private $balanceBudgetRepository;
      */
     public function destroy($token) {
         /* les damos eliminacion pasavida */
-        $data = $this->budgetRepository->token($token)->delete();
+        $data = $this->budgetRepository->token($token);
+         $balanceBudget = $this->balanceBudgetRepository->getModel()->where('budget_id', $data->id)->get();
+        if(!$balanceBudget->isEmpty()){
+            return $this->errores('El presupuesto ya tiene saldos en cuentas registrados, no puede pasarlo a Inactivo.');
+        }
+          $data->delete();
         if ($data):
+
             /* si todo sale bien enviamos el mensaje de exito */
             return $this->exito('Se desactivo con exito!!!');
         endif;
