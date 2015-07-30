@@ -130,7 +130,7 @@ class SpreadsheetsController extends Controller
         if($spreadsheets->statusSpreadsheets != true){
             $spreadsheet  = $this->spreadsheetRepository->token($spreadsheets->token);
             if($spreadsheet){
-                /* Buscamos si el tipo de usuario ya esta siendo usado.*/
+                /* Buscamos si la planilla ya esta siendo usada.*/
                 $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
                 if(!$checks->isEmpty()){
                     return $this->errores('La planilla ya tiene cheques registrados, no puede pasarlo a Inactivo.');
@@ -173,7 +173,7 @@ class SpreadsheetsController extends Controller
     public function destroy($token)
     {
         $spreadsheet = $this->spreadsheetRepository->token($token);
-        /* Buscamos si el tipo de usuario ya esta siendo usado.*/
+        /* Buscamos si la planilla ya esta siendo usada.*/
         $checks = Check::where('spreadsheet_id', $spreadsheet->id)->get();
         if(!$checks->isEmpty()){
             return $this->errores('La planilla ya tiene cheques registrados, no puede pasarlo a Inactivo.');
