@@ -110,8 +110,8 @@ class BalanceBudgetsController extends Controller
              * */
             $budget = Budget::find($ValidationData['budget_id']);
         if (empty($budget->groups)):
-                $budget->groups()->detach($idBalanceBudget->catalogs->group_id);
-        $budget->groups()->attach($idBalanceBudget->catalogs->group_id);
+                $budget->groups()->detach($balanceBudget->catalogs->group_id);
+        $budget->groups()->attach($balanceBudget->catalogs->group_id);
         endif;
             /* fin relacion */
 
