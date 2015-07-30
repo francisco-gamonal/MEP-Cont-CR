@@ -22,7 +22,7 @@ class Budget extends Entity
     }
     public function groups()
     {
-        return $this->belongsToMany(Group::getClass());
+        return $this->belongsToMany('Mep\Entities\Group');
     }
     public function typeBudgets()
     {

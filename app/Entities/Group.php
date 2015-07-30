@@ -26,6 +26,11 @@ class Group extends Model
      // Don't forget to fill this array
     protected $fillable = ['code', 'name','token'];
 
+        public function budgets()
+    {
+        return $this->belongsToMany(Budget::getClass());
+    }
+
     public function LastId()
     {
         return self::all()->last();

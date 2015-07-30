@@ -43,15 +43,18 @@ class BalanceBudgetRepository extends BaseRepository
         ->where('type_budget_id', $spreadSheet->type_budget_id)
         ->get();
         
-        if($balancebudgets->isEmpty()){
-            return false;
-        }
+        if(count($balancebudgets)>0){
+            foreach ($balancebudgets as $balanceBudgets):
 
-        foreach ($balancebudgets as $balanceBudgets):
             $balanceBudget[] = array('idBalanceBudgets' => $balanceBudgets->id, 'id' => $balanceBudgets->token,
                 'value' => $balanceBudgets->catalogs->p.'-'.$balanceBudgets->catalogs->g.'-'.$balanceBudgets->catalogs->sp.' || '.$balanceBudgets->catalogs->name.' || '.$balanceBudgets->typeBudgets->name, );
         endforeach;
-
         return $balanceBudget;
+        }
+     
+ return false;
+       
+
+        
     }
 }

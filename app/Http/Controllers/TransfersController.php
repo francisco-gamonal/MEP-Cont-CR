@@ -167,7 +167,6 @@ class TransfersController extends Controller
     public function store()
     {
         /**/
-        dd("OK");
         $transfers = $this->convertionObjeto();
         try {
             DB::beginTransaction();
@@ -185,7 +184,7 @@ class TransfersController extends Controller
                 if ($transferQuery->isValid($dataTransfer)):
                     $transferQuery->fill($dataTransfer);
             $transferQuery->save();
-                echo json_encode($transferQuery->balanceBudgets); die;
+                
             BalanceController::saveBalanceTransfers($dataTransfer['amount'], $dataTransfer['type'], $dataTransfer['simulation'], $dataTransfer['code'], $dataTransfer['balance_budget_id'],'');
             endif;
             endforeach;
