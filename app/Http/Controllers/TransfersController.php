@@ -83,7 +83,21 @@ class TransfersController extends Controller
     public function create()
     {
         $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool();
+        if($spreadsheets->isEmpty()){
+            $error = "Necesita registrar planillas para poder crear una transferencia.";
+            $page  = "Transferencias";
+            $task  = "Crear";
+            return view ('errors.validate', compact('error', 'page', 'task'));
+        }
+        
         $balanceBudgets = $this->balanceBudgetRepository->accountBlanceBudget($spreadsheets[0]);
+        if(!$balanceBudgets){
+            $error = "Necesita registrar Saldo de Presupuesto para poder crear una transferencia.";
+            $page  = "Transferencias";
+            $task  = "Crear";
+            return view ('errors.validate', compact('error', 'page', 'task'));
+        }
+        
         return view('transfers.create', compact('spreadsheets', 'balanceBudgets'));
     }
 
