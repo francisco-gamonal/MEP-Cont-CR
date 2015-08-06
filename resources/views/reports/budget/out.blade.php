@@ -37,7 +37,7 @@
 					<td></td>
 				@endforeach
 				<td></td>
-				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{$group->balanceForGroup($budget, $group, $group->type)}}</td>
+				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{$group->balanceActualForGroup($budget, $group, $group->type)}}</td>
 			</tr>
 			@foreach($catalogsBudget as $catalog)
 				@if($group->id == $catalog['group_id'])

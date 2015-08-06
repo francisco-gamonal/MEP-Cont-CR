@@ -11,23 +11,27 @@ use Mep\Entities\Group;
 
 use Mep\Repositories\BudgetRepository;
 use Mep\Repositories\BalanceBudgetRepository;
+use Mep\Repositories\BalanceRepository;
 
 class BudgetsController extends validatorController {
 
 private $budgetRepository;
 
 private $balanceBudgetRepository;
+private $balanceRepository;
     /**
      * Create a new controller instance.
      */
     public function __construct(
         BudgetRepository $budgetRepository,
-        BalanceBudgetRepository $balanceBudgetRepository
+        BalanceBudgetRepository $balanceBudgetRepository,
+        BalanceRepository $balanceRepository
         ) {
         set_time_limit(0);
         $this->middleware('auth');
         $this->budgetRepository = $budgetRepository;
         $this->balanceBudgetRepository = $balanceBudgetRepository;
+        $this->balanceRepository = $balanceRepository;
     }
 
     /**
@@ -387,7 +391,7 @@ private $balanceBudgetRepository;
      * @return [type] [description]
      */
     private function balanceActualTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = $this->budgetRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
+        $amountBalanceBudget = $this->balanceRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
             ->where('balances.budget_id', $budget)
             ->where('balance_budgets.catalog_id', $catalog)
             ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
@@ -395,7 +399,7 @@ private $balanceBudgetRepository;
         return $amountBalanceBudget-$check;
     }
     private function CheckActualTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = $this->budgetRepository->getModel()->join('checks','checks.id','=','balances.check_id')
+        $amountBalanceBudget = $this->balanceRepository->getModel()->join('checks','checks.id','=','balances.check_id')
             ->join('balance_budgets','balance_budgets.id','=','checks.balance_budget_id')
             ->where('balances.budget_id', $budget)
             ->where('balance_budgets.catalog_id', $catalog)
