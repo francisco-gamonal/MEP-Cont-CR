@@ -90,19 +90,21 @@ class Group extends Model
         return number_format($balanceGroup);
     }
 
-        public function balanceActualForGroup($budget, $group, $type)
+    public function balanceActualForGroup($budget, $group, $type)
     {
         $balanceGroup = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
                         ->where('balance_budgets.budget_id', $budget->id)
                         ->where('catalogs.group_id', $group->id)
                         ->where('catalogs.type', $type)->sum('amount');
+
          $amountBalanceBudget=     Check::join('balance_budgets','balance_budgets.id',' =','checks.balance_budget_id')
-        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
-        ->where('balance_budgets.budget_id',$budget->id)
-        ->where('catalogs.type', $type)
-        ->where('catalogs.group_id', $group->id)
-        ->sum('checks.amount');       
-            $total = $balanceGroup - $amountBalanceBudget;
-        return number_format($balanceGroup);
+                        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id',$budget->id)
+                        ->where('catalogs.type', $type)
+                        ->where('catalogs.group_id', $group->id)
+                        ->sum('checks.amount');  
+       
+        $total = $balanceGroup - $amountBalanceBudget;
+        return number_format($total,2);
     }
 }

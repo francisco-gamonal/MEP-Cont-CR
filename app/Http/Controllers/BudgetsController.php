@@ -264,16 +264,7 @@ private $balanceRepository;
         return $pdf->stream('Reporte.pdf');
     }
 
-    public function reportActual($token){
-        $budget = $this->budgetRepository->token($token);
-        $balanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->get();
-        $catalogsBudget = $this->catalogsActualBudget($budget, $balanceBudgets, null);
-        $balance = $this->convertLetters($this->balanceBudgetRepository->getModel()->balanceForType($budget, 'ingresos'));
-        $pdf = \PDF::loadView('reports.budget.content', compact('budget', 'catalogsBudget','balance'))
-            ->setOrientation('landscape');
-
-        return $pdf->stream('Reporte.pdf');
-    }
+   
     /**
      * [catalogsBudget description].
      *
@@ -300,6 +291,75 @@ private $balanceRepository;
         }
 
         return $typeBudget;
+    }
+
+
+    /**
+     * [amountTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     *
+     * @return [type] [description]
+     */
+    private function amountTypeBudget($budget, $catalog) {
+        $total = 0;
+        foreach ($budget->typeBudgets as $typeBudget) {
+            $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
+            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id), 2);
+        }
+        $dataTypeBudget['subtotal'] = number_format($total, 2);
+
+        return $dataTypeBudget;
+    }
+
+    /**
+     * [balanceTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     * @param [type] $type    [description]
+     *
+     * @return [type] [description]
+     */
+    private function balanceTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = $this->balanceBudgetRepository->getModel()->where('balance_budgets.budget_id', $budget)
+                        ->where('balance_budgets.catalog_id', $catalog)
+                        ->where('balance_budgets.type_budget_id', $type)->sum('amount');
+
+        return $amountBalanceBudget;
+    }
+
+    /**
+     * [balanceTypeBudget description].
+     *
+     * @param [type] $budget  [description]
+     * @param [type] $catalog [description]
+     * @param [type] $type    [description]
+     *
+     * @return [type] [description]
+     */
+    private function balanceActualTypeBudget($budget, $catalog, $type) {
+        $amountBalanceBudget = $this->balanceRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
+            ->where('balances.budget_id', $budget)
+            ->where('balance_budgets.catalog_id', $catalog)
+            ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
+        $check = $this->CheckActualTypeBudget($budget, $catalog, $type);
+
+        return $amountBalanceBudget-$check;
+    }
+
+
+     public function reportActual($token){
+        $budget = $this->budgetRepository->token($token);
+        $balanceBudgets = $this->balanceBudgetRepository->getModel()->where('budget_id', $budget->id)->get();
+        $catalogsBudget = $this->catalogsActualBudget($budget, $balanceBudgets, null);
+
+        $balance = $this->convertLetters($this->balanceBudgetRepository->getModel()->balanceForType($budget, 'ingresos'));
+        $pdf = \PDF::loadView('reports.budgetActual.content', compact('budget', 'catalogsBudget','balance'))
+            ->setOrientation('landscape');
+
+        return $pdf->stream('ReporteActual.pdf');
     }
     /**
      * [catalogsBudget description].
@@ -336,24 +396,6 @@ private $balanceRepository;
      *
      * @return [type] [description]
      */
-    private function amountTypeBudget($budget, $catalog) {
-        $total = 0;
-        foreach ($budget->typeBudgets as $typeBudget) {
-            $total += $this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
-            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id), 2);
-        }
-        $dataTypeBudget['subtotal'] = number_format($total, 2);
-
-        return $dataTypeBudget;
-    }
-    /**
-     * [amountTypeBudget description].
-     *
-     * @param [type] $budget  [description]
-     * @param [type] $catalog [description]
-     *
-     * @return [type] [description]
-     */
     private function amountActualTypeBudget($budget, $catalog) {
         $total = 0;
         foreach ($budget->typeBudgets as $typeBudget) {
@@ -363,40 +405,6 @@ private $balanceRepository;
         $dataTypeBudget['subtotal'] = number_format($total, 2);
 
         return $dataTypeBudget;
-    }
-    /**
-     * [balanceTypeBudget description].
-     *
-     * @param [type] $budget  [description]
-     * @param [type] $catalog [description]
-     * @param [type] $type    [description]
-     *
-     * @return [type] [description]
-     */
-    private function balanceTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = $this->balanceBudgetRepository->getModel()->where('balance_budgets.budget_id', $budget)
-                        ->where('balance_budgets.catalog_id', $catalog)
-                        ->where('balance_budgets.type_budget_id', $type)->sum('amount');
-
-        return $amountBalanceBudget;
-    }
-
-    /**
-     * [balanceTypeBudget description].
-     *
-     * @param [type] $budget  [description]
-     * @param [type] $catalog [description]
-     * @param [type] $type    [description]
-     *
-     * @return [type] [description]
-     */
-    private function balanceActualTypeBudget($budget, $catalog, $type) {
-        $amountBalanceBudget = $this->balanceRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
-            ->where('balances.budget_id', $budget)
-            ->where('balance_budgets.catalog_id', $catalog)
-            ->where('balance_budgets.type_budget_id', $type)->sum('balances.amount');
-        $check = $this->CheckActualTypeBudget($budget, $catalog, $type);
-        return $amountBalanceBudget-$check;
     }
     private function CheckActualTypeBudget($budget, $catalog, $type) {
         $amountBalanceBudget = $this->balanceRepository->getModel()->join('checks','checks.id','=','balances.check_id')

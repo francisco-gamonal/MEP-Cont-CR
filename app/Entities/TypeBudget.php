@@ -70,4 +70,20 @@ class TypeBudget extends Entity
 
         return $balanceTypeBudget;
     }
+    public function balanceActualForTypeBudget($budget, $typeBudget, $type)
+    {
+        $balanceTypeBudget = BalanceBudget::join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id', $budget->id)
+                        ->where('catalogs.type', $type)
+                        ->where('balance_budgets.type_budget_id', $typeBudget)->sum('amount');
+         $amountBalanceBudget= Check::join('balance_budgets','balance_budgets.id',' =','checks.balance_budget_id')
+                        ->join('catalogs', 'catalogs.id', '=', 'balance_budgets.catalog_id')
+                        ->where('balance_budgets.budget_id',$budget->id)
+                        ->where('catalogs.type', $type)
+                        ->where('balance_budgets.type_budget_id', $typeBudget)
+                        ->sum('checks.amount');                 
+             $total = $balanceTypeBudget -   $amountBalanceBudget;         
+        return $total;
+    }
 }
+

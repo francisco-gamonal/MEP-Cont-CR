@@ -37,7 +37,7 @@
 					<td></td>
 				@endforeach
 				<td></td>
-				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{$group->balanceForGroup($budget, $group, $group->type)}}</td>
+				<td style="font-weight:bold; text-align:center; padding:0 .5em;">{{$group->balanceActualForGroup($budget, $group, $group->type)}}</td>
 			</tr>
 			@foreach($catalogsBudget as $catalog)
 				@if($group->id == $catalog['group_id'])
@@ -79,9 +79,9 @@
 		<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL EGRESOS</td>
 		<?php $tot = 0; ?>
 		@foreach($budget->typeBudgets as $typeBudget)
-			<?php $tot += $typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos'); ?>
-			@if($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos') > 0)
-				<td style="text-align:center;">{{number_format($typeBudget->balanceForTypeBudget($budget, $typeBudget->id, 'egresos'), 2)}}</td>
+			<?php $tot += $typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos'); ?>
+			@if($typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos') > 0)
+				<td style="text-align:center;">{{number_format($typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos'), 2)}}</td>
 			@else
 				<td></td>
 			@endif
