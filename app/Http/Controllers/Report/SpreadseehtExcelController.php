@@ -207,7 +207,7 @@ class SpreadseehtExcelController extends ReportExcel {
             array('','OFICINA DE JUNTAS DE EDUCACION Y ADMINISTRATIVAS'),
             array(''),
             array('','FORMULARIO F-4 LISTA DE PAGOS A REALIZAR'),
-            array('','PLANILLA DE PAGO N. ' . $spreadsheet->number . '-' . $spreadsheet->year . '  FECHA  ' . $spreadsheet->date, '', '', '', '', '', '', '', 'PROGRAMA:       Ley 6746'),
+            array('','PLANILLA DE PAGO N. ' . $spreadsheet->number . '-' . $spreadsheet->year . '  FECHA  ' . $spreadsheet->date, '', '', '', '', '', '', '', 'PROGRAMA:       '.$spreadsheet->budgets->name),
             array('','Junta: ' . $spreadsheet->budgets->schools->name),
             array('','Cédula Jurídica ' . $spreadsheet->budgets->schools->charter),
             array(''),
