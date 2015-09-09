@@ -912,7 +912,7 @@ $(function(){
 		e.preventDefault();
 		var url;
 		url = $(this).data('url');
-		url = url + '/save';
+		url = 'institucion/inst/'+ url + '/save';
 		data.nameTypeBudget   = $('#nameTypeBudget').val();
 		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');
 		ajaxForm(url,'post',data)
@@ -928,7 +928,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.type_budget_name').data('token');
 		url       = $(this).data('url');
-		url       = url + '/active/' + token;
+		url       = 'institucion/inst/'+ url + '/active/' + token;
 		data.token = token;
 		ajaxForm(url, 'patch', data)
 		.done( function (data) {
@@ -943,7 +943,7 @@ $(function(){
 		var url;
 		var token = $(this).parent().parent().find('.type_budget_name').data('token');
 		url       = $(this).data('url');
-		url       = url + '/delete/' + token;
+		url       = 'institucion/inst/'+ url + '/delete/' + token;
 		data.token = token;
 		ajaxForm(url, 'delete', data)
 		.done( function (data) {
@@ -958,7 +958,7 @@ $(function(){
 		var url;
 		var roles = [];
 		url = $(this).data('url');
-		url = url + '/update';
+		url = 'institucion/inst/'+ url + '/update';
 		data.token            = $("#nameTypeBudget").data('token');
 		data.nameTypeBudget   = $('#nameTypeBudget').val();
 		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');

@@ -4,3 +4,4 @@
 /nbproject/private
 app/Http/Controllers/TestController.php
 .phpintel
+.idea
