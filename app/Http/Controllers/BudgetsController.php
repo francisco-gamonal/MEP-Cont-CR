@@ -413,10 +413,12 @@ private $balanceRepository;
             $balanceBudget= $this->balanceBudgetRepository->getModel()->where('budget_id',$budget->id)
                 ->where('catalog_id',$catalog->catalogs->id)
                 ->where('type_budget_id',$typeBudget->id)
-                ->lists('id');
+                ->lists('id', 'amount');
+            echo json_encode($balanceBudget);
+            die;
             //$total += $this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
-            $total += Balance::balanceActualAccount($balanceBudget);
-            $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget), 2);
+            $total += Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]);
+            $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]), 2);
         }
         $dataTypeBudget['subtotal'] = number_format($total, 2);
 

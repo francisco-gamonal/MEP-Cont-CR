@@ -119,20 +119,22 @@ class Balance extends Entity {
     | @return decimal
     |----------------------------------------------------------------------
     */
-    public static function balanceActualAccount($id)
+    public static function balanceActualAccount($id,$amount)
     {
 
-        $balanceBudget = BalanceBudget::where('id', $id)->sum('amount', 2);
+        $balanceBudget = $amount;
         $transfersEntrada=0;
         $transfersSalida=0;
+        $checkIn=0;
         if($id):
             $transfersEntrada = Transfer::where('balance_budget_id', $id)
                 ->where('type', 'entrada')->sum('amount', 2);
             $transfersSalida = Transfer::where('balance_budget_id', $id)
                 ->where('type', 'salida')->sum('amount', 2);
+            $checkIn = Check::where('balance_budget_id', $id)->sum('amount', 2);
         endif;
 
-        $checkIn = Check::where('balance_budget_id', $id)->sum('amount', 2);
+
 
         $balance = ($balanceBudget + $transfersEntrada) - ($transfersSalida + $checkIn);
 
