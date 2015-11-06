@@ -106,6 +106,58 @@ class Balance extends Entity {
         return $balance;
     }
 
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 2015-11-05
+    |@Date Update: 2015-00-00
+    |---------------------------------------------------------------------
+    |@Description: con estas consulta verificamos el saldo actual de las
+    |   cuenta de los presupuestos
+    |
+    |----------------------------------------------------------------------
+    | @return decimal
+    |----------------------------------------------------------------------
+    */
+    public static function balanceActualAccount($id)
+    {
+
+        $balanceBudget = BalanceBudget::where('id', $id)->sum('amount', 2);
+        $transfersEntrada=0;
+        $transfersSalida=0;
+        if($id):
+            $transfersEntrada = Transfer::where('balance_budget_id', $id)
+                ->where('type', 'entrada')->sum('amount', 2);
+            $transfersSalida = Transfer::where('balance_budget_id', $id)
+                ->where('type', 'salida')->sum('amount', 2);
+        endif;
+
+        $checkIn = Check::where('balance_budget_id', $id)->sum('amount', 2);
+
+        $balance = ($balanceBudget + $transfersEntrada) - ($transfersSalida + $checkIn);
+
+        return $balance;
+    }
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 2015-00-00
+    |@Date Update: 2015-00-00
+    |---------------------------------------------------------------------
+    |@Description:
+    |
+    |
+    |@Pasos:
+    |
+    |
+    |
+    |
+    |
+    |
+    |----------------------------------------------------------------------
+    | @return mixed
+    |----------------------------------------------------------------------
+    */
     public function isValid($data) {
         $rules = ['type' => 'required',
             'amount' => 'required',

@@ -2,12 +2,12 @@
 
 @section('page')
 	<aside class="page"> 
-		<h2>Tipos de Presupuestos</h2>
+		<h2>Programas</h2>
 		<div class="list-inline-block">
 			<ul>
 				<li><a href="{{url('/')}}">Home</a></li>
-				<li><a>Tipos de Presupuestos</a></li>
-				<li class="active-page"><a>Ver Tipos de Presupuestos</a></li>
+				<li><a>Programas</a></li>
+				<li class="active-page"><a>Ver Programas</a></li>
 			</ul>
 		</div>
 	</aside>
@@ -20,7 +20,7 @@
 				<div class="table-header">
 					<div class="row">
 						<div class="col-sm-6">
-							<h5><strong>Lista de Tipos de Presupuestos</strong></h5>
+							<h5><strong>Lista de Programas</strong></h5>
 						</div>
 						<div class="col-sm-6">
 							<a href="{{route('crear-tipos-de-presupuestos')}}" class="btn btn-info pull-right">
@@ -55,11 +55,11 @@
 		                                </td>
 		                                <td class="text-center edit-row">
 	                                		@if($typeBudget->deleted_at)
-	                                			<a id="activeTypeBudget" data-url="tipos-de-presupuestos" href="#">
+	                                			<a id="activeTypeBudget" data-url="programas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
                                 				</a>
 	                                		@else
-	                                			<a id="deleteTypeBudget" data-url="tipos-de-presupuestos" href="#">
+	                                			<a id="deleteTypeBudget" data-url="programas" href="#">
 													<i class="fa fa-trash-o"></i>
 												</a>
 	                                		@endif

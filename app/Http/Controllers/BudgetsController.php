@@ -330,15 +330,21 @@ private $balanceRepository;
         return $amountBalanceBudget;
     }
 
-    /**
-     * [balanceTypeBudget description].
-     *
-     * @param [type] $budget  [description]
-     * @param [type] $catalog [description]
-     * @param [type] $type    [description]
-     *
-     * @return [type] [description]
-     */
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 2015-00-00
+    |@Date Update: 2015-11-04
+    |---------------------------------------------------------------------
+    |@Description: Generamos l
+    |
+    | @param [type] $budget  [description]
+    | @param [type] $catalog [description]
+    | @param [type] $type    [description]
+    |----------------------------------------------------------------------
+    | @return [type] [description]
+    |----------------------------------------------------------------------
+    */
     private function balanceActualTypeBudget($budget, $catalog, $type) {
         $amountBalanceBudget = $this->balanceRepository->getModel()->join('balance_budgets','balance_budgets.id','=','balances.balance_budget_id')
             ->where('balances.budget_id', $budget)
@@ -388,19 +394,29 @@ private $balanceRepository;
 
         return $typeBudget;
     }
-    /**
-     * [amountTypeBudget description].
-     *
-     * @param [type] $budget  [description]
-     * @param [type] $catalog [description]
-     *
-     * @return [type] [description]
-     */
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 2015-00-00
+    |@Date Update: 2015-11-03
+    |---------------------------------------------------------------------
+    |@Description: Con esta accion generamos el monto de cada cuenta y
+    |   y el subtotal tambien
+    |
+    |----------------------------------------------------------------------
+    | @return mixed
+    |----------------------------------------------------------------------
+    */
     private function amountActualTypeBudget($budget, $catalog) {
         $total = 0;
         foreach ($budget->typeBudgets as $typeBudget) {
-            $total += $this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
-            $dataTypeBudget[$typeBudget->id] = number_format($this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id), 2);
+            $balanceBudget= $this->balanceBudgetRepository->getModel()->where('budget_id',$budget->id)
+                ->where('catalog_id',$catalog->catalogs->id)
+                ->where('type_budget_id',$typeBudget->id)
+                ->lists('id');
+            //$total += $this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
+            $total += Balance::balanceActualAccount($balanceBudget);
+            $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget), 2);
         }
         $dataTypeBudget['subtotal'] = number_format($total, 2);
 

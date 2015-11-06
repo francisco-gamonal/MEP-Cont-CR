@@ -12,7 +12,7 @@ class CreateBudgetGroupTable extends Migration {
 	 */
 	public function up()
 	{
-	 Schema::create('budget_group', function(Blueprint $table) {
+	 	Schema::create('budget_group', function(Blueprint $table) {
             $table->integer('budget_id')->unsigned()->index();
             $table->foreign('budget_id')->references('id')->on('budgets')->onDelete('no action');
             $table->integer('group_id')->unsigned()->index();

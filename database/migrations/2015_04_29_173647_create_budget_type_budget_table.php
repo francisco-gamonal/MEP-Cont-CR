@@ -10,7 +10,8 @@ class CreateBudgetTypeBudgetTable extends Migration {
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('budget_type_budget', function(Blueprint $table) {
             $table->integer('budget_id')->unsigned()->index();
             $table->foreign('budget_id')->references('id')->on('budgets')->onDelete('no action');
