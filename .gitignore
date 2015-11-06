@@ -4,4 +4,8 @@
 /nbproject/private
 app/Http/Controllers/TestController.php
 .phpintel
+<<<<<<< HEAD
+public/json/schools.json
+=======
 .idea
+>>>>>>> 7e51fa942a5595e27a2edfdf261be439f6b4d975
