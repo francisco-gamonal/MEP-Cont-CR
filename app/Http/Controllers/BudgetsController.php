@@ -413,14 +413,18 @@ private $balanceRepository;
             $balanceBudget= $this->balanceBudgetRepository->getModel()->where('budget_id',$budget->id)
                 ->where('catalog_id',$catalog->catalogs->id)
                 ->where('type_budget_id',$typeBudget->id)
-                ->lists('id', 'amount');
-            $total += Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]);
-            $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]), 2);
+                ->get();
+            $total=0;
+            if(!$balanceBudget->isEmpty()):
+                $total += Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount);
+                $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount), 2);
+            endif;
         }
         $dataTypeBudget['subtotal'] = number_format($total, 2);
 
         return $dataTypeBudget;
     }
+
     private function CheckActualTypeBudget($budget, $catalog, $type) {
         $amountBalanceBudget = $this->balanceRepository->getModel()->join('checks','checks.id','=','balances.check_id')
             ->join('balance_budgets','balance_budgets.id','=','checks.balance_budget_id')
