@@ -11,7 +11,6 @@ class SchoolsTableSeeder extends Seeder {
             'charter' => '3-008-056720',
             'circuit' => '01',
             'code' => '5748',
-            'ffinancing' => 'LEY 6746 FONDO GENERAL PARA JUNTAS DE EDUCACIÓN Y ADMINISTRATIVAS',
             'president' => 'Juan Perez',
             'director' => 'Liliana Vasquez',
             'counter' => 'Manuel Temple',
