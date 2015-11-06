@@ -414,9 +414,6 @@ private $balanceRepository;
                 ->where('catalog_id',$catalog->catalogs->id)
                 ->where('type_budget_id',$typeBudget->id)
                 ->lists('id', 'amount');
-            echo json_encode($balanceBudget);
-            die;
-            //$total += $this->balanceActualTypeBudget($budget->id, $catalog->catalogs->id, $typeBudget->id);
             $total += Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]);
             $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[1],$balanceBudget[0]), 2);
         }
