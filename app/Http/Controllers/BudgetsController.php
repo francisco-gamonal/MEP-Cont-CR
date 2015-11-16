@@ -418,6 +418,9 @@ private $balanceRepository;
             if(!$balanceBudget->isEmpty()):
                 $total += Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount);
                 $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount), 2);
+            else:
+                $total;
+                $dataTypeBudget[$typeBudget->id] = number_format(0, 2);
             endif;
         }
         $dataTypeBudget['subtotal'] = number_format($total, 2);

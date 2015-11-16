@@ -32,7 +32,7 @@ class Balance extends Entity {
         return $this->$amount - $amount;
     }
 
-    public function balanceTransfer($campo, $id) {
+    public function balanceTransfer($campo, $id,$transfer) {
         $balances = self::where($campo, '=', $id)->where('transfer_id', '=', $transfer)->get();
         foreach ($balances as $balance):
 
@@ -59,8 +59,6 @@ class Balance extends Entity {
                                 ->where('transfers.balance_budget_id', $id)
                                 ->where('transfers.code', '<', $codeTransfers)
                                 ->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
-
-
                 /**/
                 $transfersSalida = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
                                 ->where('transfers.balance_budget_id', $id)
@@ -71,7 +69,6 @@ class Balance extends Entity {
                                 ->where('transfers.balance_budget_id', $id)
                                 ->where('transfers.code', '<=', $codeTransfers)
                                 ->where('transfers.type', 'entrada')->sum('transfers.amount', 2);
-
                 /**/
                 $transfersSalida = Transfer::where('transfers.spreadsheet_id', '<=', $spreadsheet->id)
                                 ->where('transfers.balance_budget_id', $id)
@@ -126,6 +123,7 @@ class Balance extends Entity {
         $transfersEntrada=0;
         $transfersSalida=0;
         $checkIn=0;
+
         if($id):
             $transfersEntrada = Transfer::where('balance_budget_id', $id)
                 ->where('type', 'entrada')->sum('amount', 2);
