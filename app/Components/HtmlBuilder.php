@@ -9,6 +9,7 @@ namespace Mep\Components;
  */
 
 use Collective\Html\HtmlBuilder as CollectiveHtmlBuilder;
+use Mep\Entities\Menu;
 
 /**
  * Description of MenuServiceProvider.
@@ -24,6 +25,7 @@ class HtmlBuilder extends CollectiveHtmlBuilder
 
         $temp = null;
         $Menu = array();
+
         foreach (\Auth::user()->menus as $menu) {
             if ($temp != $menu->id) {
                 $temp = $menu->id;

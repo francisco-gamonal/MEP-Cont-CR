@@ -2,6 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
+use Carbon\Carbon;
 use Mep\Entities\Balance;
 use Mep\Entities\Budget;
 use Mep\Entities\School;
@@ -40,7 +41,8 @@ private $balanceRepository;
      * @return Response
      */
     public function index() {
-        $budgets = $this->budgetRepository->withTrashedSchoolOrderBy('name','ASC');
+
+        $budgets = $this->budgetRepository->budgetSchoolOrderBy('name','ASC');
         return view('budgets.index', compact('budgets'));
     }
 

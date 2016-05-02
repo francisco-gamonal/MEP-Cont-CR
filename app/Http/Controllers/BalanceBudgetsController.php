@@ -46,7 +46,8 @@ class BalanceBudgetsController extends Controller
     {
         $list_type_budget = $this->budgetRepository->lists('id');
         $balanceBudgets   = $this->balanceBudgetRepository->newQuery()
-                            ->whereIn('budget_id', $list_type_budget)->withTrashed()
+                            ->whereIn('budget_id', $list_type_budget)->with('budgets')
+            ->with('typeBudgets')->with('catalogs')->withTrashed()
                             ->orderBy('budget_id', 'asc')->get();
 
         return view('balanceBudgets.index', compact('balanceBudgets'));

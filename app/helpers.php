@@ -35,6 +35,23 @@ function changeLetterMonth($month){
 return $months[$month];
 }
 
+function periodSchool()
+{
+    if(userSchool()):
+        return \Mep\Entities\AccountingPeriod::where('school_id',userSchool()->id)->get()->last();
+    endif;
+
+    return false;
+
+}
+
+function period(){
+    if(periodSchool()){
+        return periodSchool()->month.'-'.periodSchool()->year;
+    }else{
+        return "No existe periodo contable.";
+    }
+}
 
 function dateShort()
 {

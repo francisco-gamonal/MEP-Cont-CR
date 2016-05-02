@@ -39,7 +39,7 @@ class SpreadsheetsController extends Controller
     public function index()
     {
         $listBudget   = $this->budgetRepository->lists('id');
-        $spreadsheets = $this->spreadsheetRepository->newQuery()->withTrashed()->whereIn('budget_id', $listBudget)->get();
+        $spreadsheets = $this->spreadsheetRepository->newQuery()->withTrashed()->with('typebudgets')->with('budgets')->whereIn('budget_id', $listBudget)->get();
         return view('spreadsheets.index', compact('spreadsheets'));
     }
 
