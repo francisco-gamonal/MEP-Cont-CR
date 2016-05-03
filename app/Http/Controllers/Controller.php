@@ -48,32 +48,33 @@ abstract class Controller extends BaseController
         return $DatosController;
     }
 
-    public function CreacionArray($data, $delimiter)
+    public function CreacionArray($data, $delimiter, $attr_token = NULL)
     {
         foreach ($data as $key => $value):
-
             $newKey = explode($delimiter, $key);
-        $keyNew = ($newKey[0]);
-        $newArreglo[$keyNew] = $value;
+            $keyNew = ($newKey[0]);
+            $newArreglo[$keyNew] = $value;
         endforeach;
 
         if (empty($newArreglo['token'])):
-
-            if (isset($newArreglo['name'])):
+            if($attr_token){
                 $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
+                return $newArreglo; 
+            }else{
+                if (isset($newArreglo['name'])):
+                    $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
+                    return $newArreglo; 
+                elseif (isset($newArreglo['amount'])):
+                    $newArreglo['token'] = Crypt::encrypt($newArreglo['amount']);
+                    return $newArreglo; 
+                elseif (isset($newArreglo['code'])):
+                    $newArreglo['token'] = Crypt::encrypt($newArreglo['code']);
+                    return $newArreglo;
+                endif;
 
-        return $newArreglo; elseif (isset($newArreglo['amount'])):
-                $newArreglo['token'] = Crypt::encrypt($newArreglo['amount']);
-
-        return $newArreglo; elseif (isset($newArreglo['code'])):
-                $newArreglo['token'] = Crypt::encrypt($newArreglo['code']);
-
-        return $newArreglo;
-        endif;
-
-        $newArreglo['token'] = Crypt::encrypt($newArreglo['number']);
-
-        return $newArreglo;
+                $newArreglo['token'] = Crypt::encrypt($newArreglo['number']);
+                return $newArreglo;
+            }
         endif;
 
         return $newArreglo;

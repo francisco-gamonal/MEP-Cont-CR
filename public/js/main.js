@@ -1503,6 +1503,56 @@ $(function(){
 	});
 	
 	/**
+	 * BankAccount
+	 */
+	
+	// Save Transfer
+	$(document).off('click', '#saveBankAccount');
+	$(document).on('click', '#saveBankAccount', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = 'institucion/inst/' + url + '/save';
+		data.numberBankAccount = $('#numberBankAccount').val();
+		data.nameBankAccount   = $('#nameBankAccount').val();
+		ajaxForm(url,'post',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Delete BankAccount
+	$(document).off('click', '#deleteBankAccount');
+	$(document).on('click', '#deleteBankAccount', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.numberBankAccount').data('token');
+		url       = $(this).data('url');
+		url       = 'institucion/inst/'+ url + '/delete/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+
+	//Update Transfer
+	$(document).off('click', '#updateBankAccount');
+	$(document).on('click', '#updateBankAccount', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = 'institucion/inst/'+url + '/update';
+		data.token             = $('#numberBankAccount').data('token');
+		data.numberBankAccount = $('#numberBankAccount').val();
+		data.nameBankAccount   = $('#nameBankAccount').val();
+		ajaxForm(url,'put',data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+	
+	/**
 	 * Transfer
 	 */
 	
@@ -1520,6 +1570,7 @@ $(function(){
 	dataTable('#table_spreadsheets', 'planillas');
 	dataTable('#table_checks', 'cheques');
 	dataTable('#table_transfers', 'transferencias');
+	dataTable('#table_bankAccounts', 'cuentas bancarias');
 });
 
 window.onbeforeunload = function() {
