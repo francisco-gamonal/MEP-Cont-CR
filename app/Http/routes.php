@@ -60,6 +60,7 @@ Route::group(['prefix' => 'institucion'], function () {
         require __DIR__.'/Routes/Transfers.php';
         require __DIR__.'/Routes/Report.php';
         require __DIR__.'/Routes/BankAccounts.php';
+        require __DIR__.'/Routes/Deposits.php';
 
     });
 

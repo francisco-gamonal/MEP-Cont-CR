@@ -58,8 +58,7 @@ abstract class Controller extends BaseController
 
         if (empty($newArreglo['token'])):
             if($attr_token){
-                $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);
-                return $newArreglo; 
+                $newArreglo['token'] = Crypt::encrypt($newArreglo[$attr_token]);
             }else{
                 if (isset($newArreglo['name'])):
                     $newArreglo['token'] = Crypt::encrypt($newArreglo['name']);

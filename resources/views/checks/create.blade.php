@@ -28,19 +28,19 @@
         </div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="billCheck">N° de Factura</label>
+				<label for="numberDeposit">N° de Depósito</label>
 				<div class="input-group">
 					<span class="input-group-addon">#</span>
-			      	<input id="billCheck" class="form-control" type="text">
+			      	<input id="numberDeposit" class="form-control" type="number">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="conceptCheck">Concepto de Pago</label>
+				<label for="dateDeposit">Fecha</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
-			      	<input id="conceptCheck" class="form-control" type="text">
+			      	<input id="dateDeposit" class="form-control" type="text">
 				</div>
 			</div>
 		</div>

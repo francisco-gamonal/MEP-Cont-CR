@@ -187,6 +187,17 @@ var ajaxForm = function (url, type, data, msg){
 };
 
 $(function(){
+
+	// Datepicker all inputs
+	if($('.datepicker').exists())
+	{
+		$('.datepicker').datepicker({
+			language: 'es',
+		    format: "yyyy-mm-dd",
+		    orientation: 'top'
+		});
+	}
+
 	NProgress.set(0.3);
 	NProgress.set(0.7);
 	NProgress.set(0.9);
@@ -1555,6 +1566,131 @@ $(function(){
 	/**
 	 * Transfer
 	 */
+	
+	/**
+	 * Deposits
+	 */
+	$(document).on('click', "#file-state button", function (){
+        $("#file-state input[type=file]").click();
+    });
+
+    $(document).on('change', "#file-state input[type=file]", function (){
+        var arr = this.files[0].name.split('.');
+        if (arr[1].toLowerCase() != 'jpg' && arr[1].toLowerCase() != 'jpeg' && arr[1].toLowerCase() != 'png'){
+            $("#file-state input[type=file]").val('');
+            $("#file-state input[type=text]").val('');
+            bootbox.alert('<p class="text-danger">Solo se permiten imagenes con formato: jpg, jpeg o png.</p>');
+        }else{
+            $("#file-state input[type=text]").val(arr[0]);
+        }
+    });
+
+    // Save Transfer
+	$(document).off('click', '#saveDeposit');
+	$(document).on('click', '#saveDeposit', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = '/institucion/inst/' + url + '/save';
+		$.ajax({
+			"type": "POST",
+			"url": url,
+			"data": new FormData($('#formDeposit')[0]),
+			processData: false,
+    		contentType: false,
+			beforeSend: function(e){
+				loadingUI("Registrando los datos...", 'img');
+			},
+			error: function(e){
+				$.unblockUI();
+				bootbox.alert("<p class='text-danger'>Sucedió un error inesperado.</p>");
+			}
+		}).done(function(response){
+			$.unblockUI();
+			if(response.success){
+				bootbox.alert('<p class="success-ajax">'+response.message+'</p>', function(){
+					location.reload();
+				});
+			}
+			else{
+				var errors = response.errors;
+				var error  = "";
+				if($.type(errors) === 'string'){
+					error = response.errors;
+				}else{
+					for (var element in errors){
+						if(errors.hasOwnProperty(element)){
+							error += errors[element] + '<br>';
+						}
+					}
+				}
+				bootbox.alert('<p class="error-ajax">'+error+'</p>');
+			}
+		});
+	});
+
+	//Delete BankAccount
+	$(document).off('click', '#deleteDeposit');
+	$(document).on('click', '#deleteDeposit', function(e){
+		e.preventDefault();
+		var url;
+		var token = $(this).parent().parent().find('.numberDeposit').data('token');
+		url       = $(this).data('url');
+		url       = 'institucion/inst/'+ url + '/delete/' + token;
+		data.token = token;
+		ajaxForm(url, 'delete', data)
+		.done( function (data) {
+			messageAjax(data);
+		});
+	});
+	
+	//Update Transfer
+	$(document).off('click', '#updateDeposit');
+	$(document).on('click', '#updateDeposit', function(e){
+		e.preventDefault();
+		var url;
+		url = $(this).data('url');
+		url = '/institucion/inst/'+url + '/update';
+		data.token             = $('#numberBankAccount').data('token');
+		data.numberBankAccount = $('#numberBankAccount').val();
+		data.nameBankAccount   = $('#nameBankAccount').val();
+		$.ajax({
+			"type": "POST",
+			"url": url,
+			"data": new FormData($('#formDepositEdit')[0]),
+			processData: false,
+    		contentType: false,
+			beforeSend: function(e){
+				loadingUI("Registrando los datos...", 'img');
+			},
+			error: function(e){
+				$.unblockUI();
+				bootbox.alert("<p class='text-danger'>Sucedió un error inesperado.</p>");
+			}
+		}).done(function(response){
+			$.unblockUI();
+			if(response.success){
+				bootbox.alert('<p class="success-ajax">'+response.message+'</p>', function(){
+					location.reload();
+				});
+			}
+			else{
+				var errors = response.errors;
+				var error  = "";
+				if($.type(errors) === 'string'){
+					error = response.errors;
+				}else{
+					for (var element in errors){
+						if(errors.hasOwnProperty(element)){
+							error += errors[element] + '<br>';
+						}
+					}
+				}
+				bootbox.alert('<p class="error-ajax">'+error+'</p>');
+			}
+		});
+	});
+
 	
 	dataTable('#table_menu', 'menús');
 	dataTable('#table_type_user', 'tipos de usuarios');
