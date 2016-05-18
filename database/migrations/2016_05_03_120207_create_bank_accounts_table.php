@@ -20,7 +20,6 @@ class CreateBankAccountsTable extends Migration {
             $table->string('token')->unique();
             $table->integer('school_id')->unsigned()->index();
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('no action');
-            $table->timestamps();
             $table->engine = 'InnoDB';
        	});
 	}

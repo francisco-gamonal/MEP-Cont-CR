@@ -23,7 +23,6 @@ class CreateDepositsTable extends Migration {
             $table->integer('bank_account_id')->unsigned()->index();
             $table->foreign('bank_account_id')->references('id')->on('bank_accounts')->onDelete('no action');
             $table->unique(['bank_account_id','date','number']);
-            $table->timestamps();
             $table->engine = 'InnoDB';
        	});
 	}
