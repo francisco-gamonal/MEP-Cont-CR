@@ -114,6 +114,8 @@ class ChecksController extends Controller
             /* Declaramos las clases a utilizar */
             DB::beginTransaction();
             $check = new Check();
+            echo json_encode($ValidationData);
+            die;
             /* Validamos los datos para guardar tabla menu */
             if ($check->isValid($ValidationData)):
                 $check->fill($ValidationData);
