@@ -37,7 +37,7 @@
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="conceptCheck">Consepto</label>
+				<label for="conceptCheck">Concepto</label>
 				<div class="input-group">
 					<span class="input-group-addon">#</span>
 					<input id="conceptCheck" class="form-control" type="text" maxlength="60">
