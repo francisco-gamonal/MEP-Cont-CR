@@ -1333,7 +1333,7 @@ $(function(){
 		data.ckbillCheck        = $('#ckbillCheck').val();
 		data.ckretentionCheck   = $('#ckretentionCheck').val();
 		data.recordCheck        = $('#recordCheck').val();
-		//data.dateCheck          = $('#dateCheck').val();
+		data.dateCheck          = $('#dateCheck').val();
 		//data.voucherCheck       = $('#voucherCheck').val();
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
 		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();

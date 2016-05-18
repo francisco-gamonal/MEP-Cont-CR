@@ -87,6 +87,7 @@ class ChecksController extends Controller
     {
         /* Capturamos los datos enviados por ajax */
         $checks = $this->convertionObjeto();
+
         try {
 
             /* Consulta por token de school */
@@ -111,11 +112,11 @@ class ChecksController extends Controller
             $ValidationData['spreadsheet_id'] = $spreadsheet->id;
             $ValidationData['balance_budget_id'] = $balanceBudget->id;
             $ValidationData['simulation'] = 'false';
+          //  $ValidationData['date'] = 'false';
             /* Declaramos las clases a utilizar */
             DB::beginTransaction();
             $check = new Check();
-            echo json_encode($ValidationData);
-            die;
+
             /* Validamos los datos para guardar tabla menu */
             if ($check->isValid($ValidationData)):
                 $check->fill($ValidationData);
