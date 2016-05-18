@@ -71,8 +71,8 @@ class Check extends Entity
     public function isValid($data)
     {
         $rules = [
-            'bill' => 'required',
-            'concept' => 'required',
+            //'bill' => 'required',
+            //'concept' => 'required',
             'amount' => 'required',
             'ckbill' => 'required',
             'record' => 'required',
