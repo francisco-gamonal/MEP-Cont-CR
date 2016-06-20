@@ -10,7 +10,8 @@ class Check extends Entity
     use SoftDeletes;
 
     // Don't forget to fill this array
-    protected $fillable = ['bill', 'concept', 'amount', 'retention', 'ckbill', 'ckretention', 'record', 'date', 'simulation', 'token', 'voucher_id', 'balance_budget_id', 'spreadsheet_id', 'supplier_id'];
+    protected $fillable = ['bill', 'concept', 'amount', 'retention', 'ckbill', 'ckretention',
+        'record', 'date', 'simulation', 'token', 'voucher_id', 'balance_budget_id', 'spreadsheet_id', 'supplier_id'];
 
     public function voucher()
     {

@@ -57,7 +57,8 @@ class BankAccountsController extends Controller
         
 		$ValidationData['school_id'] = userSchool()->id;
 		$ValidationData['balance']   = 0;
-        
+		echo json_encode($ValidationData);
+		die;
         /* Declaramos las clases a utilizar */
         $bankAccount = $this->bankAccountRepository->getModel();
         

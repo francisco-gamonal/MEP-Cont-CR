@@ -28,19 +28,37 @@
         </div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="numberDeposit">N° de Depósito</label>
+				<label for="billCheck">N° de Factura</label>
 				<div class="input-group">
 					<span class="input-group-addon">#</span>
-			      	<input id="numberDeposit" class="form-control" type="number">
+					<input id="billCheck" class="form-control" type="text" maxlength="20">
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
-				<label for="dateDeposit">Fecha</label>
+				<label for="conceptCheck">Concepto</label>
+				<div class="input-group">
+					<span class="input-group-addon">#</span>
+					<input id="conceptCheck" class="form-control" type="text" maxlength="60">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
+				<label for="numberCheck">N° de Depósito</label>
+				<div class="input-group">
+					<span class="input-group-addon">#</span>
+			      	<input id="numberCheck" class="form-control" type="number">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6">
+			<div class="form-mep">
+				<label for="dateCheck">Fecha</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
-			      	<input id="dateDeposit" class="form-control" type="text">
+			      	<input id="dateCheck" class="form-control" type="date">
 				</div>
 			</div>
 		</div>
@@ -89,15 +107,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="dateCheck">Fecha del Cheque</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-			      	<input id="dateCheck" class="form-control" type="date">
-				</div>
-			</div>
-		</div> -->
 		<!-- <div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="voucherCheck">Factura de Respaldo</label>
