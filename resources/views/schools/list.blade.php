@@ -15,7 +15,11 @@
 		    <div class="thumbnail paddingWrapper">
 		    	<div class="text-center">
 		      		<a class="routeSchool" href="#" data-token="{{$school->token}}" data-route="{{$school->route}}">
-		      			<img src="{{ asset('img/logo-valle-de-angeles.jpg') }}" width="150">
+						@if($school->image)
+		      			<img src="{{ asset('img/'.$school->image) }}" width="150">
+						@else
+		      			<img src="{{ asset('img/mep.jpg') }}" width="150">
+							@endif
 		      		</a>
 		    	</div>
 		      	<div class="caption text-center">

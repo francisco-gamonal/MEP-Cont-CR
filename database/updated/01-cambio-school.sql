@@ -1,0 +1,1 @@
+ALTER TABLE `schools` ADD `image` VARCHAR(60) NOT NULL AFTER `name`;

@@ -26,7 +26,7 @@
 <body>
 	<div class="nav-wrapper">
 		<div class="logo paddingWrapper">
-			<figure><a href="{{ url('/institucion') }}"><img class="center-block" src="{{ asset('img/mep-logo.png') }}"></a></figure>
+			<figure><a href="{{ url('/institucion') }}"><img class="center-block" src="{{ asset('img/'.userSchool()->image) }}"></a></figure>
 		</div>
 		@include('layouts.menu')
 	</div>
