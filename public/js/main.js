@@ -52,7 +52,8 @@ var dataTable = function(selector, list){
  * @return {[alert]}     [errors in alert]
  */
 var box;
-var messageAjax = function(data, href) {
+var messageAjax = function($this, data, href) {
+	$this.attr('disabled', false);
 	//console.log(data.errors);
 	$.unblockUI();
 	if(data.success){
@@ -157,7 +158,7 @@ var responseUI = function (message,color){
  * @param  {[json]} data [description]
  * @return {[type]}      [description]
  */
-var ajaxForm = function (url, type, data, msg){
+var ajaxForm = function ($this, url, type, data, msg){
 	var message;
 	var path = server + url;
 	if(msg){
@@ -177,9 +178,11 @@ var ajaxForm = function (url, type, data, msg){
 			    datatype: 'json',
 			    beforeSend: function(){
 		    		loadingUI(message, 'img');
+		    		$this.attr('disabled', true);
 			    },
 			    error:function(){
 			    	$.unblockUI();
+		    		$this.attr('disabled', false);
 			    	bootbox.alert("<p class='red'>No se pueden grabar los datos.</p>")
 			    	//responseUI('No se pueden grabar los datos.', 'red');
 			    }
@@ -322,11 +325,13 @@ $(function(){
 	$(document).off("click", ".routeSchool");
 	$(document).on("click", ".routeSchool", function(e){
 		e.preventDefault();
-		var token  = $(this).data('token');
+		var $this  = $(this);
+		var token  = $this.data('token');
 		var url    = 'route-institucion';
 		data.token = token;
-		ajaxForm(url, 'post', data, 'Redirigiendo...')
+		ajaxForm($this, url, 'post', data, 'Redirigiendo...')
 		.done(function (data) {
+			$this.attr('disabled', false);
 			$.unblockUI();
 			if(data.success){
 				window.location.href = server + 'institucion/inst/';
@@ -340,15 +345,15 @@ $(function(){
 	$(document).off('click', '.validateReport');
 	$(document).on('click', '.validateReport', function(e){
 		e.preventDefault();
-		var url;
-		var href  = $(this).attr('href');
-		var token = $(this).parent().parent().find('.budget_name').attr('data-token');
-		url = $(this).data('url');
+		var $this = $(this);
+		var url   = $this.data('url');
+		var href  = $this.attr('href');
+		var token = $this.parent().parent().find('.budget_name').attr('data-token');
 		url = url + '/validacion/' + token;
 		data.token = token;
-		ajaxForm(url, 'get', data, 'Validando Reporte')
+		ajaxForm($this, url, 'get', data, 'Validando Reporte')
 		.done( function(data) {
-			messageAjax(data, href);
+			messageAjax($this, data, href);
 		});
 	});
 
@@ -366,10 +371,10 @@ $(function(){
 	$(document).off('click', '#saveMenu');
 	$(document).on('click', '#saveMenu', function(e){
 		e.preventDefault();
-		var url;
+		var $this      = $(this);
+		var url        = $this.data('url');
 		var stateTasks = [];
-		var idTasks = [];
-		url = $(this).data('url');
+		var idTasks    = [];
 		url = url + '/save';
 		$('.task_menu').each(function(index){
 			stateTasks[index] = $(this).bootstrapSwitch('state');
@@ -379,9 +384,9 @@ $(function(){
 		data.urlMenu    = $('#urlMenu').val();
 		data.idTasks    = idTasks;
 		data.stateTasks = stateTasks;
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -389,12 +394,12 @@ $(function(){
 	$(document).off('click', '#updateMenu');
 	$(document).on('click', '#updateMenu', function(e){
 		e.preventDefault();
-		var url;
+		var $this      = $(this);
+		var url        = $this.data('url');
 		var idMenu;
 		var statusMenu;
 		var stateTasks = [];
-		var idTasks = [];
-		url        = $(this).data('url');
+		var idTasks    = [];
 		idMenu     = $('#idMenu').val();
 		statusMenu = $('#statusMenu').bootstrapSwitch('state');
 		url        = url + '/update/' + idMenu;
@@ -408,9 +413,9 @@ $(function(){
 		data.urlMenu    = $('#urlMenu').val();
 		data.idTasks    = idTasks;
 		data.stateTasks = stateTasks;
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -418,14 +423,15 @@ $(function(){
 	$(document).off('click', '#activeMenu');
 	$(document).on('click', '#activeMenu', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idMenu  = $(this).parent().parent().find('.menu_number').text();
-		url         = $(this).data('url');
+		var idMenu  = $this.parent().parent().find('.menu_number').text();
+		url         = $this.data('url');
 		url         = url + '/active/' + idMenu;
 		data.idMenu = idMenu;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 			location.reload();
 		});
 	});
@@ -434,14 +440,15 @@ $(function(){
 	$(document).off('click', '#deleteMenu');
 	$(document).on('click', '#deleteMenu', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idMenu  = $(this).parent().parent().find('.menu_number').text();
-		url         = $(this).data('url');
+		var idMenu  = $this.parent().parent().find('.menu_number').text();
+		url         = $this.data('url');
 		url         = url + '/delete/' + idMenu;
 		data.idMenu = idMenu;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -456,13 +463,14 @@ $(function(){
 	$(document).off('click', '#saveTypeUser');
 	$(document).on('click', '#saveTypeUser', function(e){
 		e.preventDefault();
-		url = $(this).data('url');
-		url = url + '/save';
+		var $this = $(this);
+		var url   = $this.data('url');
+		url       = url + '/save';
 		data.nameTypeUser   = $('#nameTypeUser').val();
 		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -470,17 +478,18 @@ $(function(){
 	$(document).off('click', '#updateTypeUser');
 	$(document).on('click', '#updateTypeUser', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var idTypeUser;
 		idTypeUser = $('#idTypeUser').val();
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update/' + idTypeUser;
 		data.idTypeUser     = idTypeUser;
 		data.nameTypeUser   = $('#nameTypeUser').val();
 		data.statusTypeUser = $('#statusTypeUser').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url, 'put', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -488,14 +497,15 @@ $(function(){
 	$(document).off('click', '#activeTypeUser');
 	$(document).on('click', '#activeTypeUser', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
-		url              = $(this).data('url');
+		var id_type_user = $this.parent().parent().find('.type_user_number').text();
+		url              = $this.data('url');
 		url              = url + '/active/' + id_type_user;
 		data.idTypeUser = id_type_user;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -503,14 +513,15 @@ $(function(){
 	$(document).off('click', '#deleteTypeUser');
 	$(document).on('click', '#deleteTypeUser', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var id_type_user = $(this).parent().parent().find('.type_user_number').text();
-		url              = $(this).data('url');
+		var id_type_user = $this.parent().parent().find('.type_user_number').text();
+		url              = $this.data('url');
 		url              = url + '/delete/' + id_type_user;
 		data.idTypeUser  = id_type_user;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -525,16 +536,17 @@ $(function(){
 	$(document).off('click', '#saveSupplier');
 	$(document).on('click', '#saveSupplier', function(e){
 		e.preventDefault();
-		url = $(this).data('url');
+		var $this = $(this);
+		var url = $this.data('url');
 		url = url + '/save';
 		data.charterSupplier = $('#charterSupplier').val();
 		data.nameSupplier    = $('#nameSupplier').val();
 		data.phoneSupplier   = $('#phoneSupplier').val();
 		data.emailSupplier   = $('#emailSupplier').val();
 		data.statusSupplier  = $('#statusSupplier').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -542,10 +554,11 @@ $(function(){
 	$(document).off('click', '#updateSupplier');
 	$(document).on('click', '#updateSupplier', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var tokenSupplier;
 		tokenSupplier = $('#tokenSupplier').val();
-		url           = $(this).data('url');
+		url           = $this.data('url');
 		url           = url + '/update/' + tokenSupplier;
 		data.tokenSupplier = tokenSupplier;
 		data.charterSupplier = $('#charterSupplier').val();
@@ -553,9 +566,9 @@ $(function(){
 		data.phoneSupplier   = $('#phoneSupplier').val();
 		data.emailSupplier   = $('#emailSupplier').val();
 		data.statusSupplier  = $('#statusSupplier').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -563,14 +576,15 @@ $(function(){
 	$(document).off('click', '#activeSupplier');
 	$(document).on('click', '#activeSupplier', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var tokenSupplier  = $(this).parent().parent().find('#tokenSupplier').val();
-		url                = $(this).data('url');
+		var tokenSupplier  = $this.parent().parent().find('#tokenSupplier').val();
+		url                = $this.data('url');
 		url                = url + '/active/' + tokenSupplier;
 		data.tokenSupplier = tokenSupplier;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -578,14 +592,15 @@ $(function(){
 	$(document).off('click', '#deleteSupplier');
 	$(document).on('click', '#deleteSupplier', function(e){
 		e.preventDefault();
+		var $this = $(this)
 		var url;
-		var tokenSupplier  = $(this).parent().parent().find('#tokenSupplier').val();
-		url                = $(this).data('url');
+		var tokenSupplier  = $this.parent().parent().find('#tokenSupplier').val();
+		url                = $this.data('url');
 		url                = url + '/delete/' + tokenSupplier;
 		data.tokenSupplier = tokenSupplier;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -642,7 +657,8 @@ $(function(){
 	$(document).off('click', '#saveUser');
 	$(document).on('click', '#saveUser', function(e){
 		e.preventDefault();
-		url = $(this).data('url');
+		var $this = $(this);
+		url = $this.data('url');
 		url = url + '/save';
 		var schools    = $("#schools").val();
 		var arrSchools = schools.split(',');
@@ -654,9 +670,9 @@ $(function(){
 		data.tokenSupplier = $('#supplier').val();
 		data.schoolsUser   = arrSchools;
 		data.statusUser    = $('#statusUser').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -664,10 +680,11 @@ $(function(){
 	$(document).off('click', '#updateUser');
 	$(document).on('click', '#updateUser', function(e){
 		e.preventDefault();
-		var url;
+		var $this = $(this);
+ 		var url;
 		var idUser;
 		idUser = $('#idUser').val();
-		url    = $(this).data('url');
+		url    = $this.data('url');
 		url    = url + '/update/' + idUser;
 		data.idUser        = idUser;
 		var schools        = $("#schools").val();
@@ -680,9 +697,9 @@ $(function(){
 		data.tokenSupplier = $('#supplier').val();
 		data.schoolsUser   = arrSchools;
 		data.statusUser    = $('#statusUser').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -690,14 +707,15 @@ $(function(){
 	$(document).off('click', '#activeUser');
 	$(document).on('click', '#activeUser', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idUser  = $(this).parent().parent().find('.user_number').text();
-		url         = $(this).data('url');
+		var idUser  = $this.parent().parent().find('.user_number').text();
+		url         = $this.data('url');
 		url         = url + '/active/' + idUser;
 		data.idUser = idUser;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -705,14 +723,15 @@ $(function(){
 	$(document).off('click', '#deleteUser');
 	$(document).on('click', '#deleteUser', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idUser  = $(this).parent().parent().find('.user_number').text();
-		url         = $(this).data('url');
+		var idUser  = $this.parent().parent().find('.user_number').text();
+		url         = $thisdata('url');
 		url         = url + '/delete/' + idUser;
 		data.idUser = idUser;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -728,7 +747,8 @@ $(function(){
 	$(document).off('click', '#saveSchool');
 	$(document).on('click', '#saveSchool', function(e){ 
 		e.preventDefault();
-		url = $(this).data('url');
+		var $this = $(this);
+		url = $this.data('url');
 		url = url + '/save';
 		data.nameSchool       = $('#nameSchool').val();
 		data.charterSchool    = $('#charterSchool').val();
@@ -741,9 +761,9 @@ $(function(){
 		data.titleOneSchool   = $('#titleOneSchool').val();
 		data.titleTwoSchool   = $('#titleTwoSchool').val();
 		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -751,10 +771,11 @@ $(function(){
 	$(document).off('click', '#updateSchool');
 	$(document).on('click', '#updateSchool', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var idSchool;
 		idSchool = $('#idSchool').val();
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update/' + idSchool;
 		data.idSchool     = idSchool;
 		data.nameSchool       = $('#nameSchool').val();
@@ -767,9 +788,9 @@ $(function(){
 		data.titleOneSchool   = $('#titleOneSchool').val();
 		data.titleTwoSchool   = $('#titleTwoSchool').val();
 		data.statusSchool     = $('#statusSchool').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -777,14 +798,15 @@ $(function(){
 	$(document).off('click', '#activeSchool');
 	$(document).on('click', '#activeSchool', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idSchool  = $(this).parent().parent().find('.school_number').text();
-		url           = $(this).data('url');
+		var idSchool  = $this.parent().parent().find('.school_number').text();
+		url           = $this.data('url');
 		url           = url + '/active/' + idSchool;
 		data.idSchool = idSchool;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -792,14 +814,15 @@ $(function(){
 	$(document).off('click', '#deleteSchool');
 	$(document).on('click', '#deleteSchool', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var idSchool  = $(this).parent().parent().find('.school_number').text();
-		url           = $(this).data('url');
+		var idSchool  = $this.parent().parent().find('.school_number').text();
+		url           = $this.data('url');
 		url           = url + '/delete-' + url + '/' + idSchool;
 		data.idSchool = idSchool;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -814,12 +837,12 @@ $(function(){
 	$(document).off('click', '#updateRole');
 	$(document).on('click', '#updateRole', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var idMenu;
 		var roles = [];
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update';
-		
 		$('.menu-role').each(function (index) {
 			idMenu = $(this).attr('data-menu');
 			var idTasks     = [];
@@ -832,9 +855,9 @@ $(function(){
 		});
 		data.idUser = $("#idUser").val();
 		data.roles  = roles;
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -850,14 +873,15 @@ $(function(){
 	$(document).off('click', '#saveGroup');
 	$(document).on('click', '#saveGroup', function(e){
 		e.preventDefault();
-		url = $(this).data('url');
+		var $this = $this;
+		var url = $this.data('url');
 		url = url + '/save';
 		data.codeGroup   = $('#codeGroup').val();
 		data.nameGroup   = $('#nameGroup').val();
 		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -865,14 +889,15 @@ $(function(){
 	$(document).off('click', '#activeGroup');
 	$(document).on('click', '#activeGroup', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.group_code').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.group_code').data('token');
+		url       = $this.data('url');
 		url       = url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -880,14 +905,15 @@ $(function(){
 	$(document).off('click', '#deleteGroup');
 	$(document).on('click', '#deleteGroup', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.group_code').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.group_code').data('token');
+		url       = $this.data('url');
 		url       = url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -895,17 +921,18 @@ $(function(){
 	$(document).off('click', '#updateGroups');
 	$(document).on('click', '#updateGroups', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var roles = [];
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update';
 		data.token       = $("#codeGroup").data('token');
 		data.codeGroup   = $('#codeGroup').val();
 		data.nameGroup   = $('#nameGroup').val();
 		data.statusGroup = $('#statusGroup').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -921,14 +948,15 @@ $(function(){
 	$(document).off('click', '#saveTypeBudget');
 	$(document).on('click', '#saveTypeBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+ url + '/save';
 		data.nameTypeBudget   = $('#nameTypeBudget').val();
 		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -936,14 +964,15 @@ $(function(){
 	$(document).off('click', '#activeTypeBudget');
 	$(document).on('click', '#activeTypeBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.type_budget_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.type_budget_name').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+ url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -951,14 +980,15 @@ $(function(){
 	$(document).off('click', '#deleteTypeBudget');
 	$(document).on('click', '#deleteTypeBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.type_budget_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.type_budget_name').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+ url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -966,16 +996,17 @@ $(function(){
 	$(document).off('click', '#updateTypeBudget');
 	$(document).on('click', '#updateTypeBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var roles = [];
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+ url + '/update';
 		data.token            = $("#nameTypeBudget").data('token');
 		data.nameTypeBudget   = $('#nameTypeBudget').val();
 		data.statusTypeBudget = $('#statusTypeBudget').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -992,8 +1023,9 @@ $(function(){
 	$(document).off('click', '#saveCatalog');
 	$(document).on('click', '#saveCatalog', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+url + '/save'; 
 		data.cCatalog      = $('#cCatalog').val();
 		data.scCatalog     = $('#scCatalog').val();
@@ -1008,9 +1040,9 @@ $(function(){
 		data.typeCatalog   = $('#typeCatalog').val();
 		data.groupCatalog  = $('#groupCatalog').val();
 		data.statusCatalog = $('#statusCatalog').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1018,14 +1050,15 @@ $(function(){
 	$(document).off('click', '#activeCatalog');
 	$(document).on('click', '#activeCatalog', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.catalog_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.catalog_name').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1033,14 +1066,15 @@ $(function(){
 	$(document).off('click', '#deleteCatalog');
 	$(document).on('click', '#deleteCatalog', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.catalog_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.catalog_name').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1048,8 +1082,9 @@ $(function(){
 	$(document).off('click', '#updateCatalog');
 	$(document).on('click', '#updateCatalog', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+url + '/update';
 		data.token         = $('#nameCatalog').data('token');
 		data.cCatalog      = $('#cCatalog').val();
@@ -1065,9 +1100,9 @@ $(function(){
 		data.typeCatalog   = $('#typeCatalog').val();
 		data.groupCatalog  = $('#groupCatalog').val();
 		data.statusCatalog = $('#statusCatalog').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1084,8 +1119,9 @@ $(function(){
 	$(document).off('click', '#saveBudget');
 	$(document).on('click', '#saveBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/save';
 		data.nameBudget        = $('#nameBudget').val();
 		data.sourceBudget      = $('#sourceBudget').val();
@@ -1095,9 +1131,9 @@ $(function(){
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();
 		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1105,14 +1141,15 @@ $(function(){
 	$(document).off('click', '#activeBudget');
 	$(document).on('click', '#activeBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.budget_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.budget_name').data('token');
+		url       = $this.data('url');
 		url       = url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1121,13 +1158,13 @@ $(function(){
 	$(document).on('click', '#deleteBudget', function(e){
 		e.preventDefault();
 		var url;
-		var token = $(this).parent().parent().find('.budget_name').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.budget_name').data('token');
+		url       = $this.data('url');
 		url       = url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1135,8 +1172,9 @@ $(function(){
 	$(document).off('click', '#updateBudget');
 	$(document).on('click', '#updateBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update';
 		data.token             = $('#nameBudget').data('token');
 		data.nameBudget        = $('#nameBudget').val();
@@ -1147,9 +1185,9 @@ $(function(){
 		data.typeBudget        = $('#typeBudget').val();
 		data.globalBudget      = $('#globalBudget').val();
 		data.statusBudget      = $('#statusBudget').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1161,8 +1199,9 @@ $(function(){
 	$(document).off('click', '#saveBalanceBudget');
 	$(document).on('click', '#saveBalanceBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/save';
 		data.amountBalanceBudget      = $('#amountBalanceBudget').val();
 		data.policiesBalanceBudget    = $('#policiesBalanceBudget').val();
@@ -1174,9 +1213,9 @@ $(function(){
 		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
 		data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
 		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1185,13 +1224,14 @@ $(function(){
 	$(document).on('click', '#activeBalanceBudget', function(e){
 		e.preventDefault();
 		var url;
-		var token = $(this).parent().parent().find('.balanceBudget_amount').data('token');
-		url       = $(this).data('url');
+		var $this = $(this);
+		var token = $this.parent().parent().find('.balanceBudget_amount').data('token');
+		url       = $this.data('url');
 		url       = url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1199,14 +1239,15 @@ $(function(){
 	$(document).off('click', '#deleteBalanceBudget');
 	$(document).on('click', '#deleteBalanceBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.balanceBudget_amount').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.balanceBudget_amount').data('token');
+		url       = $this.data('url');
 		url       = url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1214,8 +1255,9 @@ $(function(){
 	$(document).off('click', '#updateBalanceBudget');
 	$(document).on('click', '#updateBalanceBudget', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update';
 		data.token                    = $('#amountBalanceBudget').data('token');
 		data.amountBalanceBudget      = $('#amountBalanceBudget').val();
@@ -1228,9 +1270,9 @@ $(function(){
 		data.typeBudgetBalanceBudget  = $('#typeBudgetBalanceBudget').val();
 		data.simulationBalanceBudget  = $('#simulationBalanceBudget').val();
 		data.statusBalanceBudget      = $('#statusBalanceBudget').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1246,8 +1288,9 @@ $(function(){
 	$(document).off('click', '#saveSpreadsheets');
 	$(document).on('click', '#saveSpreadsheets', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/save';
 		data.numberSpreadsheets     = $('#numberSpreadsheets').val();
 		data.yearSpreadsheets       = $('#yearSpreadsheets').val();
@@ -1255,9 +1298,9 @@ $(function(){
 		data.budgetSpreadsheets     = $('#budgetSpreadsheets').val();
 		data.typeBudgetSpreadsheets = $('#typeBudgetSpreadsheets').val();
 		data.statusSpreadsheets     = $('#statusSpreadsheets').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1265,14 +1308,15 @@ $(function(){
 	$(document).off('click', '#activeSpreadsheet');
 	$(document).on('click', '#activeSpreadsheet', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.tokenSpreadsheet').val();
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.tokenSpreadsheet').val();
+		url       = $this.data('url');
 		url       = url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1280,14 +1324,15 @@ $(function(){
 	$(document).off('click', '#deleteSpreadsheet');
 	$(document).on('click', '#deleteSpreadsheet', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.tokenSpreadsheet').val();
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.tokenSpreadsheet').val();
+		url       = $this.data('url');
 		url       = url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1295,8 +1340,9 @@ $(function(){
 	$(document).off('click', '#updateSpreadsheet');
 	$(document).on('click', '#updateSpreadsheet', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = url + '/update';
 		data.token                  = $('#numberSpreadsheets').data('token');
 		data.numberSpreadsheets     = $('#numberSpreadsheets').val();
@@ -1305,9 +1351,9 @@ $(function(){
 		data.budgetSpreadsheets     = $('#budgetSpreadsheets').val();
 		data.typeBudgetSpreadsheets = $('#typeBudgetSpreadsheets').val();
 		data.statusSpreadsheets     = $('#statusSpreadsheets').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1323,8 +1369,9 @@ $(function(){
 	$(document).off('click', '#saveCheck');
 	$(document).on('click', '#saveCheck', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+url + '/save';
 		data.billCheck          = $('#billCheck').val();
 		data.conceptCheck       = $('#conceptCheck').val();
@@ -1339,9 +1386,9 @@ $(function(){
 		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
 		data.supplierCheck      = $('#supplierCheck').val();
 		data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url, 'post', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1349,14 +1396,15 @@ $(function(){
 	$(document).off('click', '#activeCheck');
 	$(document).on('click', '#activeCheck', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.balanceBudgetCheck').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/' + url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1364,14 +1412,15 @@ $(function(){
 	$(document).off('click', '#deleteCheck');
 	$(document).on('click', '#deleteCheck', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.balanceBudgetCheck').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.balanceBudgetCheck').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/' + url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1379,8 +1428,9 @@ $(function(){
 	$(document).off('click', '#updateCheck');
 	$(document).on('click', '#updateCheck', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/' + url + '/update';
 		data.token 		        = $('#billCheck').data('token');
 		data.billCheck          = $('#billCheck').val();
@@ -1396,9 +1446,9 @@ $(function(){
 		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
 		data.supplierCheck      = $('#supplierCheck').val();
 		data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	/**
@@ -1412,7 +1462,8 @@ $(function(){
  	//Ajax Select Number Account
 	$(document).off('change', '#spreadsheetTransfer');
 	$(document).on('change', '#spreadsheetTransfer', function(){
-		var token = $(this).val();
+		var $this = $(this);
+		var token = $this.val();
 		var url   = server + 'institucion/inst/transferencias/crear/' + token;
 		$('#inBalanceBudgetTransfer').prop('disabled', true);
 		$('.outBalanceBudgetTransfer').prop('disabled', true);
@@ -1428,6 +1479,7 @@ $(function(){
 	$(document).off('click', '#saveTransfer');
 	$(document).on('click', '#saveTransfer', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var outBalanceBudgetTransfer    = [];
 		var amountBalanceBudgetTransfer = [];
@@ -1446,9 +1498,9 @@ $(function(){
 		data.outBalanceBudgetTransfer    = outBalanceBudgetTransfer;
 		data.amountBalanceBudgetTransfer = amountBalanceBudgetTransfer;
 		data.statusTransfer              = $('#statusTransfer').bootstrapSwitch('state');
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1456,14 +1508,15 @@ $(function(){
 	$(document).off('click', '#activeTransfer');
 	$(document).on('click', '#activeTransfer', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.codeTransfer').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.codeTransfer').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst'+url + '/active/' + token;
 		data.token = token;
-		ajaxForm(url, 'patch', data)
+		ajaxForm($this, url, 'patch', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1471,14 +1524,15 @@ $(function(){
 	$(document).off('click', '#deleteTransfer');
 	$(document).on('click', '#deleteTransfer', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.codeTransfer').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.codeTransfer').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst'+url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1486,12 +1540,13 @@ $(function(){
 	$(document).off('click', '#updateTransfer');
 	$(document).on('click', '#updateTransfer', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
 		var outBalanceBudgetTransfer    = [];
 		var amountBalanceBudgetTransfer = [];
 		var dateTransfer = new Date($('#dateTransfer').val());
 		dateTransfer = dateTransfer.toISOString().substr(0, 10);
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst'+url + '/update';
 		$(".outBalanceBudgetTransfer").each(function(index,value){
 		    outBalanceBudgetTransfer[index] = $(this).val();
@@ -1507,9 +1562,9 @@ $(function(){
 		data.outBalanceBudgetTransfer    = outBalanceBudgetTransfer;
 		data.amountBalanceBudgetTransfer = amountBalanceBudgetTransfer;
 		data.statusTransfer              = $('#statusTransfer').bootstrapSwitch('state');
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -1521,14 +1576,15 @@ $(function(){
 	$(document).off('click', '#saveBankAccount');
 	$(document).on('click', '#saveBankAccount', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/' + url + '/save';
 		data.numberBankAccount = $('#numberBankAccount').val();
 		data.nameBankAccount   = $('#nameBankAccount').val();
-		ajaxForm(url,'post',data)
+		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1536,14 +1592,15 @@ $(function(){
 	$(document).off('click', '#deleteBankAccount');
 	$(document).on('click', '#deleteBankAccount', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.numberBankAccount').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.numberBankAccount').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+ url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 
@@ -1551,15 +1608,16 @@ $(function(){
 	$(document).off('click', '#updateBankAccount');
 	$(document).on('click', '#updateBankAccount', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = 'institucion/inst/'+url + '/update';
 		data.token             = $('#numberBankAccount').data('token');
 		data.numberBankAccount = $('#numberBankAccount').val();
 		data.nameBankAccount   = $('#nameBankAccount').val();
-		ajaxForm(url,'put',data)
+		ajaxForm($this, url,'put',data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -1589,8 +1647,9 @@ $(function(){
 	$(document).off('click', '#saveDeposit');
 	$(document).on('click', '#saveDeposit', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = '/institucion/inst/' + url + '/save';
 		$.ajax({
 			"type": "POST",
@@ -1600,12 +1659,15 @@ $(function(){
     		contentType: false,
 			beforeSend: function(e){
 				loadingUI("Registrando los datos...", 'img');
+				$this.attr('disabled', true);
 			},
 			error: function(e){
 				$.unblockUI();
+				$this.attr('disabled', false);
 				bootbox.alert("<p class='text-danger'>Sucedió un error inesperado.</p>");
 			}
 		}).done(function(response){
+			$this.attr('disabled', true);
 			$.unblockUI();
 			if(response.success){
 				bootbox.alert('<p class="success-ajax">'+response.message+'</p>', function(){
@@ -1633,14 +1695,15 @@ $(function(){
 	$(document).off('click', '#deleteDeposit');
 	$(document).on('click', '#deleteDeposit', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		var token = $(this).parent().parent().find('.numberDeposit').data('token');
-		url       = $(this).data('url');
+		var token = $this.parent().parent().find('.numberDeposit').data('token');
+		url       = $this.data('url');
 		url       = 'institucion/inst/'+ url + '/delete/' + token;
 		data.token = token;
-		ajaxForm(url, 'delete', data)
+		ajaxForm($this, url, 'delete', data)
 		.done( function (data) {
-			messageAjax(data);
+			messageAjax($this, data);
 		});
 	});
 	
@@ -1648,8 +1711,9 @@ $(function(){
 	$(document).off('click', '#updateDeposit');
 	$(document).on('click', '#updateDeposit', function(e){
 		e.preventDefault();
+		var $this = $(this);
 		var url;
-		url = $(this).data('url');
+		url = $this.data('url');
 		url = '/institucion/inst/'+url + '/update';
 		data.token             = $('#numberBankAccount').data('token');
 		data.numberBankAccount = $('#numberBankAccount').val();
@@ -1662,12 +1726,15 @@ $(function(){
     		contentType: false,
 			beforeSend: function(e){
 				loadingUI("Registrando los datos...", 'img');
+				$this.attr('disabled', true);
 			},
 			error: function(e){
 				$.unblockUI();
+				$this.attr('disabled', false);
 				bootbox.alert("<p class='text-danger'>Sucedió un error inesperado.</p>");
 			}
 		}).done(function(response){
+			$this.attr('disabled', false);
 			$.unblockUI();
 			if(response.success){
 				bootbox.alert('<p class="success-ajax">'+response.message+'</p>', function(){
