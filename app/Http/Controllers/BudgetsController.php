@@ -366,7 +366,6 @@ private $balanceRepository;
         $balance = $this->convertLetters($this->balanceBudgetRepository->getModel()->balanceForType($budget, 'ingresos'));
         $pdf = \PDF::loadView('reports.budgetActual.content', compact('budget', 'catalogsBudget','balance'))
             ->setOrientation('landscape');
-
         return $pdf->stream('ReporteActual.pdf');
     }
     /**
@@ -393,7 +392,6 @@ private $balanceRepository;
                 'group_id' => $catalog->catalogs->group_id,
                 'typeBudget' => $this->amountActualTypeBudget($budget, $catalog, null),);
         }
-
         return $typeBudget;
     }
     /*
@@ -416,7 +414,7 @@ private $balanceRepository;
                 ->where('catalog_id',$catalog->catalogs->id)
                 ->where('type_budget_id',$typeBudget->id)
                 ->get();
-            $total=0;
+            //$total=0;
             if(!$balanceBudget->isEmpty()):
                 $total += Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount);
                 $dataTypeBudget[$typeBudget->id] = number_format(Balance::balanceActualAccount($balanceBudget[0]->id,$balanceBudget[0]->amount), 2);
