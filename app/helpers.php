@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * Created by PhpStorm.
  * User: Anwar Sarmiento
@@ -38,7 +40,7 @@ return $months[$month];
 function periodSchool()
 {
     if(userSchool()):
-        return \Mep\Entities\AccountingPeriod::where('school_id',userSchool()->id)->get()->last();
+        return \Mep\Entities\AccountingPeriod::all();
     endif;
 
     return false;
