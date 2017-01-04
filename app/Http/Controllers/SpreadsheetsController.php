@@ -45,6 +45,13 @@ class SpreadsheetsController extends Controller
         return view('spreadsheets.index', compact('spreadsheets'));
     }
 
+    public function after()
+    {
+        $spreadsheets = $this->spreadsheetRepository->newQuery()->whereHas('budgets',function ($q){
+            $q->where('school_id', userSchool()->id);
+        })->with('typebudgets')->with('budgets')->get();
+        return view('spreadsheets.index', compact('spreadsheets'));
+    }
     /**
      * Show the form for creating a new resource.
      *
