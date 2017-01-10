@@ -54,7 +54,7 @@
 							<td style="text-align:center;"></td>
 							<td style="padding-left:0.5em;">{{$catalog['name']}}</td>
 							@foreach($catalog['typeBudget'] as $amount)
-								@if($amount>0)
+								@if($amount)
 									<td style="text-align:center;">{{$amount}}</td>
 								@else
 									<td></td>
@@ -79,8 +79,9 @@
 		<td colspan="10" style="font-weight:bold;font-size:13px; text-align:right; padding-right:.5em;">TOTAL EGRESOS</td>
 		<?php $tot = 0; ?>
 		@foreach($budget->typeBudgets as $typeBudget)
-			<?php $tot += $typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos'); ?>
-			@if($typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos') > 0)
+			<?php $tot += $typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos');
+			?>
+			@if($typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos') )
 				<td style="text-align:center;">{{number_format($typeBudget->balanceActualForTypeBudget($budget, $typeBudget->id, 'egresos'), 2)}}</td>
 			@else
 				<td></td>
