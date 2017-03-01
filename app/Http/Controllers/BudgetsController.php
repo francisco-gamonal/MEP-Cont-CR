@@ -46,6 +46,11 @@ private $balanceRepository;
         return view('budgets.index', compact('budgets'));
     }
 
+    public function before() {
+
+        $budgets = $this->budgetRepository->getModel()->where('school_id',userSchool()->id)->get();
+        return view('budgets.index', compact('budgets'));
+    }
     /**
      * Show the form for creating a new resource.
      *

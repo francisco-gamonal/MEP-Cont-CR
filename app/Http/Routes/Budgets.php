@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
  * Rutas de Tipos de Usuarios
  */
 Route::get('presupuestos/ver', ['as' => 'ver-presupuestos', 'uses' => 'BudgetsController@index']);
+Route::get('presupuestos/ver-anteriores', ['as' => 'ver-presupuestos', 'uses' => 'BudgetsController@before']);
 Route::get('presupuestos/crear', ['as' => 'crear-presupuestos', 'uses' => 'BudgetsController@create']);
 Route::post('presupuestos/save', 'BudgetsController@store');
 Route::get('presupuestos/editar/{token}', ['as' => 'editar-presupuestos', 'uses' => 'BudgetsController@edit']);
