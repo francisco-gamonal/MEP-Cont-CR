@@ -62,20 +62,19 @@ class ChecksController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create($token)
     {
         $voucher = Voucher::all();
-        $suppliers = Supplier::all();
-        $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool(); 
-       
+        $spreadsheet = $this->spreadsheetRepository->token($token);
+       /*
         if($spreadsheets == false):
            $balanceBudgets = [['value'=>'No hay Planillas creadas','id'=>'']];  
        else:
           $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
-        endif;
+        endif;*/
         
 
-        return view('checks.create', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
+        return view('checks.create', compact('voucher', 'spreadsheet'));
     }
 
     /**

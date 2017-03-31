@@ -103,7 +103,7 @@ class SpreadsheetsController extends Controller
                 $this->spreadsheetRepository->destroy($idSpreadsheet->id);
         endif;
             /* Enviamos el mensaje de guardado correctamente */
-            return $this->exito('Los datos se guardaron con exito!!!');
+            return $this->exito($spreadsheet->token);
         endif;
         /* Enviamos el mensaje de error */
         return $this->errores($spreadsheet->errors);

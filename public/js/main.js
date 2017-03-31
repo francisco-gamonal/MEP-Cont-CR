@@ -1300,7 +1300,13 @@ $(function(){
 		data.statusSpreadsheets     = $('#statusSpreadsheets').bootstrapSwitch('state');
 		ajaxForm($this, url,'post',data)
 		.done( function (data) {
-			messageAjax($this, data);
+            $.unblockUI();
+            if(data.success){
+                window.location.href = server + 'institucion/inst/cheques/plailla/crear/'+data.message;
+            }else{
+                bootbox.alert(data.errores);
+            }
+
 		});
 	});
 
@@ -1373,25 +1379,52 @@ $(function(){
 		var url;
 		url = $this.data('url');
 		url = 'institucion/inst/'+url + '/save';
-		data.billCheck          = $('#billCheck').val();
-		data.conceptCheck       = $('#conceptCheck').val();
-		data.amountCheck        = $('#amountCheck').val();
-		data.retentionCheck     = $('#retentionCheck').val();
-		data.ckbillCheck        = $('#ckbillCheck').val();
-		data.ckretentionCheck   = $('#ckretentionCheck').val();
 		data.recordCheck        = $('#recordCheck').val();
+		data.ckretentionCheck   = $('#ckretentionCheck').val();
+		data.numberCheck        = $('#numberCheck').val();
 		data.dateCheck          = $('#dateCheck').val();
 		//data.voucherCheck       = $('#voucherCheck').val();
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
-		data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
-		data.supplierCheck      = $('#supplierCheck').val();
-		data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
 		ajaxForm($this, url, 'post', data)
 		.done( function (data) {
-			messageAjax($this, data);
+            $.unblockUI();
+            if(data.success){
+                window.location.href = server + 'institucion/inst/cheques/detalle/'+data.message;
+            }else{
+                bootbox.alert(data.errores);
+            }
 		});
 	});
-
+    $(document).off('click', '#saveCheck1');
+    $(document).on('click', '#saveCheck1', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var url;
+        url = $this.data('url');
+        url = 'institucion/inst/'+url + '/save';
+        data.billCheck          = $('#billCheck').val();
+        data.conceptCheck       = $('#conceptCheck').val();
+        data.amountCheck        = $('#amountCheck').val();
+        data.retentionCheck     = $('#retentionCheck').val();
+        data.ckbillCheck        = $('#ckbillCheck').val();
+        data.ckretentionCheck   = $('#ckretentionCheck').val();
+        data.recordCheck        = $('#recordCheck').val();
+        data.dateCheck          = $('#dateCheck').val();
+        //data.voucherCheck       = $('#voucherCheck').val();
+        data.spreadsheetCheck   = $('#spreadsheetCheck').val();
+        data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
+        data.supplierCheck      = $('#supplierCheck').val();
+        data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
+        ajaxForm($this, url, 'post', data)
+            .done( function (data) {
+                $.unblockUI();
+                if(data.success){
+                    window.location.href = server + 'institucion/inst/cheques/detalle/'+data.message;
+                }else{
+                    bootbox.alert(data.errores);
+                }
+            });
+    });
 	//Active Check
 	$(document).off('click', '#activeCheck');
 	$(document).on('click', '#activeCheck', function(e){
