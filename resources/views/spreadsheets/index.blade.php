@@ -42,6 +42,7 @@
 	                                <th>Presupuesto</th>
 	                                <th>Estado</th>
 	                                <th>Reporte</th>
+	                                <th>Agregar Cheques</th>
 	                                <th>Edición</th>
 	                            </tr>
 	                        </thead>
@@ -69,7 +70,10 @@
 												<a href="{{route('reporte-planilla-excel', $spreadsheet->token)}}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
 											@endif
 		                                </td>
-		                                <td class="text-center edit-row">
+										<td class="text-center"><a href="{{route('crear-cheques', $spreadsheet->token)}}">
+												<i class="btn btn-info fa fa-plus fa-2x"></i></a>
+										</td>
+										<td class="text-center edit-row">
 	                                		@if($spreadsheet->deleted_at)
 	                                			<a id="activeSpreadsheet" data-url="institucion/inst/planillas" href="#">
 	                                				<i class="fa fa-check-square-o"></i>
@@ -80,6 +84,7 @@
 												</a>
 	                                		@endif
 											<a href="{{route('editar-planillas', $spreadsheet->token)}}"><i class="fa fa-pencil-square-o"></i></a>
+
 		                                </td>
 		                            </tr>
 	                            @endforeach

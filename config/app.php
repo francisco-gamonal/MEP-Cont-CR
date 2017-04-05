@@ -130,11 +130,12 @@ return [
         'Mep\Providers\RouteServiceProvider',
         'Mep\Providers\HtmlServiceProvider',
         'Mep\Providers\ConversorLetrasProvider',
+
+        'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
         //   'Mep\Providers\MenuServiceProvider',
         /* New */
         'Maatwebsite\Excel\ExcelServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
-        'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
         
     ],

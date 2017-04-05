@@ -16,24 +16,52 @@
 @section('content')
 <div class="paddingWrapper">
 	<section class="row">
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="ckbillCheck">Número de Cheque</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-					<input id="ckbillCheck" class="form-control" type="text">
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
+		<div class="col-sm-4 col-md-3">
 			<div class="form-mep">
 				<label for="dateCheck">Fecha</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
-					<input id="dateCheck" class="form-control" type="date">
+					<input id="dateCheck" readonly class="form-control" type="date" value="{{$temporaryChecks->date}}">
 				</div>
 			</div>
 		</div>
+		<div class="col-sm-4 col-md-3">
+			<div class="form-mep">
+				<label for="recordCheck">Número de Acta</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<input id="recordCheck" readonly class="form-control" type="text" value="{{$temporaryChecks->record}}">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-3">
+			<div class="form-mep">
+				<label for="ckbillCheck">Número de Cheque</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<input id="ckbillCheck" class="form-control" readonly type="text" value="{{$temporaryChecks->ckbill}}">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<div class="form-mep">
+				<label for="ckretentionCheck">Número de Cheque de Retención</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+					<input id="ckretentionCheck" readonly class="form-control" type="text" value="{{$temporaryChecks->ckretention}}">
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-md-12">
+			<div class="form-mep">
+				<label for="spreadsheetCheck">Planilla</label>
+				<input id="spreadsheetCheck" readonly class="form-control" value="
+			{{$temporaryChecks->spreadsheet->number.'-'.$temporaryChecks->spreadsheet->year.' '.$temporaryChecks->spreadsheet->budgets->name}} - {{$temporaryChecks->spreadsheet->budgets->schoolBudget($temporaryChecks->spreadsheet->budget_id)->name}} - {{mb_convert_case($temporaryChecks->spreadsheet->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}" >
+			</div>
+		</div>
+
+
 		<div class="col-sm-6 col-md-6">
             <div class="form-mep">
                 <label for="supplierCheck">Proveedor</label>
@@ -89,24 +117,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="ckretentionCheck">Número de Cheque de Retención</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="ckretentionCheck" class="form-control" type="text">
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="recordCheck">Número de Acta</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-			      	<input id="recordCheck" class="form-control" type="text">
-				</div>
-			</div>
-		</div>
+
 		<!-- <div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="voucherCheck">Factura de Respaldo</label>
@@ -116,16 +127,7 @@
 				</div>
 			</div>
 		</div> -->
-		<div class="col-sm-6 col-md-6">
-			<div class="form-mep">
-				<label for="spreadsheetCheck">Planilla</label>
-				<select id="spreadsheetCheck" class="form-control">
-					@foreach($spreadsheets as $spreadsheet)
-						<option value="{{$spreadsheet->token}}">{{$spreadsheet->number.'-'.$spreadsheet->year.' '.$spreadsheet->budgets->name}} - {{$spreadsheet->budgets->schoolBudget($spreadsheet->budget_id)->name}} - {{mb_convert_case($spreadsheet->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</option>
-					@endforeach
-				</select>
-			</div>
-		</div>
+
 		<div class="col-sm-6 col-md-6">
 			<div class="form-mep">
 				<label for="balanceBudgetCheck">Número de Cuenta</label>

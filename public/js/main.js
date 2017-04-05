@@ -1378,15 +1378,15 @@ $(function(){
 		var $this = $(this);
 		var url;
 		url = $this.data('url');
-		url = 'institucion/inst/'+url + '/save';
+		url = 'institucion/inst/'+url + '/detalle';
 		data.recordCheck        = $('#recordCheck').val();
 		data.ckretentionCheck   = $('#ckretentionCheck').val();
-		data.numberCheck        = $('#numberCheck').val();
+		data.ckbillCheck        = $('#ckbillCheck').val();
 		data.dateCheck          = $('#dateCheck').val();
-		//data.voucherCheck       = $('#voucherCheck').val();
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
 		ajaxForm($this, url, 'post', data)
 		.done( function (data) {
+            messageAjax($this, data);
             $.unblockUI();
             if(data.success){
                 window.location.href = server + 'institucion/inst/cheques/detalle/'+data.message;

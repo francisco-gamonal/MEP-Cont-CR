@@ -2,7 +2,9 @@
 
 namespace Mep\Http\Controllers;
 
+use Illuminate\Support\Facades\Input;
 use Mep\Entities\Check;
+use Mep\Entities\TemporaryCheck;
 use Mep\Entities\Voucher;
 use Mep\Entities\Supplier;
 use Mep\Entities\BalanceBudget;
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Mep\Repositories\CheckRepository;
 use Mep\Repositories\SpreadsheetRepository;
 use Mep\Repositories\BudgetRepository;
-
+use Mep\Repositories\TemporaryCheckRepository;
 
 class ChecksController extends Controller
 {
@@ -22,10 +24,25 @@ class ChecksController extends Controller
     private $budgetRepository;
     private $spreadsheetRepository;
 
+    /**
+     * @var TemporaryCheckRepository
+     */
+    private $temporaryCheckRepository;
+
+
+    /**
+     * ChecksController constructor.
+     *
+     * @param CheckRepository          $checkRepository
+     * @param BudgetRepository         $budgetRepository
+     * @param SpreadsheetRepository    $spreadsheetRepository
+     * @param TemporaryCheckRepository $temporaryCheckRepository
+     */
     public function __construct(
         CheckRepository $checkRepository,
         BudgetRepository $budgetRepository,
-        SpreadsheetRepository $spreadsheetRepository
+        SpreadsheetRepository $spreadsheetRepository,
+        TemporaryCheckRepository $temporaryCheckRepository
         )
     {
         set_time_limit(0);
@@ -33,6 +50,7 @@ class ChecksController extends Controller
         $this->checkRepository = $checkRepository;
         $this->budgetRepository = $budgetRepository;
         $this->spreadsheetRepository = $spreadsheetRepository;
+        $this->temporaryCheckRepository = $temporaryCheckRepository;
     }
 
     public function budget($token)
@@ -44,39 +62,108 @@ class ChecksController extends Controller
         return $budget;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 05/04/2017 08:49 AM
+    |@Date Update: 0000-00-00
+    |---------------------------------------------------------------------
+    | @Description: Modificamos este methodo para solo mostrar
+    |
+    |
+    |@Pasos:
+    |
+    |
+    |----------------------------------------------------------------------
+    | @return
+    |----------------------------------------------------------------------
+    */
     public function index()
     {
-        $spreadsheet = $this->spreadsheetRepository->spreadsheetListsSchool('id');
-        $checks = $this->checkRepository->whereOnlyOneIn('spreadsheet_id',$spreadsheet,'updated_at','DESC'); 
-
-        return view('checks.index', compact('checks'));
+        $searchs="";
+        return view('checks.index',compact('searchs'));
     }
 
+
+    /*
+    |---------------------------------------------------------------------
+    |@Author: Anwar Sarmiento <asarmiento@sistemasamigables.com
+    |@Date Create: 05/04/2017 08:47 AM
+    |@Date Update: 0000-00-00
+    |---------------------------------------------------------------------
+    | @Description: Con este metodo buscamos el numero de cheque y lo
+    | enviamos a la vista para que vean el detalle
+    |
+    |@Pasos:
+    |
+    |
+    |----------------------------------------------------------------------
+    | @return \Illuminate\View\View
+    |----------------------------------------------------------------------
+    */
+    public function search()
+    {
+        $checks = $this->checkRepository->getModel()->where('ckbill',Input::get('ckNumber'))
+            ->orWhere('ckretention',Input::get('ckNumber'));
+        $searchs = $checks->count();
+        return view('checks.index',compact('searchs','checks'));
+    }
+
+
     /**
-     * Show the form for creating a new resource.
+     * ---------------------------------------------------------------------
+     * @Author     : Anwar Sarmiento "asarmiento@sistemasamigables.com"
+     * @Date       Create: 2017-04-05
+     * @Time       Create: 9:18 AM
+     * @Date       Update: 0000-00-00
+     * ---------------------------------------------------------------------
+     * @Description:
+     * @Pasos      :
+     * @param $token
+     * ----------------------------------------------------------------------
      *
-     * @return Response
+     * @return \Illuminate\View\View
+     * ----------------------------------------------------------------------
      */
     public function create($token)
     {
-        $voucher = Voucher::all();
         $spreadsheet = $this->spreadsheetRepository->token($token);
-       /*
-        if($spreadsheets == false):
-           $balanceBudgets = [['value'=>'No hay Planillas creadas','id'=>'']];  
-       else:
-          $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
-        endif;*/
-        
-
-        return view('checks.create', compact('voucher', 'spreadsheet'));
+        return view('checks.create', compact( 'spreadsheet'));
     }
 
+    public function detail()
+    {
+        $checks = $this->convertionObjeto();
+
+        $check = new TemporaryCheck();
+        /* Creamos un array para cambiar nombres de parametros */
+        $ValidationData = $this->CreacionArray($checks, 'Check');
+        \Log::info(json_encode($ValidationData));
+        /* Validamos los datos para guardar tabla menu */
+        if ($check->isValid($ValidationData)):
+            $check->ckbill=$ValidationData['ckbill'];
+            $check->ckretention=$ValidationData['ckretention'];
+            $check->date=$ValidationData['date'];
+            $check->simulation=false;
+            $check->spreadsheet_id=$this->spreadsheetRepository->token($ValidationData['spreadsheet'])->id;
+            $check->record=$ValidationData['record'];
+            $check->token=$ValidationData['token'];
+            $check->save();
+            return $this->exito($check->token);
+         endif;
+        /* Enviamos el mensaje de error */
+        return $this->errores($check->errors);
+    }
+    public function invoices($token)
+    {
+        $temporaryChecks = $this->temporaryCheckRepository->token($token);
+        $voucher = Voucher::all();
+        $suppliers = Supplier::all();
+        $balanceBudgets = $this->arregloSelectCuenta($temporaryChecks->spreadsheet);
+
+        return view('checks.detail', compact( 'temporaryChecks','voucher','suppliers','balanceBudgets'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -269,6 +356,7 @@ class ChecksController extends Controller
             $Balance[] = array('idBalanceBudgets' => $Budgets->id,'id' => $Budgets->token,
                 'value' => $Budgets->catalogs->p.'-'.$Budgets->catalogs->g.'-'.$Budgets->catalogs->sp.' || '.$Budgets->catalogs->name.' || '.$Budgets->typeBudgets->name, );
         endforeach;
+         
         return $Balance;
         endif;
         

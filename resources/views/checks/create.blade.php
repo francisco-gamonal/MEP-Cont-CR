@@ -41,7 +41,7 @@
 				<label for="numberCheck">N° de Cheque</label>
 				<div class="input-group">
 					<span class="input-group-addon">#</span>
-			      	<input id="numberCheck" class="form-control" type="number">
+			      	<input id="ckbillCheck" class="form-control" type="text">
 				</div>
 			</div>
 		</div>
