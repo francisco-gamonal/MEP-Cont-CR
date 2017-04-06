@@ -56,8 +56,10 @@
 		<div class="col-sm-6 col-md-12">
 			<div class="form-mep">
 				<label for="spreadsheetCheck">Planilla</label>
-				<input id="spreadsheetCheck" readonly class="form-control" value="
+				<input id="" readonly class="form-control" value="
 			{{$temporaryChecks->spreadsheet->number.'-'.$temporaryChecks->spreadsheet->year.' '.$temporaryChecks->spreadsheet->budgets->name}} - {{$temporaryChecks->spreadsheet->budgets->schoolBudget($temporaryChecks->spreadsheet->budget_id)->name}} - {{mb_convert_case($temporaryChecks->spreadsheet->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}" >
+			<input type="hidden" id="spreadsheetCheck" value="{{$temporaryChecks->spreadsheet->token}}">
+			<input type="hidden" id="tokenCheck" value="{{$temporaryChecks->token}}">
 			</div>
 		</div>
 
@@ -150,7 +152,66 @@
 	</section>
 	<div class="row text-center">
 		<a href="{{route('ver-cheques')}}" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span>Regresar</a>
-		<a href="#" id="saveCheck" data-url="cheques" class="btn btn-success">Grabar Cheque</a>
+		<a href="#" id="saveDetail" data-url="cheques" class="btn btn-success">Grabar Cheque</a>
 	</div>
+</div>
+<div class="form-group paddingWrapper">
+	<section class="row">
+		<div class="table-data row">
+			<div class="table-header form-group">
+				<table id="table_checks" class="table table-bordered table-hover" cellpadding="0" cellspacing="0" border="0" width="100%">
+					<thead>
+					<tr>
+						<th>Cuenta</th>
+						<th>Monto Factura</th>
+						<th>Fecha</th>
+						<th>Proveedor</th>
+						<th>N° de Cheque</th>
+						<th>N° de CK Retencion</th>
+						<th>Planilla</th>
+						<th>Presupuesto</th>
+						<th>Estado</th>
+						<th>Edición</th>
+					</tr>
+					</thead>
+					<tbody>
+
+						@foreach($checks->get() as $check)
+							<tr>
+								<td class="text-center balanceBudgetCheck" data-token="{{$check->token}}">{{$check->codeCuentaCatalog()}} - {{mb_convert_case($check->spreadsheets->typebudgets->name, MB_CASE_TITLE, 'utf-8')}}</td>
+								<td class="text-center">{{$check->amount}}</td>
+								<td class="text-center">{{$check->spreadsheets->date}}</td>
+								<td class="text-center">{{$check->supplier->name}}</td>
+								<td class="text-center">{{$check->ckbill}}</td>
+								<td class="text-center">{{$check->ckretention}}</td>
+								<td class="text-center">{{$check->numberSpreadsheet()}}</td>
+								<td class="text-center">{{$check->spreadsheets->budgets->name}} - {{$check->spreadsheets->budgets->schoolBudget($check->spreadsheets->budget_id)->name}}</td>
+								<td class="text-center">
+									@if($check->deleted_at)
+										<span>Inactivo</span>
+									@else
+										<span>Activo</span>
+									@endif
+								</td>
+								<td class="text-center edit-row">
+									@if($check->deleted_at)
+										<a id="activeCheck" data-url="cheques" href="#">
+											<i class="fa fa-check-square-o"></i>
+										</a>
+									@else
+										<a id="deleteCheck" data-url="cheques" href="#">
+											<i class="fa fa-trash-o"></i>
+										</a>
+									@endif
+
+								</td>
+							</tr>
+						@endforeach
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
 </div>
 @stop

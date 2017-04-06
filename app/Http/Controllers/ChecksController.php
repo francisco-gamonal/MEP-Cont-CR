@@ -155,14 +155,31 @@ class ChecksController extends Controller
         /* Enviamos el mensaje de error */
         return $this->errores($check->errors);
     }
+
+
+    /**
+     * ---------------------------------------------------------------------
+     * @Author     : Anwar Sarmiento "asarmiento@sistemasamigables.com"
+     * @Date       Create: 2017-04-05
+     * @Time       Create: ${TIME}
+     * @Date       Update: 0000-00-00
+     * ---------------------------------------------------------------------
+     * @Description:
+     * @Pasos      :
+     * @param $token
+     * ----------------------------------------------------------------------
+     *
+     * @return \Illuminate\View\View
+     * ----------------------------------------------------------------------
+     */
     public function invoices($token)
     {
         $temporaryChecks = $this->temporaryCheckRepository->token($token);
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $balanceBudgets = $this->arregloSelectCuenta($temporaryChecks->spreadsheet);
-
-        return view('checks.detail', compact( 'temporaryChecks','voucher','suppliers','balanceBudgets'));
+        $checks = $this->checkRepository->getModel()->where('token',$token);
+        return view('checks.detail', compact( 'temporaryChecks','voucher','suppliers','balanceBudgets','checks'));
     }
     /**
      * Store a newly created resource in storage.

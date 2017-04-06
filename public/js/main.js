@@ -1386,7 +1386,6 @@ $(function(){
 		data.spreadsheetCheck   = $('#spreadsheetCheck').val();
 		ajaxForm($this, url, 'post', data)
 		.done( function (data) {
-            messageAjax($this, data);
             $.unblockUI();
             if(data.success){
                 window.location.href = server + 'institucion/inst/cheques/detalle/'+data.message;
@@ -1395,8 +1394,8 @@ $(function(){
             }
 		});
 	});
-    $(document).off('click', '#saveCheck1');
-    $(document).on('click', '#saveCheck1', function(e){
+    $(document).off('click', '#saveDetail');
+    $(document).on('click', '#saveDetail', function(e){
         e.preventDefault();
         var $this = $(this);
         var url;
@@ -1410,6 +1409,7 @@ $(function(){
         data.ckretentionCheck   = $('#ckretentionCheck').val();
         data.recordCheck        = $('#recordCheck').val();
         data.dateCheck          = $('#dateCheck').val();
+        data.tokenCheck          = $('#tokenCheck').val();
         //data.voucherCheck       = $('#voucherCheck').val();
         data.spreadsheetCheck   = $('#spreadsheetCheck').val();
         data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
@@ -1417,12 +1417,7 @@ $(function(){
         data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
         ajaxForm($this, url, 'post', data)
             .done( function (data) {
-                $.unblockUI();
-                if(data.success){
-                    window.location.href = server + 'institucion/inst/cheques/detalle/'+data.message;
-                }else{
-                    bootbox.alert(data.errores);
-                }
+                messageAjax($this, data);
             });
     });
 	//Active Check

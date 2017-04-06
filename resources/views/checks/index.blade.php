@@ -26,8 +26,8 @@
 				</div>
 				<div class="row ">
 					<form action="{{route('search-cheques')}}" method="post">
-						<div class="form-group col-md-12 col-lg-12">
-							<label>Numero de Cheque</label>
+						<div class="form-group col-md-12 col-lg-12 text-center">
+							<label>Digite el Numero de Cheque que desea Buscar</label>
 							<input type="text" name="ckNumber" class="form-control">
 						</div>
 						<div class="form-group col-md-12 col-lg-12">
