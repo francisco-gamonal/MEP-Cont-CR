@@ -1420,6 +1420,32 @@ $(function(){
                 messageAjax($this, data);
             });
     });
+    $(document).off('click', '#saveIndividual');
+    $(document).on('click', '#saveIndividual', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var url;
+        url = $this.data('url');
+        url = 'institucion/inst/'+url + '/save';
+        data.billCheck          = $('#billCheck').val();
+        data.conceptCheck       = $('#conceptCheck').val();
+        data.amountCheck        = $('#amountCheck').val();
+        data.retentionCheck     = $('#retentionCheck').val();
+        data.ckbillCheck        = $('#ckbillCheck').val();
+        data.ckretentionCheck   = $('#ckretentionCheck').val();
+        data.recordCheck        = $('#recordCheck').val();
+        data.dateCheck          = $('#dateCheck').val();
+        data.tokenCheck          = $('#tokenCheck').val();
+        //data.voucherCheck       = $('#voucherCheck').val();
+        data.spreadsheetCheck   = $('#spreadsheetCheck').val();
+        data.balanceBudgetCheck = $('#balanceBudgetCheck').val();
+        data.supplierCheck      = $('#supplierCheck').val();
+        data.statusCheck        = $('#statusCheck').bootstrapSwitch('state');
+        ajaxForm($this, url, 'post', data)
+            .done( function (data) {
+                messageAjax($this, data);
+            });
+    });
 	//Active Check
 	$(document).off('click', '#activeCheck');
 	$(document).on('click', '#activeCheck', function(e){

@@ -2,6 +2,7 @@
 
 namespace Mep\Http\Controllers;
 
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
 use Mep\Entities\Check;
 use Mep\Entities\TemporaryCheck;
@@ -178,8 +179,25 @@ class ChecksController extends Controller
         $voucher = Voucher::all();
         $suppliers = Supplier::all();
         $balanceBudgets = $this->arregloSelectCuenta($temporaryChecks->spreadsheet);
-        $checks = $this->checkRepository->getModel()->where('token',$token);
+        $checks = $this->checkRepository->getModel()->where('ckbill',$temporaryChecks->ckbill);
         return view('checks.detail', compact( 'temporaryChecks','voucher','suppliers','balanceBudgets','checks'));
+    }
+
+
+    public function individual()
+    {
+        $voucher = Voucher::all();
+        $suppliers = Supplier::all();
+        $spreadsheets = $this->spreadsheetRepository->spreadsheetSchool();
+
+        if($spreadsheets == false):
+            $balanceBudgets = [['value'=>'No hay Planillas creadas','id'=>'']];
+        else:
+            $balanceBudgets = $this->arregloSelectCuenta($spreadsheets[0]);
+        endif;
+
+
+        return view('checks.invoices', compact('voucher', 'suppliers', 'spreadsheets', 'balanceBudgets'));
     }
     /**
      * Store a newly created resource in storage.
@@ -207,14 +225,18 @@ class ChecksController extends Controller
             if($balanceBudget==false):
                 return $this->errores(['balanceBudget'=>'No se encontro la Cuenta de catalogo']);
             endif;
+
             /* Creamos un array para cambiar nombres de parametros */
             $ValidationData = $this->CreacionArray($checks, 'Check');
+            $ValidationData['token'] = Crypt::encrypt($checks->ckbillCheck.$checks->billCheck);
+
             /* Asignacion de id de school */
             //   $ValidationData['vouchers_id'] = $voucher->id;
             $ValidationData['supplier_id'] = $supplier->id;
             $ValidationData['spreadsheet_id'] = $spreadsheet->id;
             $ValidationData['balance_budget_id'] = $balanceBudget->id;
             $ValidationData['simulation'] = 'false';
+
           //  $ValidationData['date'] = 'false';
             /* Declaramos las clases a utilizar */
             DB::beginTransaction();

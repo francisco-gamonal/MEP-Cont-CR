@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
  * Rutas de Tipos de Usuarios
  */
 Route::get('cheques/ver', ['as' => 'ver-cheques', 'uses' => 'ChecksController@index']);
+Route::get('cheques/individual', ['as' => 'individual-cheques', 'uses' => 'ChecksController@individual']);
 Route::post('cheques/ver', ['as' => 'search-cheques', 'uses' => 'ChecksController@search']);
 Route::get('cheques/plailla/crear/{token}', ['as' => 'crear-cheques', 'uses' => 'ChecksController@create']);
 Route::post('cheques/detalle', ['as' => 'detail-cheques', 'uses' => 'ChecksController@detail']);
